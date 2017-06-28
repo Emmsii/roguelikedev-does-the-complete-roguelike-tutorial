@@ -1,6 +1,7 @@
 package com.mac.rltut.game.screen;
 
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.engine.graphics.Sprite;
 
 import java.awt.event.KeyEvent;
 
@@ -18,6 +19,6 @@ public class TestScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-        renderer.write("Hello world!", 2, 2, 0xff00ff);
+        
     }
 }

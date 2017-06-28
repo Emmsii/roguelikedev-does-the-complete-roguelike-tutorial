@@ -7,6 +7,7 @@ import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.TestScreen;
+import com.mac.rltut.game.screen.game.GameScreen;
 
 import java.awt.event.KeyEvent;
 
@@ -48,8 +49,9 @@ public class Engine {
         this.input = new Input();
 
         panel.setRenderer(renderer);
+        renderer.setDefaultFontColor(0xffffff);
         terminal.addKeyListener(input);
-        screen = new TestScreen();
+        screen = new GameScreen();
 
         render();
     }
@@ -64,13 +66,17 @@ public class Engine {
         if(screen != null) screen.render(renderer);
         terminal.repaint();
     }
-
+    
     public int widthInTiles(){
         return widthInTiles;
     }
 
     public int heightInTiles(){
         return heightInTiles;
+    }
+    
+    public int tileSize(){
+        return tileSize;
     }
 
     public static Engine instance(){

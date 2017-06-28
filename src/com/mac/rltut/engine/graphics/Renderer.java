@@ -1,5 +1,10 @@
 package com.mac.rltut.engine.graphics;
 
+import com.mac.rltut.engine.Engine;
+import com.mac.rltut.engine.util.Colors;
+
+import java.awt.*;
+
 /**
  * Project: complete-rltut
  * PC
@@ -7,8 +12,11 @@ package com.mac.rltut.engine.graphics;
  */
 public class Renderer {
 
-    public static final int DEFAULT_SPRITE_SIZE = 8;
-
+    public static final int FLIP_SPRITE = 1;
+    public static final int DARKEN_SPRITE = 2;
+    
+    private int defaultFontColor = 0xffffff;
+    
     private final int width, height;
     private int[] pixels;
 
@@ -24,49 +32,55 @@ public class Renderer {
     }
 
     public void renderSprite(Sprite sprite, int xp, int yp){
-        renderSprite(sprite, xp, yp, false);
+        renderSprite(sprite, xp, yp, 0);    
     }
 
-    public void renderSprite(Sprite sprite, int xp, int yp, boolean flip){
-        renderSpritePrecise(sprite, xp * DEFAULT_SPRITE_SIZE, yp * DEFAULT_SPRITE_SIZE, flip);
+    public void renderSprite(Sprite sprite, int xp, int yp, int flags){
+        renderSpritePrecise(sprite, xp * Engine.instance().tileSize(), yp * Engine.instance().tileSize(), flags);
     }
-
-    public void renderSpritePrecise(Sprite sprite, int xp, int yp){
-        renderSpritePrecise(sprite, xp, yp, false);
-    }
-
-    public void renderSpritePrecise(Sprite sprite, int xp, int yp, boolean flip){
+    
+    public void renderSpritePrecise(Sprite sprite, int xp, int yp, int flags){
         for(int y = 0; y < sprite.height; y++){
             int ya = y + yp;
             for(int x = 0; x < sprite.width; x++){
                 int xa = x + xp;
-                renderPixel(sprite.pixel(flip ? sprite.width - x : x, y), xa, ya);
+                int pixelColor = sprite.pixel((flags & FLIP_SPRITE) == FLIP_SPRITE ? sprite.width - x : x, y);
+                if((flags & DARKEN_SPRITE) == DARKEN_SPRITE) pixelColor = Colors.darken(pixelColor);
+                renderPixel(pixelColor, xa, ya);
             }
         }
     }
 
     public void renderSpriteTint(Sprite sprite, int xp, int yp, int color){
-        xp *= DEFAULT_SPRITE_SIZE;
-        yp *= DEFAULT_SPRITE_SIZE;
+        xp *= Engine.instance().tileSize();
+        yp *= Engine.instance().tileSize();
         for(int y = 0; y < sprite.height; y++){
             int ya = y + yp;
             for(int x = 0; x < sprite.width; x++){
                 int xa = x + xp;
                 int pixelColor = sprite.pixel(x, y);
                 if(pixelColor != 0xff000000) renderPixel(color, xa, ya);
-
             }
         }
     }
 
     public void write(String text, int xp, int yp){
-        write(text, xp, yp, 0xffffff);
+        write(text, xp, yp, defaultFontColor);
     }
 
+    public void writeCenter(String text, int xp, int yp){
+        writeCenter(text, xp, yp, defaultFontColor);
+    }
+    
+    public void writeCenter(String text, int xp, int yp, int color){
+        write(text, xp - (text.length() / 2), yp, color);
+    }
+    
     public void write(String text, int xp, int yp, int color){
         if(text == null || text.length() == 0) return;
 
         for(int i = 0; i < text.length(); i++){
+            if(xp + i < 0 || xp + i >= width) continue;
             int c = text.charAt(i);
             renderSpriteTint(Font.font.charAt(c), xp + i, yp, color);
         }
@@ -82,5 +96,9 @@ public class Renderer {
 
     public int[] pixels(){
         return pixels;
+    }
+    
+    public void setDefaultFontColor(int color){
+        this.defaultFontColor = color;
     }
 }

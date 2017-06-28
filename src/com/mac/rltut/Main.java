@@ -10,6 +10,6 @@ import com.mac.rltut.engine.Engine;
 public class Main {
 
     public static void main(String[] args){
-        Engine.instance().init(64, 36, 2, 8, "RLTUT - v0.1");
+        Engine.instance().init(64, 36, 2, 8, "RLTUT - Week 2");
     }
 }
