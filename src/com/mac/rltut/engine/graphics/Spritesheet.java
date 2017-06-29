@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Project: complete-rltut
@@ -39,7 +40,8 @@ public class Spritesheet extends Bitmap{
 
     private void load(){
         try {
-            BufferedImage image = ImageIO.read(new File("assets/textures/" + name + ".png"));
+            InputStream in = Spritesheet.class.getClassLoader().getResourceAsStream("textures/" + name + ".png");
+            BufferedImage image = ImageIO.read(in);
             width = image.getWidth();
             height = image.getHeight();
             pixels = new int[width * height];

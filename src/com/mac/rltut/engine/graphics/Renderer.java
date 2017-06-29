@@ -60,6 +60,7 @@ public class Renderer {
                 int xa = x + xp;
                 int pixelColor = sprite.pixel(x, y);
                 if(pixelColor != 0xff000000) renderPixel(color, xa, ya);
+                else renderPixel(0, xa, ya);
             }
         }
     }

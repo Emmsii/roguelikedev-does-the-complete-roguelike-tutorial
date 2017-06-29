@@ -5,4 +5,6 @@
 + Changed to forked repo.
 
 ###### Week 2
-
++ Added map and entity classes.
++ Started work on map generation.
++ Can draw map to screen.

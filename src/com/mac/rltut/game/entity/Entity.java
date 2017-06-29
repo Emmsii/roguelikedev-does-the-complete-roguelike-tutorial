@@ -1,6 +1,7 @@
 package com.mac.rltut.game.entity;
 
 import com.mac.rltut.engine.graphics.Sprite;
+import com.mac.rltut.game.map.Map;
 
 /**
  * Project: complete-rltut
@@ -9,15 +10,16 @@ import com.mac.rltut.engine.graphics.Sprite;
  */
 public abstract class Entity {
     
-    public int x, y;
+    public int x, y, z;
     protected Sprite sprite;
+    protected Map map;
     
     public Entity(Sprite sprite){
         this.sprite = sprite;
     }
     
-    public void init(){
-        
+    public void init(Map map){
+        this.map = map;
     }
     
     public abstract void update();

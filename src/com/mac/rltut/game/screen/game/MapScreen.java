@@ -3,6 +3,8 @@ package com.mac.rltut.game.screen.game;
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
+import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.map.Map;
 import com.mac.rltut.game.screen.Screen;
 
@@ -17,7 +19,7 @@ public class MapScreen extends Screen{
     
     private Map map;
     
-    private int xPos, yPos;
+    private int xPos, yPos, zPos;
     
     public MapScreen(int x, int y, int width, int height, Map map){
         super(x, y, width, height, null);
@@ -37,15 +39,27 @@ public class MapScreen extends Screen{
             int yp = ya + getScrollY();
             for(int xa = 0; xa < width - 2; xa++){
                 int xp = xa + getScrollX();
-                Sprite sprite = map.tile(xp, yp, 0).sprite();
+                Sprite sprite = spriteAt(xp, yp, zPos);
                 renderer.renderSprite(sprite, xa + 1, ya + 1);
             }
         }
     }
     
-    public void setCameraPosition(int xPos, int yPos){
+    private Sprite spriteAt(int xp, int yp, int zp){
+        
+        Creature c = map.creature(xp, yp, zp);
+        if(c != null) return c.sprite();
+        
+        Item i = map.item(xp, yp, zp);
+        if(i != null) return i.sprite();
+        
+        return map.tile(xp, yp, zp).sprite();
+    }
+    
+    public void setCameraPosition(int xPos, int yPos, int zPos){
         this.xPos = xPos;
         this.yPos = yPos;
+        this.zPos = zPos;
     }
     
     public int getScrollX(){

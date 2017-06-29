@@ -9,7 +9,7 @@ import com.esotericsoftware.minlog.Log;
  */
 public class Font extends Spritesheet{
 
-    public static final Font font = new Font("cp437", 8, 8);
+    public static final Font font = new Font("anikki_square", 8, 8);
 
     private int charWidth, charHeight;
     private Sprite[] chars;
