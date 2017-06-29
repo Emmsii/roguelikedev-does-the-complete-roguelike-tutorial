@@ -8,6 +8,7 @@ import com.mac.rltut.engine.window.Terminal;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.TestScreen;
 import com.mac.rltut.game.screen.game.GameScreen;
+import com.mac.rltut.game.screen.menu.TestMenu;
 
 import java.awt.event.KeyEvent;
 
@@ -51,7 +52,7 @@ public class Engine {
         panel.setRenderer(renderer);
         renderer.setDefaultFontColor(0xffffff);
         terminal.addKeyListener(input);
-        screen = new GameScreen();
+        screen = new TestMenu();
 
         render();
     }
