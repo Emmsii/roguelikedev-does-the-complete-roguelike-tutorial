@@ -34,7 +34,7 @@ public class Engine {
     private Screen screen;
 
     private Engine(){
-        Log.set(Log.LEVEL_DEBUG);
+        Log.set(Log.LEVEL_TRACE);
     }
 
     public void init(int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title){

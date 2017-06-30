@@ -9,9 +9,10 @@ import com.mac.rltut.engine.graphics.Sprite;
  */
 public class ImpassableTile extends Tile{
     
-    public ImpassableTile(int id, Sprite sprite) {
-        super(id, sprite);
+    public ImpassableTile(int id, Sprite sprite, String type) {
+        super(id, sprite, type);
         this.solid = true;
-        this.transparent = true;
+        this.see = true;
+        this.fly = true;
     }
 }

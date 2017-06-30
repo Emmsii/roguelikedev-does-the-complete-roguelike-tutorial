@@ -29,6 +29,8 @@ public class Sprite extends Bitmap{
     public static final Sprite waterBonesBrown1 = Spritesheet.textures.cutSprite(8, 1, 8, 8, 8);
     public static final Sprite waterBonesBrown2 = Spritesheet.textures.cutSprite(9, 1, 8, 8, 8);
     public static final Sprite blood = Spritesheet.textures.cutSprite(10, 1, 8, 8, 8);
+
+    public static final Sprite portal = Spritesheet.textures.cutSprite(13, 12, 8, 8, 8);
     
     //UI
     public static final Sprite uiBorderVer = Spritesheet.textures.cutSprite(12, 9, 8, 8, 8);

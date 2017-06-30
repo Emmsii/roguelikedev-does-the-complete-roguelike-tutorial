@@ -8,6 +8,8 @@ import com.mac.rltut.game.map.tile.Tile;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+import java.util.logging.Level;
 
 /**
  * Project: complete-rltut
@@ -41,6 +43,7 @@ public class Map {
             creatureList.put(z, new ArrayList<>());
             itemList.put(z, new ArrayList<>());
         }
+        
     }    
     
     public void update(int z){

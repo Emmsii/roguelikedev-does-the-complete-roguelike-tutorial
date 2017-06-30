@@ -8,6 +8,7 @@ import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.map.Map;
 import com.mac.rltut.game.map.MapBuilder;
+import com.mac.rltut.game.map.MapBuilder2;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;
@@ -30,7 +31,7 @@ public class GameScreen extends Screen{
     }
     
     private void init(){
-        this.map = new MapBuilder(92, 92, 1, System.currentTimeMillis()).generate().build();
+        this.map = new MapBuilder2(92, 92, 1, System.currentTimeMillis()).generate().build();
         mapScreen = new MapScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), map);
 
         player = new Creature(Sprite.player);
