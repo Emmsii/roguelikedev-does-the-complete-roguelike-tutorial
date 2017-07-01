@@ -26,12 +26,14 @@ public class MathUtil {
     public static float randomFloatFromString(String input, Random random){
         String[] split = input.trim().split("-");
         if(split.length != 2) throw new IllegalArgumentException("Input must contain two float values either side of a '-' character.");
+        if(split.length == 1) return Float.parseFloat(split[0]);
         return range(Float.parseFloat(split[0]), Float.parseFloat(split[1]), random);
     }
 
     public static int randomIntFromString(String input, Random random){
         String[] split = input.trim().split("-");
-        if(split.length != 2) throw new IllegalArgumentException("Input must contain two int values either side of a '-' character.");
+//        if(split.length != 2) throw new IllegalArgumentException("Input must contain two int values either side of a '-' character.");
+        if(split.length == 1) return Integer.parseInt(split[0]);
         return range(Integer.parseInt(split[0]), Integer.parseInt(split[1]), random);
     }
 }

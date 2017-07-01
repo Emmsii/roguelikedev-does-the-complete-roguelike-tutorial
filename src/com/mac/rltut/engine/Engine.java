@@ -6,7 +6,6 @@ import com.mac.rltut.engine.window.Input;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
 import com.mac.rltut.game.screen.Screen;
-import com.mac.rltut.game.screen.TestScreen;
 import com.mac.rltut.game.screen.game.GameScreen;
 import com.mac.rltut.game.screen.menu.TestMenu;
 
@@ -34,7 +33,7 @@ public class Engine {
     private Screen screen;
 
     private Engine(){
-        Log.set(Log.LEVEL_TRACE);
+        Log.set(Log.LEVEL_DEBUG);
     }
 
     public void init(int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title){

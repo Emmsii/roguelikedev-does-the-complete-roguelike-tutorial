@@ -1,11 +1,10 @@
-package com.mac.rltut.game.map;
+package com.mac.rltut.game.map.levels;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.map.tile.Tile;
-import com.sun.org.apache.bcel.internal.generic.POP;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 /**
  * Project: complete-rltut
@@ -24,10 +24,12 @@ import java.util.Random;
  */
 public abstract class LevelBuilder {
     
-    protected Random random;
+    private final Random random;
+    private final String type;
     private final int width, height;
     private final int minLevel, maxLevel;
     private final int chance;
+    private final float zMultiplier;
     
     private HashMap<String, Object> properties;
     private List<TileToPopulate> tilesToPopulate;
@@ -38,11 +40,9 @@ public abstract class LevelBuilder {
     private HashMap<Tile, Integer> liquidChances;
     
     private byte[][] tiles;
-    private int z;
-    
+
+    private List<List<Point>> lakeRegions;
     private boolean[][] lakes;
-    private Point startPoint;
-    private Point endPoint;
     private int[][] regions;
     private int nextRegion;
 
@@ -59,16 +59,15 @@ public abstract class LevelBuilder {
     private final int REGION_SIZE_MIN = 40;
     private final int REGION_SIZE_MAX = 80;
     
-    public LevelBuilder(int width, int height, int z, int minLevel, int maxLevel, int chance){
+    public LevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, Random random){
+        this.type = type;
         this.width = width;
         this.height = height;
-        this.z = z;
         this.minLevel = minLevel;
         this.maxLevel = maxLevel;
         this.chance = chance;
-        this.tiles = new byte[width][height];
-        this.regions = new int[width][height];
-        this.nextRegion = 1;
+        this.zMultiplier = zMultiplier;
+        this.random = random;
         this.properties = new HashMap<String, Object>();
         this.tilesToPopulate = new ArrayList<TileToPopulate>();
         this.trees = new ArrayList<Tile>();
@@ -79,17 +78,23 @@ public abstract class LevelBuilder {
         setDefaults();
     }
     
-    public abstract void init(Random random); //TODO: Maybe move to generate()
+    private void init(){
+        this.tiles = new byte[width][height];
+        this.regions = new int[width][height];
+        this.lakes = new boolean[width][height];
+        this.lakeRegions = new ArrayList<List<Point>>();
+        this.nextRegion = 1;
+    } 
     
     private void setDefaults(){
         addTreeType(Tile.treeConifer, 50);
         addTreeType(Tile.treeDeciduous, 50);
         addLiquidType(Tile.waterBlue, 100);
 
-        addTileToPopulate(Tile.waterLilypad, 4, false, Tile.waterBlue);
-        addTileToPopulate(Tile.grassGreen, 50, true, Tile.empty);
-        addTileToPopulate(Tile.treeConifer, 22, true, Tile.empty);
-        addTileToPopulate(Tile.treeDeciduous, 22, true, Tile.empty);
+        addTileToPopulate(Tile.waterLilypad, 4, Tile.waterBlue);
+        addTileToPopulate(Tile.grassGreen, 50, Tile.empty);
+        addTileToPopulate(Tile.treeConifer, 22, Tile.empty);
+        addTileToPopulate(Tile.treeDeciduous, 22, Tile.empty);
 
         setProperty("tree_random_frequency", "0.445-0.475");
         setProperty("tree_smooth", "6-7");
@@ -99,7 +104,7 @@ public abstract class LevelBuilder {
         setProperty("min_region_size", 80);
     }
         
-    public void generate(){
+    public void generate(int z){
         Log.trace("Generating new level " + z + "...");
         double start = System.nanoTime();
         
@@ -132,20 +137,36 @@ public abstract class LevelBuilder {
         Log.trace("Liquid Smooth: " + liquidSmooth);
         Log.trace("Min Region Size: " + minRegionSize);
         
-        addBorder(borderThickness);
-        randomizeTrees(treeRandomFrequency);
-        smoothTrees(treeSmooth);
-        randomizeLiquid(borderThickness, liquidRandomFrequency);
-        smoothLiquid(liquidSmooth, getRandomTile(liquids, liquidChances));
+        do {
+            init();
+            addBorder(borderThickness);
+            randomizeTrees(treeRandomFrequency);
+            smoothTrees(treeSmooth);
+            randomizeLiquid(borderThickness, liquidRandomFrequency);
+            smoothLiquid(liquidSmooth, getRandomTile(liquids, liquidChances));
 
-        populate();
+            findLakes();
+            setLiquids();
 
-        createRegions(minRegionSize);
+            populate();
+
+            createRegions(minRegionSize);
+        }while(!isValid((int) ((width * height) * 0.3)));
+
+
         
-        addStartAndEnd(z);
         Log.trace("Generated in " + ((System.nanoTime() - start) / 1000000) + "ms");
-        //TODO: Add start and end points
         //TODO: Check if valid
+    }
+    
+    private boolean isValid(int minimumEmpty){
+        int empty = 0;
+        for(int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++){
+                if(!tile(x, y).solid()) empty++;
+            }
+        }
+        return empty >= minimumEmpty;
     }
     
     private void addBorder(int thickness){
@@ -225,18 +246,26 @@ public abstract class LevelBuilder {
             }
             lakes = lakes2;
         }
-        
+    }
+    
+    private void findLakes(){
         for(int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (lakes[x][y]) {
-                    setTile(x, y, water);
-                    for(Point p : new Point(x, y, z).neighboursAll()){
-                        if(tile(p.x, p.y).isType("tree")) setTile(p.x, p.y, Tile.empty);
-                    }
+                if(lakes[x][y] && regions[x][y] == 0){
+                    fillLakeRegion(nextRegion++, x, y);
                 }
             }
         }
-        
+
+        regions = new int[width][height];
+        nextRegion = 1;
+    }
+    
+    private void setLiquids(){
+        for(List<Point> lake : lakeRegions){
+           Tile liquid = getRandomTile(liquids, liquidChances);
+           for(Point p : lake) setTile(p.x, p.y, liquid);
+        }
     }
     
     private void createRegions(int minSize){
@@ -273,7 +302,7 @@ public abstract class LevelBuilder {
     private int fillRegion(int id, int x, int y){
         int size = 1;
         List<Point> open = new ArrayList<Point>();
-        open.add(new Point(x, y, z));
+        open.add(new Point(x, y, 0));
         regions[x][y] = id;
 
         while(!open.isEmpty()){
@@ -288,6 +317,29 @@ public abstract class LevelBuilder {
             }
         }
         
+        return size;
+    }
+        
+    private int fillLakeRegion(int id, int x, int y){
+        int size = 1;
+        List<Point> open = new ArrayList<Point>();
+        List<Point> newLakeRegion = new ArrayList<Point>();
+        open.add(new Point(x, y, 0));
+        regions[x][y] = id;
+        
+        while(!open.isEmpty()){
+            Point p = open.remove(0);
+            
+            for(Point n : p.neighboursCardinal()){
+                if(!inBounds(n.x, n.y)) continue;
+                if(regions[n.x][n.y] > 0 || !lakes[n.x][n.y]) continue;
+                size++;
+                regions[n.x][n.y] = id;
+                newLakeRegion.add(n);
+                open.add(n);
+            }
+        }
+        lakeRegions.add(newLakeRegion);
         return size;
     }
     
@@ -322,42 +374,28 @@ public abstract class LevelBuilder {
             }
         }
     }
-    
-    private void addStartAndEnd(int z){
-        Log.trace("Adding start and end points...");
-        Point start, end;
-        int distance = 0;
-        
-        do{
-            start = new Point(random.nextInt(width), random.nextInt(height), z);
-            end = new Point(random.nextInt(width), random.nextInt(height), z);
-            if(tile(start.x, start.y).solid() || tile(end.x, end.y).solid()) continue;
-            distance = MathUtil.distance(start.x, start.y, end.x, end.y);
-        }while(distance < width * 0.65f);
-        
-        setTile(start.x, start.y, Tile.portal);
-        setTile(end.x, end.y, Tile.portal);
-        
-        startPoint = start;
-        endPoint = end;
-    }
+
     
     public void addTreeType(Tile tree, int chance){
         treeChances.put(tree, chance);
-        trees.add(tree);
+        if(!trees.contains(tree)) trees.add(tree);
     }
     
     public void addLiquidType(Tile liquid, int chance){
         liquidChances.put(liquid, chance);
-        liquids.add(liquid);
+        if(!liquids.contains(liquid)) liquids.add(liquid);
     }
     
-    public void addTileToPopulate(Tile tile, int chance, boolean canBeEmpty, Tile ... tilesCanPlaceOn){
+    public void addTileToPopulate(Tile tile, int chance, Tile ... tilesCanPlaceOn){
         if(tilesCanPlaceOn == null || tilesCanPlaceOn.length < 1){
             Log.error("Tile to populate must have tiles to place on.");
             return;
         }
-        tilesToPopulate.add(new TileToPopulate(tile, chance, tilesCanPlaceOn, canBeEmpty));
+        tilesToPopulate.add(new TileToPopulate(tile, chance, tilesCanPlaceOn));
+    }
+    
+    public void clearTilesToPopulate(){
+        tilesToPopulate.clear();
     }
     
     public void setProperty(String key, Object prop){
@@ -367,6 +405,15 @@ public abstract class LevelBuilder {
     public Object getProperty(String key){
         if(!properties.containsKey(key)) Log.warn("Properties does not exist [" + key + "].");
         return properties.get(key);
+    }
+    
+    private boolean tileIsIn(Tile tile, List<Tile> tiles){
+        for(Tile t : tiles) if(tile.id == t.id) return true;
+        return false;
+    }
+    
+    public String type(){
+        return type;
     }
     
     public int minLevel(){
@@ -380,19 +427,15 @@ public abstract class LevelBuilder {
     public int chance(){
         return chance;
     }
+    
+    public float zMultiplier(){
+        return zMultiplier;
+    }
 
     public byte[][] tiles(){
         return tiles;
     }
-    
-    public Point startPoint(){
-        return startPoint;
-    }
-    
-    public Point endPoint(){
-        return endPoint;
-    }
-    
+
     //Util methods
     
     private Tile getRandomTile(List<Tile> tiles, HashMap<Tile, Integer> chances){
@@ -426,13 +469,19 @@ public abstract class LevelBuilder {
                 else if(id == Tile.treeDeciduous.id) image.setRGB(x, y, 0x5DAD37);
                 else if(id == Tile.grassGreen.id) image.setRGB(x, y, 0xABE617);
                 else if(id == Tile.waterBlue.id) image.setRGB(x, y, 0x56A6E8);
+                else if(id == Tile.waterDirty.id) image.setRGB(x, y, 0xAB8652);
+                else if(id == Tile.waterBonesDirty1.id) image.setRGB(x, y, 0xD0D1A5);
+                else if(id == Tile.waterBonesDirty2.id) image.setRGB(x, y, 0xD0D1A5);
+                else if(id == Tile.waterBonesFoul1.id) image.setRGB(x, y, 0xD0D1A5);
+                else if(id == Tile.waterBonesFoul2.id) image.setRGB(x, y, 0xD0D1A5);
+                else if(id == Tile.waterFoul.id) image.setRGB(x, y, 0x228A6C);
                 else if(id == Tile.waterLilypad.id) image.setRGB(x, y, 0x36BAB1);
                 else if(id == Tile.portal.id) image.setRGB(x, y, 0xD900FF);
             }
         }
 
         try {
-            ImageIO.write(image, "png", new File("level_" + z + ".png"));
+            ImageIO.write(image, "png", new File(type + "_level_" + z + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -444,13 +493,11 @@ class TileToPopulate{
     public Tile tile;
     public int chance;
     public Tile[] tilesCanPlaceOn;
-    public boolean canBeEmpty;
             
-    public TileToPopulate(Tile tile, int chance, Tile[] tilesCanPlaceOn, boolean canBeEmpty){
+    public TileToPopulate(Tile tile, int chance, Tile[] tilesCanPlaceOn){
         this.tile = tile;
         this.chance = chance;
         this.tilesCanPlaceOn = tilesCanPlaceOn;
-        this.canBeEmpty = canBeEmpty;
     }
     
     public boolean canPlaceOn(Tile tile){

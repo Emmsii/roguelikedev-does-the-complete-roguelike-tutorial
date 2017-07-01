@@ -22,6 +22,6 @@ public class Main {
             Log.warn("Window scale cannot be less than 1.");
         }
         
-        Engine.instance().init(64, 36, scale, 8, "RLTUT - v0.2.1");
+        Engine.instance().init(64, 36, scale, 8, "RLTUT - v0.2.3");
     }
 }

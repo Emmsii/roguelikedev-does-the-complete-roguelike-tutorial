@@ -21,16 +21,16 @@ public abstract class Tile {
     public static final Tile treeDeciduous = new SolidTile(5, Sprite.treeDeciduous, "tree");
     public static final Tile treeConifer = new SolidTile(6, Sprite.treeConifer, "tree");
 
-    public static final Tile lavaYellow = new ImpassableTile(7, Sprite.lavaYellow, "lava");
-    public static final Tile lavaBrown = new ImpassableTile(8, Sprite.lavaBrown, "lava");
-    public static final Tile waterPurple = new ImpassableTile(9, Sprite.waterPurple, "water");
-    public static final Tile waterBrown = new ImpassableTile(10, Sprite.waterBrown, "water");
+    public static final Tile lavaLight = new ImpassableTile(7, Sprite.lavaYellow, "lava");
+    public static final Tile lavaDark = new ImpassableTile(8, Sprite.lavaBrown, "lava");
+    public static final Tile waterFoul = new ImpassableTile(9, Sprite.waterPurple, "water");
+    public static final Tile waterDirty = new ImpassableTile(10, Sprite.waterBrown, "water");
     public static final Tile waterBlue = new ImpassableTile(11, Sprite.waterBlue, "water");
     public static final Tile waterLilypad = new ImpassableTile(12, Sprite.waterLilypad, "water");
-    public static final Tile waterBonesPurple1 = new ImpassableTile(13, Sprite.waterBonesPurple1, "water");
-    public static final Tile waterBonesPurple2 = new ImpassableTile(14, Sprite.waterBonesPurple2, "water");
-    public static final Tile waterBonesBrown1 = new ImpassableTile(15, Sprite.waterBonesBrown1, "water");
-    public static final Tile waterBonesBrown2 = new ImpassableTile(16, Sprite.waterBonesBrown2, "water");
+    public static final Tile waterBonesFoul1 = new ImpassableTile(13, Sprite.waterBonesPurple1, "water");
+    public static final Tile waterBonesFoul2 = new ImpassableTile(14, Sprite.waterBonesPurple2, "water");
+    public static final Tile waterBonesDirty1 = new ImpassableTile(15, Sprite.waterBonesBrown1, "water");
+    public static final Tile waterBonesDirty2 = new ImpassableTile(16, Sprite.waterBonesBrown2, "water");
 
     public static final Tile portal = new EmptyTile(99, Sprite.portal, "portal");
     

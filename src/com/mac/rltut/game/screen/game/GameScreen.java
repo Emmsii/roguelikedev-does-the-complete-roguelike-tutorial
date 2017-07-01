@@ -1,6 +1,5 @@
 package com.mac.rltut.game.screen.game;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
@@ -8,7 +7,6 @@ import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.map.Map;
 import com.mac.rltut.game.map.MapBuilder;
-import com.mac.rltut.game.map.MapBuilder2;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;
@@ -26,12 +24,13 @@ public class GameScreen extends Screen{
         
     Creature player;
     
-    public GameScreen(){
+    public GameScreen(Map map){
+        this.map = map;
         init();
     }
     
     private void init(){
-        this.map = new MapBuilder2(92, 92, 1, System.currentTimeMillis()).generate().build();
+//        this.map = new MapBuilder(92, 92, 6, System.currentTimeMillis()).generate().build();
         mapScreen = new MapScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), map);
 
         player = new Creature(Sprite.player);
