@@ -29,8 +29,26 @@ public class Sprite extends Bitmap{
     public static final Sprite waterBonesBrown1 = Spritesheet.textures.cutSprite(8, 1, 8, 8, 8);
     public static final Sprite waterBonesBrown2 = Spritesheet.textures.cutSprite(9, 1, 8, 8, 8);
     public static final Sprite blood = Spritesheet.textures.cutSprite(10, 1, 8, 8, 8);
+    
+    public static final Sprite chestGoldClosed = Spritesheet.textures.cutSprite(0, 2, 8, 8, 8);
+    public static final Sprite chestGoldOpen = Spritesheet.textures.cutSprite(1, 2, 8, 8, 8);
+    public static final Sprite chestSilverClosed = Spritesheet.textures.cutSprite(2, 2, 8, 8, 8);
+    public static final Sprite chestSilverOpen = Spritesheet.textures.cutSprite(3, 2, 8, 8, 8);
+    public static final Sprite gold = Spritesheet.textures.cutSprite(4, 2, 8, 8, 8);
+    public static final Sprite amulet = Spritesheet.textures.cutSprite(5, 2, 8, 8, 8);
+    public static final Sprite jewel = Spritesheet.textures.cutSprite(6, 2, 8, 8, 8);
+    public static final Sprite ringGold = Spritesheet.textures.cutSprite(7, 2, 8, 8, 8);
+    public static final Sprite ringSilver = Spritesheet.textures.cutSprite(8, 2, 8, 8, 8);
+    public static final Sprite apple = Spritesheet.textures.cutSprite(12, 2, 8, 8, 8);
 
-    public static final Sprite portal = Spritesheet.textures.cutSprite(13, 12, 8, 8, 8);
+    public static final Sprite mushroom = Spritesheet.textures.cutSprite(0, 3, 8, 8, 8);
+    public static final Sprite meat = Spritesheet.textures.cutSprite(1, 3, 8, 8, 8);
+    public static final Sprite fish = Spritesheet.textures.cutSprite(2, 3, 8, 8, 8);
+    public static final Sprite potionRed = Spritesheet.textures.cutSprite(4, 3, 8, 8, 8);
+    public static final Sprite potionBlue = Spritesheet.textures.cutSprite(5, 3, 8, 8, 8);
+    public static final Sprite potionPueple = Spritesheet.textures.cutSprite(6, 3, 8, 8, 8);
+    public static final Sprite potionGreen = Spritesheet.textures.cutSprite(7, 3, 8, 8, 8);
+    public static final Sprite potionYellow = Spritesheet.textures.cutSprite(8, 3, 8, 8, 8);
     
     //UI
     public static final Sprite uiBorderVer = Spritesheet.textures.cutSprite(12, 9, 8, 8, 8);

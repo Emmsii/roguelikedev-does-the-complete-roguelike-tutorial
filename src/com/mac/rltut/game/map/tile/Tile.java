@@ -18,11 +18,13 @@ public abstract class Tile {
     public static final Tile grassGreen = new EmptyTile(2, Sprite.grassGreen, "grass");
     public static final Tile grassBlue = new EmptyTile(3, Sprite.grassBlue, "grass");
     public static final Tile grassPurple = new EmptyTile(4, Sprite.grassPurple, "grass");
+    
     public static final Tile treeDeciduous = new SolidTile(5, Sprite.treeDeciduous, "tree");
     public static final Tile treeConifer = new SolidTile(6, Sprite.treeConifer, "tree");
 
     public static final Tile lavaLight = new ImpassableTile(7, Sprite.lavaYellow, "lava");
     public static final Tile lavaDark = new ImpassableTile(8, Sprite.lavaBrown, "lava");
+    
     public static final Tile waterFoul = new ImpassableTile(9, Sprite.waterPurple, "water");
     public static final Tile waterDirty = new ImpassableTile(10, Sprite.waterBrown, "water");
     public static final Tile waterBlue = new ImpassableTile(11, Sprite.waterBlue, "water");
@@ -31,8 +33,14 @@ public abstract class Tile {
     public static final Tile waterBonesFoul2 = new ImpassableTile(14, Sprite.waterBonesPurple2, "water");
     public static final Tile waterBonesDirty1 = new ImpassableTile(15, Sprite.waterBonesBrown1, "water");
     public static final Tile waterBonesDirty2 = new ImpassableTile(16, Sprite.waterBonesBrown2, "water");
+    
+    public static final Tile blood = new EmptyTile(17, Sprite.blood, "blood");
 
-    public static final Tile portal = new EmptyTile(99, Sprite.portal, "portal");
+    public static final Tile chestGold = new EmptyTile(18, Sprite.chestGoldOpen, "chest");
+    public static final Tile chestSilver = new EmptyTile(19, Sprite.chestSilverOpen, "chest");
+    
+    public static final Tile mushroom = new EmptyTile(20, Sprite.mushroom, "mushroom");
+    
     
     public final byte id;
     private Sprite sprite;

@@ -4,7 +4,9 @@ import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.map.levels.*;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -39,30 +41,33 @@ public class MapBuilder {
         double start = System.nanoTime();
 
         List<LevelBuilder> levels = new ArrayList<LevelBuilder>();
-        levels.add(new DefaultLevel(width, height, -1, 3, 100, -2.6f, random));
-        levels.add(new DenseLevel(width, height, -1, -1, 60, 1f, random));
-        levels.add(new SparseLevel(width, height, -1, 10, 60, 1f, random));
-        levels.add(new LakesLevel(width, height, 3, 9, 50, 1f, random));
-        levels.add(new SwampLevel(width, height, 6, -1, 50, 1f, random));
-        levels.add(new DarkLevel(width, height, 10, -1, 30, 1.25f, random));
+        levels.add(new DefaultLevel(width, height, 0, depth, 70, -1.75f, random));
+        levels.add(new DenseLevel(width, height, 1, depth, 55, 1.1f, random));
+        levels.add(new SparseLevel(width, height, 1, 10, 65, 0.8f, random));
+        levels.add(new LakesLevel(width, height, 3, 9, 50, 1.325f, random));
+        levels.add(new SwampLevel(width, height, 6, depth, 50, 1.5f, random));
+        levels.add(new DarkLevel(width, height, 10, depth, 20, 1.85f, random));
+ 
+        //Temp code
+        //Deletes all images in image folder for level preview
+        File file = new File("images/");
+        File[] files = file.listFiles();
+        if(files != null) for(File f : files) f.delete();
+
         
-        
-        for(int z = 0; z < depth; z++){
-            
+        for (int z = 0; z < depth; z++) {
             Pool<LevelBuilder> pool = new Pool<LevelBuilder>();
-            for(LevelBuilder l : levels){
-                if(l.minLevel() == -1 || l.minLevel() >= z || l.maxLevel() == -1 || l.maxLevel() <= z){ //TODO: Fix me
-                    int zChance = (int) ((10 + z) * l.zMultiplier());
-                    pool.add(l, l.chance() + zChance);
-                }
+            for (LevelBuilder l : levels) {
+                int zChance = (int) ((z * l.zMultiplier()) * 3);
+                int chance = l.chance() + zChance;
+                if (z >= l.minLevel() && z <= l.maxLevel()) pool.add(l, chance);
             }
-            
+
             LevelBuilder level = pool.get();
-            
+                
             level.generate(z);
             level.saveImage(z);
             map.setTiles(z, level.tiles());
-            Log.debug("Level " + z + " " + level.type());
         }
 
         Log.debug("Generated map in " + ((System.nanoTime() - start) / 1000000) + "ms");

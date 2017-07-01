@@ -1,6 +1,5 @@
 package com.mac.rltut.game.map.levels;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.game.map.tile.Tile;
 
 import java.util.Random;
@@ -19,11 +18,12 @@ public class DenseLevel extends LevelBuilder{
         addTreeType(Tile.treeDeciduous, 45);
         addLiquidType(Tile.waterBlue, 100);
 
-        clearTilesToPopulate();
-        addTileToPopulate(Tile.waterLilypad, 4, Tile.waterBlue);
-        addTileToPopulate(Tile.grassGreen, 60, Tile.empty);
-        addTileToPopulate(Tile.treeConifer, 50, Tile.empty);
-        addTileToPopulate(Tile.treeDeciduous, 52, Tile.empty);
+        clearDecalTiles();
+        addDecalTile(Tile.waterLilypad, 4, Tile.waterBlue);
+        addDecalTile(Tile.grassGreen, 60, Tile.empty);
+        addDecalTile(Tile.mushroom, 4, Tile.empty);
+        addDecalTile(Tile.treeConifer, 50, Tile.empty);
+        addDecalTile(Tile.treeDeciduous, 52, Tile.empty);
 
         setProperty("tree_random_frequency", "0.455-0.475");
         setProperty("tree_smooth", "6-7");

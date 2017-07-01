@@ -18,11 +18,12 @@ public class SparseLevel extends LevelBuilder{
         addTreeType(Tile.treeDeciduous, 50);
         addLiquidType(Tile.waterBlue, 100);
 
-        clearTilesToPopulate();
-        addTileToPopulate(Tile.waterLilypad, 4, Tile.waterBlue);
-        addTileToPopulate(Tile.grassGreen, 70, Tile.empty);
-        addTileToPopulate(Tile.treeConifer, 20, Tile.empty);
-        addTileToPopulate(Tile.treeDeciduous, 20, Tile.empty);
+        clearDecalTiles();
+        addDecalTile(Tile.waterLilypad, 4, Tile.waterBlue);
+        addDecalTile(Tile.grassGreen, 70, Tile.empty);
+        addDecalTile(Tile.treeConifer, 20, Tile.empty);
+        addDecalTile(Tile.treeDeciduous, 20, Tile.empty);
+        addDecalTile(Tile.mushroom, 2, Tile.empty);
 
         setProperty("tree_random_frequency", "0.325-0.35");
         setProperty("tree_smooth", "2-3");

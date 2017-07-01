@@ -20,15 +20,16 @@ public class SwampLevel extends LevelBuilder{
         addLiquidType(Tile.waterFoul, 10);
         addLiquidType(Tile.waterBlue, 5);
 
-        clearTilesToPopulate();
-        addTileToPopulate(Tile.waterBonesDirty1, 2, Tile.waterDirty);
-        addTileToPopulate(Tile.waterBonesDirty2, 2, Tile.waterDirty);
-        addTileToPopulate(Tile.waterBonesFoul1, 2, Tile.waterFoul);
-        addTileToPopulate(Tile.waterBonesFoul2, 2, Tile.waterFoul);
-        addTileToPopulate(Tile.grassPurple, 20, Tile.empty);
-        addTileToPopulate(Tile.grassGreen, 70, Tile.empty);
-        addTileToPopulate(Tile.treeConifer, 25, Tile.empty);
-        addTileToPopulate(Tile.treeDeciduous, 25, Tile.empty);
+        clearDecalTiles();
+        addDecalTile(Tile.waterBonesDirty1, 2, Tile.waterDirty);
+        addDecalTile(Tile.waterBonesDirty2, 2, Tile.waterDirty);
+        addDecalTile(Tile.waterBonesFoul1, 2, Tile.waterFoul);
+        addDecalTile(Tile.waterBonesFoul2, 2, Tile.waterFoul);
+        addDecalTile(Tile.grassPurple, 20, Tile.empty);
+        addDecalTile(Tile.grassGreen, 70, Tile.empty);
+        addDecalTile(Tile.mushroom, 15, Tile.empty);
+        addDecalTile(Tile.treeConifer, 25, Tile.empty);
+        addDecalTile(Tile.treeDeciduous, 25, Tile.empty);
 
         setProperty("tree_random_frequency", "0.32-0.4");
         setProperty("tree_smooth", "6-7");

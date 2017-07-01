@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 
 /**
  * Project: complete-rltut
@@ -32,7 +31,7 @@ public abstract class LevelBuilder {
     private final float zMultiplier;
     
     private HashMap<String, Object> properties;
-    private List<TileToPopulate> tilesToPopulate;
+    private List<DecalTile> decalTiles;
     
     private List<Tile> trees;
     private List<Tile> liquids;
@@ -69,7 +68,7 @@ public abstract class LevelBuilder {
         this.zMultiplier = zMultiplier;
         this.random = random;
         this.properties = new HashMap<String, Object>();
-        this.tilesToPopulate = new ArrayList<TileToPopulate>();
+        this.decalTiles = new ArrayList<DecalTile>();
         this.trees = new ArrayList<Tile>();
         this.liquids = new ArrayList<Tile>();
         this.treeChances = new HashMap<Tile, Integer>();
@@ -91,10 +90,10 @@ public abstract class LevelBuilder {
         addTreeType(Tile.treeDeciduous, 50);
         addLiquidType(Tile.waterBlue, 100);
 
-        addTileToPopulate(Tile.waterLilypad, 4, Tile.waterBlue);
-        addTileToPopulate(Tile.grassGreen, 50, Tile.empty);
-        addTileToPopulate(Tile.treeConifer, 22, Tile.empty);
-        addTileToPopulate(Tile.treeDeciduous, 22, Tile.empty);
+        addDecalTile(Tile.waterLilypad, 4, Tile.waterBlue);
+        addDecalTile(Tile.grassGreen, 50, Tile.empty);
+        addDecalTile(Tile.treeConifer, 22, Tile.empty);
+        addDecalTile(Tile.treeDeciduous, 22, Tile.empty);
 
         setProperty("tree_random_frequency", "0.445-0.475");
         setProperty("tree_smooth", "6-7");
@@ -148,7 +147,7 @@ public abstract class LevelBuilder {
             findLakes();
             setLiquids();
 
-            populate();
+            addDecalTiles();
 
             createRegions(minRegionSize);
         }while(!isValid((int) ((width * height) * 0.3)));
@@ -354,15 +353,15 @@ public abstract class LevelBuilder {
         }
     }
     
-    private void populate(){
-        Log.trace("Populating...");
+    private void addDecalTiles(){
+        Log.trace("Adding decal tiles...");
         Pool<Tile> pool = new Pool<Tile>();
         Tile currentTile = null;
         for(int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 currentTile = tile(x, y);
 
-                for(TileToPopulate t : tilesToPopulate){
+                for(DecalTile t : decalTiles){
                     if(!t.canPlaceOn(currentTile)) continue;
                     pool.add(t.tile, t.chance);
                     for(Tile placeOn : t.tilesCanPlaceOn) if(!pool.contains(placeOn)) pool.add(placeOn, Pool.DEFAULT_WEIGHT);
@@ -386,16 +385,16 @@ public abstract class LevelBuilder {
         if(!liquids.contains(liquid)) liquids.add(liquid);
     }
     
-    public void addTileToPopulate(Tile tile, int chance, Tile ... tilesCanPlaceOn){
+    public void addDecalTile(Tile tile, int chance, Tile ... tilesCanPlaceOn){
         if(tilesCanPlaceOn == null || tilesCanPlaceOn.length < 1){
-            Log.error("Tile to populate must have tiles to place on.");
+            Log.error("Tile to addDecalTiles must have tiles to place on.");
             return;
         }
-        tilesToPopulate.add(new TileToPopulate(tile, chance, tilesCanPlaceOn));
+        decalTiles.add(new DecalTile(tile, chance, tilesCanPlaceOn));
     }
     
-    public void clearTilesToPopulate(){
-        tilesToPopulate.clear();
+    public void clearDecalTiles(){
+        decalTiles.clear();
     }
     
     public void setProperty(String key, Object prop){
@@ -476,25 +475,25 @@ public abstract class LevelBuilder {
                 else if(id == Tile.waterBonesFoul2.id) image.setRGB(x, y, 0xD0D1A5);
                 else if(id == Tile.waterFoul.id) image.setRGB(x, y, 0x228A6C);
                 else if(id == Tile.waterLilypad.id) image.setRGB(x, y, 0x36BAB1);
-                else if(id == Tile.portal.id) image.setRGB(x, y, 0xD900FF);
+                else if(id == Tile.mushroom.id) image.setRGB(x, y, 0xBF4545);
             }
         }
 
         try {
-            ImageIO.write(image, "png", new File(type + "_level_" + z + ".png"));
+            ImageIO.write(image, "png", new File("images/level_" + z + "_" + type + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
 
-class TileToPopulate{
+class DecalTile {
 
     public Tile tile;
     public int chance;
     public Tile[] tilesCanPlaceOn;
             
-    public TileToPopulate(Tile tile, int chance, Tile[] tilesCanPlaceOn){
+    public DecalTile(Tile tile, int chance, Tile[] tilesCanPlaceOn){
         this.tile = tile;
         this.chance = chance;
         this.tilesCanPlaceOn = tilesCanPlaceOn;
