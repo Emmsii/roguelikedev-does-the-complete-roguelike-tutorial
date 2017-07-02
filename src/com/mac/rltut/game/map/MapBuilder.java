@@ -47,7 +47,8 @@ public class MapBuilder {
         levels.add(new LakesLevel(width, height, 3, 10, 50, 1.325f, random));
         levels.add(new SwampLevel(width, height, 6, depth, 40, 1.5f, random));
         levels.add(new DarkLevel(width, height, 10, depth, 20, 1.85f, random));
- 
+        levels.add(new RuinedLevel(width, height, 3, depth, 8, 0, random));
+
         //Temp code
         //Deletes all images in image folder for level preview
         File file = new File("images/");

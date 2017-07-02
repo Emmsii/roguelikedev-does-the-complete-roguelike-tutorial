@@ -368,9 +368,10 @@ public abstract class LevelBuilder {
     }
 
     private void addRooms(int count, int roomSizeMin, int roomSizeMax, boolean roomsRuined) {
-        if(count == 0) return;
-        int amount = 0;
-        while(amount < count){
+        
+        List<Rectangle> rooms = new ArrayList<Rectangle>();
+        
+        while(rooms.size() < count){
         
             int xp = MathUtil.range(roomSizeMax + 3, width - roomSizeMax - 3, random);
             int yp = MathUtil.range(roomSizeMax + 3, height - roomSizeMax - 3, random);
@@ -390,8 +391,22 @@ public abstract class LevelBuilder {
 
             List<Point> validDoorTiles = new ArrayList<Point>();
             float percentSolid = (int) (((float) onSolid / (float) total) * 100);
-            if(percentSolid <= 35) {
-                amount++;
+            
+            Rectangle newRoom = new Rectangle(xp, yp, w, h);
+            
+            boolean overlaps = false;
+            
+            for(Rectangle r : rooms){
+                if(r.intersects(newRoom)){
+                    overlaps = true;
+                    break;
+                }
+            }
+            
+            if(rooms.contains(newRoom)) overlaps = true;
+            
+            if(percentSolid <= 35 && !overlaps) {
+                rooms.add(newRoom);
                 Tile wallTile = getRandomTile(walls, wallChances);
                 for(int y = 0; y < h; y++) {
                     int ya = y + yp;

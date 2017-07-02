@@ -43,6 +43,7 @@ public class Pool<T> {
 
     public void add(T item, int weight){
         poolItems.add(new PoolItem<T>(weight, item));
+        if(weight < 1) weight = 1;
         totalWeight += weight;
     }
 
