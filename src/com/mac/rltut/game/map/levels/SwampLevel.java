@@ -25,9 +25,9 @@ public class SwampLevel extends LevelBuilder{
         addDecalTile(Tile.waterBonesDirty2, 2, Tile.waterDirty);
         addDecalTile(Tile.waterBonesFoul1, 2, Tile.waterFoul);
         addDecalTile(Tile.waterBonesFoul2, 2, Tile.waterFoul);
-        addDecalTile(Tile.grassPurple, 20, Tile.empty);
-        addDecalTile(Tile.grassGreen, 70, Tile.empty);
-        addDecalTile(Tile.mushroom, 15, Tile.empty);
+        addDecalTile(Tile.grassPurple, 20, Tile.empty, Tile.floor);
+        addDecalTile(Tile.grassGreen, 70, Tile.empty, Tile.floor);
+        addDecalTile(Tile.mushroom, 15, Tile.empty, Tile.floor);
         addDecalTile(Tile.treeConifer, 25, Tile.empty);
         addDecalTile(Tile.treeDeciduous, 25, Tile.empty);
 
@@ -37,5 +37,8 @@ public class SwampLevel extends LevelBuilder{
         setProperty("liquid_smooth", "1-2");
         setProperty("border_thickness", 4);
         setProperty("min_region_size", 80);
+        setProperty("room_count", "0");
+        setProperty("room_size_min", "5-6");
+        setProperty("room_size_max", "8-9");
     }
 }

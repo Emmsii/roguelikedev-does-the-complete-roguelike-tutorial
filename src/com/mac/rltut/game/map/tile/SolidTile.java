@@ -9,8 +9,8 @@ import com.mac.rltut.engine.graphics.Sprite;
  */
 public class SolidTile extends Tile{
     
-    public SolidTile(int id, Sprite sprite, String type) {
-        super(id, sprite, type);
+    public SolidTile(Sprite sprite, String type) {
+        super(sprite, type);
         this.solid = true;
         this.see = false;
         this.fly = false;

@@ -35,8 +35,10 @@ public abstract class LevelBuilder {
     
     private List<Tile> trees;
     private List<Tile> liquids;
+    private List<Tile> walls;
     private HashMap<Tile, Integer> treeChances;
     private HashMap<Tile, Integer> liquidChances;
+    private HashMap<Tile, Integer> wallChances;
     
     private byte[][] tiles;
 
@@ -71,8 +73,10 @@ public abstract class LevelBuilder {
         this.decalTiles = new ArrayList<DecalTile>();
         this.trees = new ArrayList<Tile>();
         this.liquids = new ArrayList<Tile>();
+        this.walls = new ArrayList<Tile>();
         this.treeChances = new HashMap<Tile, Integer>();
         this.liquidChances = new HashMap<Tile, Integer>();
+        this.wallChances = new HashMap<Tile, Integer>();
         
         setDefaults();
     }
@@ -89,9 +93,10 @@ public abstract class LevelBuilder {
         addTreeType(Tile.treeConifer, 50);
         addTreeType(Tile.treeDeciduous, 50);
         addLiquidType(Tile.waterBlue, 100);
+        addWallType(Tile.wallTopRed, 100);
 
         addDecalTile(Tile.waterLilypad, 4, Tile.waterBlue);
-        addDecalTile(Tile.grassGreen, 50, Tile.empty);
+        addDecalTile(Tile.grassGreen, 50, Tile.empty, Tile.floor);
         addDecalTile(Tile.treeConifer, 22, Tile.empty);
         addDecalTile(Tile.treeDeciduous, 22, Tile.empty);
 
@@ -101,6 +106,9 @@ public abstract class LevelBuilder {
         setProperty("liquid_smooth", "5-8");
         setProperty("border_thickness", 3);
         setProperty("min_region_size", 80);
+        setProperty("room_count", "3-4");
+        setProperty("room_size_min", "5-6");
+        setProperty("room_size_max", "8-9");
     }
         
     public void generate(int z){
@@ -113,6 +121,10 @@ public abstract class LevelBuilder {
         float liquidRandomFrequency = MathUtil.randomFloatFromString((String) getProperty("liquid_random_frequency"), random);
         int liquidSmooth = MathUtil.randomIntFromString((String) getProperty("liquid_smooth"), random);
         int minRegionSize = (int) getProperty("min_region_size");
+        int roomCount = MathUtil.randomIntFromString((String) getProperty("room_count"), random);
+        int roomSizeMin = MathUtil.randomIntFromString((String) getProperty("room_size_min"), random);
+        int roomSizeMax = MathUtil.randomIntFromString((String) getProperty("room_size_max"), random);
+        boolean roomsRuined = true;
         
         if(borderThickness < BORDER_THICKNESS_MIN) borderThickness = BORDER_THICKNESS_MIN;
         if(borderThickness > BORDER_THICKNESS_MAX) borderThickness = BORDER_THICKNESS_MAX;
@@ -147,6 +159,8 @@ public abstract class LevelBuilder {
             findLakes();
             setLiquids();
 
+            addRooms(roomCount, roomSizeMin, roomSizeMax, roomsRuined);
+            
             addDecalTiles();
 
             createRegions(minRegionSize);
@@ -352,6 +366,80 @@ public abstract class LevelBuilder {
             }
         }
     }
+
+    private void addRooms(int count, int roomSizeMin, int roomSizeMax, boolean roomsRuined) {
+        if(count == 0) return;
+        int amount = 0;
+        while(amount < count){
+        
+            int xp = MathUtil.range(roomSizeMax + 3, width - roomSizeMax - 3, random);
+            int yp = MathUtil.range(roomSizeMax + 3, height - roomSizeMax - 3, random);
+            int w = MathUtil.range(roomSizeMin, roomSizeMax, random);
+            int h = MathUtil.range(roomSizeMin, roomSizeMax, random);
+
+            int onSolid = 0;
+            int total = w * h;
+
+            for(int y = 0; y < h; y++) {
+                int ya = y + yp;
+                for(int x = 0; x < w; x++) {
+                    int xa = x + xp;
+                    if(tile(xa, ya).solid()) onSolid++;
+                }
+            }
+
+            List<Point> validDoorTiles = new ArrayList<Point>();
+            float percentSolid = (int) (((float) onSolid / (float) total) * 100);
+            if(percentSolid <= 35) {
+                amount++;
+                Tile wallTile = getRandomTile(walls, wallChances);
+                for(int y = 0; y < h; y++) {
+                    int ya = y + yp;
+                    for(int x = 0; x < w; x++) {
+                        int xa = x + xp;
+                        if(!inBounds(xa, ya)) continue;
+
+                        if(y == 0 || x == 0 || x == w - 1 || y == h - 1){
+                            if(!roomsRuined || random.nextFloat() < 0.55f){
+                                if(!tile(xa, ya).isType("door")) setTile(xa, ya, wallTile);
+                            }
+                            
+                            if(tile(xa, ya).isType("wall")) {
+                                if ((!tile(xa - 1, ya).solid() && !tile(xa + 1, ya).solid()) || (!tile(xa, ya - 1).solid() && !tile(xa, ya + 1).solid())){
+                                    validDoorTiles.add(new Point(xa, ya, 0));
+                                }
+                            }
+                            
+                        }else {
+                            if(roomsRuined) setTile(xa, ya, random.nextFloat() < 0.3f ? Tile.empty : Tile.floor);
+                            else setTile(xa, ya, Tile.floor);
+                        }
+                    }
+                }
+            }
+
+//            for(Point p : validDoorTiles) setTile(p.x, p.y, Tile.lavaLight);
+            
+            if(!validDoorTiles.isEmpty() && !roomsRuined){
+                Point door = validDoorTiles.get(random.nextInt(validDoorTiles.size()));
+                setTile(door.x, door.y, Tile.doorGreen);
+            }
+        }
+        
+        
+        
+        for(int y = 0; y < height; y++){
+            for(int x = 0; x < width; x++){
+                if(tile(x, y).id == Tile.wallTopBlue.id || tile(x, y).id == Tile.wallTopRed.id && !tile(x, y).isType("door")){
+                    if(tile(x, y + 1).id != Tile.wallTopBlue.id && tile(x, y + 1).id != Tile.wallTopRed.id && !tile(x, y + 1).isType("door")){
+                        setTile(x, y + 1, Tile.wallSide);
+                        if(tile(x, y + 2).id == Tile.wallTopBlue.id || tile(x, y + 2).id == Tile.wallTopRed.id) setTile(x, y + 2, Tile.empty);
+                    }
+                }
+            }
+        }
+        
+    }
     
     private void addDecalTiles(){
         Log.trace("Adding decal tiles...");
@@ -383,6 +471,11 @@ public abstract class LevelBuilder {
     public void addLiquidType(Tile liquid, int chance){
         liquidChances.put(liquid, chance);
         if(!liquids.contains(liquid)) liquids.add(liquid);
+    }
+    
+    public void addWallType(Tile wall, int chance){
+        wallChances.put(wall, chance);
+        if(!walls.contains(wall)) walls.add(wall);
     }
     
     public void addDecalTile(Tile tile, int chance, Tile ... tilesCanPlaceOn){
@@ -464,6 +557,9 @@ public abstract class LevelBuilder {
             for(int x = 0; x < width; x++){
                 int id = tile(x, y).id;
                 if(id == Tile.empty.id) image.setRGB(x, y, Color.BLACK.getRGB());
+                else if(id == Tile.wallTopRed.id) image.setRGB(x, y, 0xBD5757);
+                else if(id == Tile.wallTopBlue.id) image.setRGB(x, y, 0xBD5757);
+                else if(id == Tile.doorGreen.id) image.setRGB(x, y, 0xEE57FF);
                 else if(id == Tile.treeConifer.id) image.setRGB(x, y, 0x3C7A50);
                 else if(id == Tile.treeDeciduous.id) image.setRGB(x, y, 0x5DAD37);
                 else if(id == Tile.grassGreen.id) image.setRGB(x, y, 0xABE617);

@@ -20,8 +20,8 @@ public class LakesLevel extends LevelBuilder{
 
         clearDecalTiles();
         addDecalTile(Tile.waterLilypad, 6, Tile.waterBlue);
-        addDecalTile(Tile.grassGreen, 50, Tile.empty);
-        addDecalTile(Tile.mushroom, 6, Tile.empty);
+        addDecalTile(Tile.grassGreen, 50, Tile.empty, Tile.floor);
+        addDecalTile(Tile.mushroom, 6, Tile.empty, Tile.floor);
         addDecalTile(Tile.treeConifer, 20, Tile.empty);
         addDecalTile(Tile.treeDeciduous, 20, Tile.empty);
 
@@ -31,5 +31,8 @@ public class LakesLevel extends LevelBuilder{
         setProperty("liquid_smooth", "5-8");
         setProperty("border_thickness", 4);
         setProperty("min_region_size", 80);
+        setProperty("room_count", "0");
+        setProperty("room_size_min", "5-6");
+        setProperty("room_size_max", "8-9");
     }
 }

@@ -42,10 +42,10 @@ public class MapBuilder {
 
         List<LevelBuilder> levels = new ArrayList<LevelBuilder>();
         levels.add(new DefaultLevel(width, height, 0, depth, 70, -1.75f, random));
-        levels.add(new DenseLevel(width, height, 1, depth, 55, 1.1f, random));
-        levels.add(new SparseLevel(width, height, 1, 10, 65, 0.8f, random));
-        levels.add(new LakesLevel(width, height, 3, 9, 50, 1.325f, random));
-        levels.add(new SwampLevel(width, height, 6, depth, 50, 1.5f, random));
+        levels.add(new DenseLevel(width, height, 1, depth, 55, 0.95f, random));
+        levels.add(new SparseLevel(width, height, 1, 5, 65, 0.8f, random));
+        levels.add(new LakesLevel(width, height, 3, 10, 50, 1.325f, random));
+        levels.add(new SwampLevel(width, height, 6, depth, 40, 1.5f, random));
         levels.add(new DarkLevel(width, height, 10, depth, 20, 1.85f, random));
  
         //Temp code
@@ -53,7 +53,6 @@ public class MapBuilder {
         File file = new File("images/");
         File[] files = file.listFiles();
         if(files != null) for(File f : files) f.delete();
-
         
         for (int z = 0; z < depth; z++) {
             Pool<LevelBuilder> pool = new Pool<LevelBuilder>();

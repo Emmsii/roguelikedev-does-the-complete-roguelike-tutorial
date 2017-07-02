@@ -18,14 +18,15 @@ public class DarkLevel extends LevelBuilder{
         addTreeType(Tile.treeDeciduous, 10);
         addLiquidType(Tile.waterBlue, 90);
         addLiquidType(Tile.waterDirty, 5);
+        addWallType(Tile.wallTopBlue, 100);
 
         clearDecalTiles();
         addDecalTile(Tile.waterLilypad, 4, Tile.waterBlue);
         addDecalTile(Tile.waterBonesDirty1, 2, Tile.waterDirty);
         addDecalTile(Tile.waterBonesDirty2, 3, Tile.waterDirty);
-        addDecalTile(Tile.mushroom, 7, Tile.empty);
-        addDecalTile(Tile.grassPurple, 60, Tile.empty);
-        addDecalTile(Tile.grassBlue, 60, Tile.empty);
+        addDecalTile(Tile.mushroom, 7, Tile.empty, Tile.floor);
+        addDecalTile(Tile.grassPurple, 60, Tile.empty, Tile.floor);
+        addDecalTile(Tile.grassBlue, 60, Tile.empty, Tile.floor);
         addDecalTile(Tile.treeConifer, 80, Tile.empty);
         addDecalTile(Tile.treeDeciduous, 10, Tile.empty);
 
@@ -35,5 +36,8 @@ public class DarkLevel extends LevelBuilder{
         setProperty("liquid_smooth", "5-8");
         setProperty("border_thickness", 4);
         setProperty("min_region_size", 80);
+        setProperty("room_count", "7-8");
+        setProperty("room_size_min", "5-6");
+        setProperty("room_size_max", "8-9");
     }
 }

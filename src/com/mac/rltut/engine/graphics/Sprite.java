@@ -8,9 +8,13 @@ package com.mac.rltut.engine.graphics;
 public class Sprite extends Bitmap{
 
     public static final Sprite empty = Spritesheet.textures.cutSprite(0, 0, 8, 8, 8);
-    public static final Sprite player = Spritesheet.textures.cutSprite(5, 5, 8, 8, 8);
-
+    public static final Sprite player = Spritesheet.textures.cutSprite(5, 5, 8, 8, 8);//TEMP
+  
     //TILES
+    
+    public static final Sprite wallTopRed = Spritesheet.textures.cutSprite(1, 0, 8, 8, 8);
+    public static final Sprite wallTopBlue = Spritesheet.textures.cutSprite(2, 0, 8, 8, 8);
+    public static final Sprite wallSide = Spritesheet.textures.cutSprite(3, 0, 8, 8, 8);
     public static final Sprite grassYellow = Spritesheet.textures.cutSprite(9, 0, 8, 8, 8);
     public static final Sprite grassGreen = Spritesheet.textures.cutSprite(10, 0, 8, 8, 8);
     public static final Sprite grassBlue = Spritesheet.textures.cutSprite(11, 0, 8, 8, 8);
@@ -29,6 +33,10 @@ public class Sprite extends Bitmap{
     public static final Sprite waterBonesBrown1 = Spritesheet.textures.cutSprite(8, 1, 8, 8, 8);
     public static final Sprite waterBonesBrown2 = Spritesheet.textures.cutSprite(9, 1, 8, 8, 8);
     public static final Sprite blood = Spritesheet.textures.cutSprite(10, 1, 8, 8, 8);
+    public static final Sprite doorSilver = Spritesheet.textures.cutSprite(11, 1, 8, 8, 8);
+    public static final Sprite doorGold = Spritesheet.textures.cutSprite(12, 1, 8, 8, 8);
+    public static final Sprite doorGreen = Spritesheet.textures.cutSprite(13, 1, 8, 8, 8);
+    public static final Sprite doorPurple = Spritesheet.textures.cutSprite(14, 1, 8, 8, 8);
     
     public static final Sprite chestGoldClosed = Spritesheet.textures.cutSprite(0, 2, 8, 8, 8);
     public static final Sprite chestGoldOpen = Spritesheet.textures.cutSprite(1, 2, 8, 8, 8);

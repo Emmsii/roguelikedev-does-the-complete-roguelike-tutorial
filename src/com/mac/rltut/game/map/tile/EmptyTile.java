@@ -9,8 +9,8 @@ import com.mac.rltut.engine.graphics.Sprite;
  */
 public class EmptyTile extends Tile{
     
-    public EmptyTile(int id, Sprite sprite, String type) {
-        super(id, sprite, type);
+    public EmptyTile(Sprite sprite, String type) {
+        super(sprite, type);
         this.solid = false;
         this.see = true;
         this.fly = true;

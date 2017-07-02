@@ -9,37 +9,47 @@ import com.mac.rltut.engine.graphics.Sprite;
  */
 public abstract class Tile {
     
-    public static Tile[] tiles = new Tile[256]; 
+    private static Tile[] tiles = new Tile[256]; 
+    private static int currentId = 0;
     
-    public static final Tile empty = new EmptyTile(0, Sprite.empty, "empty");
+    public static final Tile empty = new EmptyTile(Sprite.empty, "empty");
+    public static final Tile floor = new EmptyTile(Sprite.empty, "floor");
     
     //TILES
-    public static final Tile grassYellow = new EmptyTile(1, Sprite.grassYellow, "grass");
-    public static final Tile grassGreen = new EmptyTile(2, Sprite.grassGreen, "grass");
-    public static final Tile grassBlue = new EmptyTile(3, Sprite.grassBlue, "grass");
-    public static final Tile grassPurple = new EmptyTile(4, Sprite.grassPurple, "grass");
+    public static final Tile wallTopRed = new SolidTile(Sprite.wallTopRed, "wall");
+    public static final Tile wallTopBlue = new SolidTile(Sprite.wallTopBlue, "wall");
+    public static final Tile wallSide = new SolidTile(Sprite.wallSide, "wall");
+    public static final Tile grassYellow = new EmptyTile(Sprite.grassYellow, "grass");
+    public static final Tile grassGreen = new EmptyTile(Sprite.grassGreen, "grass");
+    public static final Tile grassBlue = new EmptyTile(Sprite.grassBlue, "grass");
+    public static final Tile grassPurple = new EmptyTile(Sprite.grassPurple, "grass");
     
-    public static final Tile treeDeciduous = new SolidTile(5, Sprite.treeDeciduous, "tree");
-    public static final Tile treeConifer = new SolidTile(6, Sprite.treeConifer, "tree");
+    public static final Tile treeDeciduous = new SolidTile(Sprite.treeDeciduous, "tree");
+    public static final Tile treeConifer = new SolidTile(Sprite.treeConifer, "tree");
 
-    public static final Tile lavaLight = new ImpassableTile(7, Sprite.lavaYellow, "lava");
-    public static final Tile lavaDark = new ImpassableTile(8, Sprite.lavaBrown, "lava");
+    public static final Tile lavaLight = new ImpassableTile(Sprite.lavaYellow, "lava");
+    public static final Tile lavaDark = new ImpassableTile(Sprite.lavaBrown, "lava");
     
-    public static final Tile waterFoul = new ImpassableTile(9, Sprite.waterPurple, "water");
-    public static final Tile waterDirty = new ImpassableTile(10, Sprite.waterBrown, "water");
-    public static final Tile waterBlue = new ImpassableTile(11, Sprite.waterBlue, "water");
-    public static final Tile waterLilypad = new ImpassableTile(12, Sprite.waterLilypad, "water");
-    public static final Tile waterBonesFoul1 = new ImpassableTile(13, Sprite.waterBonesPurple1, "water");
-    public static final Tile waterBonesFoul2 = new ImpassableTile(14, Sprite.waterBonesPurple2, "water");
-    public static final Tile waterBonesDirty1 = new ImpassableTile(15, Sprite.waterBonesBrown1, "water");
-    public static final Tile waterBonesDirty2 = new ImpassableTile(16, Sprite.waterBonesBrown2, "water");
+    public static final Tile waterFoul = new ImpassableTile(Sprite.waterPurple, "water");
+    public static final Tile waterDirty = new ImpassableTile(Sprite.waterBrown, "water");
+    public static final Tile waterBlue = new ImpassableTile(Sprite.waterBlue, "water");
+    public static final Tile waterLilypad = new ImpassableTile(Sprite.waterLilypad, "water");
+    public static final Tile waterBonesFoul1 = new ImpassableTile(Sprite.waterBonesPurple1, "water");
+    public static final Tile waterBonesFoul2 = new ImpassableTile(Sprite.waterBonesPurple2, "water");
+    public static final Tile waterBonesDirty1 = new ImpassableTile(Sprite.waterBonesBrown1, "water");
+    public static final Tile waterBonesDirty2 = new ImpassableTile(Sprite.waterBonesBrown2, "water");
     
-    public static final Tile blood = new EmptyTile(17, Sprite.blood, "blood");
+    public static final Tile blood = new EmptyTile(Sprite.blood, "blood");
 
-    public static final Tile chestGold = new EmptyTile(18, Sprite.chestGoldOpen, "chest");
-    public static final Tile chestSilver = new EmptyTile(19, Sprite.chestSilverOpen, "chest");
+    public static final Tile doorSilver = new EmptyTile(Sprite.doorSilver, "door");
+    public static final Tile doorGold = new EmptyTile(Sprite.doorGold, "door");
+    public static final Tile doorGreen = new EmptyTile(Sprite.doorGreen, "door");
+    public static final Tile doorPurple = new EmptyTile(Sprite.doorPurple, "door");
     
-    public static final Tile mushroom = new EmptyTile(20, Sprite.mushroom, "mushroom");
+    public static final Tile chestGold = new ChestTile(Sprite.chestGoldOpen, Sprite.chestGoldClosed, "chest");
+    public static final Tile chestSilver = new ChestTile(Sprite.chestSilverOpen, Sprite.chestSilverClosed, "chest");
+    
+    public static final Tile mushroom = new EmptyTile(Sprite.mushroom, "mushroom");
     
     
     public final byte id;
@@ -49,8 +59,8 @@ public abstract class Tile {
     protected boolean see;
     protected boolean fly;
     
-    public Tile(int id, Sprite sprite, String type){
-        this.id = (byte) id;
+    public Tile(Sprite sprite, String type){
+        this.id = (byte) Tile.currentId++;
         this.sprite = sprite;
         this.type = type;
         this.solid = false;
