@@ -29,11 +29,10 @@ public class GameScreen extends Screen{
     }
     
     private void init(){
-//        this.world = new WorldBuilder(92, 92, 6, System.currentTimeMillis()).generate().build();
         levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), world);
 
         player = new Creature(Sprite.player);
-        Point spawn = world.randomEmptyPoint(0);
+        Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
     }
     
@@ -41,7 +40,8 @@ public class GameScreen extends Screen{
     @Override
     public Screen input(KeyEvent e) {
         
-        int dx = 0, dy = 0;
+        //Temp movement code        
+        int dx = 0, dy = 0, dz = 0;
         
         switch(e.getKeyCode()){
             case KeyEvent.VK_UP:
@@ -53,12 +53,25 @@ public class GameScreen extends Screen{
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D: dx++; break;
             
-            case KeyEvent.VK_SPACE: init(); break;
+            case KeyEvent.VK_PAGE_DOWN: dz++; break;
+            case KeyEvent.VK_PAGE_UP: dz--; break;
         }
-        
+                
+        //Temp
+        if(dz != 0){
+            player.z += dz;
+            if(player.z < 0) player.z = 0;
+            if(player.z > world.depth() - 1) player.z = world.depth() - 1;
+            Point start = world.startPointAt(player.z);
+            player.x = start.x;
+            player.y = start.y;
+        }
+
+        //Temp
         if(!world.tile(player.x + dx, player.y + dy, player.z).solid()) {
             world.move(player.x + dx, player.y + dy, player.z, player);
         }
+        
         world.update(player.z);
         
         
@@ -67,9 +80,11 @@ public class GameScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
+        levelScreen.setTitle("Level " + (player.z + 1));
+        
         levelScreen.setCameraPosition(player.x, player.y, player.z);
         levelScreen.render(renderer);
         
-        renderer.writeCenter("WASD/ARROW keys to move, SPACE to make new world.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 1);
+        renderer.writeCenter("WASD/ARROW keys to move, PAGE UP/DOWN to make change levels.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 1);
     }
 }

@@ -1,5 +1,6 @@
 package com.mac.rltut.game.world;
 
+import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.world.tile.Tile;
 
 /**
@@ -12,6 +13,7 @@ public class Level {
     private final int width, height;
     private final int z;
     
+    private Point startPoint;
     private byte[][] tiles;
     
     public Level(int width, int height, int z){
@@ -36,6 +38,14 @@ public class Level {
     
     public int height(){
         return height;
+    }
+    
+    public void setStart(Point startPoint){
+        this.startPoint = startPoint;
+    }
+    
+    public Point startPoint(){
+        return startPoint;
     }
     
     public int z(){

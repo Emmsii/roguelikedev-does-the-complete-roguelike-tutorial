@@ -131,6 +131,10 @@ public class World {
         return levels[z].tile(x, y);
     }
 
+    public Point startPointAt(int z){
+        return levels[z].startPoint();
+    }
+    
     public void setLevel(int z, Level level){
         if(!inBounds(0, 0, z)) return;
         levels[z] = level;
@@ -144,6 +148,10 @@ public class World {
     
     public int height(){
         return height;
+    }
+    
+    public int depth(){
+        return depth;
     }
     
     public boolean inBounds(int x, int y, int z){

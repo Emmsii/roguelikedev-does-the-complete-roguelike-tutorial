@@ -2,6 +2,7 @@ package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.MathUtil;
+import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.world.Level;
 import com.mac.rltut.game.world.tile.Tile;
@@ -98,7 +99,7 @@ public abstract class LevelBuilder {
             x = random.nextInt(width);
             y = random.nextInt(height);
         }while(tile(x, y).solid());
-        start = new Point(x, y);
+        level.setStart(new Point(x, y, 0));
     }
     
     protected void addTileType(Tile tile, int chance){

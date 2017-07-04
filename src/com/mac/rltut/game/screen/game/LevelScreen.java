@@ -21,7 +21,7 @@ public class LevelScreen extends Screen{
     private int xPos, yPos, zPos;
     
     public LevelScreen(int x, int y, int width, int height, World world){
-        super(x, y, width, height, null);
+        super(x, y, width, height, "Level 1");
         this.world = world;
     }
     
@@ -42,6 +42,8 @@ public class LevelScreen extends Screen{
                 renderer.renderSprite(sprite, xa + 1, ya + 1);
             }
         }
+        
+        if(title != null) renderer.write(title, 3, 0);
     }
     
     private Sprite spriteAt(int xp, int yp, int zp){
