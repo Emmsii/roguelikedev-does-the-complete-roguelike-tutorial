@@ -1,4 +1,4 @@
-package com.mac.rltut.engine.window;
+package com.mac.rltut.engine.input;
 
 import com.mac.rltut.engine.Engine;
 

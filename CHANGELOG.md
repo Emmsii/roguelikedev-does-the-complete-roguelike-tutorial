@@ -11,3 +11,4 @@
 + Map generation which allows for varying levels.
 
 ###### Week 3 - Map continued
++ Player can move through different z levels.

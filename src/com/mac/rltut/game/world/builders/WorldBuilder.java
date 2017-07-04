@@ -35,7 +35,7 @@ public class WorldBuilder {
         this.random = new Random(seed);
         this.world = new World(width, height, depth, seed);
     }
-
+    
     public WorldBuilder generate(){
         Log.debug("Generating " + width + "x" + height + "x" + depth + " world [" + seed + "]");
         double start = System.nanoTime();
@@ -54,7 +54,7 @@ public class WorldBuilder {
         File file = new File("images/");
         File[] files = file.listFiles();
         if(files != null) for(File f : files) f.delete();
-        
+
         for (int z = 0; z < depth; z++) {
             Pool<LevelBuilder> pool = new Pool<LevelBuilder>();
             for (LevelBuilder l : levels) {
@@ -63,9 +63,9 @@ public class WorldBuilder {
                 if(chance < 2) chance = 2;
                 if (z >= l.minLevel() && z <= l.maxLevel()) pool.add(l, chance);
             }
-            
+
             LevelBuilder level = pool.get();// TODO: This might break
-                
+
             level.generate(z);
 //            level.saveImage(z);
             world.setLevel(z, level.build());

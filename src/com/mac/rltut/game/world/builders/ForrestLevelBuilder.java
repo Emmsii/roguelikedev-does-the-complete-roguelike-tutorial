@@ -103,7 +103,7 @@ public class ForrestLevelBuilder extends LevelBuilder{
             
         }while(!isValid((int) ((width * height) * 0.3)));
         
-        addStart();
+        addStart(z);
         Log.trace("Level generated!");
         return this;
     }

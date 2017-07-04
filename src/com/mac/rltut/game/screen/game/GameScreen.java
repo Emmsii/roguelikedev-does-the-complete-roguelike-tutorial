@@ -35,13 +35,11 @@ public class GameScreen extends Screen{
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
     }
-    
-    
+
     @Override
     public Screen input(KeyEvent e) {
-        
         //Temp movement code        
-        int dx = 0, dy = 0, dz = 0;
+        int dx = 0, dy = 0;
         
         switch(e.getKeyCode()){
             case KeyEvent.VK_UP:
@@ -52,19 +50,9 @@ public class GameScreen extends Screen{
             case KeyEvent.VK_A: dx--; break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D: dx++; break;
-            
-            case KeyEvent.VK_PAGE_DOWN: dz++; break;
-            case KeyEvent.VK_PAGE_UP: dz--; break;
-        }
-                
-        //Temp
-        if(dz != 0){
-            player.z += dz;
-            if(player.z < 0) player.z = 0;
-            if(player.z > world.depth() - 1) player.z = world.depth() - 1;
-            Point start = world.startPointAt(player.z);
-            player.x = start.x;
-            player.y = start.y;
+
+            case KeyEvent.VK_PAGE_DOWN: world.moveDown(player); break;
+            case KeyEvent.VK_PAGE_UP: world.moveUp(player); break;
         }
 
         //Temp
@@ -73,8 +61,7 @@ public class GameScreen extends Screen{
         }
         
         world.update(player.z);
-        
-        
+                
         return this;
     }
 

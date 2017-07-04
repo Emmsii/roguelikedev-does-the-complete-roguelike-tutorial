@@ -1,5 +1,6 @@
 package com.mac.rltut.game.world;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;
@@ -95,14 +96,26 @@ public class World {
     public void move(int xp, int yp, int zp, Creature creature){
         if(!inBounds(xp, yp, zp)) return;
         creatureArray[creature.x][creature.y][creature.z] = null;
-        creatureArray[xp][yp][zp] = creature;
-        if(creature.z != zp){
-            creatureList.get(creature.z).remove(creature);
-            creatureList.get(zp).add(creature);
-        }
+        if(creature.z != zp) switchLevels(creature.z, zp, creature);
         creature.x = xp;
         creature.y = yp;
         creature.z = zp;
+        creatureArray[creature.x][creature.y][creature.z] = creature;
+    }
+    
+    public void moveUp(Creature creature){
+        Point spawn = startPointAt(creature.z + 1);
+        if(spawn != null) move(spawn.x, spawn.y, spawn.z, creature);
+    }
+
+    public void moveDown(Creature creature){
+        Point spawn = startPointAt(creature.z - 1);
+        if(spawn != null) move(spawn.x, spawn.y, spawn.z, creature);
+    }
+    
+    public void switchLevels(int oldZ, int newZ, Creature creature){
+        creatureList.get(newZ).add(creature);
+        creatureList.get(oldZ).remove(creature);
     }
     
     public Creature creature(int x, int y, int z){
@@ -128,10 +141,12 @@ public class World {
     //Tile Methods
     
     public Tile tile(int x, int y, int z){
+        if(!inBounds(x, y, z)) return Tile.empty;
         return levels[z].tile(x, y);
     }
 
     public Point startPointAt(int z){
+        if(!inBounds(0, 0, z)) return null;
         return levels[z].startPoint();
     }
     

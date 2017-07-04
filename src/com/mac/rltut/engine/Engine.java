@@ -2,7 +2,7 @@ package com.mac.rltut.engine;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
-import com.mac.rltut.engine.window.Input;
+import com.mac.rltut.engine.input.Input;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
 import com.mac.rltut.game.screen.Screen;

@@ -92,14 +92,14 @@ public abstract class LevelBuilder {
         }
     }
     
-    protected void addStart(){
+    protected void addStart(int z){
         Log.trace("Adding start...");
         int x, y;
         do{
             x = random.nextInt(width);
             y = random.nextInt(height);
         }while(tile(x, y).solid());
-        level.setStart(new Point(x, y, 0));
+        level.setStart(new Point(x, y, z));
     }
     
     protected void addTileType(Tile tile, int chance){
