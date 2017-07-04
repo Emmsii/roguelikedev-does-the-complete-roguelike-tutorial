@@ -79,7 +79,7 @@ public class Engine {
         img.setRGB(0, 0, w, h, pixels, 0, w);
 
         try {
-            ImageIO.write(img, "png", new File("screenshots.png"));
+            ImageIO.write(img, "png", new File("shot_" + (System.currentTimeMillis() / 1000) + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
