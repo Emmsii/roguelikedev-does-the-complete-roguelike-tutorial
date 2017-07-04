@@ -1,49 +1,45 @@
-package com.mac.rltut.game.map;
+package com.mac.rltut.game.world;
 
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.map.tile.Tile;
+import com.mac.rltut.game.world.tile.Tile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Level;
 
 /**
  * Project: complete-rltut
  * PC
  * Created by Matt on 27/06/2017 at 09:12 AM.
  */
-public class Map {
+public class World {
     
     private final int width, height, depth;
     private final long seed;
     
-    private HashMap<Integer, byte[][]> tiles;
+    private Level[] levels;
     private HashMap<Integer, List<Creature>> creatureList;
     private HashMap<Integer, List<Item>> itemList;
     private Creature[][][] creatureArray;
     private Item[][][] itemArray;
     
-    public Map(int width, int height, int depth, long seed){
+    public World(int width, int height, int depth, long seed){
         this.width = width;
         this.height = height;
         this.depth = depth;
         this.seed = seed;
-        this.tiles = new HashMap<>();
+        this.levels = new Level[depth];
         this.creatureList = new HashMap<>();
         this.itemList = new HashMap<>();
         this.creatureArray = new Creature[width][height][depth];
         this.itemArray = new Item[width][height][depth];
         
         for(int z = 0; z < depth; z++){
-            tiles.put(z, new byte[width][height]);
             creatureList.put(z, new ArrayList<>());
             itemList.put(z, new ArrayList<>());
         }
-        
     }    
     
     public void update(int z){
@@ -132,18 +128,12 @@ public class Map {
     //Tile Methods
     
     public Tile tile(int x, int y, int z){
-        if(!inBounds(x, y, z)) return Tile.empty;
-        return Tile.getTile(tiles.get(z)[x][y]);
+        return levels[z].tile(x, y);
     }
-    
-    public void setTile(int x, int y, int z, Tile tile){
-        if(!inBounds(x, y, z)) return;
-        tiles.get(z)[x][y] = tile.id;
-    }
-    
-    public void setTiles(int z, byte[][] tiles){
+
+    public void setLevel(int z, Level level){
         if(!inBounds(0, 0, z)) return;
-        this.tiles.put(z, tiles);
+        levels[z] = level;
     }
     
     //Misc

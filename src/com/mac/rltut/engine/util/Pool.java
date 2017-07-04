@@ -1,5 +1,7 @@
 package com.mac.rltut.engine.util;
 
+import com.esotericsoftware.minlog.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,9 +29,14 @@ public class Pool<T> {
     }
 
     public T get(){
+        if(isEmpty()){
+            Log.error("Cannot get item from an empty pool");
+            return null;
+        }
+        
         int runningWeight = 0;
         int roll = random.nextInt(totalWeight - 1) + 1;
-
+        
         for(PoolItem<T> poolItem : poolItems){
             runningWeight += poolItem.weight;
             if(roll <= runningWeight){
@@ -38,7 +45,7 @@ public class Pool<T> {
             }
         }
 
-        throw new RuntimeException("Cannot get item from pool.");
+        throw new RuntimeException("Cannot get item from pool. (size: " + poolItems.size() + ")");
     }
 
     public void add(T item, int weight){

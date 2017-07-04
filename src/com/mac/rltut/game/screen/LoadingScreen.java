@@ -1,14 +1,13 @@
 package com.mac.rltut.game.screen;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
-import com.mac.rltut.game.map.Map;
-import com.mac.rltut.game.map.MapBuilder;
+import com.mac.rltut.game.world.World;
+import com.mac.rltut.game.world.builders.WorldBuilder;
 import com.mac.rltut.game.screen.game.GameScreen;
 
 import java.awt.event.KeyEvent;
-import java.util.logging.Logger;
+import java.security.Key;
 
 /**
  * Project: complete-rltut
@@ -17,16 +16,16 @@ import java.util.logging.Logger;
  */
 public class LoadingScreen extends Screen{
     
-    private Map map;
+    private World world;
     private boolean finnished;
     
-    public LoadingScreen(MapBuilder mapBuilder){
+    public LoadingScreen(WorldBuilder worldBuilder){
         finnished = false;
         //TODO: This is a really shit way to do this; but hey, it works!
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                map = mapBuilder.generate().build();
+                world = worldBuilder.generate().build();
                 finnished = true;
                 Engine.instance().input(null);
             }
@@ -37,7 +36,7 @@ public class LoadingScreen extends Screen{
     @Override
     public Screen input(KeyEvent e) {
         if(!finnished) return this;
-        return new GameScreen(map);
+        return new GameScreen(world);
     }
 
     @Override

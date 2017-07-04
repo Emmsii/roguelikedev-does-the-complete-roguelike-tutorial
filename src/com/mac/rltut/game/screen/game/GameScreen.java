@@ -5,8 +5,7 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.map.Map;
-import com.mac.rltut.game.map.MapBuilder;
+import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;
@@ -18,24 +17,24 @@ import java.awt.event.KeyEvent;
  */
 public class GameScreen extends Screen{
     
-    private Map map;
+    private World world;
     
-    private MapScreen mapScreen;
+    private LevelScreen levelScreen;
         
     Creature player;
     
-    public GameScreen(Map map){
-        this.map = map;
+    public GameScreen(World world){
+        this.world = world;
         init();
     }
     
     private void init(){
-//        this.map = new MapBuilder(92, 92, 6, System.currentTimeMillis()).generate().build();
-        mapScreen = new MapScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), map);
+//        this.world = new WorldBuilder(92, 92, 6, System.currentTimeMillis()).generate().build();
+        levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), world);
 
         player = new Creature(Sprite.player);
-        Point spawn = map.randomEmptyPoint(0);
-        map.add(spawn.x, spawn.y, spawn.z, player);
+        Point spawn = world.randomEmptyPoint(0);
+        world.add(spawn.x, spawn.y, spawn.z, player);
     }
     
     
@@ -57,10 +56,10 @@ public class GameScreen extends Screen{
             case KeyEvent.VK_SPACE: init(); break;
         }
         
-        if(!map.tile(player.x + dx, player.y + dy, player.z).solid()) {
-            map.move(player.x + dx, player.y + dy, player.z, player);
+        if(!world.tile(player.x + dx, player.y + dy, player.z).solid()) {
+            world.move(player.x + dx, player.y + dy, player.z, player);
         }
-        map.update(player.z);
+        world.update(player.z);
         
         
         return this;
@@ -68,9 +67,9 @@ public class GameScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-        mapScreen.setCameraPosition(player.x, player.y, player.z);
-        mapScreen.render(renderer);
+        levelScreen.setCameraPosition(player.x, player.y, player.z);
+        levelScreen.render(renderer);
         
-        renderer.writeCenter("WASD/ARROW keys to move, SPACE to make new map.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 1);
+        renderer.writeCenter("WASD/ARROW keys to move, SPACE to make new world.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 1);
     }
 }

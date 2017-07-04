@@ -1,11 +1,10 @@
 package com.mac.rltut.game.screen.game;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.map.Map;
+import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;
@@ -15,15 +14,15 @@ import java.awt.event.KeyEvent;
  * PC
  * Created by Matt on 27/06/2017 at 09:29 AM.
  */
-public class MapScreen extends Screen{
+public class LevelScreen extends Screen{
     
-    private Map map;
+    private World world;
     
     private int xPos, yPos, zPos;
     
-    public MapScreen(int x, int y, int width, int height, Map map){
+    public LevelScreen(int x, int y, int width, int height, World world){
         super(x, y, width, height, null);
-        this.map = map;
+        this.world = world;
     }
     
     @Override
@@ -47,13 +46,13 @@ public class MapScreen extends Screen{
     
     private Sprite spriteAt(int xp, int yp, int zp){
         
-        Creature c = map.creature(xp, yp, zp);
+        Creature c = world.creature(xp, yp, zp);
         if(c != null) return c.sprite();
         
-        Item i = map.item(xp, yp, zp);
+        Item i = world.item(xp, yp, zp);
         if(i != null) return i.sprite();
         
-        return map.tile(xp, yp, zp).sprite();
+        return world.tile(xp, yp, zp).sprite();
     }
     
     public void setCameraPosition(int xPos, int yPos, int zPos){
@@ -63,10 +62,10 @@ public class MapScreen extends Screen{
     }
     
     public int getScrollX(){
-        return Math.max(0, Math.min(xPos - (width - 1) / 2, map.width() - (width - 1) + 1));
+        return Math.max(0, Math.min(xPos - (width - 1) / 2, world.width() - (width - 1) + 1));
     }
 
     public int getScrollY(){
-        return Math.max(0, Math.min(yPos - (height - 1) / 2, map.height() - (height - 1) + 1));
+        return Math.max(0, Math.min(yPos - (height - 1) / 2, world.height() - (height - 1) + 1));
     }
 }

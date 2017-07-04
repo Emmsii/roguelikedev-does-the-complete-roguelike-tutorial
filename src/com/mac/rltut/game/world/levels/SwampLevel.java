@@ -1,6 +1,8 @@
-package com.mac.rltut.game.map.levels;
+package com.mac.rltut.game.world.levels;
 
-import com.mac.rltut.game.map.tile.Tile;
+import com.mac.rltut.game.world.builders.ForrestLevelBuilder;
+import com.mac.rltut.game.world.builders.LevelBuilder;
+import com.mac.rltut.game.world.tile.Tile;
 
 import java.util.Random;
 
@@ -9,18 +11,20 @@ import java.util.Random;
  * PC
  * Created by Matt on 01/07/2017 at 12:00 PM.
  */
-public class SwampLevel extends LevelBuilder{
+public class SwampLevel extends ForrestLevelBuilder {
     
     public SwampLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, Random random) {
         super("Swamp", width, height, minLevel, maxLevel, chance, zMultiplier, random);
+    }
 
-        addTreeType(Tile.treeConifer, 50);
-        addTreeType(Tile.treeDeciduous, 45);
-        addLiquidType(Tile.waterDirty, 80);
-        addLiquidType(Tile.waterFoul, 10);
-        addLiquidType(Tile.waterBlue, 5);
+    @Override
+    protected void setTileTypes() {
+        addTileType(Tile.treeConifer, 50);
+        addTileType(Tile.treeDeciduous, 45);
+        addTileType(Tile.waterDirty, 80);
+        addTileType(Tile.waterFoul, 10);
+        addTileType(Tile.waterBlue, 5);
 
-        clearDecalTiles();
         addDecalTile(Tile.waterBonesDirty1, 2, Tile.waterDirty);
         addDecalTile(Tile.waterBonesDirty2, 2, Tile.waterDirty);
         addDecalTile(Tile.waterBonesFoul1, 2, Tile.waterFoul);
@@ -31,14 +35,15 @@ public class SwampLevel extends LevelBuilder{
         addDecalTile(Tile.treeConifer, 25, Tile.empty);
         addDecalTile(Tile.treeDeciduous, 25, Tile.empty);
 
+    }
+
+    @Override
+    protected void setProperties() {
+        super.setProperties();
         setProperty("tree_random_frequency", "0.32-0.4");
-        setProperty("tree_smooth", "6-7");
         setProperty("liquid_random_frequency", "0.425-0.45");
         setProperty("liquid_smooth", "1-2");
-        setProperty("border_thickness", 4);
-        setProperty("min_region_size", 80);
+        setProperty("border_thickness", "4");
         setProperty("room_count", "0");
-        setProperty("room_size_min", "5-6");
-        setProperty("room_size_max", "8-9");
     }
 }

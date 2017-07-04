@@ -1,4 +1,4 @@
-package com.mac.rltut.game.map.tile;
+package com.mac.rltut.game.world.tile;
 
 import com.mac.rltut.engine.graphics.Sprite;
 
@@ -19,6 +19,8 @@ public abstract class Tile {
     public static final Tile wallTopRed = new SolidTile(Sprite.wallTopRed, "wall");
     public static final Tile wallTopBlue = new SolidTile(Sprite.wallTopBlue, "wall");
     public static final Tile wallSide = new SolidTile(Sprite.wallSide, "wall");
+    public static final Tile stairDown = new EmptyTile(Sprite.stairDown, "stair");
+    public static final Tile stairUp = new EmptyTile(Sprite.stairUp, "stair");
     public static final Tile grassYellow = new EmptyTile(Sprite.grassYellow, "grass");
     public static final Tile grassGreen = new EmptyTile(Sprite.grassGreen, "grass");
     public static final Tile grassBlue = new EmptyTile(Sprite.grassBlue, "grass");
@@ -46,8 +48,8 @@ public abstract class Tile {
     public static final Tile doorGreen = new EmptyTile(Sprite.doorGreen, "door");
     public static final Tile doorPurple = new EmptyTile(Sprite.doorPurple, "door");
     
-    public static final Tile chestGold = new ChestTile(Sprite.chestGoldOpen, Sprite.chestGoldClosed, "chest");
-    public static final Tile chestSilver = new ChestTile(Sprite.chestSilverOpen, Sprite.chestSilverClosed, "chest");
+    public static final Tile chestGold = new ChestTile(Sprite.chestGoldClosed, Sprite.chestGoldOpen, "chest");
+    public static final Tile chestSilver = new ChestTile(Sprite.chestSilverClosed, Sprite.chestSilverOpen, "chest");
     
     public static final Tile mushroom = new EmptyTile(Sprite.mushroom, "mushroom");
     

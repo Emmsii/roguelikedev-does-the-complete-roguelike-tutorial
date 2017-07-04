@@ -6,10 +6,13 @@ import com.mac.rltut.engine.window.Input;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
 import com.mac.rltut.game.screen.Screen;
-import com.mac.rltut.game.screen.game.GameScreen;
 import com.mac.rltut.game.screen.menu.TestMenu;
 
+import javax.imageio.ImageIO;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 
 /**
@@ -24,7 +27,8 @@ public class Engine {
     private int widthInTiles, heightInTiles;
     private int windowScale, tileSize;
     private String title;
-
+    private String version;
+    
     private Terminal terminal;
     private Panel panel;
     private Renderer renderer;
@@ -36,14 +40,15 @@ public class Engine {
         Log.set(Log.LEVEL_DEBUG);
     }
 
-    public void init(int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title){
+    public void init(int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title, String version){
         this.widthInTiles = widthInTiles;
         this.heightInTiles = heightInTiles;
         this.windowScale = windowScale;
         this.tileSize = tileSize;
         this.title = title;
+        this.version = version;
 
-        this.terminal = new Terminal(widthInTiles, heightInTiles, windowScale, tileSize, title);
+        this.terminal = new Terminal(widthInTiles, heightInTiles, windowScale, tileSize, title + " - " + version);
         this.panel = terminal.panel();
         this.renderer = new Renderer(panel.widthInPixels(), panel.heightInPixels());
         this.input = new Input();
@@ -57,6 +62,7 @@ public class Engine {
     }
 
     public void input(KeyEvent e){
+        if(e != null && e.getKeyCode() == KeyEvent.VK_F7) saveScreenshot(renderer.pixels(), widthInTiles * 8, heightInTiles * 8);
         if(screen != null) screen = screen.input(e);
         render();
     }
@@ -65,6 +71,18 @@ public class Engine {
         renderer.clear();
         if(screen != null) screen.render(renderer);
         terminal.repaint();
+    }
+    
+    private void saveScreenshot(int[] pixels, int w, int h){
+        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        
+        img.setRGB(0, 0, w, h, pixels, 0, w);
+
+        try {
+            ImageIO.write(img, "png", new File("screenshots.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public int widthInTiles(){
@@ -77,6 +95,10 @@ public class Engine {
     
     public int tileSize(){
         return tileSize;
+    }
+    
+    public String version(){
+        return version;
     }
 
     public static Engine instance(){

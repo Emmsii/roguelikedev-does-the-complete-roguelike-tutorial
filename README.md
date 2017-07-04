@@ -8,7 +8,8 @@ At [r/roguelikedev](https://www.reddit.com/r/roguelikedev/) we're doing a dev-al
 
 - I'm using Java and my own  hacked-together version of [AsciiPanel](https://github.com/trystan/AsciiPanel) which uses sprites instead of ascii characters. Don't expect great code! I'm a hobbyist who learned from piecing together online tutorials.  
 - The only external library I'm using is [minlog](https://github.com/EsotericSoftware/minlog) by [Esoteric Software](https://github.com/EsotericSoftware), though this may change as the tutorial progresses.
+- Play the latest release [here](https://github.com/Emmsii/roguelikedev-does-the-complete-roguelike-tutorial/releases).
 
 ## Requirements
 
-- The only requirement to compile the code is [Java 1.8](https://www.java.com/en/download/). I will try to release runnable jars each week and a final jar with a pre-bundled JRE for players without Java. 
+- The only requirement to compile the code is [Java 1.8](https://www.java.com/en/download/).

@@ -15,6 +15,8 @@ public class Sprite extends Bitmap{
     public static final Sprite wallTopRed = Spritesheet.textures.cutSprite(1, 0, 8, 8, 8);
     public static final Sprite wallTopBlue = Spritesheet.textures.cutSprite(2, 0, 8, 8, 8);
     public static final Sprite wallSide = Spritesheet.textures.cutSprite(3, 0, 8, 8, 8);
+    public static final Sprite stairDown = Spritesheet.textures.cutSprite(4, 0, 8, 8, 8);
+    public static final Sprite stairUp = Spritesheet.textures.cutSprite(5, 0, 8, 8, 8);
     public static final Sprite grassYellow = Spritesheet.textures.cutSprite(9, 0, 8, 8, 8);
     public static final Sprite grassGreen = Spritesheet.textures.cutSprite(10, 0, 8, 8, 8);
     public static final Sprite grassBlue = Spritesheet.textures.cutSprite(11, 0, 8, 8, 8);
@@ -54,9 +56,12 @@ public class Sprite extends Bitmap{
     public static final Sprite fish = Spritesheet.textures.cutSprite(2, 3, 8, 8, 8);
     public static final Sprite potionRed = Spritesheet.textures.cutSprite(4, 3, 8, 8, 8);
     public static final Sprite potionBlue = Spritesheet.textures.cutSprite(5, 3, 8, 8, 8);
-    public static final Sprite potionPueple = Spritesheet.textures.cutSprite(6, 3, 8, 8, 8);
+    public static final Sprite potionPurple = Spritesheet.textures.cutSprite(6, 3, 8, 8, 8);
     public static final Sprite potionGreen = Spritesheet.textures.cutSprite(7, 3, 8, 8, 8);
     public static final Sprite potionYellow = Spritesheet.textures.cutSprite(8, 3, 8, 8, 8);
+
+    public static final Sprite shieldRound = Spritesheet.textures.cutSprite(10, 12, 8, 8, 8);
+    public static final Sprite shieldKite = Spritesheet.textures.cutSprite(11, 12, 8, 8, 8);
     
     //UI
     public static final Sprite uiBorderVer = Spritesheet.textures.cutSprite(12, 9, 8, 8, 8);

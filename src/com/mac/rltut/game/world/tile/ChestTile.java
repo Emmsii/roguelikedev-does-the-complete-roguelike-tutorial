@@ -1,4 +1,4 @@
-package com.mac.rltut.game.map.tile;
+package com.mac.rltut.game.world.tile;
 
 import com.mac.rltut.engine.graphics.Sprite;
 

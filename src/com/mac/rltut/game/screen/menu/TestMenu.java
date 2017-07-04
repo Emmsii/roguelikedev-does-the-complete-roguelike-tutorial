@@ -2,10 +2,9 @@ package com.mac.rltut.game.screen.menu;
 
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
-import com.mac.rltut.game.map.MapBuilder;
+import com.mac.rltut.game.world.builders.WorldBuilder;
 import com.mac.rltut.game.screen.LoadingScreen;
 import com.mac.rltut.game.screen.Screen;
-import com.mac.rltut.game.screen.game.GameScreen;
 
 import java.awt.event.KeyEvent;
 
@@ -18,7 +17,7 @@ public class TestMenu extends Screen{
     
     @Override
     public Screen input(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_SPACE) return new LoadingScreen(new MapBuilder(92, 92, 16, System.currentTimeMillis()));
+        if(e.getKeyCode() == KeyEvent.VK_SPACE) return new LoadingScreen(new WorldBuilder(92, 92, 16, System.currentTimeMillis()));
         return this;
     }
 
@@ -26,7 +25,7 @@ public class TestMenu extends Screen{
     public void render(Renderer renderer) {
         renderBorder(renderer);
         renderer.writeCenter("Roguelikedev Tutorial Follow Along Week 2", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3, 0x7A7A7A);
-        renderer.writeCenter("v0.2.3", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3 + 1, 0x636363);
-        renderer.writeCenter("Press [SPACE] to generate a new map.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2);
+        renderer.writeCenter(Engine.instance().version(), Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3 + 1, 0x636363);
+        renderer.writeCenter("Press [SPACE] to generate a new world.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2);
     }
 }
