@@ -1,6 +1,7 @@
 package com.mac.rltut.game.world;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;
@@ -21,10 +22,14 @@ public class World {
     private final long seed;
     
     private Level[] levels;
+    private boolean[][][] explored;
+    private boolean[][][] visible;
     private HashMap<Integer, List<Creature>> creatureList;
     private HashMap<Integer, List<Item>> itemList;
     private Creature[][][] creatureArray;
     private Item[][][] itemArray;
+    
+    private FieldOfView fov;
     
     public World(int width, int height, int depth, long seed){
         this.width = width;
@@ -32,14 +37,24 @@ public class World {
         this.depth = depth;
         this.seed = seed;
         this.levels = new Level[depth];
+        this.explored = new boolean[width][height][depth];
+        this.visible = new boolean[width][height][depth];
         this.creatureList = new HashMap<>();
         this.itemList = new HashMap<>();
         this.creatureArray = new Creature[width][height][depth];
         this.itemArray = new Item[width][height][depth];
+                
+        this.fov = new FieldOfView(this);
         
         for(int z = 0; z < depth; z++){
             creatureList.put(z, new ArrayList<>());
             itemList.put(z, new ArrayList<>());
+            for(int y = 0; y < height; y++){
+                for(int x = 0; x < width; x++){
+                    setExplored(x, y, z, false);
+                    setVisible(x, y, z, true);
+                }
+            }
         }
     }    
     
@@ -48,7 +63,38 @@ public class World {
         for(Creature c : toUpdate) c.update();
     }
     
-    //Util Methods
+    /* FOV Methods */
+    public void computeFov(int x, int y, int z, int radius, FieldOfView.FOVType type){
+        fov.clearFov();
+        fov.compute(x, y, z, radius, type);
+    }
+    
+    public void setExplored(int x, int y, int z, boolean value){
+        if(!inBounds(x, y, z)) return;
+        explored[x][y][z] = value;
+    }
+    
+    public void setVisible(int x, int y, int z, boolean value){
+        if(!inBounds(x, y, z)) return;
+        visible[x][y][z] = value;
+    }
+    
+    public boolean isExplored(int x, int y, int z){
+        if(!inBounds(x, y, z)) return false;
+        return explored[x][y][z];
+    }
+    
+    public boolean isVisible(int x, int y, int z){
+        if(!inBounds(x, y, z)) return false;
+        return visible[x][y][z];
+    }
+    
+    public boolean inFov(int x, int y, int z){
+        if(!inBounds(x, y, z)) return false;
+        return fov.inFov(x, y, z);
+    }
+    
+    /* Util Methods */
     
     public Point randomEmptyPoint(int z){
         int x = 0, y = 0;
@@ -61,7 +107,7 @@ public class World {
         return new Point(x, y, z);
     }
     
-    //Entity Methods
+    /* Util Methods */
     
     public void add(int x, int y, int z, Creature creature){
         if(!inBounds(x, y, z)) return;

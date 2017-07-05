@@ -88,7 +88,7 @@ public abstract class Tile {
         return solid;
     }
     
-    public boolean see(){
+    public boolean canSee(){
         return see;
     }
     

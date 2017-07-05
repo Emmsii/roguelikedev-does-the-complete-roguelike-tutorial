@@ -16,6 +16,7 @@ import java.io.InputStream;
 public class Spritesheet extends Bitmap{
 
     public static final Spritesheet textures = new Spritesheet("minirogue-all");
+    public static final Spritesheet fog = new Spritesheet("fog");
 
     private String name;
 

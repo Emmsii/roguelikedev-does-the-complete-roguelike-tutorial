@@ -7,6 +7,23 @@ package com.mac.rltut.engine.graphics;
  */
 public class Sprite extends Bitmap{
 
+    public static final Sprite fog0 = Spritesheet.fog.cutSprite(0, 0, 8, 8, 8);
+    public static final Sprite fog1 = Spritesheet.fog.cutSprite(1, 0, 8, 8, 8);
+    public static final Sprite fog2 = Spritesheet.fog.cutSprite(2, 0, 8, 8, 8);
+    public static final Sprite fog3 = Spritesheet.fog.cutSprite(3, 0, 8, 8, 8);
+    public static final Sprite fog4 = Spritesheet.fog.cutSprite(0, 1, 8, 8, 8);
+    public static final Sprite fog5 = Spritesheet.fog.cutSprite(1, 1, 8, 8, 8);
+    public static final Sprite fog6 = Spritesheet.fog.cutSprite(2, 1, 8, 8, 8);
+    public static final Sprite fog7 = Spritesheet.fog.cutSprite(3, 1, 8, 8, 8);
+    public static final Sprite fog8 = Spritesheet.fog.cutSprite(0, 2, 8, 8, 8);
+    public static final Sprite fog9 = Spritesheet.fog.cutSprite(1, 3, 8, 8, 8);
+    public static final Sprite fog10 = Spritesheet.fog.cutSprite(2, 2, 8, 8, 8);
+    public static final Sprite fog11 = Spritesheet.fog.cutSprite(3, 2, 8, 8, 8);
+    public static final Sprite fog12 = Spritesheet.fog.cutSprite(0, 3, 8, 8, 8);
+    public static final Sprite fog13 = Spritesheet.fog.cutSprite(1, 3, 8, 8, 8);
+    public static final Sprite fog14 = Spritesheet.fog.cutSprite(2, 3, 8, 8, 8);
+    public static final Sprite fog15 = Spritesheet.fog.cutSprite(3, 3, 8, 8, 8);
+
     public static final Sprite empty = Spritesheet.textures.cutSprite(0, 0, 8, 8, 8);
     public static final Sprite player = Spritesheet.textures.cutSprite(5, 5, 8, 8, 8);//TEMP
   
@@ -75,5 +92,27 @@ public class Sprite extends Bitmap{
         this.width = width;
         this.height = height;
         this.pixels = pixels;
+    }
+
+    public static Sprite getFogSprite(byte bit){
+        switch (bit){
+            case 0: return Sprite.fog0;
+            case 1: return Sprite.fog1;
+            case 2: return Sprite.fog2;
+            case 3: return Sprite.fog3;
+            case 4: return Sprite.fog4;
+            case 5: return Sprite.fog5;
+            case 6: return Sprite.fog6;
+            case 7: return Sprite.fog7;
+            case 8: return Sprite.fog8;
+            case 9: return Sprite.fog9;
+            case 10: return Sprite.fog10;
+            case 11: return Sprite.fog11;
+            case 12: return Sprite.fog12;
+            case 13: return Sprite.fog13;
+            case 14: return Sprite.fog14;
+            case 15: return Sprite.fog0;
+            default: return Sprite.fog0;
+        }
     }
 }

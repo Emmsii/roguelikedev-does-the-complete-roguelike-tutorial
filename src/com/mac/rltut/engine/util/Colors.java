@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
  */
 public class Colors {
     
-    private static final float FACTOR = 0.7f;
+    private static final float FACTOR = 0.4f;
     
     public static int darken(int color){
         int r = (int) (((color & (0xff << 16)) >> 16) * FACTOR);

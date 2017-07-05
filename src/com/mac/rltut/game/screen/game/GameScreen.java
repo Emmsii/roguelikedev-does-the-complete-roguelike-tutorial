@@ -29,9 +29,10 @@ public class GameScreen extends Screen{
     }
     
     private void init(){
-        levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), world);
-
         player = new Creature(Sprite.player);
+        levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), world, player);
+
+        
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
     }
