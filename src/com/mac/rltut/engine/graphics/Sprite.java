@@ -111,8 +111,8 @@ public class Sprite extends Bitmap{
             case 12: return Sprite.fog12;
             case 13: return Sprite.fog13;
             case 14: return Sprite.fog14;
-            case 15: return Sprite.fog0;
-            default: return Sprite.fog0;
+            case 15: return Sprite.fog15;
+            default: return Sprite.fog15;
         }
     }
 }

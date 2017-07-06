@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args){
         
-        int scale = args.length < 1 ? 2 : Integer.parseInt(args[0]);
+        int scale = args.length < 1 ? 1 : Integer.parseInt(args[0]);
         if(scale > 4){
             scale = 4;
             Log.warn("Window scale cannot be larger than 4.");
@@ -22,6 +22,6 @@ public class Main {
             Log.warn("Window scale cannot be less than 1.");
         }
         
-        Engine.instance().init(64, 36, scale, 8, "RLTUT","v0.3.2");
+        Engine.instance().init(80, 45, scale, 8, "RLTUT","v0.3.3");
     }
 }

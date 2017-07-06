@@ -45,8 +45,7 @@ public class LevelScreen extends Screen{
             int yp = ya + getScrollY();
             for(int xa = 0; xa < width - 2; xa++){
                 int xp = xa + getScrollX();
-                Sprite sprite = spriteAt(xp, yp, zPos);
-
+                
                 fogBit[xa + 1][ya + 1] = 0;
                 
                 if(!world.isExplored(xp, yp, zPos)){
@@ -59,7 +58,8 @@ public class LevelScreen extends Screen{
                     renderer.renderSprite(fog, xa + 1, ya + 1);
                     continue;
                 }
-                                
+
+                Sprite sprite = spriteAt(xp, yp, zPos);
                 renderer.renderSprite(sprite, xa + 1, ya + 1, world.inFov(xp, yp, zPos) ? 0 : Renderer.DARKEN_SPRITE);
             }
         }
@@ -68,7 +68,7 @@ public class LevelScreen extends Screen{
     }
         
     private Sprite spriteAt(int xp, int yp, int zp){
-        
+
         Creature c = world.creature(xp, yp, zp);
         if(c != null) return c.sprite();
         

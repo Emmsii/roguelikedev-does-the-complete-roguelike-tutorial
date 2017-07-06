@@ -150,12 +150,12 @@ public class World {
     }
     
     public void moveUp(Creature creature){
-        Point spawn = startPointAt(creature.z + 1);
+        Point spawn = startPointAt(creature.z - 1);
         if(spawn != null) move(spawn.x, spawn.y, spawn.z, creature);
     }
 
     public void moveDown(Creature creature){
-        Point spawn = startPointAt(creature.z - 1);
+        Point spawn = startPointAt(creature.z + 1);
         if(spawn != null) move(spawn.x, spawn.y, spawn.z, creature);
     }
     

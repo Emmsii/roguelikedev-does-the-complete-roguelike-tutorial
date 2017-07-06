@@ -35,7 +35,7 @@ public class Engine {
     private Input input;
 
     private Screen screen;
-
+    
     private Engine(){
         Log.set(Log.LEVEL_DEBUG);
     }
