@@ -20,7 +20,6 @@ public class LevelScreen extends Screen{
     
     private World world;
     private Creature player;
-    private int xPos, yPos, zPos;
     
     private byte[][] fogBit;
     
@@ -48,19 +47,19 @@ public class LevelScreen extends Screen{
                 
                 fogBit[xa + 1][ya + 1] = 0;
                 
-                if(!world.isExplored(xp, yp, zPos)){
-                    if(!world.isExplored(xp, yp - 1, zPos)) fogBit[xa + 1][ya + 1] += 1;
-                    if(!world.isExplored(xp, yp + 1, zPos)) fogBit[xa + 1][ya + 1] += 8;
-                    if(!world.isExplored(xp + 1, yp, zPos)) fogBit[xa + 1][ya + 1] += 4;
-                    if(!world.isExplored(xp - 1, yp, zPos)) fogBit[xa + 1][ya + 1] += 2;
+                if(!world.isExplored(xp, yp, player.z)){
+                    if(!world.isExplored(xp, yp - 1, player.z)) fogBit[xa + 1][ya + 1] += 1;
+                    if(!world.isExplored(xp, yp + 1, player.z)) fogBit[xa + 1][ya + 1] += 8;
+                    if(!world.isExplored(xp + 1, yp, player.z)) fogBit[xa + 1][ya + 1] += 4;
+                    if(!world.isExplored(xp - 1, yp, player.z)) fogBit[xa + 1][ya + 1] += 2;
 
                     Sprite fog = Sprite.getFogSprite(fogBit[xa + 1][ya + 1]);
                     renderer.renderSprite(fog, xa + 1, ya + 1);
                     continue;
                 }
 
-                Sprite sprite = spriteAt(xp, yp, zPos);
-                renderer.renderSprite(sprite, xa + 1, ya + 1, world.inFov(xp, yp, zPos) ? 0 : Renderer.DARKEN_SPRITE);
+                Sprite sprite = spriteAt(xp, yp, player.z);
+                renderer.renderSprite(sprite, xa + 1, ya + 1, world.inFov(xp, yp, player.z) ? 0 : Renderer.DARKEN_SPRITE);
             }
         }
         
@@ -77,18 +76,12 @@ public class LevelScreen extends Screen{
         
         return world.tile(xp, yp, zp).sprite();
     }
-    
-    public void setCameraPosition(int xPos, int yPos, int zPos){
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.zPos = zPos;
-    }
-    
+
     public int getScrollX(){
-        return Math.max(0, Math.min(xPos - (width - 1) / 2, world.width() - (width - 1) + 1));
+        return Math.max(0, Math.min(player.x - (width - 1) / 2, world.width() - (width - 1) + 1));
     }
 
     public int getScrollY(){
-        return Math.max(0, Math.min(yPos - (height - 1) / 2, world.height() - (height - 1) + 1));
+        return Math.max(0, Math.min(player.y - (height - 1) / 2, world.height() - (height - 1) + 1));
     }
 }

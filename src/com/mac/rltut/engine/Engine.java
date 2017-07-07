@@ -3,6 +3,8 @@ package com.mac.rltut.engine;
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.input.Input;
+import com.mac.rltut.engine.loader.SpriteLoader;
+import com.mac.rltut.engine.loader.SpritesheetLoader;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
 import com.mac.rltut.game.screen.Screen;
@@ -38,6 +40,17 @@ public class Engine {
     
     private Engine(){
         Log.set(Log.LEVEL_DEBUG);
+        
+        loadData();
+    }
+    
+    private void loadData(){
+        try {
+            new SpritesheetLoader(new File("assets/data/sheets.txt")).load();
+            new SpriteLoader(new File("assets/data/sprites.txt")).load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void init(int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title, String version){

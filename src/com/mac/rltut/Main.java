@@ -2,6 +2,10 @@ package com.mac.rltut;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
+import com.mac.rltut.engine.parser.DataObject;
+import com.mac.rltut.engine.parser.DataParser;
+
+import java.io.*;
 
 /**
  * Project: complete-rltut
@@ -10,9 +14,11 @@ import com.mac.rltut.engine.Engine;
  */
 public class Main {
 
+    public static final int DEFAULT_SCALE = 2;
+    
     public static void main(String[] args){
         
-        int scale = args.length < 1 ? 1 : Integer.parseInt(args[0]);
+        int scale = args.length < 1 ? DEFAULT_SCALE : Integer.parseInt(args[0]);
         if(scale > 4){
             scale = 4;
             Log.warn("Window scale cannot be larger than 4.");
@@ -22,6 +28,6 @@ public class Main {
             Log.warn("Window scale cannot be less than 1.");
         }
         
-        Engine.instance().init(80, 45, scale, 8, "RLTUT","v0.3.3");
+        Engine.instance().init(80, 45, scale, 8, "RLTUT","v0.3.4");
     }
 }

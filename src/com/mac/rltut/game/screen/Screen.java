@@ -42,12 +42,12 @@ public abstract class Screen {
                 int xa = xp + this.x;
                 int ya = yp + this.y;
 
-                if(xp == 0 || xp == width - 1) renderer.renderSprite(Sprite.uiBorderVer, xa, ya);
-                else if(yp == 0 || yp == height - 1) renderer.renderSprite(Sprite.uiBorderHor, xa, ya);
-                if(xp == 0 && yp == 0) renderer.renderSprite(Sprite.uiBorderTL, xa, ya);
-                else if(xp == width - 1 && yp == 0) renderer.renderSprite(Sprite.uiBorderTR, xa, ya);
-                else if(xp == 0 && yp == height - 1) renderer.renderSprite(Sprite.uiBorderBL, xa, ya);
-                else if(xp == width - 1 && yp == height - 1) renderer.renderSprite(Sprite.uiBorderBR, xa, ya);
+                if(xp == 0 || xp == width - 1) renderer.renderSprite(Sprite.get("uiBorderVer"), xa, ya);
+                else if(yp == 0 || yp == height - 1) renderer.renderSprite(Sprite.get("uiBorderHor"), xa, ya);
+                if(xp == 0 && yp == 0) renderer.renderSprite(Sprite.get("uiBorderTL"), xa, ya);
+                else if(xp == width - 1 && yp == 0) renderer.renderSprite(Sprite.get("uiBorderTR"), xa, ya);
+                else if(xp == 0 && yp == height - 1) renderer.renderSprite(Sprite.get("uiBorderBL"), xa, ya);
+                else if(xp == width - 1 && yp == height - 1) renderer.renderSprite(Sprite.get("uiBorderBR"), xa, ya);
             }
         }
     }

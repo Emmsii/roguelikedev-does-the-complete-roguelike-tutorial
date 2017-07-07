@@ -218,7 +218,6 @@ public abstract class LevelBuilder {
                 else if(id == Tile.wallTopBlue.id) image.setRGB(x, y, 0xBD5757);
                 else if(id == Tile.stairDown.id) image.setRGB(x, y, 0xffffff);
                 else if(id == Tile.stairUp.id) image.setRGB(x, y, 0xffffff);
-                else if(id == Tile.doorGreen.id) image.setRGB(x, y, 0xEE57FF);
                 else if(id == Tile.treeConifer.id) image.setRGB(x, y, 0x3C7A50);
                 else if(id == Tile.treeDeciduous.id) image.setRGB(x, y, 0x5DAD37);
                 else if(id == Tile.grassGreen.id) image.setRGB(x, y, 0xABE617);

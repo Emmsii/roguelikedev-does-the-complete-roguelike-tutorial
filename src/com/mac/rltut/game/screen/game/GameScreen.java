@@ -29,7 +29,7 @@ public class GameScreen extends Screen{
     }
     
     private void init(){
-        player = new Creature(Sprite.player);
+        player = new Creature(Sprite.get("player"));//temp
         levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), world, player);
 
         
@@ -70,7 +70,6 @@ public class GameScreen extends Screen{
     public void render(Renderer renderer) {
         levelScreen.setTitle("Level " + (player.z + 1));
         
-        levelScreen.setCameraPosition(player.x, player.y, player.z);
         levelScreen.render(renderer);
         
         renderer.writeCenter("WASD/ARROW keys to move, PAGE UP/DOWN to make change levels.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 1);

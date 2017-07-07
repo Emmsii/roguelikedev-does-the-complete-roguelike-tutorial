@@ -12,3 +12,5 @@
 
 ###### Week 3 - Map continued
 + Player can move through different z levels.
++ Added FOV + tiled fog texture.
++ Sprites and spritesheets data is loaded from data files.

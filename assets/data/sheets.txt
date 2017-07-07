@@ -1,0 +1,13 @@
+[SPRITESHEET]
+NAME=textures
+FILE_NAME=minirogue-all
+
+[SPRITESHEET]
+NAME=fog
+FILE_NAME=fog
+
+[FONT]
+NAME=font
+FILE_NAME=anikki_square
+CHAR_WIDTH=8
+CHAR_HEIGHT=8
