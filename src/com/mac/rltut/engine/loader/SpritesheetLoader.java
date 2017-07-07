@@ -8,6 +8,7 @@ import com.mac.rltut.engine.parser.DataObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Project: complete-rltut
@@ -16,8 +17,8 @@ import java.io.IOException;
  */
 public class SpritesheetLoader extends DataLoader{
     
-    public SpritesheetLoader(File file) throws IOException {
-        super(file);
+    public SpritesheetLoader(InputStream in, String name) throws IOException {
+        super(in, name);
     }
 
     @Override

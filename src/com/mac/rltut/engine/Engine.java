@@ -2,6 +2,7 @@ package com.mac.rltut.engine;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.engine.graphics.Spritesheet;
 import com.mac.rltut.engine.input.Input;
 import com.mac.rltut.engine.loader.SpriteLoader;
 import com.mac.rltut.engine.loader.SpritesheetLoader;
@@ -15,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 
 /**
@@ -46,8 +48,8 @@ public class Engine {
     
     private void loadData(){
         try {
-            new SpritesheetLoader(new File("assets/data/sheets.txt")).load();
-            new SpriteLoader(new File("assets/data/sprites.txt")).load();
+            new SpritesheetLoader(Engine.class.getClassLoader().getResourceAsStream("data/sheets.txt"), "sheets").load();
+            new SpriteLoader(Engine.class.getClassLoader().getResourceAsStream("data/sprites.txt"), "sprites").load();
         } catch (IOException e) {
             e.printStackTrace();
         }

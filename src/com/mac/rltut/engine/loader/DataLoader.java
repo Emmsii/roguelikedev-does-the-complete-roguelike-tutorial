@@ -13,20 +13,23 @@ import java.util.List;
  */
 public abstract class DataLoader {
     
-    private final File file;
+    private final InputStream in;
+    private final String name;
     
     protected List<DataObject> data;
     protected DataObject defaults;
     
-    public DataLoader(File file) throws IOException {
-        this.file = file;
+    public DataLoader(InputStream in, String name) throws IOException {
+        this.in = in;
+        this.name = name;
         parse();
     }
     
     public abstract void load();
     
     private void parse() throws IOException {
-        DataParser parser = new DataParser(file.getName()).parse(new BufferedReader(new FileReader(file)));
+        DataParser parser = new DataParser(name).parse(new BufferedReader(new InputStreamReader(in)));
+//        DataParser parser = new DataParser(file.getName()).parse(new BufferedReader(new FileReader(file)));
         data = parser.dataObjects();
     }
     
