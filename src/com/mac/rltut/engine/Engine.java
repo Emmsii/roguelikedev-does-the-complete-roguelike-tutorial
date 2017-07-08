@@ -1,11 +1,13 @@
 package com.mac.rltut.engine;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.graphics.Font;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Spritesheet;
 import com.mac.rltut.engine.input.Input;
 import com.mac.rltut.engine.loader.SpriteLoader;
 import com.mac.rltut.engine.loader.SpritesheetLoader;
+import com.mac.rltut.engine.loader.TileLoader;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
 import com.mac.rltut.game.screen.Screen;
@@ -14,9 +16,7 @@ import com.mac.rltut.game.screen.menu.TestMenu;
 import javax.imageio.ImageIO;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 
 /**
@@ -40,16 +40,19 @@ public class Engine {
 
     private Screen screen;
     
+    private Font currentFont;
+    
     private Engine(){
         Log.set(Log.LEVEL_DEBUG);
-        
         loadData();
+        currentFont = (Font) Spritesheet.get("cheepicus");
     }
     
     private void loadData(){
         try {
             new SpritesheetLoader(Engine.class.getClassLoader().getResourceAsStream("data/sheets.txt"), "sheets").load();
             new SpriteLoader(Engine.class.getClassLoader().getResourceAsStream("data/sprites.txt"), "sprites").load();
+            new TileLoader(Engine.class.getClassLoader().getResourceAsStream("data/tiles.txt"), "tiles").load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,6 +101,14 @@ public class Engine {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void switchFont(String name){
+        currentFont = (Font) Spritesheet.get(name);
+    }
+    
+    public Font currentFont(){
+        return currentFont;
     }
     
     public int widthInTiles(){

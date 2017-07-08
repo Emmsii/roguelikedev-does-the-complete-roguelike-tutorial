@@ -24,7 +24,7 @@ public class Level {
     }
       
     public Tile tile(int x, int y){
-        if(!inBounds(x, y)) return Tile.empty;
+        if(!inBounds(x, y)) return Tile.getTile("empty");
         return Tile.getTile(tiles[x][y]);
     }
         

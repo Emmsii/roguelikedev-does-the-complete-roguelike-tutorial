@@ -19,21 +19,21 @@ public class DarkLevel extends ForrestLevelBuilder{
 
     @Override
     protected void setTileTypes() {
-        addTileType(Tile.treeConifer, 80);
-        addTileType(Tile.treeDeciduous, 10);
-        addTileType(Tile.waterBlue, 90);
-        addTileType(Tile.waterDirty, 5);
-        addTileType(Tile.wallTopBlue, 100);
-        addTileType(Tile.chestGold, 100);
+        addTileType(Tile.getTile("treeConifer"), 80);
+        addTileType(Tile.getTile("treeDeciduous"), 10);
+        addTileType(Tile.getTile("waterBlue"), 90);
+        addTileType(Tile.getTile("waterDirty"), 5);
+        addTileType(Tile.getTile("wallTopBlue"), 100);
+        addTileType(Tile.getTile("chestGold"), 100);
 
-        addDecalTile(Tile.waterLilypad, 4, Tile.waterBlue);
-        addDecalTile(Tile.waterBonesDirty1, 2, Tile.waterDirty);
-        addDecalTile(Tile.waterBonesDirty2, 3, Tile.waterDirty);
-        addDecalTile(Tile.mushroom, 7, Tile.empty, Tile.floor);
-        addDecalTile(Tile.grassPurple, 60, Tile.empty, Tile.floor);
-        addDecalTile(Tile.grassBlue, 60, Tile.empty, Tile.floor);
-        addDecalTile(Tile.treeConifer, 80, Tile.empty);
-        addDecalTile(Tile.treeDeciduous, 10, Tile.empty);
+        addDecalTile(Tile.getTile("waterLilypad"), 4, Tile.getTile("waterBlue"));
+        addDecalTile(Tile.getTile("waterBonesDirty1"), 2, Tile.getTile("waterDirty"));
+        addDecalTile(Tile.getTile("waterBonesDirty2"), 3, Tile.getTile("waterDirty"));
+        addDecalTile(Tile.getTile("mushroom"), 7, Tile.getTile("empty"), Tile.getTile("floor"));
+        addDecalTile(Tile.getTile("grassPurple"), 60, Tile.getTile("empty"), Tile.getTile("empty"));
+        addDecalTile(Tile.getTile("grassBlue"), 60, Tile.getTile("empty"), Tile.getTile("empty"));
+        addDecalTile(Tile.getTile("treeConifer"), 80, Tile.getTile("empty"));
+        addDecalTile(Tile.getTile("treeDeciduous"), 10, Tile.getTile("empty"));
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.io.*;
  */
 public class Main {
 
-    public static final int DEFAULT_SCALE = 2;
+    public static final int DEFAULT_SCALE = 1;
     
     public static void main(String[] args){
         
@@ -29,5 +29,7 @@ public class Main {
         }
         
         Engine.instance().init(80, 45, scale, 8, "RLTUT","v0.3.4");
+        
+        
     }
 }

@@ -63,7 +63,7 @@ public abstract class LevelBuilder {
         Log.trace("Init " + type + " level at " + z + "...");
         this.tiles = new byte[width][height];
         this.level = new Level(width, height, z);
-        for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) setTile(x, y, Tile.empty);
+        for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) setTile(x, y, Tile.getTile("empty"));
         this.random.setSeed(random.nextLong());
     }
     
@@ -157,7 +157,7 @@ public abstract class LevelBuilder {
     }
 
     protected Tile tile(int x, int y){
-        if(!level.inBounds(x, y)) return Tile.empty;
+        if(!level.inBounds(x, y)) return Tile.getTile("empty");
         return Tile.getTile(tiles[x][y]);
     }
     
@@ -213,25 +213,25 @@ public abstract class LevelBuilder {
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
                 int id = tile(x, y).id;
-                if(id == Tile.empty.id) image.setRGB(x, y, Color.BLACK.getRGB());
-                else if(id == Tile.wallTopRed.id) image.setRGB(x, y, 0xBD5757);
-                else if(id == Tile.wallTopBlue.id) image.setRGB(x, y, 0xBD5757);
-                else if(id == Tile.stairDown.id) image.setRGB(x, y, 0xffffff);
-                else if(id == Tile.stairUp.id) image.setRGB(x, y, 0xffffff);
-                else if(id == Tile.treeConifer.id) image.setRGB(x, y, 0x3C7A50);
-                else if(id == Tile.treeDeciduous.id) image.setRGB(x, y, 0x5DAD37);
-                else if(id == Tile.grassGreen.id) image.setRGB(x, y, 0xABE617);
-                else if(id == Tile.waterBlue.id) image.setRGB(x, y, 0x56A6E8);
-                else if(id == Tile.waterDirty.id) image.setRGB(x, y, 0xAB8652);
-                else if(id == Tile.waterBonesDirty1.id) image.setRGB(x, y, 0xD0D1A5);
-                else if(id == Tile.waterBonesDirty2.id) image.setRGB(x, y, 0xD0D1A5);
-                else if(id == Tile.waterBonesFoul1.id) image.setRGB(x, y, 0xD0D1A5);
-                else if(id == Tile.waterBonesFoul2.id) image.setRGB(x, y, 0xD0D1A5);
-                else if(id == Tile.waterFoul.id) image.setRGB(x, y, 0x228A6C);
-                else if(id == Tile.waterLilypad.id) image.setRGB(x, y, 0x36BAB1);
-                else if(id == Tile.mushroom.id) image.setRGB(x, y, 0xBF4545);
-                else if(id == Tile.chestGold.id) image.setRGB(x, y, 0xFF8000);
-                else if(id == Tile.chestSilver.id) image.setRGB(x, y, 0xFF8000);
+                if(id == Tile.getTile("empty").id) image.setRGB(x, y, Color.BLACK.getRGB());
+//                else if(id == Tile.wallTopRed.id) image.setRGB(x, y, 0xBD5757);
+//                else if(id == Tile.wallTopBlue.id) image.setRGB(x, y, 0xBD5757);
+//                else if(id == Tile.stairDown.id) image.setRGB(x, y, 0xffffff);
+//                else if(id == Tile.stairUp.id) image.setRGB(x, y, 0xffffff);
+//                else if(id == Tile.treeConifer.id) image.setRGB(x, y, 0x3C7A50);
+//                else if(id == Tile.treeDeciduous.id) image.setRGB(x, y, 0x5DAD37);
+//                else if(id == Tile.grassGreen.id) image.setRGB(x, y, 0xABE617);
+//                else if(id == Tile.waterBlue.id) image.setRGB(x, y, 0x56A6E8);
+//                else if(id == Tile.waterDirty.id) image.setRGB(x, y, 0xAB8652);
+//                else if(id == Tile.waterBonesDirty1.id) image.setRGB(x, y, 0xD0D1A5);
+//                else if(id == Tile.waterBonesDirty2.id) image.setRGB(x, y, 0xD0D1A5);
+//                else if(id == Tile.waterBonesFoul1.id) image.setRGB(x, y, 0xD0D1A5);
+//                else if(id == Tile.waterBonesFoul2.id) image.setRGB(x, y, 0xD0D1A5);
+//                else if(id == Tile.waterFoul.id) image.setRGB(x, y, 0x228A6C);
+//                else if(id == Tile.waterLilypad.id) image.setRGB(x, y, 0x36BAB1);
+//                else if(id == Tile.mushroom.id) image.setRGB(x, y, 0xBF4545);
+//                else if(id == Tile.chestGold.id) image.setRGB(x, y, 0xFF8000);
+//                else if(id == Tile.chestSilver.id) image.setRGB(x, y, 0xFF8000);
             }
         }
 

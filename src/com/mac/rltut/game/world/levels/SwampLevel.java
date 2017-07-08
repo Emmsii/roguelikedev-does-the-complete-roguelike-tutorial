@@ -19,21 +19,21 @@ public class SwampLevel extends ForrestLevelBuilder {
 
     @Override
     protected void setTileTypes() {
-        addTileType(Tile.treeConifer, 50);
-        addTileType(Tile.treeDeciduous, 45);
-        addTileType(Tile.waterDirty, 80);
-        addTileType(Tile.waterFoul, 10);
-        addTileType(Tile.waterBlue, 5);
+        addTileType(Tile.getTile("treeConifer"), 50);
+        addTileType(Tile.getTile("treeDeciduous"), 45);
+        addTileType(Tile.getTile("waterDirty"), 80);
+        addTileType(Tile.getTile("waterFoul"), 10);
+        addTileType(Tile.getTile("waterBlue"), 5);
 
-        addDecalTile(Tile.waterBonesDirty1, 2, Tile.waterDirty);
-        addDecalTile(Tile.waterBonesDirty2, 2, Tile.waterDirty);
-        addDecalTile(Tile.waterBonesFoul1, 2, Tile.waterFoul);
-        addDecalTile(Tile.waterBonesFoul2, 2, Tile.waterFoul);
-        addDecalTile(Tile.grassPurple, 20, Tile.empty, Tile.floor);
-        addDecalTile(Tile.grassGreen, 70, Tile.empty, Tile.floor);
-        addDecalTile(Tile.mushroom, 15, Tile.empty, Tile.floor);
-        addDecalTile(Tile.treeConifer, 25, Tile.empty);
-        addDecalTile(Tile.treeDeciduous, 25, Tile.empty);
+        addDecalTile(Tile.getTile("waterBonesDirty1"), 2, Tile.getTile("waterDirty"));
+        addDecalTile(Tile.getTile("waterBonesDirty2"), 2, Tile.getTile("waterDirty"));
+        addDecalTile(Tile.getTile("waterBonesFoul1"), 2, Tile.getTile("waterFoul"));
+        addDecalTile(Tile.getTile("waterBonesFoul2"), 2, Tile.getTile("waterFoul"));
+        addDecalTile(Tile.getTile("grassPurple"), 20, Tile.getTile("empty"), Tile.getTile("floor"));
+        addDecalTile(Tile.getTile("grassGreen"), 70, Tile.getTile("empty"), Tile.getTile("floor"));
+        addDecalTile(Tile.getTile("mushroom"), 15, Tile.getTile("empty"), Tile.getTile("floor"));
+        addDecalTile(Tile.getTile("treeConifer"), 25, Tile.getTile("empty"));
+        addDecalTile(Tile.getTile("treeDeciduous"), 25, Tile.getTile("empty"));
 
     }
 

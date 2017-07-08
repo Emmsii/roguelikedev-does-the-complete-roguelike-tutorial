@@ -83,7 +83,7 @@ public class Renderer {
         for(int i = 0; i < text.length(); i++){
             if(xp + i < 0 || xp + i >= width) continue;
             int c = text.charAt(i);
-            renderSpriteTint(((Font) Spritesheet.get("font")).charAt(c), xp + i, yp, color);
+            renderSpriteTint(Engine.instance().currentFont().charAt(c), xp + i, yp, color);
         }
     }
 

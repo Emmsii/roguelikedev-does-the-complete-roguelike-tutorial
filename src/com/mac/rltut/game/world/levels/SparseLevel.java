@@ -19,18 +19,18 @@ public class SparseLevel extends ForrestLevelBuilder {
 
     @Override
     protected void setTileTypes() {
-        addTileType(Tile.treeConifer, 40);
-        addTileType(Tile.treeDeciduous, 50);
-        addTileType(Tile.waterBlue, 100);
-        addTileType(Tile.wallTopBlue, 10);
-        addTileType(Tile.wallTopRed, 90);
-        addTileType(Tile.chestSilver, 100);
+        addTileType(Tile.getTile("treeConifer"), 40);
+        addTileType(Tile.getTile("treeDeciduous"), 50);
+        addTileType(Tile.getTile("waterBlue"), 100);
+        addTileType(Tile.getTile("wallTopBlue"), 10);
+        addTileType(Tile.getTile("wallTopRed"), 90);
+        addTileType(Tile.getTile("chestSilver"), 100);
 
-        addDecalTile(Tile.waterLilypad, 4, Tile.waterBlue);
-        addDecalTile(Tile.grassGreen, 70, Tile.empty, Tile.floor);
-        addDecalTile(Tile.mushroom, 2, Tile.empty, Tile.floor);
-        addDecalTile(Tile.treeConifer, 20, Tile.empty);
-        addDecalTile(Tile.treeDeciduous, 20, Tile.empty);
+        addDecalTile(Tile.getTile("waterLilypad"), 4, Tile.getTile("waterBlue"));
+        addDecalTile(Tile.getTile("grassGreen"), 70, Tile.getTile("empty"), Tile.getTile("floor"));
+        addDecalTile(Tile.getTile("mushroom"), 2, Tile.getTile("empty"), Tile.getTile("floor"));
+        addDecalTile(Tile.getTile("treeConifer"), 20, Tile.getTile("empty"));
+        addDecalTile(Tile.getTile("treeDeciduous"), 20, Tile.getTile("empty"));
     }
 
     @Override

@@ -40,16 +40,16 @@ public class ForrestLevelBuilder extends LevelBuilder{
 
     @Override
     protected void setTileTypes() {
-        addTileType(Tile.treeConifer, 50);
-        addTileType(Tile.treeDeciduous, 50);
-        addTileType(Tile.waterBlue, 100);
-        addTileType(Tile.wallTopRed, 100);        
-        addTileType(Tile.chestSilver, 100);
+        addTileType(Tile.getTile("treeConifer"), 50);
+        addTileType(Tile.getTile("treeDeciduous"), 50);
+        addTileType(Tile.getTile("waterBlue"), 100);
+        addTileType(Tile.getTile("wallTopRed"), 100);        
+        addTileType(Tile.getTile("chestSilver"), 100);
 
-        addDecalTile(Tile.waterLilypad, 4, Tile.waterBlue);
-        addDecalTile(Tile.grassGreen, 50, Tile.empty, Tile.floor);
-        addDecalTile(Tile.treeConifer, 22, Tile.empty);
-        addDecalTile(Tile.treeDeciduous, 22, Tile.empty);
+        addDecalTile(Tile.getTile("waterLilypad"), 4, Tile.getTile("waterBlue"));
+        addDecalTile(Tile.getTile("grassGreen"), 50, Tile.getTile("empty"), Tile.getTile("floor"));
+        addDecalTile(Tile.getTile("treeConifer"), 22, Tile.getTile("empty"));
+        addDecalTile(Tile.getTile("treeDeciduous"), 22, Tile.getTile("empty"));
     }
 
     @Override
@@ -125,7 +125,7 @@ public class ForrestLevelBuilder extends LevelBuilder{
             for(int x = 0; x < width; x++){
                 if(tile(x, y).solid()) continue;
                 if(random.nextFloat() <= frequency) setTile(x, y, getRandomTile("tree"));
-                else setTile(x, y, Tile.empty);
+                else setTile(x, y, Tile.getTile("empty"));
             }
         }
     }
@@ -141,12 +141,12 @@ public class ForrestLevelBuilder extends LevelBuilder{
 
                     for(int ox = -1; ox <= 1; ox++) {
                         for (int oy = -1; oy <= 1; oy++) {
-                            if(tile(x + ox, y + oy).id == Tile.empty.id) empty++;
+                            if(tile(x + ox, y + oy).id == Tile.getTile("empty").id) empty++;
                             else solid++;
                         }
                     }
 
-                    tiles2[x][y] = empty >= solid ? Tile.empty.id : getRandomTile("tree").id;
+                    tiles2[x][y] = empty >= solid ? Tile.getTile("empty").id : getRandomTile("tree").id;
 
                 }
             }
@@ -254,8 +254,8 @@ public class ForrestLevelBuilder extends LevelBuilder{
         
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
-                if(!tile(x, y).isType("wall") || tile(x, y).id == Tile.wallSide.id) continue;
-                if(!tile(x, y + 1).isType("wall")) setTile(x, y + 1, Tile.wallSide);
+                if(!tile(x, y).isType("wall") || tile(x, y).id == Tile.getTile("wallSide").id) continue;
+                if(!tile(x, y + 1).isType("wall")) setTile(x, y + 1, Tile.getTile("wallSide"));
             }
         }
     }

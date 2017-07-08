@@ -187,7 +187,7 @@ public class World {
     //Tile Methods
     
     public Tile tile(int x, int y, int z){
-        if(!inBounds(x, y, z)) return Tile.empty;
+        if(!inBounds(x, y, z)) return Tile.getTile("empty");
         return levels[z].tile(x, y);
     }
 

@@ -7,7 +7,19 @@ NAME=fog
 FILE_NAME=fog
 
 [FONT]
-NAME=font
+NAME=anikki
 FILE_NAME=anikki_square
+CHAR_WIDTH=8
+CHAR_HEIGHT=8
+
+[FONT]
+NAME=cheepicus
+FILE_NAME=Cheepicus_8x8
+CHAR_WIDTH=8
+CHAR_HEIGHT=8
+
+[FONT]
+NAME=zaratustra
+FILE_NAME=Zaratustra_msx
 CHAR_WIDTH=8
 CHAR_HEIGHT=8
