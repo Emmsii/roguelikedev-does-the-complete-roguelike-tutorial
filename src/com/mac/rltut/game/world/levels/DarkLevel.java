@@ -30,8 +30,8 @@ public class DarkLevel extends ForrestLevelBuilder{
         addDecalTile(Tile.getTile("waterBonesDirty1"), 2, Tile.getTile("waterDirty"));
         addDecalTile(Tile.getTile("waterBonesDirty2"), 3, Tile.getTile("waterDirty"));
         addDecalTile(Tile.getTile("mushroom"), 7, Tile.getTile("empty"), Tile.getTile("floor"));
-        addDecalTile(Tile.getTile("grassPurple"), 60, Tile.getTile("empty"), Tile.getTile("empty"));
-        addDecalTile(Tile.getTile("grassBlue"), 60, Tile.getTile("empty"), Tile.getTile("empty"));
+        addDecalTile(Tile.getTile("grassPurple"), 60, Tile.getTile("empty"), Tile.getTile("floor"));
+        addDecalTile(Tile.getTile("grassBlue"), 60, Tile.getTile("empty"), Tile.getTile("floor"));
         addDecalTile(Tile.getTile("treeConifer"), 80, Tile.getTile("empty"));
         addDecalTile(Tile.getTile("treeDeciduous"), 10, Tile.getTile("empty"));
     }

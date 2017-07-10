@@ -45,14 +45,14 @@ public class Engine {
     private Engine(){
         Log.set(Log.LEVEL_DEBUG);
         loadData();
-        currentFont = (Font) Spritesheet.get("cheepicus");
+        setFont("cheepicus");
     }
     
     private void loadData(){
         try {
-            new SpritesheetLoader(Engine.class.getClassLoader().getResourceAsStream("data/sheets.txt"), "sheets").load();
-            new SpriteLoader(Engine.class.getClassLoader().getResourceAsStream("data/sprites.txt"), "sprites").load();
-            new TileLoader(Engine.class.getClassLoader().getResourceAsStream("data/tiles.txt"), "tiles").load();
+            new SpritesheetLoader("data/sheets.txt").load();
+            new SpriteLoader("data/sprites.txt").load();
+            new TileLoader("data/tiles.txt").load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,7 +103,7 @@ public class Engine {
         }
     }
     
-    public void switchFont(String name){
+    public void setFont(String name){
         currentFont = (Font) Spritesheet.get(name);
     }
     

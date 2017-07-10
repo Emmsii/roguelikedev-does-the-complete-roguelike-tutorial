@@ -4,8 +4,11 @@ import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.engine.parser.DataParser;
+import com.mac.rltut.engine.window.CustomExceptionHandler;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Project: complete-rltut
@@ -14,10 +17,14 @@ import java.io.*;
  */
 public class Main {
 
-    public static final int DEFAULT_SCALE = 1;
+    public static final int DEFAULT_SCALE = 2;
     
     public static void main(String[] args){
-        
+        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler("logs/"));
+        Engine.instance().init(80, 45, parseScale(args), 8, "RLTUT","v0.3.4");
+    }
+    
+    private static int parseScale(String[] args){
         int scale = args.length < 1 ? DEFAULT_SCALE : Integer.parseInt(args[0]);
         if(scale > 4){
             scale = 4;
@@ -27,9 +34,6 @@ public class Main {
             scale = 1;
             Log.warn("Window scale cannot be less than 1.");
         }
-        
-        Engine.instance().init(80, 45, scale, 8, "RLTUT","v0.3.4");
-        
-        
+        return scale;
     }
 }

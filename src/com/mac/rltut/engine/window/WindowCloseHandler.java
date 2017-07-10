@@ -1,6 +1,7 @@
 package com.mac.rltut.engine.window;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.Config;
 import com.mac.rltut.engine.Engine;
 
 import java.awt.event.WindowAdapter;

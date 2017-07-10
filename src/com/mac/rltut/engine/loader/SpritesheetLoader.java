@@ -17,8 +17,8 @@ import java.io.InputStream;
  */
 public class SpritesheetLoader extends DataLoader{
     
-    public SpritesheetLoader(InputStream in, String name) throws IOException {
-        super(in, name);
+    public SpritesheetLoader(String fileName) throws IOException {
+        super(fileName);
     }
 
     @Override

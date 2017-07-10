@@ -17,8 +17,8 @@ import java.util.HashMap;
  */
 public class TileLoader extends DataLoader{
     
-    public TileLoader(InputStream in, String name) throws IOException {
-        super(in, name);
+    public TileLoader(String fileName) throws IOException {
+        super(fileName);
     }
 
     @Override

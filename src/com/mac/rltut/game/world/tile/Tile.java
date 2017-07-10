@@ -75,10 +75,6 @@ public class Tile {
     }
     
     public static Tile getTile(String name){
-        if(!tileNames.containsKey(name)){
-            Log.warn("Tile [" + name + "] does not exist.");
-            return null;
-        }
         return tileNames.get(name);
     }
 }

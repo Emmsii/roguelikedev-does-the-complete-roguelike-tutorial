@@ -16,8 +16,8 @@ import java.io.InputStream;
  */
 public class SpriteLoader extends DataLoader{
     
-    public SpriteLoader(InputStream in, String name) throws IOException {
-        super(in, name);
+    public SpriteLoader(String fileName) throws IOException {
+        super(fileName);
     }
 
     @Override

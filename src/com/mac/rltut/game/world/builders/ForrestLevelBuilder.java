@@ -55,7 +55,7 @@ public class ForrestLevelBuilder extends LevelBuilder{
     @Override
     protected void setProperties() {
         setProperty("tree_random_frequency", "0.438-0.46");
-        setProperty("tree_smooth", "6-7");
+        setProperty("tree_smooth", "5-6");
         setProperty("liquid_random_frequency", "0.35-0.425");
         setProperty("liquid_smooth", "5-8");
         setProperty("border_thickness", "3");
@@ -141,12 +141,12 @@ public class ForrestLevelBuilder extends LevelBuilder{
 
                     for(int ox = -1; ox <= 1; ox++) {
                         for (int oy = -1; oy <= 1; oy++) {
-                            if(tile(x + ox, y + oy).id == Tile.getTile("empty").id) empty++;
+                            if(tile(x + ox, y + oy).id == 0) empty++;
                             else solid++;
                         }
                     }
 
-                    tiles2[x][y] = empty >= solid ? Tile.getTile("empty").id : getRandomTile("tree").id;
+                    tiles2[x][y] = empty >= solid ? 0 : getRandomTile("tree").id;
 
                 }
             }
