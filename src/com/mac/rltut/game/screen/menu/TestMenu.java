@@ -3,7 +3,6 @@ package com.mac.rltut.game.screen.menu;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.game.world.builders.WorldBuilder;
-import com.mac.rltut.game.screen.LoadingScreen;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;

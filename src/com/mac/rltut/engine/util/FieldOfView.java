@@ -9,6 +9,8 @@ import java.util.Set;
  * Project: complete-rltut
  * PC
  * Created by Matt on 05/07/2017 at 09:24 AM.
+ * 
+ * Shadowcast algorithm from Squidlib: https://github.com/SquidPony/SquidLib/blob/master/squidlib-util/src/main/java/squidpony/squidgrid/FOV.java
  */
 public class FieldOfView {
 
@@ -74,14 +76,10 @@ public class FieldOfView {
 
                 //check if it's within the lightable area and light if needed
                 if (radius(deltaX, deltaY) <= radius) {
-                    //		                float bright = (float) (1 - (radius(deltaX, deltaY) / radius));
-                    //		                lightMap[currentX][currentY] = bright;
-                    //		                map.a[currentX][currentY] = bright;
                     setInFov(currentX, currentY, z);
                 }
 
                 if (blocked) { //previous cell was a blocking one
-                    //		                if (resistanceMap[currentX][currentY] >= 1) {//hit a wall
                     if(!world.tile(currentX, currentY, z).canSee()){
                         newStart = rightSlope;
                         continue;

@@ -308,8 +308,8 @@ public class ForrestLevelBuilder extends LevelBuilder{
                 int x, y;
                 int tries = 0;
                 do {
-                    x = r.x + 1 + (random.nextInt(r.width - 1));
-                    y = r.y + 1 + (random.nextInt(r.height - 1));
+                    x = MathUtil.range(r.x + 1, r.x + r.width, random);
+                    y = MathUtil.range(r.y + 1, r.y + r.height, random);
                 }while(tile(x, y).solid() && tries++ < (r.width * r.height));
                 setTile(x, y, chestTile);
                 //TODO: separate list of chests

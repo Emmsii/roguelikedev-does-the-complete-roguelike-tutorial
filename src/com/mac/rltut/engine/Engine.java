@@ -98,6 +98,7 @@ public class Engine {
 
         try {
             ImageIO.write(img, "png", new File("shot_" + (System.currentTimeMillis() / 1000) + ".png"));
+            Log.debug("Screenshot saved");
         } catch (IOException e) {
             e.printStackTrace();
         }

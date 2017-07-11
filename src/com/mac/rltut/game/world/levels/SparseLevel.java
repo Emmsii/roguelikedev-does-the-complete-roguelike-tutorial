@@ -22,8 +22,7 @@ public class SparseLevel extends ForrestLevelBuilder {
         addTileType(Tile.getTile("treeConifer"), 40);
         addTileType(Tile.getTile("treeDeciduous"), 50);
         addTileType(Tile.getTile("waterBlue"), 100);
-        addTileType(Tile.getTile("wallTopBlue"), 10);
-        addTileType(Tile.getTile("wallTopRed"), 90);
+        addTileType(Tile.getTile("wallTopRed"), 100);
         addTileType(Tile.getTile("chestSilver"), 100);
 
         addDecalTile(Tile.getTile("waterLilypad"), 4, Tile.getTile("waterBlue"));

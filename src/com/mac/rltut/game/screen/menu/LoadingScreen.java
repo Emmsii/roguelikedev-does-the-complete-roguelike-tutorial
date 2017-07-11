@@ -1,7 +1,9 @@
-package com.mac.rltut.game.screen;
+package com.mac.rltut.game.screen.menu;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.builders.WorldBuilder;
 import com.mac.rltut.game.screen.game.GameScreen;
@@ -14,28 +16,29 @@ import java.security.Key;
  * PC
  * Created by Matt on 01/07/2017 at 11:49 AM.
  */
-public class LoadingScreen extends Screen{
-    
+public class LoadingScreen extends Screen {
+
     private World world;
-    private boolean finnished;
-    
+    private boolean finished;
+
     public LoadingScreen(WorldBuilder worldBuilder){
-        finnished = false;
+        finished = false;
         //TODO: This is a really shit way to do this; but hey, it works!
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 world = worldBuilder.generate().build();
-                finnished = true;
+                finished = true;
                 Engine.instance().input(null);
             }
         });
+        
         t.start();
     }
     
     @Override
     public Screen input(KeyEvent e) {
-        if(!finnished) return this;
+        if(!finished) return this;
         return new GameScreen(world);
     }
 

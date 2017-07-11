@@ -22,8 +22,7 @@ public class RuinedLevel extends ForrestLevelBuilder {
         addTileType(Tile.getTile("treeConifer"), 40);
         addTileType(Tile.getTile("treeDeciduous"), 50);
         addTileType(Tile.getTile("waterBlue"), 100);
-        addTileType(Tile.getTile("wallTopBlue"), 10);
-        addTileType(Tile.getTile("wallTopRed"), 90);
+        addTileType(Tile.getTile("wallTopRed"), 100);
         addTileType(Tile.getTile("chestGold"), 100);
 
         addDecalTile(Tile.getTile("waterLilypad"), 4, Tile.getTile("waterBlue"));
@@ -39,10 +38,8 @@ public class RuinedLevel extends ForrestLevelBuilder {
         setProperty("tree_random_frequency", "0.3-0.33");
         setProperty("tree_smooth", "2-3");
         setProperty("liquid_random_frequency", "0.28-0.32");
-        setProperty("room_count", "20-25");
+        setProperty("room_count", "25-30");
         setProperty("room_size_max", "8-11");
         setProperty("chest_chance", "0.45");
-        setProperty("sublevel_chance", "0.175");
-
     }
 }

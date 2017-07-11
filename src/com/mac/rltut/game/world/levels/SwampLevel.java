@@ -34,7 +34,6 @@ public class SwampLevel extends ForrestLevelBuilder {
         addDecalTile(Tile.getTile("mushroom"), 15, Tile.getTile("empty"), Tile.getTile("floor"));
         addDecalTile(Tile.getTile("treeConifer"), 25, Tile.getTile("empty"));
         addDecalTile(Tile.getTile("treeDeciduous"), 25, Tile.getTile("empty"));
-
     }
 
     @Override

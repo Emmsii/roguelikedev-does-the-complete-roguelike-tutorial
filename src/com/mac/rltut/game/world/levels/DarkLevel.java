@@ -45,7 +45,6 @@ public class DarkLevel extends ForrestLevelBuilder{
         setProperty("border_thickness", "4");
         setProperty("room_count", "7-8");
         setProperty("room_size_max", "8-9");
-        setProperty("sublevel_chance", "0.225");
     }
     
 }
