@@ -23,7 +23,7 @@ public class TestMenu extends Screen{
     @Override
     public void render(Renderer renderer) {
         renderBorder(renderer);
-        renderer.writeCenter("Roguelikedev Tutorial Follow Along Week 2", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3, 0x7A7A7A);
+        renderer.writeCenter("Roguelikedev Tutorial Follow Along Week 4", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3, 0x7A7A7A);
         renderer.writeCenter(Engine.instance().version(), Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3 + 1, 0x636363);
         renderer.writeCenter("Press [SPACE] to generate a new world.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2);
     }
