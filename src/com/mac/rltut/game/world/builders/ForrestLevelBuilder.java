@@ -24,8 +24,8 @@ public class ForrestLevelBuilder extends LevelBuilder{
     private List<Rectangle> ruins;
     private int nextRegion;
     
-    public ForrestLevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, Random random) {
-        super(type, width, height, minLevel, maxLevel, chance, zMultiplier, random);
+    public ForrestLevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, String mobSpawnCount, Random random) {
+        super(type, width, height, minLevel, maxLevel, chance, zMultiplier, mobSpawnCount, random);
     }
 
     @Override

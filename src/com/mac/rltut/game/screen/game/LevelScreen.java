@@ -54,12 +54,13 @@ public class LevelScreen extends Screen{
                     if(!world.isExplored(xp - 1, yp, player.z)) fogBit[xa + 1][ya + 1] += 2;
 
                     Sprite fog = Sprite.getFogSprite(fogBit[xa + 1][ya + 1]);
-                    renderer.renderSprite(fog, xa + 1, ya + 1);
-                    continue;
+//                    renderer.renderSprite(fog, xa + 1, ya + 1);
+//                    continue;
                 }
 
                 Sprite sprite = spriteAt(xp, yp, player.z);
-                renderer.renderSprite(sprite, xa + 1, ya + 1, world.inFov(xp, yp, player.z) ? 0 : Renderer.DARKEN_SPRITE);
+//                renderer.renderSprite(sprite, xa + 1, ya + 1, world.inFov(xp, yp, player.z) ? 0 : Renderer.DARKEN_SPRITE);
+                renderer.renderSprite(sprite, xa + 1, ya + 1);
             }
         }
         

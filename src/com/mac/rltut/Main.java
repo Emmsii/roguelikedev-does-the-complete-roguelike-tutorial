@@ -21,7 +21,7 @@ public class Main {
     
     public static void main(String[] args){
         Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler("logs/"));
-        Engine.instance().init(80, 45, parseScale(args), 8, "RLTUT","v0.4.0");
+        Engine.instance().init(80, 45, parseScale(args), 8, "RLTUT","v0.4.1");
     }
     
     private static int parseScale(String[] args){

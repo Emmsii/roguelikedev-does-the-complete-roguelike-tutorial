@@ -13,8 +13,8 @@ import java.util.Random;
  */
 public class DarkLevel extends ForrestLevelBuilder{
     
-    public DarkLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, Random random) {
-        super("Dark", width, height, minLevel, maxLevel, chance, zMultiplier, random);
+    public DarkLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, String mobSpawnCount, Random random) {
+        super("Dark", width, height, minLevel, maxLevel, chance, zMultiplier, mobSpawnCount, random);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class GameScreen extends Screen{
     }
     
     private void init(){
-        player = new Creature(Sprite.get("player"));//temp
+        player = new Creature("player", Sprite.get("player"));//temp
         levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), world, player);
 
         

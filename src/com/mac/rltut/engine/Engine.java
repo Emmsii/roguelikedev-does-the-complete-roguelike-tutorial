@@ -5,6 +5,7 @@ import com.mac.rltut.engine.graphics.Font;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Spritesheet;
 import com.mac.rltut.engine.input.Input;
+import com.mac.rltut.engine.loader.CreatureLoader;
 import com.mac.rltut.engine.loader.SpriteLoader;
 import com.mac.rltut.engine.loader.SpritesheetLoader;
 import com.mac.rltut.engine.loader.TileLoader;
@@ -53,6 +54,7 @@ public class Engine {
             new SpritesheetLoader("data/sheets.txt").load();
             new SpriteLoader("data/sprites.txt").load();
             new TileLoader("data/tiles.txt").load();
+            new CreatureLoader("data/creatures.txt").load();
         } catch (IOException e) {
             e.printStackTrace();
         }

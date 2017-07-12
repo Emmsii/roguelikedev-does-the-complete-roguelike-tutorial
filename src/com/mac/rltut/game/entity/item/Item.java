@@ -10,8 +10,8 @@ import com.mac.rltut.game.entity.Entity;
  */
 public class Item extends Entity {
     
-    public Item(Sprite sprite) {
-        super(sprite);
+    public Item(String name, Sprite sprite) {
+        super(name, sprite);
     }
 
     @Override

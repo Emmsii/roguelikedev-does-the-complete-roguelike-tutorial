@@ -10,8 +10,8 @@ import com.mac.rltut.game.entity.Entity;
  */
 public class Creature extends Entity {
     
-    public Creature(Sprite sprite) {
-        super(sprite);
+    public Creature(String name, Sprite sprite) {
+        super(name, sprite);
     }
 
     @Override

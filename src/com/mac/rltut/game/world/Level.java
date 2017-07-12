@@ -10,13 +10,15 @@ import com.mac.rltut.game.world.tile.Tile;
  */
 public class Level {
     
+    private final String type;
     private final int width, height;
     private final int z;
     
     private Point startPoint;
     private byte[][] tiles;
     
-    public Level(int width, int height, int z){
+    public Level(String type, int width, int height, int z){
+        this.type = type;
         this.width = width;
         this.height = height;
         this.z = z;
@@ -46,6 +48,10 @@ public class Level {
     
     public Point startPoint(){
         return startPoint;
+    }
+    
+    public String type(){
+        return type;
     }
     
     public int z(){

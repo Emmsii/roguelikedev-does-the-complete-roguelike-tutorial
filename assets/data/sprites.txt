@@ -3,17 +3,19 @@ SHEET=textures
 SIZE=8
 TILE_INDEX_SIZE=8
 
-[SPRITE]
-NAME=empty
-X=0
-Y=0
+# ---------------- Temp
 
 [SPRITE]
 NAME=player
 X=5
 Y=5
 
-# TILES
+# ---------------- Tiles
+
+[SPRITE]
+NAME=empty
+X=0
+Y=0
 
 [SPRITE]
 NAME=wallTopRed
@@ -135,7 +137,24 @@ NAME=mushroom
 X=0
 Y=3
 
-# UI
+# ---------------- Creatures
+
+[SPRITE]
+NAME=bat
+X=3
+Y=6
+
+[SPRITE]
+NAME=skeleton
+X=9
+Y=6
+
+[SPRITE]
+NAME=zombie
+X=1
+Y=6
+
+# ---------------- UI
 
 [SPRITE]
 NAME=uiBorderVer

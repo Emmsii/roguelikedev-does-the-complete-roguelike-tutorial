@@ -13,8 +13,8 @@ import java.util.Random;
  */
 public class SparseLevel extends ForrestLevelBuilder {
     
-    public SparseLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, Random random) {
-        super("Sparse", width, height, minLevel, maxLevel, chance, zMultiplier, random);
+    public SparseLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, String mobSpawnCount, Random random) {
+        super("Sparse", width, height, minLevel, maxLevel, chance, zMultiplier, mobSpawnCount, random);
     }
 
     @Override

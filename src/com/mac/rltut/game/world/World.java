@@ -107,6 +107,41 @@ public class World {
         return new Point(x, y, z);
     }
     
+    public Point randomEmptyPointNearType(int z, String type){
+        int x = 0, y = 0;
+
+        do{
+            x = (int) (Math.random() * width);
+            y = (int) (Math.random() * height);
+        }while(tile(x, y, z).solid() || creature(x, y, z) != null || !tile(x, y, z).isType(type));
+
+        return new Point(x, y, z);
+    }
+    
+    public Point randomEmptyNearPoint(Point point){
+        if(!inBounds(point.x, point.y, point.z)) return null;
+        
+        List<Point> points = new ArrayList<Point>();
+        List<Point> checked = new ArrayList<Point>();
+        
+        points.add(point);
+        
+        while(!points.isEmpty()){
+            Point p = points.remove(0);
+            checked.add(p);
+            
+            if(tile(p.x, p.y, p.z).solid()) continue;
+            if(creature(p.x, p.y, p.z) == null){
+                return p;
+            }else{
+                List<Point> neighbours = p.neighboursAll();
+                neighbours.removeAll(checked);
+                points.addAll(neighbours);
+            }
+        }
+        return null;
+    }
+    
     /* Util Methods */
     
     public void add(int x, int y, int z, Creature creature){
@@ -185,6 +220,10 @@ public class World {
     }
     
     //Tile Methods
+    
+    public Level level(int z){
+        return levels[z];        
+    }
     
     public Tile tile(int x, int y, int z){
         if(!inBounds(x, y, z)) return Tile.getTile("empty");

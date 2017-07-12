@@ -28,6 +28,7 @@ public abstract class LevelBuilder {
     private final int minLevel, maxLevel;
     private final int chance;
     private final float zMultiplier;
+    private final String mobSpawnCount;
     
     private Properties properties;
     private List<DecalTile> decalTiles;
@@ -40,7 +41,7 @@ public abstract class LevelBuilder {
     
     private Point start;
     
-    public LevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, Random random) {
+    public LevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, String mobSpawnCount, Random random) {
         this.type = type;
         this.width = width;
         this.height = height;
@@ -48,6 +49,7 @@ public abstract class LevelBuilder {
         this.maxLevel = maxLevel;
         this.chance = chance;
         this.zMultiplier = zMultiplier;
+        this.mobSpawnCount = mobSpawnCount;
         this.random = random;
         
         this.properties = new Properties();
@@ -62,7 +64,7 @@ public abstract class LevelBuilder {
     public void init(int z){
         Log.trace("Init " + type + " level at " + z + "...");
         this.tiles = new byte[width][height];
-        this.level = new Level(width, height, z);
+        this.level = new Level(type, width, height, z);
         for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) setTile(x, y, Tile.getTile("empty"));
         this.random.setSeed(random.nextLong());
     }
@@ -201,6 +203,16 @@ public abstract class LevelBuilder {
     
     public float zMultiplier(){
         return zMultiplier;
+    }
+    
+    public int mobSpawnCount(Random random){
+        String[] split = mobSpawnCount.split("-");
+        int left = Integer.parseInt(split[0].trim());
+        int right = Integer.parseInt(split[1].trim());
+        if(left == right) return left;
+        int min = Math.min(left, right);
+        int max = Math.max(left, right);
+        return MathUtil.range(min, max, random);
     }
     
     protected boolean inBounds(int x, int y){

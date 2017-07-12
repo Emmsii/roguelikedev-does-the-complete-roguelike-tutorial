@@ -27,7 +27,7 @@ public class LoadingScreen extends Screen {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                world = worldBuilder.generate().build();
+                world = worldBuilder.generate().populate().build();
                 finished = true;
                 Engine.instance().input(null);
             }

@@ -13,8 +13,8 @@ import java.util.Random;
  */
 public class SwampLevel extends ForrestLevelBuilder {
     
-    public SwampLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, Random random) {
-        super("Swamp", width, height, minLevel, maxLevel, chance, zMultiplier, random);
+    public SwampLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, String mobSpawnCount, Random random) {
+        super("Swamp", width, height, minLevel, maxLevel, chance, zMultiplier, mobSpawnCount, random);
     }
 
     @Override
