@@ -2,6 +2,7 @@ package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.loader.CreatureSpawnProperty;
+import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.codex.Codex;
@@ -28,10 +29,9 @@ public class WorldBuilder {
 
     private World world;
 
-    private int[] creatureSpawnCount;
-    private boolean[][] lakes;
-    private int[][] regions;
-    private int nextRegion;
+    private String creatureSpawnBaseCount = "17-25"; 
+    
+    private float[] creatureSpawnMultiplier;
 
     public WorldBuilder(int width, int height, int depth, long seed){
         this.width = width;
@@ -40,7 +40,7 @@ public class WorldBuilder {
         this.seed = seed;
         this.random = new Random(seed);
         this.world = new World(width, height, depth, seed);
-        this.creatureSpawnCount = new int[depth];
+        this.creatureSpawnMultiplier = new float[depth];
     }
     
     public WorldBuilder generate(){
@@ -48,13 +48,13 @@ public class WorldBuilder {
         double start = System.nanoTime();
 
         List<LevelBuilder> levels = new ArrayList<LevelBuilder>();
-        levels.add(new DefaultLevel(width, height, 0, depth + 1, 70, -0.5f, "10-17", random));
-        levels.add(new DenseLevel(width, height, 1, depth + 1, 55, 0.95f, "10-17", random));
-        levels.add(new SparseLevel(width, height, 1, 5, 65, 0.8f, "10-17", random));
-        levels.add(new LakesLevel(width, height, 3, 10, 50, 1.325f, "10-17", random));
-        levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, "10-17", random));
-        levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, "10-17", random));
-        levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 0, "10-17", random));
+        levels.add(new DefaultLevel(width, height, 0, depth + 1, 70, -0.5f, 1f, random));
+        levels.add(new DenseLevel(width, height, 1, depth + 1, 55, 0.95f, 1.5f, random));
+        levels.add(new SparseLevel(width, height, 1, 5, 65, 0.8f, 0.8f, random));
+        levels.add(new LakesLevel(width, height, 3, 10, 50, 1.325f, 1f, random));
+        levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.35f, random));
+        levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.8f, random));
+        levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 0f, 1.7f, random));
 
         //Temp code
         //Deletes all images in image folder for level preview
@@ -74,7 +74,7 @@ public class WorldBuilder {
             LevelBuilder level = pool.get();// TODO: This might break
 
             level.generate(z);
-            creatureSpawnCount[z] = level.mobSpawnCount(random);
+            creatureSpawnMultiplier[z] = level.creatureSpawnModifier();
 //            level.saveImage(z);
             world.setLevel(z, level.build());
         }
@@ -92,7 +92,7 @@ public class WorldBuilder {
             
             List<CreatureSpawnProperty> canSpawn = new ArrayList<CreatureSpawnProperty>();
             for(CreatureSpawnProperty c : creatures){
-                if(c.canSpawnOnType(world.level(z).type()) && c.canSpawnOnLevel(z)) canSpawn.add(c);
+                if(c.canSpawnOnType(world.level(z).type()) && c.canSpawnAtDepth(z)) canSpawn.add(c);
             }
             
             if(canSpawn.isEmpty()){
@@ -100,37 +100,35 @@ public class WorldBuilder {
                 continue;
             }
             
-            int count = creatureSpawnCount[z];
+            int count = (int) (creatureSpawnMultiplier[z] * MathUtil.randomIntFromString(creatureSpawnBaseCount, random) + (z * 1.2));
             int total = 0;
-            Log.debug("Spawning " + count + "...");
+
             while(total < count) {
                 Pool<CreatureSpawnProperty> pool = new Pool<CreatureSpawnProperty>();
                 for (CreatureSpawnProperty c : canSpawn) pool.add(c, c.spawnWeight());
                 
                 CreatureSpawnProperty toSpawn = pool.get();
-                
-                
+
+                Point spawn = null;
                 int packSize = toSpawn.packSize(random);
                 
-                Point spawn = null;
                 if(toSpawn.spawnNear().isEmpty()) spawn = world.randomEmptyPoint(z);
                 else{
                     String spawnNear = toSpawn.spawnNear().get(random.nextInt(toSpawn.spawnNear().size()));
                     spawn = world.randomEmptyPointNearType(z, spawnNear);
                 }
+                
                 if(packSize == 0) {
                     world.add(spawn.x, spawn.y, spawn.z, (Creature) toSpawn.creature().newInstance());
                     total++;
                 }else{
                     for(int i = 0; i < packSize; i++){
-                        if(total > count) break;
                         Point newSpawn = world.randomEmptyNearPoint(spawn);
                         world.add(newSpawn.x, newSpawn.y, newSpawn.z, (Creature) toSpawn.creature().newInstance());
                         total++;
                     }
                 }
             }
-            Log.debug("Spawned " + total + " creatures on level " + (z + 1));
             creaturesSpawned += total;
         }
         Log.debug("Spawned " + creaturesSpawned + " creatures total.");

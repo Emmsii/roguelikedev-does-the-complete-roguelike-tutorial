@@ -2,6 +2,7 @@ package com.mac.rltut.game.world;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.FieldOfView;
+import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;
@@ -10,6 +11,7 @@ import com.mac.rltut.game.world.tile.Tile;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Project: complete-rltut
@@ -117,19 +119,19 @@ public class World {
 
         return new Point(x, y, z);
     }
-    
+
     public Point randomEmptyNearPoint(Point point){
         if(!inBounds(point.x, point.y, point.z)) return null;
-        
+
         List<Point> points = new ArrayList<Point>();
         List<Point> checked = new ArrayList<Point>();
-        
+
         points.add(point);
-        
+
         while(!points.isEmpty()){
             Point p = points.remove(0);
             checked.add(p);
-            
+
             if(tile(p.x, p.y, p.z).solid()) continue;
             if(creature(p.x, p.y, p.z) == null){
                 return p;
@@ -141,7 +143,7 @@ public class World {
         }
         return null;
     }
-    
+
     /* Util Methods */
     
     public void add(int x, int y, int z, Creature creature){

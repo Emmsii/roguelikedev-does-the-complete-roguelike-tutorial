@@ -28,7 +28,7 @@ public abstract class LevelBuilder {
     private final int minLevel, maxLevel;
     private final int chance;
     private final float zMultiplier;
-    private final String mobSpawnCount;
+    private final float creatureSpawnMultiplier;
     
     private Properties properties;
     private List<DecalTile> decalTiles;
@@ -41,7 +41,7 @@ public abstract class LevelBuilder {
     
     private Point start;
     
-    public LevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, String mobSpawnCount, Random random) {
+    public LevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
         this.type = type;
         this.width = width;
         this.height = height;
@@ -49,7 +49,7 @@ public abstract class LevelBuilder {
         this.maxLevel = maxLevel;
         this.chance = chance;
         this.zMultiplier = zMultiplier;
-        this.mobSpawnCount = mobSpawnCount;
+        this.creatureSpawnMultiplier = creatureSpawnMultiplier;
         this.random = random;
         
         this.properties = new Properties();
@@ -205,14 +205,8 @@ public abstract class LevelBuilder {
         return zMultiplier;
     }
     
-    public int mobSpawnCount(Random random){
-        String[] split = mobSpawnCount.split("-");
-        int left = Integer.parseInt(split[0].trim());
-        int right = Integer.parseInt(split[1].trim());
-        if(left == right) return left;
-        int min = Math.min(left, right);
-        int max = Math.max(left, right);
-        return MathUtil.range(min, max, random);
+    public float creatureSpawnModifier(){
+        return creatureSpawnMultiplier;
     }
     
     protected boolean inBounds(int x, int y){
