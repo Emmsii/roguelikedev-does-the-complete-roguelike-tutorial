@@ -1,4 +1,4 @@
-package com.mac.rltut.engine.loader;
+package com.mac.rltut.game.entity.creature;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.MathUtil;
@@ -44,7 +44,7 @@ public class CreatureSpawnProperty {
     
     private List<Integer> setSpawnDepths(String spawnLevels, boolean useNotToken){
         List<Integer> levels = new ArrayList<Integer>();
-        if(spawnLevels.equalsIgnoreCase("all")){
+        if(spawnLevels.equalsIgnoreCase("all") && !useNotToken){
             levels.add(-1);
             return levels;
         }
@@ -79,7 +79,7 @@ public class CreatureSpawnProperty {
     
     private List<String> setSpawnTypes(String input, boolean useNotToken){
         List<String> types = new ArrayList<String>();
-        if(input.equalsIgnoreCase("all")){
+        if(input.equalsIgnoreCase("all") && !useNotToken){
             types.add("all");
             return types;
         }
@@ -101,7 +101,7 @@ public class CreatureSpawnProperty {
             Log.warn("Creature [" + creature.name() + "] will not spawn on level [" + z + "]");
             return false;
         }
-        if(canSpawnAtDepth.contains(z) && !cannotSpawnAtDepth.contains(z)) return true;
+        if((canSpawnAtDepth.contains(z) || canSpawnAtDepth.isEmpty()) && !cannotSpawnAtDepth.contains(z)) return true;
         return false;
     }
 
@@ -113,7 +113,7 @@ public class CreatureSpawnProperty {
             Log.warn("Creature [" + creature.name() + "] will not spawn on level types [" + type + "]");
             return false;
         }
-        if(canSpawnAtTypes.contains(type) && !cannotSpawnAtTypes.contains(type)) return true;
+        if((canSpawnAtTypes.contains(type) || canSpawnAtTypes.isEmpty()) && !cannotSpawnAtTypes.contains(type)) return true;
         return false;
     }
 

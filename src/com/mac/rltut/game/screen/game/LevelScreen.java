@@ -52,19 +52,18 @@ public class LevelScreen extends Screen{
                     if(!world.isExplored(xp, yp + 1, player.z)) fogBit[xa + 1][ya + 1] += 8;
                     if(!world.isExplored(xp + 1, yp, player.z)) fogBit[xa + 1][ya + 1] += 4;
                     if(!world.isExplored(xp - 1, yp, player.z)) fogBit[xa + 1][ya + 1] += 2;
-
-                    Sprite fog = Sprite.getFogSprite(fogBit[xa + 1][ya + 1]);
-                    renderer.renderSprite(fog, xa + 1, ya + 1);
                     continue;
                 }
+                
+                if(world.tile(x, y, player.z).id == 0) continue;
 
                 Sprite sprite = spriteAt(xp, yp, player.z);
                 renderer.renderSprite(sprite, xa + 1, ya + 1, world.inFov(xp, yp, player.z) ? 0 : Renderer.DARKEN_SPRITE);
-//                renderer.renderSprite(sprite, xa + 1, ya + 1);
             }
         }
         
         renderCreatures(renderer);
+        renderFog(renderer);
         
         if(title != null) renderer.write(title, 3, 0);
     }
@@ -79,11 +78,21 @@ public class LevelScreen extends Screen{
         }
     }
     
+    private void renderFog(Renderer renderer){
+        for(int ya = 0; ya < height - 2; ya++) {
+            int yp = ya + getScrollY();
+            for (int xa = 0; xa < width - 2; xa++) {
+                int xp = xa + getScrollX();
+                if(world.isExplored(xp, yp, player.z)) continue;
+                Sprite fog = Sprite.getFogSprite(fogBit[xa + 1][ya + 1]);
+                renderer.renderSprite(fog, xa + 1, ya + 1);                
+            }
+        }
+    }
+    
     private Sprite spriteAt(int xp, int yp, int zp){
-
         Item i = world.item(xp, yp, zp);
         if(i != null) return i.sprite();
-        
         return world.tile(xp, yp, zp).sprite();
     }
 

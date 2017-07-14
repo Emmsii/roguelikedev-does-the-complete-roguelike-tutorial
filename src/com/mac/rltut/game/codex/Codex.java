@@ -1,6 +1,6 @@
 package com.mac.rltut.game.codex;
 
-import com.mac.rltut.engine.loader.CreatureSpawnProperty;
+import com.mac.rltut.game.entity.creature.CreatureSpawnProperty;
 
 import java.util.HashMap;
 

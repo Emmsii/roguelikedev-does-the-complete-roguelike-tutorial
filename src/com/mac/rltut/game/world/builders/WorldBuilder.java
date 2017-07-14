@@ -1,7 +1,7 @@
 package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.engine.loader.CreatureSpawnProperty;
+import com.mac.rltut.game.entity.creature.CreatureSpawnProperty;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.Pool;
@@ -47,7 +47,7 @@ public class WorldBuilder {
         List<LevelBuilder> levels = new ArrayList<LevelBuilder>();
         levels.add(new DefaultLevel(width, height, 0, depth + 1, 70, -0.5f, 1f, random));
         levels.add(new DenseLevel(width, height, 1, depth + 1, 55, 0.95f, 1.5f, random));
-        levels.add(new SparseLevel(width, height, 1, 5, 65, 0.8f, 0.8f, random));
+        levels.add(new SparseLevel(width, height, 1, 8, 70, 0.9f, 0.8f, random));
         levels.add(new LakesLevel(width, height, 3, 10, 50, 1.325f, 1f, random));
         levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.35f, random));
         levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.8f, random));

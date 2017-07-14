@@ -5,6 +5,7 @@ import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.CreatureSpawnProperty;
 
 import java.io.IOException;
 

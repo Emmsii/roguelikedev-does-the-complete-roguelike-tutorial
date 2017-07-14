@@ -1,12 +1,12 @@
 [CREATURE]
 NAME=Wizard
 SPRITE=wizard
-SPAWN_WEIGHT=10
+SPAWN_WEIGHT=30
 
 [CREATURE]
 NAME=Undead Wizard
 SPRITE=wizard_undead
-SPAWN_WEIGHT=5
+SPAWN_WEIGHT=10
 
 [CREATURE]
 NAME=Werewolf
@@ -55,14 +55,17 @@ SPAWN_WEIGHT=50
 [CREATURE]
 NAME=Blue Snake
 SPRITE=snake_blue
+SPAWN_TYPES=!sparse
 
 [CREATURE]
 NAME=Green Snake
 SPRITE=snake_green
+SPAWN_TYPES=!sparse
 
 [CREATURE]
 NAME=Brown Snake
 SPRITE=snake_brown
+SPAWN_TYPES=!sparse
 
 [CREATURE]
 NAME=Ghost
@@ -80,3 +83,4 @@ NAME=Skeleton King
 SPRITE=skeleton_boss
 SPAWN_LEVEL=1
 SIZE=2
+BOSS=1
