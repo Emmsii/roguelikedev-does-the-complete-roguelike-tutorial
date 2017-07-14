@@ -57,7 +57,7 @@ public class GameScreen extends Screen{
         }
 
         //Temp
-        if(!world.tile(player.x + dx, player.y + dy, player.z).solid()) {
+        if(!world.tile(player.x + dx, player.y + dy, player.z).solid() && world.creature(player.x + dx, player.y + dy, player.z) == null) {
             world.move(player.x + dx, player.y + dy, player.z, player);
         }
         

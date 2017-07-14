@@ -2,13 +2,7 @@ package com.mac.rltut;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
-import com.mac.rltut.engine.parser.DataObject;
-import com.mac.rltut.engine.parser.DataParser;
 import com.mac.rltut.engine.window.CustomExceptionHandler;
-
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
  * Project: complete-rltut
@@ -21,7 +15,7 @@ public class Main {
     
     public static void main(String[] args){
         Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler("logs/"));
-        Engine.instance().init(80, 45, parseScale(args), 8, "RLTUT","v0.4.1");
+        Engine.instance().init(80, 45, parseScale(args), 8, "RLTUT","v0.4.2");
     }
     
     private static int parseScale(String[] args){

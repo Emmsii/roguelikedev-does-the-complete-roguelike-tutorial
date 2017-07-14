@@ -111,11 +111,21 @@ public class World {
     
     public Point randomEmptyPointNearType(int z, String type){
         int x = 0, y = 0;
-
+        boolean nearType = false;
+        
         do{
+            nearType = false;
             x = (int) (Math.random() * width);
             y = (int) (Math.random() * height);
-        }while(tile(x, y, z).solid() || creature(x, y, z) != null || !tile(x, y, z).isType(type));
+                        
+            for(Point p : new Point(x, y, z).neighboursAll()){
+                if(tile(p.x, p.y, p.z).isType(type)) {
+                    nearType = true;
+                    break;
+                }
+            }
+            
+        }while(tile(x, y, z).solid() || creature(x, y, z) != null || !nearType);
 
         return new Point(x, y, z);
     }
@@ -149,7 +159,14 @@ public class World {
     public void add(int x, int y, int z, Creature creature){
         if(!inBounds(x, y, z)) return;
         creatureList.get(z).add(creature);
-        creatureArray[x][y][z] = creature;
+        
+        for(int ya = 0; ya < creature.size(); ya++){
+            int yb = y + ya;
+            for(int xa = 0; xa < creature.size(); xa++){
+                int xb = x + xa;
+                creatureArray[xb][yb][z] = creature;
+            }
+        }
         creature.x = x;
         creature.y = y;
         creature.z = z;
@@ -178,12 +195,27 @@ public class World {
     
     public void move(int xp, int yp, int zp, Creature creature){
         if(!inBounds(xp, yp, zp)) return;
-        creatureArray[creature.x][creature.y][creature.z] = null;
+
+        for(int ya = 0; ya < creature.size(); ya++) {
+            int yb = creature.y + ya;
+            for (int xa = 0; xa < creature.size(); xa++) {
+                int xb = creature.x + xa;
+                creatureArray[xb][yb][creature.z] = null;
+            }
+        }
+
         if(creature.z != zp) switchLevels(creature.z, zp, creature);
         creature.x = xp;
         creature.y = yp;
         creature.z = zp;
-        creatureArray[creature.x][creature.y][creature.z] = creature;
+
+        for(int ya = 0; ya < creature.size(); ya++) {
+            int yb = creature.y + ya;
+            for (int xa = 0; xa < creature.size(); xa++) {
+                int xb = creature.x + xa;
+                creatureArray[xb][yb][creature.z] = creature;
+            }
+        }
     }
     
     public void moveUp(Creature creature){

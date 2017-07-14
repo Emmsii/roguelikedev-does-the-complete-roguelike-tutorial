@@ -11,10 +11,7 @@ import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Project: complete-rltut
@@ -88,6 +85,8 @@ public class WorldBuilder {
         
         int creaturesSpawned = 0;
         
+        HashMap<String, Integer> spawnCounts = new HashMap<String, Integer>();
+        
         for(int z = 0; z < depth; z++){
             
             List<CreatureSpawnProperty> canSpawn = new ArrayList<CreatureSpawnProperty>();
@@ -110,21 +109,42 @@ public class WorldBuilder {
                 CreatureSpawnProperty toSpawn = pool.get();
 
                 Point spawn = null;
-                int packSize = toSpawn.packSize(random);
+                boolean blocked = true;
                 
-                if(toSpawn.spawnNear().isEmpty()) spawn = world.randomEmptyPoint(z);
-                else{
-                    String spawnNear = toSpawn.spawnNear().get(random.nextInt(toSpawn.spawnNear().size()));
-                    spawn = world.randomEmptyPointNearType(z, spawnNear);
+                while(blocked) {
+                    if (toSpawn.spawnNear().isEmpty()) spawn = world.randomEmptyPoint(z);
+                    else {
+                        String spawnNear = toSpawn.spawnNear().get(random.nextInt(toSpawn.spawnNear().size()));
+                        spawn = world.randomEmptyPointNearType(z, spawnNear);
+                    }
+                    blocked = false;
+                    for(int y = spawn.y; y < spawn.y + toSpawn.creature().y; y++){
+                        for(int x = spawn.x; x < spawn.x + toSpawn.creature().x; x++){
+                            if(world.tile(x, y, z).solid() || world.creature(x, y, z) != null){
+                                blocked = true;
+                                break;
+                            }
+                        }
+                    }
                 }
+
+                int packSize = toSpawn.packSize(random);
                 
                 if(packSize == 0) {
                     world.add(spawn.x, spawn.y, spawn.z, (Creature) toSpawn.creature().newInstance());
+                    
+                    //tem
+                    if(!spawnCounts.containsKey(toSpawn.creature().name())) spawnCounts.put(toSpawn.creature().name(), 0);
+                    spawnCounts.put(toSpawn.creature().name(), spawnCounts.get(toSpawn.creature().name()) + 1);
                     total++;
                 }else{
                     for(int i = 0; i < packSize; i++){
                         Point newSpawn = world.randomEmptyNearPoint(spawn);
                         world.add(newSpawn.x, newSpawn.y, newSpawn.z, (Creature) toSpawn.creature().newInstance());
+                        
+                        //temp
+                        if(!spawnCounts.containsKey(toSpawn.creature().name())) spawnCounts.put(toSpawn.creature().name(), 0);
+                        spawnCounts.put(toSpawn.creature().name(), spawnCounts.get(toSpawn.creature().name()) + 1);
                         total++;
                     }
                 }
@@ -132,9 +152,11 @@ public class WorldBuilder {
             creaturesSpawned += total;
         }
         Log.debug("Spawned " + creaturesSpawned + " creatures total.");
+        Log.debug("Counts: " + spawnCounts);
+        
         return this;
     }
-
+    
     public World build(){
         return world;
     }

@@ -1,0 +1,82 @@
+[CREATURE]
+NAME=Wizard
+SPRITE=wizard
+SPAWN_WEIGHT=10
+
+[CREATURE]
+NAME=Undead Wizard
+SPRITE=wizard_undead
+SPAWN_WEIGHT=5
+
+[CREATURE]
+NAME=Werewolf
+SPRITE=werewolf
+SPAWN_TYPES=dark
+
+[CREATURE]
+NAME=Zombie
+SPRITE=zombie
+
+[CREATURE]
+NAME=Ent
+SPRITE=ent
+SPAWN_TYPES=dark, dense
+SPAWN_LEVELS=6-20
+SPAWN_WEIGHT=85
+
+[CREATURE]
+NAME=Bat
+SPRITE=bat
+
+[CREATURE]
+NAME=Fire Sprite
+SPRITE=fire_sprite
+SPAWN_LEVEL=5-16
+SPAWN_TYPES=!sparse
+
+[CREATURE]
+NAME=Blue Octopus
+SPRITE=octopus_blue
+SPAWN_TYPES=lake, swamp
+SPAWN_NEAR=water
+
+[CREATURE]
+NAME=Green Octopus
+SPRITE=octopus_green
+SPAWN_TYPES=lake, swamp
+SPAWN_NEAR=water
+
+[CREATURE]
+NAME=Skeleton
+SPRITE=skeleton
+PACK_SIZE=1-4
+SPAWN_WEIGHT=50
+
+[CREATURE]
+NAME=Blue Snake
+SPRITE=snake_blue
+
+[CREATURE]
+NAME=Green Snake
+SPRITE=snake_green
+
+[CREATURE]
+NAME=Brown Snake
+SPRITE=snake_brown
+
+[CREATURE]
+NAME=Ghost
+SPRITE=ghost
+SPAWN_TYPES=!default, !dense, !lakes
+SPAWN_LEVELS=6-20
+
+[CREATURE]
+NAME=Cat
+SPRITE=cat
+SPAWN_WEIGHT=1
+
+[CREATURE]
+NAME=Skeleton King
+SPRITE=skeleton_boss
+SPAWN_LEVEL=1
+SIZE=2

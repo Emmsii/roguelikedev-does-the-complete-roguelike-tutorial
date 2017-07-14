@@ -51,10 +51,10 @@ public class Engine {
     
     private void loadData(){
         try {
-            new SpritesheetLoader("data/sheets.txt").load();
-            new SpriteLoader("data/sprites.txt").load();
-            new TileLoader("data/tiles.txt").load();
-            new CreatureLoader("data/creatures.txt").load();
+            new SpritesheetLoader("data/sheets.dat").load();
+            new SpriteLoader("data/sprites.dat").load();
+            new TileLoader("data/tiles.dat").load();
+            new CreatureLoader("data/creatures.dat").load();
         } catch (IOException e) {
             e.printStackTrace();
         }

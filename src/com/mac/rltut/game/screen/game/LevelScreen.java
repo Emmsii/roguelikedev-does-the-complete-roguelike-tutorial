@@ -54,24 +54,33 @@ public class LevelScreen extends Screen{
                     if(!world.isExplored(xp - 1, yp, player.z)) fogBit[xa + 1][ya + 1] += 2;
 
                     Sprite fog = Sprite.getFogSprite(fogBit[xa + 1][ya + 1]);
-//                    renderer.renderSprite(fog, xa + 1, ya + 1);
-//                    continue;
+                    renderer.renderSprite(fog, xa + 1, ya + 1);
+                    continue;
                 }
 
                 Sprite sprite = spriteAt(xp, yp, player.z);
-//                renderer.renderSprite(sprite, xa + 1, ya + 1, world.inFov(xp, yp, player.z) ? 0 : Renderer.DARKEN_SPRITE);
-                renderer.renderSprite(sprite, xa + 1, ya + 1);
+                renderer.renderSprite(sprite, xa + 1, ya + 1, world.inFov(xp, yp, player.z) ? 0 : Renderer.DARKEN_SPRITE);
+//                renderer.renderSprite(sprite, xa + 1, ya + 1);
             }
         }
+        
+        renderCreatures(renderer);
         
         if(title != null) renderer.write(title, 3, 0);
     }
         
+    private void renderCreatures(Renderer renderer){
+        int xp = getScrollX();
+        int yp = getScrollY();
+
+        for(Creature c : world.creatures(player.z)){
+            if(!world.inFov(c.x, c.y, c.z)) continue;
+            renderer.renderSprite(c.sprite(), c.x - xp + 1, c.y - yp + 1);
+        }
+    }
+    
     private Sprite spriteAt(int xp, int yp, int zp){
 
-        Creature c = world.creature(xp, yp, zp);
-        if(c != null) return c.sprite();
-        
         Item i = world.item(xp, yp, zp);
         if(i != null) return i.sprite();
         
