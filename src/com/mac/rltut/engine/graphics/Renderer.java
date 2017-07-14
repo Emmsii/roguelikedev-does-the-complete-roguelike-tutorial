@@ -16,6 +16,7 @@ public class Renderer {
     public static final int DARKEN_SPRITE = 2;
     
     private int defaultFontColor = 0xffffff;
+    private int defaultBackgroundColor = 0x111111;
     
     private final int width, height;
     private int[] pixels;
@@ -45,6 +46,7 @@ public class Renderer {
             for(int x = 0; x < sprite.width; x++){
                 int xa = x + xp;
                 int pixelColor = sprite.pixel((flags & FLIP_SPRITE) == FLIP_SPRITE ? sprite.width - x : x, y);
+                if(pixelColor == 0xff000000) pixelColor = defaultBackgroundColor;
                 if((flags & DARKEN_SPRITE) == DARKEN_SPRITE) pixelColor = Colors.darken(pixelColor);
                 renderPixel(pixelColor, xa, ya);
             }
@@ -60,7 +62,7 @@ public class Renderer {
                 int xa = x + xp;
                 int pixelColor = sprite.pixel(x, y);
                 if(pixelColor == 0xffffffff) renderPixel(color, xa, ya);
-                else renderPixel(0, xa, ya);
+                else renderPixel(defaultBackgroundColor, xa, ya);
             }
         }
     }
@@ -88,7 +90,7 @@ public class Renderer {
     }
 
     public void clear(){
-        for(int i = 0; i < pixels.length; i++) pixels[i] = 0;
+        for(int i = 0; i < pixels.length; i++) pixels[i] = defaultBackgroundColor;
     }
 
     public boolean inBounds(int x, int y){
