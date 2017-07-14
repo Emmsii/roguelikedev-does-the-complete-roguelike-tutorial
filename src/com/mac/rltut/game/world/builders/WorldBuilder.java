@@ -7,6 +7,7 @@ import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.ai.CreatureAI;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 
@@ -118,8 +119,8 @@ public class WorldBuilder {
                         spawn = world.randomEmptyPointNearType(z, spawnNear);
                     }
                     blocked = false;
-                    for(int y = spawn.y; y < spawn.y + toSpawn.creature().y; y++){
-                        for(int x = spawn.x; x < spawn.x + toSpawn.creature().x; x++){
+                    for(int y = spawn.y; y <= spawn.y + toSpawn.creature().y; y++){
+                        for(int x = spawn.x; x <= spawn.x + toSpawn.creature().x; x++){
                             if(world.tile(x, y, z).solid() || world.creature(x, y, z) != null){
                                 blocked = true;
                                 break;
@@ -131,8 +132,8 @@ public class WorldBuilder {
                 int packSize = toSpawn.packSize(random);
                 
                 if(packSize == 0) {
-                    world.add(spawn.x, spawn.y, spawn.z, (Creature) toSpawn.creature().newInstance());
-                    
+//                    world.add(spawn.x, spawn.y, spawn.z, (Creature) toSpawn.creature().newInstance());
+                    newCreature(spawn, (Creature) toSpawn.creature().newInstance());
                     //tem
                     if(!spawnCounts.containsKey(toSpawn.creature().name())) spawnCounts.put(toSpawn.creature().name(), 0);
                     spawnCounts.put(toSpawn.creature().name(), spawnCounts.get(toSpawn.creature().name()) + 1);
@@ -140,8 +141,8 @@ public class WorldBuilder {
                 }else{
                     for(int i = 0; i < packSize; i++){
                         Point newSpawn = world.randomEmptyNearPoint(spawn);
-                        world.add(newSpawn.x, newSpawn.y, newSpawn.z, (Creature) toSpawn.creature().newInstance());
-                        
+//                        world.add(newSpawn.x, newSpawn.y, newSpawn.z, (Creature) toSpawn.creature().newInstance());
+                        newCreature(newSpawn, (Creature) toSpawn.creature().newInstance());
                         //temp
                         if(!spawnCounts.containsKey(toSpawn.creature().name())) spawnCounts.put(toSpawn.creature().name(), 0);
                         spawnCounts.put(toSpawn.creature().name(), spawnCounts.get(toSpawn.creature().name()) + 1);
@@ -155,6 +156,11 @@ public class WorldBuilder {
         Log.debug("Counts: " + spawnCounts);
         
         return this;
+    }
+    
+    private void newCreature(Point spawn, Creature creature){
+        world.add(spawn.x, spawn.y, spawn.z, creature);
+        new CreatureAI(creature);
     }
     
     public World build(){

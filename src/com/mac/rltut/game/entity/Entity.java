@@ -1,5 +1,6 @@
 package com.mac.rltut.game.entity;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.world.World;
 
@@ -10,6 +11,7 @@ import com.mac.rltut.game.world.World;
  */
 public abstract class Entity implements Cloneable{
     
+    public int id;
     public int x, y, z;
     protected String name;
     protected Sprite sprite;
@@ -20,7 +22,8 @@ public abstract class Entity implements Cloneable{
         this.sprite = sprite;
     }
     
-    public void init(World world){
+    public void init(int id, World world){
+        this.id = id;
         this.world = world;
     }
     
@@ -32,6 +35,10 @@ public abstract class Entity implements Cloneable{
     
     public Sprite sprite(){
         return sprite;
+    }
+    
+    public World world(){
+        return world;
     }
     
     public Entity newInstance(){

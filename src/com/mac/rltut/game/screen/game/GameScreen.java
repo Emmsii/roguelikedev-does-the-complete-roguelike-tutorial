@@ -5,6 +5,7 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.ai.CreatureAI;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.screen.Screen;
 
@@ -30,6 +31,7 @@ public class GameScreen extends Screen{
     
     private void init(){
         player = new Creature("player", Sprite.get("player"));//temp
+        new CreatureAI(player);
         levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), world, player);
 
         
@@ -39,27 +41,21 @@ public class GameScreen extends Screen{
 
     @Override
     public Screen input(KeyEvent e) {
-        //Temp movement code        
-        int dx = 0, dy = 0;
-        
+
         switch(e.getKeyCode()){
             case KeyEvent.VK_UP:
-            case KeyEvent.VK_W: dy--; break;
+            case KeyEvent.VK_W: player.moveBy(0, -1, 0); break;
             case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_S: dy++; break;
+            case KeyEvent.VK_S: player.moveBy(0, 1, 0); break;
             case KeyEvent.VK_LEFT:
-            case KeyEvent.VK_A: dx--; break;
+            case KeyEvent.VK_A: player.moveBy(-1, 0, 0); break;
             case KeyEvent.VK_RIGHT:
-            case KeyEvent.VK_D: dx++; break;
+            case KeyEvent.VK_D: player.moveBy(1, 0, 0); break;
 
             case KeyEvent.VK_PAGE_DOWN: world.moveDown(player); break;
             case KeyEvent.VK_PAGE_UP: world.moveUp(player); break;
         }
-
-        //Temp
-        if(!world.tile(player.x + dx, player.y + dy, player.z).solid() && world.creature(player.x + dx, player.y + dy, player.z) == null) {
-            world.move(player.x + dx, player.y + dy, player.z, player);
-        }
+        
         
         world.update(player.z);
                 

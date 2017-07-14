@@ -23,6 +23,8 @@ public class World {
     private final int width, height, depth;
     private final long seed;
     
+    private int entityId;
+    
     private Level[] levels;
     private boolean[][][] explored;
     private boolean[][][] visible;
@@ -46,6 +48,8 @@ public class World {
         this.creatureArray = new Creature[width][height][depth];
         this.itemArray = new Item[width][height][depth];
                 
+        this.entityId = 0;
+        
         this.fov = new FieldOfView(this);
         
         for(int z = 0; z < depth; z++){
@@ -170,7 +174,7 @@ public class World {
         creature.x = x;
         creature.y = y;
         creature.z = z;
-        creature.init(this);
+        creature.init(entityId++, this);
     }
     
     public void add(int x, int y, int z, Item item){
@@ -180,7 +184,7 @@ public class World {
         item.x = x;
         item.y = y;
         item.z = z;
-        item.init(this);
+        item.init(entityId++, this);
     }
     
     public void remove(Creature creature){
