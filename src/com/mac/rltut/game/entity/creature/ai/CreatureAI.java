@@ -1,5 +1,6 @@
 package com.mac.rltut.game.entity.creature.ai;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**

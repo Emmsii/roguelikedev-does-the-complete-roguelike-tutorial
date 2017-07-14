@@ -132,16 +132,14 @@ public class WorldBuilder {
                 int packSize = toSpawn.packSize(random);
                 
                 if(packSize == 0) {
-//                    world.add(spawn.x, spawn.y, spawn.z, (Creature) toSpawn.creature().newInstance());
                     newCreature(spawn, (Creature) toSpawn.creature().newInstance());
-                    //tem
+                    //temp
                     if(!spawnCounts.containsKey(toSpawn.creature().name())) spawnCounts.put(toSpawn.creature().name(), 0);
                     spawnCounts.put(toSpawn.creature().name(), spawnCounts.get(toSpawn.creature().name()) + 1);
                     total++;
                 }else{
                     for(int i = 0; i < packSize; i++){
                         Point newSpawn = world.randomEmptyNearPoint(spawn);
-//                        world.add(newSpawn.x, newSpawn.y, newSpawn.z, (Creature) toSpawn.creature().newInstance());
                         newCreature(newSpawn, (Creature) toSpawn.creature().newInstance());
                         //temp
                         if(!spawnCounts.containsKey(toSpawn.creature().name())) spawnCounts.put(toSpawn.creature().name(), 0);

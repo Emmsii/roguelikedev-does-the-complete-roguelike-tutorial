@@ -12,4 +12,5 @@ import java.util.HashMap;
 public class Codex {
     
     public static HashMap<String, CreatureSpawnProperty> creatures = new HashMap<String, CreatureSpawnProperty>();
+    public static HashMap<String, CreatureSpawnProperty> bosses = new HashMap<String, CreatureSpawnProperty>();
 }

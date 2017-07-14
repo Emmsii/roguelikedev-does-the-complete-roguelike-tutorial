@@ -33,7 +33,6 @@ public class GameScreen extends Screen{
         player = new Creature("player", Sprite.get("player"));//temp
         new CreatureAI(player);
         levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), world, player);
-
         
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
@@ -41,7 +40,6 @@ public class GameScreen extends Screen{
 
     @Override
     public Screen input(KeyEvent e) {
-
         switch(e.getKeyCode()){
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W: player.moveBy(0, -1, 0); break;
@@ -55,8 +53,7 @@ public class GameScreen extends Screen{
             case KeyEvent.VK_PAGE_DOWN: world.moveDown(player); break;
             case KeyEvent.VK_PAGE_UP: world.moveUp(player); break;
         }
-        
-        
+
         world.update(player.z);
                 
         return this;
@@ -65,7 +62,6 @@ public class GameScreen extends Screen{
     @Override
     public void render(Renderer renderer) {
         levelScreen.setTitle("Level " + (player.z + 1));
-        
         levelScreen.render(renderer);
         
         renderer.writeCenter("WASD/ARROW keys to move, PAGE UP/DOWN to make change levels.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 1);

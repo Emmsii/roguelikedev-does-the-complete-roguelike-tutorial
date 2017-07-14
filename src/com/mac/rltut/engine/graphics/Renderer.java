@@ -67,6 +67,25 @@ public class Renderer {
         }
     }
 
+    public void darkenSprite(int xp, int yp){
+        darkenSprite(xp, yp, Colors.DARKEN_FACTOR);
+    }
+    
+    public void darkenSprite(int xp, int yp, float factor){
+        int size = Engine.instance().tileSize();
+        xp *= size;
+        yp *= size;
+        
+        for(int y = yp; y < yp + size; y++){
+            for(int x = xp; x < xp + size; x++){
+                if(!inBounds(x, y)) continue;
+                int pixelColor = pixels[x + y * width];
+                if(pixelColor == 0xff000000) continue;
+                pixels[x + y * width] = Colors.darken(pixelColor, factor);
+            }
+        }
+    }
+
     public void write(String text, int xp, int yp){
         write(text, xp, yp, defaultFontColor);
     }

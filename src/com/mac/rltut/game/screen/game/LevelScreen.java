@@ -58,10 +58,21 @@ public class LevelScreen extends Screen{
                 if(world.tile(x, y, player.z).id == 0) continue;
 
                 Sprite sprite = spriteAt(xp, yp, player.z);
-                renderer.renderSprite(sprite, xa + 1, ya + 1, world.inFov(xp, yp, player.z) ? 0 : Renderer.DARKEN_SPRITE);
+                renderer.renderSprite(sprite, xa + 1, ya + 1);
             }
         }
-        
+
+        /**
+         * To anyone reading this.
+         * I'm having to do some pretty funky shit to get MT (multi-tile) creatures to render properly.
+         * To make MT creatures look like they are hidden in fov and fog, I have to render creatures first then the fog.
+         * Then if there is a creature in a tile that isn't visible, I render whatever was underneath and darken it.
+         * So if a 2x2 skeleton boss is standing on grass and I didn't re-render the floor tile, it would look like the grass has disappeared.
+         * Its not pretty but it works. Yay!
+         * 
+         * Man this would be so much easier if I was rendering single tile creatures...
+         */
+
         renderCreatures(renderer);
         renderFog(renderer);
         
@@ -73,8 +84,17 @@ public class LevelScreen extends Screen{
         int yp = getScrollY();
 
         for(Creature c : world.creatures(player.z)){
-            if(!world.inFov(c.x, c.y, c.z)) continue;
-            renderer.renderSprite(c.sprite(), c.x - xp + 1, c.y - yp + 1);
+            boolean inFov = false;
+            for(int y = 0; y < c.size(); y++){
+                for(int x = 0; x < c.size(); x++){
+                    if(world.inFov(c.x + x, c.y + y, player.z)){
+                        inFov = true;
+                        break;
+                    }
+                }
+            }
+            
+            if(inFov) renderer.renderSprite(c.sprite(), c.x - xp + 1, c.y - yp + 1);
         }
     }
     
@@ -83,9 +103,15 @@ public class LevelScreen extends Screen{
             int yp = ya + getScrollY();
             for (int xa = 0; xa < width - 2; xa++) {
                 int xp = xa + getScrollX();
-                if(world.isExplored(xp, yp, player.z)) continue;
-                Sprite fog = Sprite.getFogSprite(fogBit[xa + 1][ya + 1]);
-                renderer.renderSprite(fog, xa + 1, ya + 1);                
+                if(!world.isExplored(xp, yp, player.z)){
+                    Sprite fog = Sprite.getFogSprite(fogBit[xa + 1][ya + 1]);
+                    renderer.renderSprite(fog, xa + 1, ya + 1);
+                }else if(!world.inFov(xp, yp, player.z) && world.creature(xp, yp, player.z) != null && world.creature(xp, yp, player.z).size() == 1){
+                    if(world.creature(xp, yp, player.z) != null) renderer.renderSprite(world.tile(xp, yp, player.z).sprite(), xa + 1, ya + 1);
+                    renderer.darkenSprite(xa + 1, ya + 1);
+                }else if(!world.inFov(xp, yp, player.z)){
+                    renderer.darkenSprite(xa + 1, ya + 1);
+                }
             }
         }
     }

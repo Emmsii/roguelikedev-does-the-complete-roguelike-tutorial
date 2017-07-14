@@ -78,9 +78,28 @@ NAME=Cat
 SPRITE=cat
 SPAWN_WEIGHT=1
 
-[CREATURE]
+# ---------------- Bosses
+
+[BOSS]
 NAME=Skeleton King
 SPRITE=skeleton_boss
 SPAWN_LEVEL=1
+MINIONS=skeleton
+MINION_COUNT=8-10
 SIZE=2
-BOSS=1
+
+[BOSS]
+NAME=Grand Ent
+SPRITE=ent_boss
+SPAWN_LEVEL=1
+MINIONS=ent
+MINION_COUNT=5-8
+SIZE=2
+
+[BOSS]
+NAME=Giant Snake
+SPRITE=snake_boss
+SPAWN_LEVEL=1
+MINIONS=brown snake, blue snake, green snake
+MINION_COUNT=7-10
+SIZE=2

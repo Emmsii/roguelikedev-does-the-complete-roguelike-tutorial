@@ -1,6 +1,7 @@
 package com.mac.rltut.engine.util;
 
 import javafx.scene.paint.Color;
+import sun.util.resources.cldr.ar.CalendarData_ar_KW;
 
 /**
  * Project: complete-rltut
@@ -9,12 +10,16 @@ import javafx.scene.paint.Color;
  */
 public class Colors {
     
-    private static final float FACTOR = 0.4f;
+    public static final float DARKEN_FACTOR = 0.4f;
     
     public static int darken(int color){
-        int r = (int) (((color & (0xff << 16)) >> 16) * FACTOR);
-        int g = (int) (((color & (0xff << 8)) >> 8) * FACTOR);
-        int b = (int) ((color & 0xff) * FACTOR);
+       return darken(color, DARKEN_FACTOR);
+    }
+
+    public static int darken(int color, float factor){
+        int r = (int) (((color & (0xff << 16)) >> 16) * factor);
+        int g = (int) (((color & (0xff << 8)) >> 8) * factor);
+        int b = (int) ((color & 0xff) * factor);
         return r << 16 | g << 8 | b;
     }
 }

@@ -41,7 +41,6 @@ public class FieldOfView {
                     setInFov(p.x, p.y, z);
                     world.setExplored(p.x, p.y, z, true);
                     if(!world.tile(p.x, p.y, z).canSee()) break;
-
                 }
             }
         }

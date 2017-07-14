@@ -34,10 +34,6 @@ public class Sprite extends Bitmap{
     }
     
     public static Sprite get(String name){
-        if(!sprites.containsKey(name)){
-            Log.warn("Sprite [" + name + "] does not exist.");
-            return null;
-        }
         return sprites.get(name);
     }
     
