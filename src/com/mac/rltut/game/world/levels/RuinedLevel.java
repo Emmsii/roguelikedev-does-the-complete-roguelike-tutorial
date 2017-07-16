@@ -23,6 +23,10 @@ public class RuinedLevel extends ForrestLevelBuilder {
         addTileType(Tile.getTile("treeDeciduous"), 50);
         addTileType(Tile.getTile("waterBlue"), 100);
         addTileType(Tile.getTile("wallTopRed"), 100);
+        addTileType(Tile.getTile("grassMediumGreen"), 90);
+        addTileType(Tile.getTile("grassMediumYellow"), 10);
+        addTileType(Tile.getTile("grassSmallGreen"), 50);
+        addTileType(Tile.getTile("grassSmallYellow"), 10);
         addTileType(Tile.getTile("chestGold"), 100);
 
         addDecalTile(Tile.getTile("waterLilypad"), 4, Tile.getTile("waterBlue"));

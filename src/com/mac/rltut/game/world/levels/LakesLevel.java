@@ -22,9 +22,13 @@ public class LakesLevel extends ForrestLevelBuilder {
         addTileType(Tile.getTile("treeConifer"), 40);
         addTileType(Tile.getTile("treeDeciduous"), 50);
         addTileType(Tile.getTile("waterBlue"), 100);
+        addTileType(Tile.getTile("grassMediumGreen"), 100);
+        addTileType(Tile.getTile("grassSmallGreen"), 50);
         addTileType(Tile.getTile("chestSilver"), 100);
 
         addDecalTile(Tile.getTile("waterLilypad"), 6, Tile.getTile("waterBlue"));
+        addDecalTile(Tile.getTile("reeds1"), 7, Tile.getTile("waterBlue"));
+        addDecalTile(Tile.getTile("reeds2"), 7, Tile.getTile("waterBlue"));
         addDecalTile(Tile.getTile("grassGreen"), 50, Tile.getTile("empty"), Tile.getTile("floor"));
         addDecalTile(Tile.getTile("mushroom"), 6, Tile.getTile("empty"), Tile.getTile("floor"));
         addDecalTile(Tile.getTile("treeConifer"), 20, Tile.getTile("empty"));

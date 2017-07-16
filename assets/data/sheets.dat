@@ -3,6 +3,10 @@ NAME=textures
 FILE_NAME=minirogue-all
 
 [SPRITESHEET]
+NAME=grass
+FILE_NAME=grass
+
+[SPRITESHEET]
 NAME=fog
 FILE_NAME=fog
 

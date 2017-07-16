@@ -6,6 +6,7 @@ import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
+import com.mac.rltut.game.world.Level;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.screen.Screen;
 
@@ -52,6 +53,8 @@ public class GameScreen extends Screen{
 
             case KeyEvent.VK_PAGE_DOWN: world.moveDown(player); break;
             case KeyEvent.VK_PAGE_UP: world.moveUp(player); break;
+
+            case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
         }
 
         world.update(player.z);
@@ -61,7 +64,7 @@ public class GameScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-        levelScreen.setTitle("Level " + (player.z + 1));
+        levelScreen.setTitle("Level " + (player.z + 1) + " Explored: " + world.exploredPercent(player.z) + "%");
         levelScreen.render(renderer);
         
         renderer.writeCenter("WASD/ARROW keys to move, PAGE UP/DOWN to make change levels.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 1);

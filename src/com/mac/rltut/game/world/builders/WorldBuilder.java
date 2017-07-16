@@ -1,6 +1,8 @@
 package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.game.entity.creature.Boss;
+import com.mac.rltut.game.entity.creature.BossSpawnProperty;
 import com.mac.rltut.game.entity.creature.CreatureSpawnProperty;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
@@ -12,6 +14,7 @@ import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -80,70 +83,88 @@ public class WorldBuilder {
         Log.debug("Generated world in " + ((System.nanoTime() - start) / 1000000) + "ms");
         return this;
     }
+
+    //Temp for debugging
+    HashMap<String, Integer> spawnCounts = new HashMap<String, Integer>();
     
     public WorldBuilder populate(){
         Collection<CreatureSpawnProperty> creatures = Codex.creatures.values();
         
         int creaturesSpawned = 0;
-        
-        HashMap<String, Integer> spawnCounts = new HashMap<String, Integer>();
+        HashSet<String> uniquesSpawned = new HashSet<String>();
         
         for(int z = 0; z < depth; z++){
-            
+            boolean canSpawnBoss = false;
             List<CreatureSpawnProperty> canSpawn = new ArrayList<CreatureSpawnProperty>();
             for(CreatureSpawnProperty c : creatures){
-                if(c.canSpawnOnType(world.level(z).type()) && c.canSpawnAtDepth(z)) canSpawn.add(c);
+                if(c.canSpawnOnType(world.level(z).type()) && c.canSpawnAtDepth(z + 1)){
+                    if(c.creature() instanceof Boss) canSpawnBoss = true;
+                    canSpawn.add(c);
+                    
+                }
             }
-            
+
             if(canSpawn.isEmpty()){
                 Log.warn("No creatures spawned on level " + (z + 1) + "!");
                 continue;
             }
-            
+
             int count = (int) (creatureSpawnMultiplier[z] * MathUtil.randomIntFromString(creatureSpawnBaseCount, random) + (z * 1.2));
             int total = 0;
 
-            while(total < count) {
-                Pool<CreatureSpawnProperty> pool = new Pool<CreatureSpawnProperty>();
-                for (CreatureSpawnProperty c : canSpawn) pool.add(c, c.spawnWeight());
-                
-                CreatureSpawnProperty toSpawn = pool.get();
-
-                Point spawn = null;
-                boolean blocked = true;
-                
-                while(blocked) {
-                    if (toSpawn.spawnNear().isEmpty()) spawn = world.randomEmptyPoint(z);
-                    else {
-                        String spawnNear = toSpawn.spawnNear().get(random.nextInt(toSpawn.spawnNear().size()));
-                        spawn = world.randomEmptyPointNearType(z, spawnNear);
-                    }
-                    blocked = false;
-                    for(int y = spawn.y; y <= spawn.y + toSpawn.creature().y; y++){
-                        for(int x = spawn.x; x <= spawn.x + toSpawn.creature().x; x++){
-                            if(world.tile(x, y, z).solid() || world.creature(x, y, z) != null){
-                                blocked = true;
-                                break;
-                            }
-                        }
+            if(canSpawnBoss) {
+                Pool<BossSpawnProperty> pool = new Pool<BossSpawnProperty>();
+                for (CreatureSpawnProperty c : canSpawn){
+                    if (c instanceof BossSpawnProperty){
+                        if(uniquesSpawned.contains(c.creature().name())) continue;
+                        pool.add((BossSpawnProperty) c, c.spawnWeight());
                     }
                 }
-
-                int packSize = toSpawn.packSize(random);
+                        
+                BossSpawnProperty boss = pool.get();
                 
+                if(boss.isUnique()) uniquesSpawned.add(boss.creature().name());
+                
+                Point spawn = getSpawnPoint(boss, z);
+                newCreature(spawn, (Creature) boss.creature().newInstance());
+                total++;
+                
+                int minionCount = MathUtil.randomIntFromString(boss.minionCount(), random);
+                
+                if(minionCount > 0) {
+                    List<CreatureSpawnProperty> minions = new ArrayList<CreatureSpawnProperty>();
+                    for (String s : boss.minions()) minions.add(Codex.creatures.get(s.toLowerCase()));
+                    
+                    for (int i = 0; i < minionCount; i++) {
+                        Pool<CreatureSpawnProperty> minionPool = new Pool<CreatureSpawnProperty>();
+                        for (CreatureSpawnProperty c : minions) minionPool.add(c, c.spawnWeight());
+                        
+                        CreatureSpawnProperty minion = minionPool.get();
+                        Point minionSpawn = world.randomEmptyPointInRadius(spawn, 6);
+                        newCreature(minionSpawn, (Creature) minion.creature().newInstance());
+                        total++;
+                    }
+                }
+            }
+            
+            while(total < count) {
+                Pool<CreatureSpawnProperty> pool = new Pool<CreatureSpawnProperty>();
+                for (CreatureSpawnProperty c : canSpawn){
+                    if(c instanceof BossSpawnProperty) continue;
+                    pool.add(c, c.spawnWeight());
+                }
+
+                CreatureSpawnProperty toSpawn = pool.get();
+                Point spawn = getSpawnPoint(toSpawn, z);
+                int packSize = toSpawn.packSize(random);
+
                 if(packSize == 0) {
                     newCreature(spawn, (Creature) toSpawn.creature().newInstance());
-                    //temp
-                    if(!spawnCounts.containsKey(toSpawn.creature().name())) spawnCounts.put(toSpawn.creature().name(), 0);
-                    spawnCounts.put(toSpawn.creature().name(), spawnCounts.get(toSpawn.creature().name()) + 1);
                     total++;
                 }else{
                     for(int i = 0; i < packSize; i++){
-                        Point newSpawn = world.randomEmptyNearPoint(spawn);
+                        Point newSpawn = world.randomEmptyPointInRadius(spawn, 4);
                         newCreature(newSpawn, (Creature) toSpawn.creature().newInstance());
-                        //temp
-                        if(!spawnCounts.containsKey(toSpawn.creature().name())) spawnCounts.put(toSpawn.creature().name(), 0);
-                        spawnCounts.put(toSpawn.creature().name(), spawnCounts.get(toSpawn.creature().name()) + 1);
                         total++;
                     }
                 }
@@ -156,12 +177,40 @@ public class WorldBuilder {
         return this;
     }
     
+    private Point getSpawnPoint(CreatureSpawnProperty toSpawn, int z){
+        Point spawn = null;
+        boolean blocked = true;
+        while(blocked) {
+            if (toSpawn.spawnNear().isEmpty()) spawn = world.randomEmptyPoint(z);
+            else {
+                String spawnNear = toSpawn.spawnNear().get(random.nextInt(toSpawn.spawnNear().size()));
+                spawn = world.randomEmptyPointNearType(z, spawnNear);
+            }
+            
+            blocked = false;
+            for(int y = spawn.y; y <= spawn.y + toSpawn.creature().size(); y++){
+                for(int x = spawn.x; x <= spawn.x + toSpawn.creature().size(); x++){
+                    if(world.tile(x, y, z).solid() || world.creature(x, y, z) != null){
+                        blocked = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return spawn;
+    }
+
     private void newCreature(Point spawn, Creature creature){
+        if(creature instanceof Boss) Log.debug("Boss: " + creature.name() + " at level " + spawn.z);
         world.add(spawn.x, spawn.y, spawn.z, creature);
         new CreatureAI(creature);
+        
+        if(!spawnCounts.containsKey(creature.name())) spawnCounts.put(creature.name(), 0);
+        spawnCounts.put(creature.name(), spawnCounts.get(creature.name()) + 1);
     }
     
     public World build(){
+        world.init();
         return world;
     }
 }

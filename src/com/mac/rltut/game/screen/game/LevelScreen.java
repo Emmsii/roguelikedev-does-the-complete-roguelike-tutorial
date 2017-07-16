@@ -23,6 +23,8 @@ public class LevelScreen extends Screen{
     
     private byte[][] fogBit;
     
+    public static boolean showFov = true;
+    
     public LevelScreen(int x, int y, int width, int height, World world, Creature player){
         super(x, y, width, height, "Level 1");
         this.world = world;
@@ -40,41 +42,28 @@ public class LevelScreen extends Screen{
         renderBorder(renderer);
         world.computeFov(player.x, player.y, player.z, 16, FieldOfView.FOVType.SHADOWCAST);
         
-        for(int ya = 0; ya < height - 2; ya++){
-            int yp = ya + getScrollY();
-            for(int xa = 0; xa < width - 2; xa++){
-                int xp = xa + getScrollX();
+        for(int ya = 1; ya < height - 1; ya++){
+            int yp = ya + getScrollY() - 1;
+            for(int xa = 1; xa < width - 1; xa++){
+                int xp = xa + getScrollX() - 1;
                 
-                fogBit[xa + 1][ya + 1] = 0;
-                
-                if(!world.isExplored(xp, yp, player.z)){
-                    if(!world.isExplored(xp, yp - 1, player.z)) fogBit[xa + 1][ya + 1] += 1;
-                    if(!world.isExplored(xp, yp + 1, player.z)) fogBit[xa + 1][ya + 1] += 8;
-                    if(!world.isExplored(xp + 1, yp, player.z)) fogBit[xa + 1][ya + 1] += 4;
-                    if(!world.isExplored(xp - 1, yp, player.z)) fogBit[xa + 1][ya + 1] += 2;
+                fogBit[xa][ya] = 0;
+
+                if(!world.isExplored(xp, yp, player.z) && showFov){
+                    if(!world.isExplored(xp, yp - 1, player.z)) fogBit[xa][ya] += 1;
+                    if(!world.isExplored(xp, yp + 1, player.z)) fogBit[xa][ya] += 8;
+                    if(!world.isExplored(xp + 1, yp, player.z)) fogBit[xa][ya] += 4;
+                    if(!world.isExplored(xp - 1, yp, player.z)) fogBit[xa][ya] += 2;
                     continue;
                 }
                 
-                if(world.tile(x, y, player.z).id == 0) continue;
-
                 Sprite sprite = spriteAt(xp, yp, player.z);
-                renderer.renderSprite(sprite, xa + 1, ya + 1);
+                renderer.renderSprite(sprite, xa, ya);
             }
         }
 
-        /**
-         * To anyone reading this.
-         * I'm having to do some pretty funky shit to get MT (multi-tile) creatures to render properly.
-         * To make MT creatures look like they are hidden in fov and fog, I have to render creatures first then the fog.
-         * Then if there is a creature in a tile that isn't visible, I render whatever was underneath and darken it.
-         * So if a 2x2 skeleton boss is standing on grass and I didn't re-render the floor tile, it would look like the grass has disappeared.
-         * Its not pretty but it works. Yay!
-         * 
-         * Man this would be so much easier if I was rendering single tile creatures...
-         */
-
         renderCreatures(renderer);
-        renderFog(renderer);
+        if(showFov) renderFog(renderer);
         
         if(title != null) renderer.write(title, 3, 0);
     }
@@ -84,6 +73,10 @@ public class LevelScreen extends Screen{
         int yp = getScrollY();
 
         for(Creature c : world.creatures(player.z)){
+            int xa = (c.x - xp) + 1;
+            int ya = (c.y - yp) + 1;
+            if(xa == 0 || ya == 0 || xa == width - 1 || ya == height -1) continue;
+            
             boolean inFov = false;
             for(int y = 0; y < c.size(); y++){
                 for(int x = 0; x < c.size(); x++){
@@ -94,24 +87,22 @@ public class LevelScreen extends Screen{
                 }
             }
             
-            if(inFov) renderer.renderSprite(c.sprite(), c.x - xp + 1, c.y - yp + 1);
+            if(inFov || !showFov) renderer.renderSprite(c.sprite(), xa, ya);
         }
     }
     
     private void renderFog(Renderer renderer){
-        for(int ya = 0; ya < height - 2; ya++) {
-            int yp = ya + getScrollY();
-            for (int xa = 0; xa < width - 2; xa++) {
-                int xp = xa + getScrollX();
+        for(int ya = 1; ya < height - 1; ya++){
+            int yp = ya + getScrollY() - 1;
+            for(int xa = 1; xa < width - 1; xa++){
+                int xp = xa + getScrollX() - 1;
                 if(!world.isExplored(xp, yp, player.z)){
-                    Sprite fog = Sprite.getFogSprite(fogBit[xa + 1][ya + 1]);
-                    renderer.renderSprite(fog, xa + 1, ya + 1);
+                    Sprite fog = Sprite.getFogSprite(fogBit[xa][ya]);
+                    renderer.renderSprite(fog, xa, ya);
                 }else if(!world.inFov(xp, yp, player.z) && world.creature(xp, yp, player.z) != null && world.creature(xp, yp, player.z).size() == 1){
-                    if(world.creature(xp, yp, player.z) != null) renderer.renderSprite(world.tile(xp, yp, player.z).sprite(), xa + 1, ya + 1);
-                    renderer.darkenSprite(xa + 1, ya + 1);
-                }else if(!world.inFov(xp, yp, player.z)){
-                    renderer.darkenSprite(xa + 1, ya + 1);
-                }
+                    if(world.creature(xp, yp, player.z) != null) renderer.renderSprite(world.tile(xp, yp, player.z).sprite(), xa, ya);
+                    renderer.darkenSprite(xa, ya);
+                }else if(!world.inFov(xp, yp, player.z)) renderer.darkenSprite(xa, ya);
             }
         }
     }
@@ -123,10 +114,10 @@ public class LevelScreen extends Screen{
     }
 
     public int getScrollX(){
-        return Math.max(0, Math.min(player.x - (width - 1) / 2, world.width() - (width - 1) + 1));
+        return Math.max(0, Math.min(player.x - (width - 1) / 2, world.width() - (width - 1)));
     }
 
     public int getScrollY(){
-        return Math.max(0, Math.min(player.y - (height - 1) / 2, world.height() - (height - 1) + 1));
+        return Math.max(0, Math.min(player.y - (height - 1) / 2, world.height() - (height - 1)));
     }
 }

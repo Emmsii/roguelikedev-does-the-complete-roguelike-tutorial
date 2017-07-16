@@ -35,6 +35,9 @@ public class World {
     
     private FieldOfView fov;
     
+    private int[] exploredTiles;
+    private int[] totalTiles;
+    
     public World(int width, int height, int depth, long seed){
         this.width = width;
         this.height = height;
@@ -52,17 +55,26 @@ public class World {
         
         this.fov = new FieldOfView(this);
         
-        for(int z = 0; z < depth; z++){
+        this.exploredTiles = new int[depth];
+        this.totalTiles = new int[depth];
+
+        for(int z = 0; z < depth; z++) {
             creatureList.put(z, new ArrayList<>());
             itemList.put(z, new ArrayList<>());
+        }
+    }    
+    
+    public void init(){
+        for(int z = 0; z < depth; z++){
             for(int y = 0; y < height; y++){
                 for(int x = 0; x < width; x++){
                     setExplored(x, y, z, false);
                     setVisible(x, y, z, true);
+                    if(!tile(x, y, z).solid()) totalTiles[z]++;
                 }
             }
         }
-    }    
+    }
     
     public void update(int z){
         List<Creature> toUpdate = new ArrayList<Creature>(creatureList.get(z));
@@ -77,6 +89,7 @@ public class World {
     
     public void setExplored(int x, int y, int z, boolean value){
         if(!inBounds(x, y, z)) return;
+        if(!tile(x, y, z).solid() && value && !explored[x][y][z]) exploredTiles[z]++;
         explored[x][y][z] = value;
     }
     
@@ -103,7 +116,7 @@ public class World {
     /* Util Methods */
     
     public Point randomEmptyPoint(int z){
-        int x = 0, y = 0;
+        int x, y;
         
         do{
             x = (int) (Math.random() * width);
@@ -114,8 +127,8 @@ public class World {
     }
     
     public Point randomEmptyPointNearType(int z, String type){
-        int x = 0, y = 0;
-        boolean nearType = false;
+        int x, y;
+        boolean nearType;
         
         do{
             nearType = false;
@@ -134,28 +147,15 @@ public class World {
         return new Point(x, y, z);
     }
 
-    public Point randomEmptyNearPoint(Point point){
-        if(!inBounds(point.x, point.y, point.z)) return null;
-
-        List<Point> points = new ArrayList<Point>();
-        List<Point> checked = new ArrayList<Point>();
-
-        points.add(point);
-
-        while(!points.isEmpty()){
-            Point p = points.remove(0);
-            checked.add(p);
-
-            if(tile(p.x, p.y, p.z).solid()) continue;
-            if(creature(p.x, p.y, p.z) == null){
-                return p;
-            }else{
-                List<Point> neighbours = p.neighboursAll();
-                neighbours.removeAll(checked);
-                points.addAll(neighbours);
-            }
-        }
-        return null;
+    public Point randomEmptyPointInRadius(Point point, int radius){
+        int x, y;
+        int half = radius / 2;
+        do{
+            x = MathUtil.range(point.x - half, point.x + half, new Random());
+            y = MathUtil.range(point.y - half, point.y + half, new Random());
+        }while (tile(x, y, point.z).solid() || creature(x, y, point.z) != null || MathUtil.distance(x, y, point.x, point.y) > half);
+        
+        return new Point(x, y, point.z);
     }
 
     /* Util Methods */
@@ -279,6 +279,10 @@ public class World {
     }
     
     //Misc
+    
+    public int exploredPercent(int z){
+        return (int) (((float) exploredTiles[z] / (float) totalTiles[z]) * 100);
+    }
     
     public int width(){
         return width;

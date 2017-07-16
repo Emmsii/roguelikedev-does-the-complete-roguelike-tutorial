@@ -43,11 +43,13 @@ public class ForrestLevelBuilder extends LevelBuilder{
         addTileType(Tile.getTile("treeConifer"), 50);
         addTileType(Tile.getTile("treeDeciduous"), 50);
         addTileType(Tile.getTile("waterBlue"), 100);
-        addTileType(Tile.getTile("wallTopRed"), 100);        
+        addTileType(Tile.getTile("wallTopRed"), 100);
+        addTileType(Tile.getTile("grassMediumGreen"), 100);
+        addTileType(Tile.getTile("grassSmallGreen"), 60);
         addTileType(Tile.getTile("chestSilver"), 100);
-
+                    
         addDecalTile(Tile.getTile("waterLilypad"), 4, Tile.getTile("waterBlue"));
-        addDecalTile(Tile.getTile("grassGreen"), 50, Tile.getTile("empty"), Tile.getTile("floor"));
+        addDecalTile(Tile.getTile("grassGreen"), 40, Tile.getTile("empty"), Tile.getTile("floor"));
         addDecalTile(Tile.getTile("treeConifer"), 22, Tile.getTile("empty"));
         addDecalTile(Tile.getTile("treeDeciduous"), 22, Tile.getTile("empty"));
     }
@@ -100,6 +102,8 @@ public class ForrestLevelBuilder extends LevelBuilder{
             cleanupRegions(minRegionSize);
 
             addChests(chestFrequency);
+            
+            addGrass();
             
         }while(!isValid((int) ((width * height) * 0.3)));
         
@@ -313,6 +317,20 @@ public class ForrestLevelBuilder extends LevelBuilder{
                 }while(tile(x, y).solid() && tries++ < (r.width * r.height));
                 setTile(x, y, chestTile);
                 //TODO: separate list of chests
+            }
+        }
+    }
+    
+    private void addGrass(){
+        int emptyId = Tile.getTile("empty").id;
+        int floorId = Tile.getTile("floor").id;
+        for(int y = 0; y < height; y++){
+            for(int x = 0; x < width; x++){
+                int id = tile(x, y).id;
+                if(id == emptyId || id == floorId){
+                    Tile t = getRandomTile("grass");
+                    setTile(x, y, t);
+                }
             }
         }
     }

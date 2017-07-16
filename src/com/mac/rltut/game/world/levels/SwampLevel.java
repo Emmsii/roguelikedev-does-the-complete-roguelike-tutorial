@@ -23,12 +23,18 @@ public class SwampLevel extends ForrestLevelBuilder {
         addTileType(Tile.getTile("treeDeciduous"), 45);
         addTileType(Tile.getTile("waterDirty"), 80);
         addTileType(Tile.getTile("waterFoul"), 10);
+        addTileType(Tile.getTile("grassMediumYellow"), 15);
+        addTileType(Tile.getTile("grassMediumGreen"), 70);
+        addTileType(Tile.getTile("grassSmallYellow"), 15);
+        addTileType(Tile.getTile("grassSmallGreen"), 50);
         addTileType(Tile.getTile("waterBlue"), 5);
 
         addDecalTile(Tile.getTile("waterBonesDirty1"), 2, Tile.getTile("waterDirty"));
         addDecalTile(Tile.getTile("waterBonesDirty2"), 2, Tile.getTile("waterDirty"));
         addDecalTile(Tile.getTile("waterBonesFoul1"), 2, Tile.getTile("waterFoul"));
         addDecalTile(Tile.getTile("waterBonesFoul2"), 2, Tile.getTile("waterFoul"));
+        addDecalTile(Tile.getTile("reeds1"), 9, Tile.getTile("waterDirty"));
+        addDecalTile(Tile.getTile("reeds2"), 9, Tile.getTile("waterDirty"));
         addDecalTile(Tile.getTile("grassPurple"), 20, Tile.getTile("empty"), Tile.getTile("floor"));
         addDecalTile(Tile.getTile("grassGreen"), 70, Tile.getTile("empty"), Tile.getTile("floor"));
         addDecalTile(Tile.getTile("mushroom"), 15, Tile.getTile("empty"), Tile.getTile("floor"));

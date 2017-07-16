@@ -16,7 +16,8 @@ public class Renderer {
     public static final int DARKEN_SPRITE = 2;
     
     private int defaultFontColor = 0xffffff;
-    private int defaultBackgroundColor = 0x111111;
+//    private int defaultBackgroundColor = 0x111111;
+    private int defaultBackgroundColor = 0;
     
     private final int width, height;
     private int[] pixels;

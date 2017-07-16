@@ -40,7 +40,7 @@ public class TileLoader extends DataLoader{
                 Sprite sprite = Sprite.get(obj.getString("sprite"));
                 TileType type = tileTypes.get(obj.getString("type"));
                 String typeName = obj.hasToken("type_name") ? obj.getString("type_name") : type.name;
-                
+
                 Tile newTile = new Tile((byte) id, name, sprite, typeName, type.solid, type.canSee, type.canFly);
                 Tile.addTile(newTile);
             }else if(obj.type().equalsIgnoreCase("chest")){

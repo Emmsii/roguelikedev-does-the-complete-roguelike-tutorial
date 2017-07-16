@@ -23,10 +23,12 @@ public class DenseLevel extends ForrestLevelBuilder {
         addTileType(Tile.getTile("treeDeciduous"), 45);
         addTileType(Tile.getTile("waterBlue"), 100);
         addTileType(Tile.getTile("wallTopRed"), 100);
+        addTileType(Tile.getTile("grassMediumGreen"), 100);
+        addTileType(Tile.getTile("grassSmallGreen"), 30);
         addTileType(Tile.getTile("chestSilver"), 100);
 
         addDecalTile(Tile.getTile("waterLilypad"), 4, Tile.getTile("waterBlue"));
-        addDecalTile(Tile.getTile("grassGreen"), 60, Tile.getTile("empty"), Tile.getTile("floor"));
+        addDecalTile(Tile.getTile("grassGreen"), 70, Tile.getTile("empty"), Tile.getTile("floor"));
         addDecalTile(Tile.getTile("mushroom"), 4, Tile.getTile("empty"), Tile.getTile("floor"));
         addDecalTile(Tile.getTile("treeConifer"), 50, Tile.getTile("empty"));
         addDecalTile(Tile.getTile("treeDeciduous"), 52, Tile.getTile("empty"));

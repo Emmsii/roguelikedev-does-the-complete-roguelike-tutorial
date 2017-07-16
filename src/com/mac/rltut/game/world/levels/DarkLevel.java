@@ -24,6 +24,10 @@ public class DarkLevel extends ForrestLevelBuilder{
         addTileType(Tile.getTile("waterBlue"), 90);
         addTileType(Tile.getTile("waterDirty"), 5);
         addTileType(Tile.getTile("wallTopBlue"), 100);
+        addTileType(Tile.getTile("grassMediumPurple"),60);
+        addTileType(Tile.getTile("grassMediumBlue"), 80);
+        addTileType(Tile.getTile("grassSmallPurple"), 50);
+        addTileType(Tile.getTile("grassSmallBlue"), 60);
         addTileType(Tile.getTile("chestGold"), 100);
 
         addDecalTile(Tile.getTile("waterLilypad"), 4, Tile.getTile("waterBlue"));

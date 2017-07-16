@@ -50,6 +50,7 @@ public class Engine {
     }
     
     private void loadData(){
+        Log.debug("Loading data...");
         try {
             new SpritesheetLoader("data/sheets.dat").load();
             new SpriteLoader("data/sprites.dat").load();
