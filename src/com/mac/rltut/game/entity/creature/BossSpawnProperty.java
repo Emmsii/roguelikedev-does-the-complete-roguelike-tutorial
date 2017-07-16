@@ -28,7 +28,7 @@ public class BossSpawnProperty extends CreatureSpawnProperty{
     @Override
     public boolean canSpawnAtDepth(int z) {
         if(spawnEvery == 0) return super.canSpawnAtDepth(z);
-        return z % spawnEvery == 0 && z != 0;
+        return z % spawnEvery == 0 && z != 0 && super.canSpawnAtDepth(z);
     }
     
     public String minionCount(){

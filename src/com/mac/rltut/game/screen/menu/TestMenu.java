@@ -16,7 +16,7 @@ public class TestMenu extends Screen{
     
     @Override
     public Screen input(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_SPACE) return new LoadingScreen(new WorldBuilder(92, 92, 16, System.currentTimeMillis()));
+        if(e.getKeyCode() == KeyEvent.VK_SPACE) return new LoadingScreen(new WorldBuilder(92, 92, 20, System.currentTimeMillis()));
         return this;
     }
 

@@ -33,7 +33,7 @@ public class Pool<T> {
             Log.error("Cannot get item from an empty pool");
             return null;
         }
-        
+
         int runningWeight = 0;
         int roll = random.nextInt(totalWeight - 1) + 1;
         

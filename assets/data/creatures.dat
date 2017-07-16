@@ -1,12 +1,12 @@
 [CREATURE]
 NAME=Wizard
 SPRITE=wizard
-SPAWN_WEIGHT=30
+SPAWN_WEIGHT=5
 
 [CREATURE]
 NAME=Undead Wizard
 SPRITE=wizard_undead
-SPAWN_WEIGHT=10
+SPAWN_WEIGHT=3
 
 [CREATURE]
 NAME=Werewolf
@@ -31,7 +31,7 @@ SPRITE=bat
 [CREATURE]
 NAME=Fire Sprite
 SPRITE=fire_sprite
-SPAWN_LEVEL=5-16
+SPAWN_LEVELS=5-16
 SPAWN_TYPES=!sparse
 
 [CREATURE]
@@ -53,32 +53,59 @@ PACK_SIZE=1-4
 SPAWN_WEIGHT=50
 
 [CREATURE]
+NAME=Spectre
+SPRITE=spectre
+SPAWN_TYPES=dark, ruins
+SPAWN_LEVELS=8-20
+
+[CREATURE]
 NAME=Blue Snake
 SPRITE=snake_blue
+SPAWN_LEVELS=3-20
 SPAWN_TYPES=!sparse
 
 [CREATURE]
 NAME=Green Snake
 SPRITE=snake_green
-SPAWN_TYPES=!sparse
+SPAWN_LEVELS=3-20
+SPAWN_TYPES=!sparse, !dark
 
 [CREATURE]
 NAME=Brown Snake
 SPRITE=snake_brown
-SPAWN_TYPES=!sparse
+SPAWN_LEVELS=3-20
+SPAWN_TYPES=!sparse, !dark
 
 [CREATURE]
 NAME=Ghost
 SPRITE=ghost
-SPAWN_TYPES=!default, !dense, !lakes
+SPAWN_TYPES=!default, !dense, !lakes, !sparse
 SPAWN_LEVELS=6-20
 
 [CREATURE]
 NAME=Cat
 SPRITE=cat
-SPAWN_WEIGHT=1
+SPAWN_WEIGHT=2
 
 # ---------------- Bosses
+
+[BOSS]
+NAME=Green Octopus Boss
+SPRITE=octopus_boss_green
+SPAWN_TYPES=lakes, swamp
+SPAWN_EVERY=3
+MINIONS=green octopus
+MINION_COUNT=7-10
+SIZE=2
+
+[BOSS]
+NAME=Blue Octopus Boss
+SPRITE=octopus_boss_blue
+SPAWN_EVERY=3
+SPAWN_TYPES=lake, swamp
+MINIONS=blue octopus
+MINION_COUNT=7-10
+SIZE=2
 
 [BOSS]
 NAME=Skeleton King
@@ -94,6 +121,14 @@ SPRITE=ent_boss
 SPAWN_EVERY=3
 MINIONS=ent
 MINION_COUNT=5-8
+SIZE=2
+
+[BOSS]
+NAME=Spectre Boss
+SPRITE=spectre_boss
+SPAWN_EVERY=3
+MINIONS=spectre
+MINION_COUNT=4-7
 SIZE=2
 
 [BOSS]
@@ -115,6 +150,7 @@ SIZE=2
 [BOSS]
 NAME=Eye Thing
 SPRITE=eye_thing
+SPAWN_LEVELS=1-19
 SPAWN_EVERY=5
 UNIQUE=1
 SIZE=2
@@ -122,6 +158,7 @@ SIZE=2
 [BOSS]
 NAME=Golem
 SPRITE=golem
+SPAWN_LEVELS=1-19
 SPAWN_EVERY=5
 UNIQUE=1
 SIZE=2
@@ -129,6 +166,15 @@ SIZE=2
 [BOSS]
 NAME=Gargoyle
 SPRITE=gargoyle
+SPAWN_LEVELS=1-19
 SPAWN_EVERY=5
 UNIQUE=1
 SIZE=2
+
+[BOSS]
+NAME=Cat Boss
+SPRITE=cat
+MINIONS=cat
+MINION_COUNT=30
+SPAWN_LEVELS=20
+UNIQUE=1

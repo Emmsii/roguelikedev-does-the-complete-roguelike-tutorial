@@ -275,6 +275,11 @@ X=9
 Y=6
 
 [SPRITE]
+NAME=spectre
+X=10
+Y=6
+
+[SPRITE]
 NAME=snake_blue
 X=11
 Y=6
@@ -302,6 +307,18 @@ Y=7
 # ---------------- Bosses
 
 [SPRITE]
+NAME=octopus_boss_green
+X=0
+Y=8
+SIZE=16
+
+[SPRITE]
+NAME=octopus_boss_blue
+X=2
+Y=10
+SIZE=16
+
+[SPRITE]
 NAME=skeleton_boss
 X=2
 Y=8
@@ -316,6 +333,12 @@ SIZE=16
 [SPRITE]
 NAME=ent_boss
 X=6
+Y=7
+SIZE=16
+
+[SPRITE]
+NAME=spectre_boss 
+X=8
 Y=7
 SIZE=16
 
@@ -340,7 +363,7 @@ SIZE=16
 [SPRITE]
 NAME=gargoyle
 X=10
-Y=10
+Y=10 
 SIZE=16
 
 # ---------------- UI

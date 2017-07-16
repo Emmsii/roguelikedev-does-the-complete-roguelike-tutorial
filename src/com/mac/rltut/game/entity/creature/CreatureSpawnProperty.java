@@ -32,7 +32,7 @@ public class CreatureSpawnProperty {
         this.spawnNear = spawnNear;
         this.packSize = packSize;
         
-        if(spawnWeight < 0) spawnWeight = 1;
+        if(spawnWeight < 2) spawnWeight = 2;
         if(spawnWeight > 100) spawnWeight = 100;
         this.spawnWeight = spawnWeight;
         
