@@ -1,6 +1,5 @@
 package com.mac.rltut.game.world;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
@@ -22,41 +21,33 @@ public class World {
     
     private final int width, height, depth;
     private final long seed;
-    
-    private int entityId;
-    
+
     private Level[] levels;
-    private boolean[][][] explored;
-    private boolean[][][] visible;
+
+    private int entityId;
     private HashMap<Integer, List<Creature>> creatureList;
     private HashMap<Integer, List<Item>> itemList;
     private Creature[][][] creatureArray;
     private Item[][][] itemArray;
-    
+
     private FieldOfView fov;
-    
-    private int[] exploredTiles;
-    private int[] totalTiles;
-    
+    private int[] totalExplorableTiles;
+
+
     public World(int width, int height, int depth, long seed){
         this.width = width;
         this.height = height;
         this.depth = depth;
         this.seed = seed;
         this.levels = new Level[depth];
-        this.explored = new boolean[width][height][depth];
-        this.visible = new boolean[width][height][depth];
         this.creatureList = new HashMap<>();
         this.itemList = new HashMap<>();
         this.creatureArray = new Creature[width][height][depth];
         this.itemArray = new Item[width][height][depth];
-                
         this.entityId = 0;
         
         this.fov = new FieldOfView(this);
-        
-        this.exploredTiles = new int[depth];
-        this.totalTiles = new int[depth];
+        this.totalExplorableTiles = new int[depth];
 
         for(int z = 0; z < depth; z++) {
             creatureList.put(z, new ArrayList<>());
@@ -70,42 +61,43 @@ public class World {
                 for(int x = 0; x < width; x++){
                     setExplored(x, y, z, false);
                     setVisible(x, y, z, true);
-                    if(!tile(x, y, z).solid()) totalTiles[z]++;
+                    if(!tile(x, y, z).solid()) totalExplorableTiles[z]++;
                 }
             }
         }
     }
     
     public void update(int z){
-        List<Creature> toUpdate = new ArrayList<Creature>(creatureList.get(z));
-        for(Creature c : toUpdate) c.update();
+        //TODO: Maybe move this out of the update method...
+        int min = z - 1 < 0 ? 0 : z - 1;
+        int max = z + 1 >= depth - 1 ? depth - 1: z + 1;
+        for(int level = min; level <= max; level++) {
+            List<Creature> toUpdate = new ArrayList<Creature>(creatureList.get(level));
+            for (Creature c : toUpdate) c.update();
+        }
     }
     
     /* FOV Methods */
+    
     public void computeFov(int x, int y, int z, int radius, FieldOfView.FOVType type){
         fov.clearFov();
         fov.compute(x, y, z, radius, type);
     }
     
     public void setExplored(int x, int y, int z, boolean value){
-        if(!inBounds(x, y, z)) return;
-        if(!tile(x, y, z).solid() && value && !explored[x][y][z]) exploredTiles[z]++;
-        explored[x][y][z] = value;
+        level(z).setExplored(x, y, value);
     }
     
     public void setVisible(int x, int y, int z, boolean value){
-        if(!inBounds(x, y, z)) return;
-        visible[x][y][z] = value;
+        level(z).setVisible(x, y, value);
     }
     
     public boolean isExplored(int x, int y, int z){
-        if(!inBounds(x, y, z)) return false;
-        return explored[x][y][z];
+        return level(z).isExplored(x, y);
     }
     
     public boolean isVisible(int x, int y, int z){
-        if(!inBounds(x, y, z)) return false;
-        return visible[x][y][z];
+        return level(z).isVisible(x, y);
     }
     
     public boolean inFov(int x, int y, int z){
@@ -158,7 +150,9 @@ public class World {
         return new Point(x, y, point.z);
     }
 
-    /* Util Methods */
+    /* Entity Methods */
+
+    //Entity Adders --------------------
     
     public void add(int x, int y, int z, Creature creature){
         if(!inBounds(x, y, z)) return;
@@ -186,16 +180,26 @@ public class World {
         item.z = z;
         item.init(entityId++, this);
     }
+
+    //Entity Removers --------------------
     
     public void remove(Creature creature){
         creatureList.get(creature.z).remove(creature);
-        creatureArray[creature.x][creature.y][creature.z] = null;
+        for(int ya = 0; ya < creature.size(); ya++) {
+            int yb = creature.y + ya;
+            for (int xa = 0; xa < creature.size(); xa++) {
+                int xb = creature.x + xa;
+                creatureArray[xb][yb][creature.z] = null;
+            }
+        }
     }
     
     public void remove(Item item){
         itemList.get(item.z).remove(item);
         itemArray[item.x][item.y][item.z] = null;
     }
+
+    //Entity Movement --------------------
     
     public void move(int xp, int yp, int zp, Creature creature){
         if(!inBounds(xp, yp, zp)) return;
@@ -236,6 +240,8 @@ public class World {
         creatureList.get(newZ).add(creature);
         creatureList.get(oldZ).remove(creature);
     }
+
+    //Entity Getters --------------------
     
     public Creature creature(int x, int y, int z){
         if(!inBounds(x, y, z)) return null;
@@ -256,11 +262,18 @@ public class World {
         if(!inBounds(0, 0, z)) return null;
         return itemList.get(z);
     }
+
+    //Entity Utils ------------------
     
-    //Tile Methods
+    /* World Methods */
     
     public Level level(int z){
         return levels[z];        
+    }
+
+    public void setLevel(int z, Level level){
+        if(!inBounds(0, 0, z)) return;
+        levels[z] = level;
     }
     
     public Tile tile(int x, int y, int z){
@@ -272,16 +285,17 @@ public class World {
         if(!inBounds(0, 0, z)) return null;
         return levels[z].startPoint();
     }
+        
+    /* Misc Methods */
     
-    public void setLevel(int z, Level level){
-        if(!inBounds(0, 0, z)) return;
-        levels[z] = level;
+    public boolean inBounds(int x, int y, int z){
+        return x >= 0 && y >= 0  && z >= 0 && x < width && y < height && z < depth;
     }
     
-    //Misc
-    
+    /* Getter Methods */
+
     public int exploredPercent(int z){
-        return (int) (((float) exploredTiles[z] / (float) totalTiles[z]) * 100);
+        return (int) (((float) level(z).exploredTiles() / (float) totalExplorableTiles[z]) * 100);
     }
     
     public int width(){
@@ -296,7 +310,4 @@ public class World {
         return depth;
     }
     
-    public boolean inBounds(int x, int y, int z){
-        return x >= 0 && y >= 0  && z >= 0 && x < width && y < height && z < depth;
-    }
 }

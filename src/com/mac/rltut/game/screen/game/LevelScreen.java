@@ -23,7 +23,7 @@ public class LevelScreen extends Screen{
     
     private byte[][] fogBit;
     
-    public static boolean showFov = true;
+    public static boolean showFov = true; //Debug
     
     public LevelScreen(int x, int y, int width, int height, World world, Creature player){
         super(x, y, width, height, "Level 1");
@@ -40,7 +40,7 @@ public class LevelScreen extends Screen{
     @Override
     public void render(Renderer renderer) {
         renderBorder(renderer);
-        world.computeFov(player.x, player.y, player.z, 16, FieldOfView.FOVType.SHADOWCAST);
+        world.computeFov(player.x, player.y, player.z, player.vision(), FieldOfView.FOVType.SHADOWCAST);
         
         for(int ya = 1; ya < height - 1; ya++){
             int yp = ya + getScrollY() - 1;

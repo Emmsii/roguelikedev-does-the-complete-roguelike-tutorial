@@ -10,6 +10,8 @@ FILE_NAME=grass
 NAME=fog
 FILE_NAME=fog
 
+# ---------------- Fonts
+
 [FONT]
 NAME=anikki
 FILE_NAME=anikki_square

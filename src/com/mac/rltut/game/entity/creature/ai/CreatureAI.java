@@ -1,6 +1,8 @@
 package com.mac.rltut.game.entity.creature.ai;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.util.Line;
+import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -28,7 +30,6 @@ public class CreatureAI {
     
     public boolean tryMove(int xp, int yp, int zp){
         if(!canEnter(xp, yp, zp)) return false;
-        
         creature.world().move(xp, yp, zp, creature);
         return true;
     }
@@ -43,5 +44,20 @@ public class CreatureAI {
             }
         }
         return true;
+    }
+    
+    public boolean canSee(int xp, int yp, int zp){
+        if(creature.z != zp) return false;
+        if((creature.x - xp) * (creature.x - xp) + (creature.y - yp) * (creature.y - yp) > creature.vision() * creature.vision()) return false;
+        for(Point p : new Line(creature.x, creature.y, xp, yp)){
+            if(!creature.world().tile(p.x, p.y, p.x).solid() || p.x == xp && p.y == yp) continue;
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public void notify(String message){
+        
     }
 }

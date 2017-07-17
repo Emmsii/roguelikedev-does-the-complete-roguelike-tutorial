@@ -10,7 +10,13 @@
 + Can draw map to screen.
 + Map generation which allows for varying levels.
 
-###### Week 3 - Map continued
+###### Week 3 - Map (continued)
 + Player can move through different z levels.
 + Added FOV + tiled fog texture.
 + Sprites and spritesheets data is loaded from data files.
+
+###### Week 4 - Creatures
++ Creatures are loaded from data files, along with their spawn parameters.
++ Creatures can spawn based off spawn parameters.
++ Creatures can be multi-tiled.
++ Bosses spawn every x levels.

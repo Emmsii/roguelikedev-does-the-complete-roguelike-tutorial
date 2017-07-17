@@ -32,6 +32,7 @@ public class GameScreen extends Screen{
     
     private void init(){
         player = new Creature("player", Sprite.get("player"));//temp
+        player.setStats(100, 16);
         new CreatureAI(player);
         levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), world, player);
         
