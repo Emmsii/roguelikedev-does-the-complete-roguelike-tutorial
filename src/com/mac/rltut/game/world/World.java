@@ -32,6 +32,8 @@ public class World {
 
     private FieldOfView fov;
     private int[] totalExplorableTiles;
+    
+    private DayNightController dayNightController;
 
 
     public World(int width, int height, int depth, long seed){
@@ -48,6 +50,8 @@ public class World {
         
         this.fov = new FieldOfView(this);
         this.totalExplorableTiles = new int[depth];
+        
+        this.dayNightController = new DayNightController(200, 5, 20, 2);
 
         for(int z = 0; z < depth; z++) {
             creatureList.put(z, new ArrayList<>());
@@ -68,6 +72,8 @@ public class World {
     }
     
     public void update(int z){
+        dayNightController.update();
+        
         //TODO: Maybe move this out of the update method...
         int min = z - 1 < 0 ? 0 : z - 1;
         int max = z + 1 >= depth - 1 ? depth - 1: z + 1;
@@ -296,6 +302,10 @@ public class World {
 
     public int exploredPercent(int z){
         return (int) (((float) level(z).exploredTiles() / (float) totalExplorableTiles[z]) * 100);
+    }
+
+    public DayNightController dayNightController(){
+        return dayNightController;
     }
     
     public int width(){

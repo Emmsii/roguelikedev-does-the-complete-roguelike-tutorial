@@ -22,4 +22,27 @@ public class Colors {
         int b = (int) ((color & 0xff) * factor);
         return r << 16 | g << 8 | b;
     }
+    
+    public static int blend(int a, int b, float factor){
+        if(a == 0 || b == 0) return 0;
+        if(factor == 0f) return a;
+        else if(factor == 1f) return b;
+        if(factor > 1f) factor = 1f;
+        else if(factor < 0f) factor = 0f;
+        float iFact = 1f - factor;
+        
+        int ar = ((a & 0xff0000) >> 16);
+        int ag = ((a & 0xff00) >> 8);
+        int ab = (a & 0xff);
+
+        int br = ((b & 0xff0000) >> 16);
+        int bg = ((b & 0xff00) >> 8);
+        int bb = (b & 0xff);
+        
+        int re = (int) ((ar * iFact) + (br * factor));
+        int gr = (int) ((ag * iFact) + (bg * factor));
+        int bl = (int) ((ab * iFact) + (bb * factor));
+        
+        return re << 16 | gr << 8 | bl;
+    }
 }

@@ -16,8 +16,7 @@ public class Renderer {
     public static final int DARKEN_SPRITE = 2;
     
     private int defaultFontColor = 0xffffff;
-//    private int defaultBackgroundColor = 0x111111;
-    private int defaultBackgroundColor = 0;
+    private int nightColor = 0x1e3e66; 
     
     private final int width, height;
     private int[] pixels;
@@ -47,7 +46,6 @@ public class Renderer {
             for(int x = 0; x < sprite.width; x++){
                 int xa = x + xp;
                 int pixelColor = sprite.pixel((flags & FLIP_SPRITE) == FLIP_SPRITE ? sprite.width - x : x, y);
-                if(pixelColor == 0xff000000) pixelColor = defaultBackgroundColor;
                 if((flags & DARKEN_SPRITE) == DARKEN_SPRITE) pixelColor = Colors.darken(pixelColor);
                 renderPixel(pixelColor, xa, ya);
             }
@@ -63,11 +61,26 @@ public class Renderer {
                 int xa = x + xp;
                 int pixelColor = sprite.pixel(x, y);
                 if(pixelColor == 0xffffffff) renderPixel(color, xa, ya);
-                else renderPixel(defaultBackgroundColor, xa, ya);
+                else renderPixel(0, xa, ya);
             }
         }
     }
 
+    public void colorizeSprite(int xp, int yp, float factor){
+        int size = Engine.instance().tileSize();
+        xp *= size;
+        yp *= size;
+
+        for(int y = yp; y < yp + size; y++){
+            for(int x = xp; x < xp + size; x++){
+                if(!inBounds(x, y)) continue;
+                int pixelColor = pixels[x + y * width];
+                if(pixelColor == 0xff000000) continue;
+                pixels[x + y * width] = Colors.blend(pixelColor, nightColor, factor);
+            }
+        }
+    }
+    
     public void darkenSprite(int xp, int yp){
         darkenSprite(xp, yp, Colors.DARKEN_FACTOR);
     }
@@ -101,7 +114,6 @@ public class Renderer {
     
     public void write(String text, int xp, int yp, int color){
         if(text == null || text.length() == 0) return;
-
         for(int i = 0; i < text.length(); i++){
             if(xp + i < 0 || xp + i >= width) continue;
             int c = text.charAt(i);
@@ -110,7 +122,7 @@ public class Renderer {
     }
 
     public void clear(){
-        for(int i = 0; i < pixels.length; i++) pixels[i] = defaultBackgroundColor;
+        for(int i = 0; i < pixels.length; i++) pixels[i] = 0;
     }
 
     public boolean inBounds(int x, int y){

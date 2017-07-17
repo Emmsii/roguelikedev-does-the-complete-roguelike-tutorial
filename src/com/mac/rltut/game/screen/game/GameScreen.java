@@ -65,9 +65,9 @@ public class GameScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-        levelScreen.setTitle("Level " + (player.z + 1) + " Explored: " + world.exploredPercent(player.z) + "%");
+        levelScreen.setTitle("Level " + (player.z + 1) + " Explored: " + world.exploredPercent(player.z) + "% Time: " + world.dayNightController().currentTime() + " (" + world.dayNightController().light() + ")");
         levelScreen.render(renderer);
-        
+
         renderer.writeCenter("WASD/ARROW keys to move, PAGE UP/DOWN to make change levels.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 1);
     }
 }

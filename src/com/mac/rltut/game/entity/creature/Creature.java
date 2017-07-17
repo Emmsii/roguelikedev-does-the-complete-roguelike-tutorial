@@ -108,7 +108,7 @@ public class Creature extends Entity {
     }
     
     public int vision(){
-        return vision;
+        return Math.min(vision, world.dayNightController().light());
     }
     
     /* Setter Methods */

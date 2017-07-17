@@ -92,10 +92,13 @@ public class LevelScreen extends Screen{
     }
     
     private void renderFog(Renderer renderer){
+        float darkenAmount = (1f - world.dayNightController().lightPercent()) * 0.4f;
+
         for(int ya = 1; ya < height - 1; ya++){
             int yp = ya + getScrollY() - 1;
             for(int xa = 1; xa < width - 1; xa++){
                 int xp = xa + getScrollX() - 1;
+                
                 if(!world.isExplored(xp, yp, player.z)){
                     Sprite fog = Sprite.getFogSprite(fogBit[xa][ya]);
                     renderer.renderSprite(fog, xa, ya);
@@ -103,6 +106,12 @@ public class LevelScreen extends Screen{
                     if(world.creature(xp, yp, player.z) != null) renderer.renderSprite(world.tile(xp, yp, player.z).sprite(), xa, ya);
                     renderer.darkenSprite(xa, ya);
                 }else if(!world.inFov(xp, yp, player.z)) renderer.darkenSprite(xa, ya);
+                
+                if(world.isExplored(xp, yp, player.z)){
+                    renderer.colorizeSprite(xa, ya, darkenAmount);
+                    renderer.darkenSprite(xa, ya, 1f - (darkenAmount * 0.75f));
+                }
+                
             }
         }
     }
