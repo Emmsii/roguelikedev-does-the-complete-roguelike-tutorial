@@ -51,7 +51,7 @@ public class World {
         this.fov = new FieldOfView(this);
         this.totalExplorableTiles = new int[depth];
         
-        this.dayNightController = new DayNightController(200, 5, 20, 2);
+        this.dayNightController = new DayNightController(225, 5, 20, 2);
 
         for(int z = 0; z < depth; z++) {
             creatureList.put(z, new ArrayList<>());

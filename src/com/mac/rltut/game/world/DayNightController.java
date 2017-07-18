@@ -10,6 +10,7 @@ import com.esotericsoftware.minlog.Log;
 public class DayNightController {
     
     private int dayLength;
+    private int day;
     private int currentTime;
 
     private int morningTime;
@@ -20,9 +21,8 @@ public class DayNightController {
 
     private int lightChangeEvery;
     
-    public int dayTime, nightTime;
-    
     public DayNightController(int dayLength, int minLight, int maxLight, int lightChangeEvery){
+        this.day = 1;
         this.dayLength = dayLength;
         this.minLight = minLight;
         this.maxLight = maxLight;
@@ -35,15 +35,15 @@ public class DayNightController {
     
     public void update(){
         currentTime++;
-        if(currentTime > dayLength) currentTime = 0;
+        if(currentTime > dayLength){
+            day++;
+            currentTime = 0;
+        }
         
         if(currentTime % lightChangeEvery == 0) {
             if (isNight() && light > minLight) modifyLight(-1);
             if (isDay() && light < maxLight) modifyLight(1);
         }
-        
-        if(isDay()) dayTime++;
-        if(isNight()) nightTime++;
     }
     
     private void modifyLight(int amount){
@@ -68,6 +68,10 @@ public class DayNightController {
         return light;
     }
         
+    public int day(){
+        return day;
+    }
+    
     public int currentTime(){
         return currentTime;
     }

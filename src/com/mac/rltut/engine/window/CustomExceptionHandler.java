@@ -29,7 +29,7 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
         e.printStackTrace();
         
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss_ddMMyyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy_HHmmss");
 
         File file = new File("logs/");
         if(!file.exists()) file.mkdirs();

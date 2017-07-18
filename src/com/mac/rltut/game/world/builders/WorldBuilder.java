@@ -31,7 +31,7 @@ public class WorldBuilder {
 
     private World world;
 
-    private String creatureSpawnBaseCount = "17-25"; 
+    private String creatureSpawnBaseCount = "12-20"; 
     private String maxCreatureTypesPerLevel = "5-6";
     
     private float[] creatureSpawnMultiplier;
@@ -51,12 +51,12 @@ public class WorldBuilder {
         double start = System.nanoTime();
 
         List<LevelBuilder> levels = new ArrayList<LevelBuilder>();
-        levels.add(new DefaultLevel(width, height, 0, depth + 1, 70, -0.5f, 1f, random));
+        levels.add(new DefaultLevel(width, height, 0, depth + 1, 70, -0.5f, 1.5f, random));
         levels.add(new DenseLevel(width, height, 1, depth + 1, 55, 0.95f, 1.5f, random));
-        levels.add(new SparseLevel(width, height, 1, 8, 70, 0.9f, 0.8f, random));
-        levels.add(new LakesLevel(width, height, 3, 10, 50, 1.325f, 1f, random));
-        levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.35f, random));
-        levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.8f, random));
+        levels.add(new SparseLevel(width, height, 1, 8, 70, 0.9f, 1.5f, random));
+        levels.add(new LakesLevel(width, height, 3, 10, 50, 1.325f, 1.5f, random));
+        levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.5f, random));
+        levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.7f, random));
         levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 0f, 1.7f, random));
 
         //Temp code
@@ -181,10 +181,10 @@ public class WorldBuilder {
                 }
             }
             creaturesSpawned += spawnedThisLevel;
-            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] " + spawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
+//            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] " + spawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
         }
-        Log.debug("Spawned " + creaturesSpawned + " creatures total.");
-        
+//        Log.debug("Spawned " + creaturesSpawned + " creatures total.");
+
         return this;
     }
     
@@ -214,12 +214,23 @@ public class WorldBuilder {
     }
 
     private void newCreature(Point spawn, Creature creature){
-        if(creature instanceof Boss) Log.debug("Boss: " + creature.name() + " at level " + spawn.z);
         world.add(spawn.x, spawn.y, spawn.z, creature);
+        modifyStats(creature, spawn.z);
         new CreatureAI(creature);
         
         if(!spawnCounts.get(spawn.z).containsKey(creature.name())) spawnCounts.get(spawn.z).put(creature.name(), 0);
         spawnCounts.get(spawn.z).put(creature.name(), spawnCounts.get(spawn.z).get(creature.name()) + 1);
+    }
+    
+    private void modifyStats(Creature creature, int z){
+        creature.modifyMaxHp((int) Math.pow(1.25, z));
+        creature.modifyMaxMana((int) Math.pow(1.275, z));
+        creature.modifyStrength((int) Math.pow(1.125, z));
+        creature.modifyDefense((int) Math.pow(1.125, z));
+        creature.modifyAccuracy((int) Math.pow(1.125, z));
+        creature.modifyIntelligence((int) Math.pow(1.125, z));
+        creature.modifyHp(creature.maxHp(), "");
+        creature.modifyMana(creature.maxMana());
     }
     
     public World build(){

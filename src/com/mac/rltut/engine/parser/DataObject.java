@@ -1,6 +1,7 @@
 package com.mac.rltut.engine.parser;
 
 import com.esotericsoftware.minlog.Log;
+import jdk.nashorn.internal.runtime.ParserException;
 
 import java.util.HashMap;
 
@@ -48,8 +49,7 @@ public class DataObject {
     private Object get(String token){
         token = token.toUpperCase().trim();
         if(!values.containsKey(token)){
-            Log.warn("Data Object [" + type + "] does not contain the token [" + token + "]");
-            return null;
+            throw new DataObjectException("Data Object [" + type + "] does not contain the token [" + token + "]");
         }
         return values.get(token);
     }

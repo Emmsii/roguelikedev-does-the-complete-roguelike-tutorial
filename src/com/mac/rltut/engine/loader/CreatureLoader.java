@@ -29,7 +29,14 @@ public class CreatureLoader extends DataLoader{
             if(obj.type().equalsIgnoreCase("creature")){
                 String name = obj.getString("name");
                 Sprite sprite = Sprite.get(obj.getString("sprite"));
-
+                int hp = obj.getInt("hp");
+                int mana = obj.getInt("mana");
+                int strength = obj.getInt("strength");
+                int defense = obj.getInt("defense");
+                int accuracy = obj.getInt("accuracy");
+                int intelligence = obj.getInt("intelligence");
+                int vision = obj.getInt("vision");
+                
                 String spawnLevels = obj.hasToken("spawn_levels") ? obj.getString("spawn_levels") : "all";
                 String spawnTypes = obj.hasToken("spawn_types") ? obj.getString("spawn_types") : "all";
                 String spawnNear = obj.hasToken("spawn_near") ? obj.getString("spawn_near") : "all";
@@ -37,6 +44,7 @@ public class CreatureLoader extends DataLoader{
                 String packSize = obj.hasToken("pack_size") ? obj.getString("pack_size") : "0";
                 
                 Creature creature = new Creature(name, sprite);
+                creature.setStats(hp, mana, strength, defense, accuracy, intelligence, vision);
                 CreatureSpawnProperty spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnWeight, packSize);
                 Codex.creatures.put(name.toLowerCase(), spawnProperty);
                 
@@ -44,9 +52,15 @@ public class CreatureLoader extends DataLoader{
             }else if(obj.type().equalsIgnoreCase("boss")){
                 String name = obj.getString("name");
                 Sprite sprite = Sprite.get(obj.getString("sprite"));
+                int hp = obj.getInt("hp");
+                int mana = obj.getInt("mana");
+                int strength = obj.getInt("strength");
+                int defense = obj.getInt("defense");
+                int accuracy = obj.getInt("accuracy");
+                int intelligence = obj.getInt("intelligence");
+                int vision = obj.getInt("vision");
                 
                 int spawnEvery = obj.hasToken("spawn_every") ? obj.getInt("spawn_every") : 0;
-
                 String spawnLevels = obj.hasToken("spawn_levels") ? obj.getString("spawn_levels") : "all";
                 String spawnTypes = obj.hasToken("spawn_types") ? obj.getString("spawn_types") : "all";
                 String spawnNear = obj.hasToken("spawn_near") ? obj.getString("spawn_near") : "all";
@@ -58,6 +72,7 @@ public class CreatureLoader extends DataLoader{
                 boolean unique = obj.hasToken("unique") && obj.getInt("unique") == 1;
 
                 Boss boss = new Boss(name, sprite, size);
+                boss.setStats(hp, mana, strength, defense, accuracy, intelligence, vision);
                 BossSpawnProperty spawnProperty = new BossSpawnProperty(boss, spawnLevels, spawnEvery, spawnTypes, spawnNear, spawnWeight, minions, minionCount, unique);
                 Codex.creatures.put(name.toLowerCase(), spawnProperty);
             }
