@@ -1,5 +1,7 @@
 package com.mac.rltut.game.entity.creature.ai;
 
+import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.game.MessageLog;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -9,12 +11,15 @@ import com.mac.rltut.game.entity.creature.Creature;
  */
 public class PlayerAI extends CreatureAI{
     
-    public PlayerAI(Creature creature) {
+    private MessageLog log;
+    
+    public PlayerAI(Creature creature, MessageLog log) {
         super(creature);
+        this.log = log;
     }
 
     @Override
-    public void notify(String message) {
-        //message log 
+    public void notify(ColoredString message) {
+        log.add(message);
     }
 }

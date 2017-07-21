@@ -10,7 +10,7 @@ import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.ai.CreatureAI;
+import com.mac.rltut.game.entity.creature.ai.*;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 
@@ -131,7 +131,7 @@ public class WorldBuilder {
                     if (boss.isUnique()) uniquesSpawned.add(boss.creature().name());
 
                     Point spawn = getSpawnPoint(boss, z);
-                    newCreature(spawn, (Creature) boss.creature().newInstance());
+                    BossAI bossAI = new BossAI(newCreature(spawn, (Creature) boss.creature().newInstance()));
                     spawnedThisLevel++;
 
                     int minionCount = MathUtil.randomIntFromString(boss.minionCount(), random);
@@ -140,15 +140,18 @@ public class WorldBuilder {
                         List<CreatureSpawnProperty> minions = new ArrayList<CreatureSpawnProperty>();
                         for (String s : boss.minions()) minions.add(Codex.creatures.get(s.toLowerCase()));
 
+                        PackAI pack = new PackAI();
                         for (int i = 0; i < minionCount; i++) {
                             Pool<CreatureSpawnProperty> minionPool = new Pool<CreatureSpawnProperty>();
                             for (CreatureSpawnProperty c : minions) minionPool.add(c, c.spawnWeight());
 
                             CreatureSpawnProperty minion = minionPool.get();
                             Point minionSpawn = world.randomEmptyPointInRadius(spawn, 6);
-                            newCreature(minionSpawn, (Creature) minion.creature().newInstance());
+                            Creature packMember = newCreature(minionSpawn, (Creature) minion.creature().newInstance());
+                            pack.addCreature(new PackMemberAI(packMember));
                             spawnedThisLevel++;
                         }
+                        bossAI.setPack(pack);
                     }
                 }
             }
@@ -170,12 +173,14 @@ public class WorldBuilder {
                 typesSpawned.add(toSpawn.creature().name());
                 
                 if(packSize == 0) {
-                    newCreature(spawn, (Creature) toSpawn.creature().newInstance());
+                    getAI(toSpawn.creature().aiType(), newCreature(spawn, (Creature) toSpawn.creature().newInstance()));
                     spawnedThisLevel++;
                 }else{
+                    PackAI pack = new PackAI();
                     for(int i = 0; i < packSize; i++){
                         Point newSpawn = world.randomEmptyPointInRadius(spawn, 4);
-                        newCreature(newSpawn, (Creature) toSpawn.creature().newInstance());
+                        Creature packMember = newCreature(newSpawn, (Creature) toSpawn.creature().newInstance());
+                        pack.addCreature(new PackMemberAI(packMember));
                         spawnedThisLevel++;
                     }
                 }
@@ -198,7 +203,7 @@ public class WorldBuilder {
                 spawn = world.randomEmptyPointNearType(z, spawnNear);
             }
             
-            if(MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30) continue;
+            if(MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 10) continue;
             
             blocked = false;
             for(int y = spawn.y; y <= spawn.y + toSpawn.creature().size(); y++){
@@ -213,13 +218,13 @@ public class WorldBuilder {
         return spawn;
     }
 
-    private void newCreature(Point spawn, Creature creature){
+    private Creature newCreature(Point spawn, Creature creature){
         world.add(spawn.x, spawn.y, spawn.z, creature);
         modifyStats(creature, spawn.z);
-        new CreatureAI(creature);
         
         if(!spawnCounts.get(spawn.z).containsKey(creature.name())) spawnCounts.get(spawn.z).put(creature.name(), 0);
         spawnCounts.get(spawn.z).put(creature.name(), spawnCounts.get(spawn.z).get(creature.name()) + 1);
+        return creature;
     }
     
     private void modifyStats(Creature creature, int z){
@@ -231,6 +236,12 @@ public class WorldBuilder {
         creature.modifyIntelligence((int) Math.pow(1.125, z));
         creature.modifyHp(creature.maxHp(), "");
         creature.modifyMana(creature.maxMana());
+    }
+    
+    private CreatureAI getAI(String ai, Creature creature){
+        if(ai.equalsIgnoreCase("aggressive")) return new AggressiveAI(creature);
+        else if(ai.equalsIgnoreCase("passive")) return new PassiveAI(creature);
+        else return new CreatureAI(creature);
     }
     
     public World build(){

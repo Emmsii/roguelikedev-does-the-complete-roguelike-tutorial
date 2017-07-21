@@ -35,7 +35,8 @@ public class World {
     
     private DayNightController dayNightController;
 
-
+    private Creature player;
+    
     public World(int width, int height, int depth, long seed){
         this.width = width;
         this.height = height;
@@ -51,7 +52,7 @@ public class World {
         this.fov = new FieldOfView(this);
         this.totalExplorableTiles = new int[depth];
         
-        this.dayNightController = new DayNightController(225, 5, 20, 2);
+        this.dayNightController = new DayNightController(600, 5, 20, 3);
 
         for(int z = 0; z < depth; z++) {
             creatureList.put(z, new ArrayList<>());
@@ -175,6 +176,7 @@ public class World {
         creature.y = y;
         creature.z = z;
         creature.init(entityId++, this);
+        if(creature.isPlayer()) this.player = creature;
     }
     
     public void add(int x, int y, int z, Item item){
@@ -267,6 +269,10 @@ public class World {
     public List<Item> items(int z){
         if(!inBounds(0, 0, z)) return null;
         return itemList.get(z);
+    }
+    
+    public Creature player(){
+        return player;
     }
 
     //Entity Utils ------------------

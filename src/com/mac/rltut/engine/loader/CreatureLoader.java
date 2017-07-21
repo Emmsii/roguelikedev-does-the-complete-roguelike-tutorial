@@ -36,6 +36,7 @@ public class CreatureLoader extends DataLoader{
                 int accuracy = obj.getInt("accuracy");
                 int intelligence = obj.getInt("intelligence");
                 int vision = obj.getInt("vision");
+                String ai = obj.getString("ai");
                 
                 String spawnLevels = obj.hasToken("spawn_levels") ? obj.getString("spawn_levels") : "all";
                 String spawnTypes = obj.hasToken("spawn_types") ? obj.getString("spawn_types") : "all";
@@ -43,7 +44,7 @@ public class CreatureLoader extends DataLoader{
                 int spawnWeight = obj.hasToken("spawn_weight") ? obj.getInt("spawn_weight") : 100;
                 String packSize = obj.hasToken("pack_size") ? obj.getString("pack_size") : "0";
                 
-                Creature creature = new Creature(name, sprite);
+                Creature creature = new Creature(name, sprite, ai);
                 creature.setStats(hp, mana, strength, defense, accuracy, intelligence, vision);
                 CreatureSpawnProperty spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnWeight, packSize);
                 Codex.creatures.put(name.toLowerCase(), spawnProperty);

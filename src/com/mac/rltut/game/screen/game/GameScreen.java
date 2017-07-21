@@ -3,13 +3,18 @@ package com.mac.rltut.game.screen.game;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
+import com.mac.rltut.engine.pathfinding.astar.AStar;
+import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.game.MessageLog;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
+import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.world.Level;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.screen.Screen;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
@@ -20,22 +25,34 @@ import java.awt.event.KeyEvent;
 public class GameScreen extends Screen{
     
     private World world;
+    private MessageLog log;
     
     private LevelScreen levelScreen;
+    private LogScreen logScreen;
+    private InfoScreen infoScreen;
+    private EquipmentScreen equipmentScreen;
         
     Creature player;
     
     public GameScreen(World world){
         this.world = world;
+        AStar.instance().init(world);
         init();
     }
     
     private void init(){
-        player = new Creature("player", Sprite.get("player"));//temp
-        player.setStats(10, 100, 1, 1, 1, 1, 16);
-        new CreatureAI(player);
-        levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles(), Engine.instance().heightInTiles(), world, player);
+        log = new MessageLog();
+        log.add(new ColoredString("hello world", Color.cyan.getRGB()));
         
+        player = new Creature("player", Sprite.get("player"), "player");//temp
+        player.setStats(10, 100, 10, 10, 10, 10, 16);
+        new PlayerAI(player, log);
+
+        logScreen = new LogScreen(Engine.instance().widthInTiles(), log, 9, "Log");
+        infoScreen = new InfoScreen(Engine.instance().widthInTiles() - 30, 0, 30, logScreen.height(), "Info", player);
+        equipmentScreen = new EquipmentScreen(Engine.instance().widthInTiles() - 30, infoScreen.height(), 30, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "Equipment", player);
+        levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles() - infoScreen.width(), Engine.instance().heightInTiles() - logScreen.height(), "", world, player);
+          
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
     }
@@ -59,15 +76,18 @@ public class GameScreen extends Screen{
         }
 
         world.update(player.z);
+//        if(player.hp() < 1) //loose;
                 
         return this;
     }
 
     @Override
     public void render(Renderer renderer) {
-        levelScreen.setTitle("Level " + (player.z + 1) + " Explored: " + world.exploredPercent(player.z) + "% Time: " + world.dayNightController().currentTime() + " (" + world.dayNightController().light() + ")");
+//        levelScreen.setTitle("Level " + (player.z + 1) + " Explored: " + world.exploredPercent(player.z) + "% Time: " + world.dayNightController().currentTime() + " (" + world.dayNightController().light() + ")");
+        
         levelScreen.render(renderer);
-
-        renderer.writeCenter("WASD/ARROW keys to move, PAGE UP/DOWN to make change levels.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 1);
+        logScreen.render(renderer);
+        infoScreen.render(renderer);
+        equipmentScreen.render(renderer);
     }
 }

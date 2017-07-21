@@ -50,9 +50,25 @@ public abstract class Screen {
                 else if(xp == width - 1 && yp == height - 1) renderer.renderSprite(Sprite.get("uiBorderBR"), xa, ya);
             }
         }
+        
+        if(title != null && title.trim().length() != 0) renderer.write(" " + title + " ", this.x + 2, this.y);
+    }
+    
+    protected void renderBar(int xp, int yp, int w, int color, Renderer renderer){
+        for(int i = 0; i < w; i++){
+            renderer.renderBox(xp + i, yp, color);
+        }
     }
     
     public void setTitle(String title){
         this.title = title;
+    }
+    
+    public int width(){
+        return width;
+    }
+    
+    public int height(){
+        return height;
     }
 }

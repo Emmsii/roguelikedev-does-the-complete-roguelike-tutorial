@@ -1,6 +1,7 @@
 package com.mac.rltut.game.entity.creature.ai;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Line;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
@@ -16,12 +17,15 @@ public class CreatureAI {
     
     public CreatureAI(Creature creature){
         this.creature = creature;
-        creature.setAi(this);
+        if(creature != null) creature.setAi(this);
     }
     
     public void update(){
-        if(creature.name().equalsIgnoreCase("player")) return;
-        if(Math.random() < 0.4){
+        
+    }
+    
+    protected void wander(float frequency){
+        if(Math.random() < frequency){
             int x = (int) Math.round(Math.random() * 2 - 1);
             int y = (int) Math.round(Math.random() * 2 - 1);
             creature.moveBy(x, y, 0);
@@ -50,14 +54,14 @@ public class CreatureAI {
         if(creature.z != zp) return false;
         if((creature.x - xp) * (creature.x - xp) + (creature.y - yp) * (creature.y - yp) > creature.vision() * creature.vision()) return false;
         for(Point p : new Line(creature.x, creature.y, xp, yp)){
-            if(!creature.world().tile(p.x, p.y, p.x).solid() || p.x == xp && p.y == yp) continue;
+            if(!creature.world().tile(p.x, p.y, zp).solid() || p.x == xp && p.y == yp) continue;
             return false;
         }
         
         return true;
     }
     
-    public void notify(String message){
+    public void notify(ColoredString message){
         
     }
 }

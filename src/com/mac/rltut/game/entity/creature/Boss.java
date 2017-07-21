@@ -14,6 +14,6 @@ public class Boss extends Creature{
     }
 
     public Boss(String name, Sprite sprite, int size) {
-        super(name, sprite, size);
+        super(name, sprite, size, "boss");
     }
 }

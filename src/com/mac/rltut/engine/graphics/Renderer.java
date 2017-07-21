@@ -32,6 +32,21 @@ public class Renderer {
         pixels[xp + yp * width] = color;
     }
 
+    public void renderBox(int xp, int yp, int color){
+        int size = Engine.instance().tileSize();
+        xp *= size;
+        yp *= size;
+
+        for(int y = 0; y < size; y++) {
+            int ya = y + yp;
+            for (int x = 0; x < size; x++) {
+                int xa = x + xp;
+                renderPixel(color, xa, ya);
+            }
+        }
+        
+    }
+    
     public void renderSprite(Sprite sprite, int xp, int yp){
         renderSprite(sprite, xp, yp, 0);    
     }
@@ -67,6 +82,10 @@ public class Renderer {
     }
 
     public void colorizeSprite(int xp, int yp, float factor){
+        colorizeSprite(xp, yp, nightColor, factor);
+    }
+
+    public void colorizeSprite(int xp, int yp, int color, float factor){
         int size = Engine.instance().tileSize();
         xp *= size;
         yp *= size;
@@ -76,7 +95,7 @@ public class Renderer {
                 if(!inBounds(x, y)) continue;
                 int pixelColor = pixels[x + y * width];
                 if(pixelColor == 0xff000000) continue;
-                pixels[x + y * width] = Colors.blend(pixelColor, nightColor, factor);
+                pixels[x + y * width] = Colors.blend(pixelColor, color, factor);
             }
         }
     }

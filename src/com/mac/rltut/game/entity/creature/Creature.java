@@ -2,12 +2,15 @@ package com.mac.rltut.game.entity.creature;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
+import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
+import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.world.World;
 import com.sun.deploy.util.StringUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class Creature extends Entity {
     private int size;
 
     private CreatureAI ai;
+    private String aiType;
 
     private int maxHp;
     private int hp;
@@ -33,22 +37,30 @@ public class Creature extends Entity {
     private int intelligence;
     private int vision;
     
+    private int xp;
+    private int level;
+    
     private String causeOfDeath;
     
-    public Creature(String name, Sprite sprite) {
-        this(name, sprite, 1);
+    private int timeStationary;
+    private boolean hasMoved;
+    
+    public Creature(String name, Sprite sprite, String aiType) {
+        this(name, sprite, 1, aiType);
     }
         
-    public Creature(String name, Sprite sprite, int size) {
+    public Creature(String name, Sprite sprite, int size, String aiType) {
         super(name, sprite);
         this.size = size;
+        this.level = 1;
+        this.aiType = aiType;
     }
 
     public void setStats(int maxHp, int maxMana, int strength, int defense, int accuracy, int intelligence, int vision){
         this.maxHp = maxHp;
         this.hp = maxHp;
         this.maxMana = maxMana;
-        this.mana = mana;
+        this.mana = maxMana;
         this.strength = strength;
         this.defense = defense;
         this.accuracy = accuracy;
@@ -64,23 +76,30 @@ public class Creature extends Entity {
     @Override
     public void update() {
         ai.update();
+        
+        if(!hasMoved) timeStationary++;
+        else timeStationary = 0;
     }
     
     /* Movement Methods */
     
     //Move creature by amount
     public boolean moveBy(int xp, int yp, int zp){
+        hasMoved = false;
         if(xp == 0 && yp == 0 && zp == 0) return false;
         if(!world.inBounds(x + xp, y + yp, z + zp)) return false;
         
         Creature other = world.creature(x + xp, y + yp, z + zp);
         if(other == null){
-            return ai.tryMove(x + xp, y + yp, z + zp);
+            hasMoved = ai.tryMove(x + xp, y + yp, z + zp);
+            return hasMoved;
         }else{
             //Attack Melee
-            new CombatManager(this, other).meleeAttack();
+            if(!isPlayer() && other.isPlayer() || isPlayer()) new CombatManager(this, other).meleeAttack();
+            hasMoved = true;
             return true;
         }
+        
     }
     
     //Move creature to position
@@ -96,18 +115,28 @@ public class Creature extends Entity {
     
     /* Combat Methods */
 
+    public void damage(int amount, String causeOfDeath){
+        modifyHp(-amount, causeOfDeath);
+    }
+    
+    public void gainXp(Creature other){
+        int amount = other.maxHp + other.strength + other.defense - level;
+        if(amount > 0) modifyXp(amount);
+    }
+    
     /* Item Methods */
     
     /* Log Methods */
     
-    public void notify(String message, Object ... params){
-        ai.notify(String.format(message, params));
+    public void notify(ColoredString message, Object ... params){
+        message.text = String.format(message.text, params);
+        ai.notify(message);
     }
 
-    public void doAction(String message, Object ... params){
+    public void doAction(ColoredString message, Object ... params){
         for(Creature other : getCreaturesWhoSeeMe()){
-            if(other == this) other.notify("You " + message + ".", params);
-            else other.notify("The %s %s.", StringUtil.makeSecondPerson(message), params);
+            if(other == this) other.notify(new ColoredString("You " + message.text + ".", message.color), params);
+            else other.notify(new ColoredString(String.format("The %s %s.", name, StringUtil.makeSecondPerson(message.text)), message.color), params);
         }
     }
     
@@ -115,17 +144,12 @@ public class Creature extends Entity {
     
     public List<Creature> getCreaturesWhoSeeMe(){
         List<Creature> others = new ArrayList<Creature>();
-        
-        for(Creature c : world.creatures(z)){
-            if(c.id == this.id) continue;
-            if(c.canSee(this)) others.add(c);
-        }
-        
+        for(Creature c : world.creatures(z)) if(c.canSee(this)) others.add(c);
         return others;
     }
     
     public boolean canSee(Creature c){
-        return canSee(c.x, c.y, c.x);
+        return canSee(c.x, c.y, c.z);
     }
     
     public boolean canSee(int xp, int yp, int zp){
@@ -140,7 +164,7 @@ public class Creature extends Entity {
                 
         if(hp > maxHp) hp = maxHp;
         else if(hp < 1){
-            doAction("die");
+            doAction(new ColoredString("die", Color.RED.getRGB()));
             world.remove(this);
         }
     }
@@ -178,6 +202,19 @@ public class Creature extends Entity {
     
     public void modifyVision(int amount){
         vision += amount;
+    }
+    
+    public void modifyXp(int amount){
+        xp += amount;
+        
+        notify(new ColoredString("You %s %d xp.", amount < 0 ? Color.red.getRGB() : Color.green.getRGB()), amount < 0 ? "lose" : "gain", amount);
+        
+        while(xp > (int) (Math.pow(level, 1.75) * 25)){
+            level++;
+            doAction(new ColoredString("advance to level %d", Color.GREEN.getRGB()), level);
+//            ai.onGainLevel();
+            modifyHp(level * 2, "a level less than 0");
+        }
     }
     
     /* Getter Methods */
@@ -220,6 +257,27 @@ public class Creature extends Entity {
     
     public int vision(){
         return Math.min(vision, world.dayNightController().light());
+    }
+    
+    public int xp(){
+        return xp;
+    }
+    
+    public int level(){
+        return level;
+    }
+    
+    public String aiType(){
+        return aiType;
+    }
+    
+    public int timeStationary(){
+        return timeStationary;
+    }
+    
+    //TODO: CHANGE THIS!
+    public boolean isPlayer(){
+        return ai instanceof PlayerAI;
     }
     
     /* Setter Methods */

@@ -23,10 +23,10 @@ public class LevelScreen extends Screen{
     
     private byte[][] fogBit;
     
-    public static boolean showFov = true; //Debug
+    public static boolean showFov = false; //Debug
     
-    public LevelScreen(int x, int y, int width, int height, World world, Creature player){
-        super(x, y, width, height, "Level 1");
+    public LevelScreen(int x, int y, int width, int height, String title, World world, Creature player){
+        super(x, y, width, height, title);
         this.world = world;
         this.player = player;
         this.fogBit = new byte[width - 1][height - 1];
@@ -39,7 +39,8 @@ public class LevelScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-        renderBorder(renderer);
+        setTitle("Map " + (player.z + 1));
+       
         world.computeFov(player.x, player.y, player.z, player.vision(), FieldOfView.FOVType.SHADOWCAST);
         
         for(int ya = 1; ya < height - 1; ya++){
@@ -64,8 +65,8 @@ public class LevelScreen extends Screen{
 
         renderCreatures(renderer);
         if(showFov) renderFog(renderer);
-        
-        if(title != null) renderer.write(title, 3, 0);
+
+        renderBorder(renderer);
     }
         
     private void renderCreatures(Renderer renderer){
@@ -75,7 +76,7 @@ public class LevelScreen extends Screen{
         for(Creature c : world.creatures(player.z)){
             int xa = (c.x - xp) + 1;
             int ya = (c.y - yp) + 1;
-            if(xa == 0 || ya == 0 || xa == width - 1 || ya == height -1) continue;
+            if(xa < 0 || ya < 0 || xa > width - 1 || ya > height -1) continue;
             
             boolean inFov = false;
             for(int y = 0; y < c.size(); y++){
