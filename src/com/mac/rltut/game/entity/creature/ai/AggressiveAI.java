@@ -22,12 +22,14 @@ public class AggressiveAI extends CreatureAI{
     public void update() {
         if(creature.canSee(creature.world().player())){
             //hunt
-            Creature player = creature.world().player();
-            Path path = new Path(creature, player.x, player.y);
-            if(path.hasNext()){
-                Point next = path.getNext();
-                creature.moveBy(next.x - creature.x, next.y - creature.y, 0);
-            }
+//            Creature player = creature.world().player();
+//            Path path = new Path(creature, player.x, player.y);
+//            if(path.hasNext()){
+//                Point next = path.getNext();
+//                creature.moveBy(next.x - creature.x, next.y - creature.y, 0);
+//            }
+            
+            pathTo(creature.world().player().x, creature.world().player().y);
             
         }else{
             wander(0.5f);

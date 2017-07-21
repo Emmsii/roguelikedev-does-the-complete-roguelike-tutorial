@@ -1,6 +1,7 @@
 package com.mac.rltut.game.entity.creature.ai;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.pathfinding.Path;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Line;
 import com.mac.rltut.engine.util.Point;
@@ -23,6 +24,14 @@ public class CreatureAI {
     
     public void update(){
         
+    }
+    
+    protected void pathTo(int xp, int yp){
+        Path path = new Path(creature, xp, yp);
+        if(path.hasNext()){
+            Point next = path.getNext();
+            creature.moveBy(next.x - creature.x, next.y - creature.y, 0);
+        }
     }
     
     protected void wander(float frequency){
@@ -59,7 +68,7 @@ public class CreatureAI {
         if(creature.z != zp) return false;
         if((creature.x - xp) * (creature.x - xp) + (creature.y - yp) * (creature.y - yp) > creature.vision() * creature.vision()) return false;
         for(Point p : new Line(creature.x, creature.y, xp, yp)){
-            if(!creature.world().tile(p.x, p.y, zp).solid() || p.x == xp && p.y == yp) continue;
+            if(creature.world().tile(p.x, p.y, zp).canSee() || p.x == xp && p.y == yp) continue;
             return false;
         }
         

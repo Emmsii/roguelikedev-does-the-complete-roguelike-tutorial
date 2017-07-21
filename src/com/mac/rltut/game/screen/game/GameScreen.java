@@ -44,7 +44,7 @@ public class GameScreen extends Screen{
         log.add(new ColoredString("hello world", Color.cyan.getRGB()));
         
         player = new Player("player", Sprite.get("player"));//temp
-        player.setStats(10, 100, 10, 10, 10, 10, 16);
+        player.setStats(10000, 100, 10, 10, 10, 10, 16);
         new PlayerAI(player, log);
 
         logScreen = new LogScreen(Engine.instance().widthInTiles(), log, 9, "Log");

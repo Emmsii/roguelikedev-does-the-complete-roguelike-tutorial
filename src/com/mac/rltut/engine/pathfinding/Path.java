@@ -20,10 +20,11 @@ public class Path {
     }
     
     public boolean hasNext(){
-        return points.size() > 0;
+        return points!= null && points.size() > 0;
     }
     
     public Point getNext(){
+        if(points == null) return null;
         Point p = points.get(0);
         points.remove(0);
         return p;

@@ -4,6 +4,7 @@ import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.ai.PackAI;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.world.tile.Tile;
 
@@ -149,9 +150,12 @@ public class World {
     public Point randomEmptyPointInRadius(Point point, int radius){
         int x, y;
         int half = radius / 2;
+        int tries = 0;
         do{
+            if(tries++ > width * half) return null;
             x = MathUtil.range(point.x - half, point.x + half, new Random());
             y = MathUtil.range(point.y - half, point.y + half, new Random());
+            
         }while (tile(x, y, point.z).solid() || creature(x, y, point.z) != null || MathUtil.distance(x, y, point.x, point.y) > half);
         
         return new Point(x, y, point.z);

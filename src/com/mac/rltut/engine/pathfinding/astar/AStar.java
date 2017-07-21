@@ -38,7 +38,6 @@ public class AStar {
         }
         
         if(world.tile(startPos.x, startPos.y, startPos.z).solid() || world.tile(endPos.x, endPos.y, endPos.z).solid()){
-            Log.warn("Cannot find path. Start and end tiles must be empty.");
             return null;
         }
         

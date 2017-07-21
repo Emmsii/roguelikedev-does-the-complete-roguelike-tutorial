@@ -271,6 +271,10 @@ public class Creature extends Entity {
         return aiType;
     }
     
+    public CreatureAI ai(){
+        return ai;
+    }
+    
     public int timeStationary(){
         return timeStationary;
     }

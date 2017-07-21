@@ -148,7 +148,7 @@ public class WorldBuilder {
                             CreatureSpawnProperty minion = minionPool.get();
                             Point minionSpawn = world.randomEmptyPointInRadius(spawn, 6);
                             Creature packMember = newCreature(minionSpawn, (Creature) minion.creature().newInstance());
-                            pack.addCreature(new PackMemberAI(packMember));
+                            pack.addPackMember(new PackMemberAI(packMember, pack));
                             spawnedThisLevel++;
                         }
                         bossAI.setPack(pack);
@@ -180,7 +180,7 @@ public class WorldBuilder {
                     for(int i = 0; i < packSize; i++){
                         Point newSpawn = world.randomEmptyPointInRadius(spawn, 4);
                         Creature packMember = newCreature(newSpawn, (Creature) toSpawn.creature().newInstance());
-                        pack.addCreature(new PackMemberAI(packMember));
+                        pack.addPackMember(new PackMemberAI(packMember, pack));
                         spawnedThisLevel++;
                     }
                 }
