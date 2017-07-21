@@ -22,4 +22,9 @@ public class PlayerAI extends CreatureAI{
     public void notify(ColoredString message) {
         log.add(message);
     }
+
+    @Override
+    public void onGainLevel() {
+        
+    }
 }

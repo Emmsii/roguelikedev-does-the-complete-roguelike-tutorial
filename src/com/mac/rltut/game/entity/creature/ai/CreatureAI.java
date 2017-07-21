@@ -5,6 +5,7 @@ import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Line;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.stats.LevelUpController;
 
 /**
  * Project: complete-rltut
@@ -32,7 +33,11 @@ public class CreatureAI {
         }
     }
     
-    public boolean tryMove(int xp, int yp, int zp){
+    public void onGainLevel(){
+        new LevelUpController().autoLevelUp(creature);
+    }
+    
+    public boolean onMove(int xp, int yp, int zp){
         if(!canEnter(xp, yp, zp)) return false;
         creature.world().move(xp, yp, zp, creature);
         return true;

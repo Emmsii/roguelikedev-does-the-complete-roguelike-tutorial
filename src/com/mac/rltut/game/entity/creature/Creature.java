@@ -1,14 +1,11 @@
 package com.mac.rltut.game.entity.creature;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
-import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.world.World;
-import com.sun.deploy.util.StringUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -91,7 +88,7 @@ public class Creature extends Entity {
         
         Creature other = world.creature(x + xp, y + yp, z + zp);
         if(other == null){
-            hasMoved = ai.tryMove(x + xp, y + yp, z + zp);
+            hasMoved = ai.onMove(x + xp, y + yp, z + zp);
             return hasMoved;
         }else{
             //Attack Melee
@@ -99,7 +96,6 @@ public class Creature extends Entity {
             hasMoved = true;
             return true;
         }
-        
     }
     
     //Move creature to position
@@ -108,7 +104,7 @@ public class Creature extends Entity {
         if(!world.inBounds(xp, yp, zp));
         
         Creature other = world.creature(xp, yp, zp);
-        if(other == null) return ai.tryMove(xp, yp, zp);
+        if(other == null) return ai.onMove(xp, yp, zp);
         
         return false;
     }
@@ -120,6 +116,11 @@ public class Creature extends Entity {
     }
     
     public void gainXp(Creature other){
+        if(isPlayer()){
+            Player player = (Player) this;
+            player.stats().addKill(other.name);
+        }
+        
         int amount = other.maxHp + other.strength + other.defense - level;
         if(amount > 0) modifyXp(amount);
     }
@@ -212,8 +213,7 @@ public class Creature extends Entity {
         while(xp > (int) (Math.pow(level, 1.75) * 25)){
             level++;
             doAction(new ColoredString("advance to level %d", Color.GREEN.getRGB()), level);
-//            ai.onGainLevel();
-            modifyHp(level * 2, "a level less than 0");
+            ai.onGainLevel();
         }
     }
     
@@ -277,7 +277,7 @@ public class Creature extends Entity {
     
     //TODO: CHANGE THIS!
     public boolean isPlayer(){
-        return ai instanceof PlayerAI;
+        return this instanceof Player;
     }
     
     /* Setter Methods */

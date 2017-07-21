@@ -7,10 +7,9 @@ import com.mac.rltut.engine.pathfinding.astar.AStar;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.MessageLog;
-import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.ai.CreatureAI;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
-import com.mac.rltut.game.world.Level;
+import com.mac.rltut.game.entity.creature.Player;
+import com.mac.rltut.game.screen.menu.LooseScreen;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.screen.Screen;
 
@@ -32,7 +31,7 @@ public class GameScreen extends Screen{
     private InfoScreen infoScreen;
     private EquipmentScreen equipmentScreen;
         
-    Creature player;
+    private Player player;
     
     public GameScreen(World world){
         this.world = world;
@@ -44,7 +43,7 @@ public class GameScreen extends Screen{
         log = new MessageLog();
         log.add(new ColoredString("hello world", Color.cyan.getRGB()));
         
-        player = new Creature("player", Sprite.get("player"), "player");//temp
+        player = new Player("player", Sprite.get("player"));//temp
         player.setStats(10, 100, 10, 10, 10, 10, 16);
         new PlayerAI(player, log);
 
@@ -76,7 +75,7 @@ public class GameScreen extends Screen{
         }
 
         world.update(player.z);
-//        if(player.hp() < 1) //loose;
+        if(player.hp() < 1) return new LooseScreen(player);
                 
         return this;
     }

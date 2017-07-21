@@ -30,7 +30,7 @@ public class InfoScreen extends Screen{
     public void render(Renderer renderer) {
         renderBorder(renderer);
         
-        String hp = String.format("HP: %d/%d", 100, 100);
+        String hp = String.format("HP: %d/%d", player.hp(), player.maxHp());
         String mana = String.format("MANA: %d/%d", player.mana(), player.maxMana());
         String str = String.format("STR: %d", player.strength());
         String def = String.format("DEF: %d", player.defense());
