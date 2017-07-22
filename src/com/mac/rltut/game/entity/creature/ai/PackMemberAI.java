@@ -14,17 +14,36 @@ import com.mac.rltut.game.entity.creature.Creature;
 public class PackMemberAI extends CreatureAI{
     
     private PackAI pack;
-    
+        
     public PackMemberAI(Creature creature, PackAI pack) {
         super(creature);
         this.pack = pack;
     }
     
     public void update(){
-        if(pack.canSeePlayer()){
-            pathTo(creature.world().player().x, creature.world().player().y);
+        if(creature.hasFlag("slow") && Math.random() < 0.25) return;
+        boolean canSee = pack.canSeeCreature(creature.world().player()); 
+        if(canSee){
+            pack.packTarget = creature.world().player();
+            pack.packLastSeen = new Point(pack.packTarget.x, pack.packTarget.y, pack.packTarget.z);
+        }
+        
+        if(creature.hasFlag("smart")){
+            if(pack.packLastSeen != null) {
+                int length = pathTo(pack.packLastSeen.x, pack.packLastSeen.y);
+                if (length == 1) {
+                    pack.packTarget = null;
+                    pack.packLastSeen = null;
+                }else packWander();
+            }else packWander();
         }else{
-            packWander();
+            if(pack.packTarget != null){
+                if(canSee) pathTo(pack.packTarget.x, pack.packTarget.y);
+                else{
+                    pack.packTarget = null;
+                    packWander();
+                }
+            }else packWander();
         }
         
     }

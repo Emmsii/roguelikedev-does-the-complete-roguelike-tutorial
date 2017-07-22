@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
  */
 public abstract class Screen {
 
+    protected final String letters = "abcdefghijklmnopqrstuvwxyz";
+    
     protected String title;
     protected final int x, y;
     protected final int width, height;
@@ -36,22 +38,33 @@ public abstract class Screen {
     public abstract Screen input(KeyEvent e);
     public abstract void render(Renderer renderer);
 
+    protected void renderBorderFill(Renderer renderer){
+        renderBox(0, 0, width, height, true, renderer);
+        if(title != null && title.trim().length() != 0) renderer.write(" " + title + " ", this.x + 2, this.y);
+    }
+    
     protected void renderBorder(Renderer renderer){
-        for(int yp = 0; yp < height; yp++){
-            for(int xp = 0; xp < width; xp++){
-                int xa = xp + this.x;
-                int ya = yp + this.y;
+        renderBox(0, 0, width, height, false, renderer);
+        if(title != null && title.trim().length() != 0) renderer.write(" " + title + " ", this.x + 2, this.y);
+    }
+    
+    protected void renderBox(int x, int y, int w, int h, boolean fill, Renderer renderer){
+        for(int yp = 0; yp < h; yp++){
+            for(int xp = 0; xp < w; xp++){
+                int xa = xp + this.x + x;
+                int ya = yp + this.y + y;
 
-                if(xp == 0 || xp == width - 1) renderer.renderSprite(Sprite.get("uiBorderVer"), xa, ya);
-                else if(yp == 0 || yp == height - 1) renderer.renderSprite(Sprite.get("uiBorderHor"), xa, ya);
+                
+                if(fill) renderer.renderSprite(Sprite.get("empty"), xa, ya);
+                
+                if(xp == 0 || xp == w - 1) renderer.renderSprite(Sprite.get("uiBorderVer"), xa, ya);
+                else if(yp == 0 || yp == h - 1) renderer.renderSprite(Sprite.get("uiBorderHor"), xa, ya);
                 if(xp == 0 && yp == 0) renderer.renderSprite(Sprite.get("uiBorderTL"), xa, ya);
-                else if(xp == width - 1 && yp == 0) renderer.renderSprite(Sprite.get("uiBorderTR"), xa, ya);
-                else if(xp == 0 && yp == height - 1) renderer.renderSprite(Sprite.get("uiBorderBL"), xa, ya);
-                else if(xp == width - 1 && yp == height - 1) renderer.renderSprite(Sprite.get("uiBorderBR"), xa, ya);
+                else if(xp == w - 1 && yp == 0) renderer.renderSprite(Sprite.get("uiBorderTR"), xa, ya);
+                else if(xp == 0 && yp == h - 1) renderer.renderSprite(Sprite.get("uiBorderBL"), xa, ya);
+                else if(xp == w - 1 && yp == h - 1) renderer.renderSprite(Sprite.get("uiBorderBR"), xa, ya);
             }
         }
-        
-        if(title != null && title.trim().length() != 0) renderer.write(" " + title + " ", this.x + 2, this.y);
     }
     
     protected void renderBar(int xp, int yp, int w, int color, Renderer renderer){

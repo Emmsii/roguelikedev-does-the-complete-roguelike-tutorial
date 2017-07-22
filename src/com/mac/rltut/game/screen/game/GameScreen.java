@@ -9,6 +9,7 @@ import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.MessageLog;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.entity.creature.Player;
+import com.mac.rltut.game.screen.menu.LevelUpScreen;
 import com.mac.rltut.game.screen.menu.LooseScreen;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.screen.Screen;
@@ -30,6 +31,8 @@ public class GameScreen extends Screen{
     private LogScreen logScreen;
     private InfoScreen infoScreen;
     private EquipmentScreen equipmentScreen;
+    
+    private Screen subscreen;
         
     private Player player;
     
@@ -44,7 +47,7 @@ public class GameScreen extends Screen{
         log.add(new ColoredString("hello world", Color.cyan.getRGB()));
         
         player = new Player("player", Sprite.get("player"));//temp
-        player.setStats(10000, 100, 10, 10, 10, 10, 16);
+        player.setStats(100, 100, 3, 3, 3, 3, 16);
         new PlayerAI(player, log);
 
         logScreen = new LogScreen(Engine.instance().widthInTiles(), log, 9, "Log");
@@ -57,25 +60,43 @@ public class GameScreen extends Screen{
     }
 
     @Override
-    public Screen input(KeyEvent e) {
-        switch(e.getKeyCode()){
-            case KeyEvent.VK_UP:
-            case KeyEvent.VK_W: player.moveBy(0, -1, 0); break;
-            case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_S: player.moveBy(0, 1, 0); break;
-            case KeyEvent.VK_LEFT:
-            case KeyEvent.VK_A: player.moveBy(-1, 0, 0); break;
-            case KeyEvent.VK_RIGHT:
-            case KeyEvent.VK_D: player.moveBy(1, 0, 0); break;
+    public Screen input(KeyEvent key) {
+        int level = player.level();
+        
+        if(subscreen != null) subscreen = subscreen.input(key);
+        else {
+            switch (key.getKeyCode()) {
+                case KeyEvent.VK_UP:
+                case KeyEvent.VK_W: player.moveBy(0, -1, 0); break;
+                case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_S: player.moveBy(0, 1, 0); break;
+                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_A: player.moveBy(-1, 0, 0); break;
+                case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_D: player.moveBy(1, 0, 0); break;
+                
+                case KeyEvent.VK_PAGE_DOWN: world.moveDown(player); break;
+                case KeyEvent.VK_PAGE_UP: world.moveUp(player); break;
 
-            case KeyEvent.VK_PAGE_DOWN: world.moveDown(player); break;
-            case KeyEvent.VK_PAGE_UP: world.moveUp(player); break;
-
-            case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
+                case KeyEvent.VK_P: player.pickup(); break;
+                
+//                case KeyEvent.VK_E: subscreen = new EquipScreen(Engine.instance().widthInTiles() / 2 - 20, Engine.instance().heightInTiles() / 2  - 20, 40, 40, null, player); break;
+                case KeyEvent.VK_E: subscreen = new EquipScreen(levelScreen.width() / 2 - 20, Engine.instance().heightInTiles() / 2  - 20, 40, 30, null, player); break;
+                
+                case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
+            }
         }
-
-        world.update(player.z);
-        if(player.hp() < 1) return new LooseScreen(player);
+        
+        if(player.level() > level){
+            subscreen = new LevelUpScreen(Engine.instance().widthInTiles() / 2 - 20, Engine.instance().heightInTiles() / 2 - 6, 40, 11, player, player.level() - level);
+            return this;
+        }
+        
+        if(player.decalScreen() != null) subscreen = player.decalScreen();
+        else {
+            if(subscreen == null) world.update(player.z);
+            if (player.hp() < 1) return new LooseScreen(player);
+        }
                 
         return this;
     }
@@ -88,5 +109,7 @@ public class GameScreen extends Screen{
         logScreen.render(renderer);
         infoScreen.render(renderer);
         equipmentScreen.render(renderer);
+        
+        if(subscreen != null) subscreen.render(renderer);
     }
 }

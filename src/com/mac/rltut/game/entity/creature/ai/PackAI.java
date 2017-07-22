@@ -17,16 +17,18 @@ public class PackAI {
     
     private List<PackMemberAI> members;
   
+    public Creature packTarget;
+    public Point packLastSeen;
     private int maxWanderDistance = 10;
     
     public PackAI(){
         this.members = new ArrayList<PackMemberAI>();
     }
     
-    public boolean canSeePlayer(){
+    public boolean canSeeCreature(Creature target){
         removeDeadMembers();
         for(PackMemberAI member : members){
-            if(member.creature.canSee(member.creature.world().player())){
+            if(member.creature.canSee(target)){
                 return true;
             }
         }

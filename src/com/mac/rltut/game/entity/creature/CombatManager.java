@@ -21,24 +21,25 @@ public class CombatManager {
     
     public void meleeAttack(){
         Log.debug("Melee attack between " + attacker.name() + " and " + defender.name());
+        
         int attackerHitRoll = Dice.roll("1d" + attacker.accuracy());
         int defenderBlockRoll = Dice.roll("1d" + defender.defense());
         
         Log.debug("Hit Roll: " + attackerHitRoll + "(1d" + attacker.accuracy() + ")");
         Log.debug("Block Roll: " + defenderBlockRoll + "(1d" + defender.defense() + ")");
+        
         int damage = Dice.roll("1d" + attacker.strength());
-        if(attackerHitRoll > defenderBlockRoll){
+        
+        if(attackerHitRoll > defenderBlockRoll || attackerHitRoll == defenderBlockRoll && Math.random() <= 0.5){
             //Attacker hits
             Log.debug("Damage: " + damage + " (1d" + attacker.strength() + ")");
             attacker.doAction(new ColoredString("attack the %s for %d damage"), defender.name(), damage);
             defender.damage(damage, "melee attack from " + attacker.name());
             if(defender.hp() < 1) attacker.gainXp(defender);
-        }else if(damage < 1){
-            attacker.doAction(new ColoredString("completely miss the %s"), defender.name());
         }else{
             //Defender blocks attack
             defender.doAction(new ColoredString("block the attack"));
         }
-        
     }
+    
 }

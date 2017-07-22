@@ -7,6 +7,7 @@ import com.mac.rltut.engine.util.Line;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.stats.LevelUpController;
+import com.mac.rltut.game.world.tile.Tile;
 
 /**
  * Project: complete-rltut
@@ -26,12 +27,13 @@ public class CreatureAI {
         
     }
     
-    protected void pathTo(int xp, int yp){
+    protected int pathTo(int xp, int yp){
         Path path = new Path(creature, xp, yp);
         if(path.hasNext()){
             Point next = path.getNext();
             creature.moveBy(next.x - creature.x, next.y - creature.y, 0);
         }
+        return path.length();
     }
     
     protected void wander(float frequency){
@@ -55,7 +57,9 @@ public class CreatureAI {
     public boolean canEnter(int xp, int yp, int zp){
         for(int y = 0; y < creature.size(); y++){
             for(int x = 0; x < creature.size(); x++){
-                if(creature.world().tile(x + xp, y + yp, zp).solid()) return false;
+                Tile t = creature.world().tile(x + xp, y + yp, zp);
+                if(t.canFly() && creature.hasFlag("can_fly")) continue;
+                if(t.solid()) return false;
                 Creature c = creature.world().creature(x + xp, y + yp, zp);
                 if(c == null) continue;
                 else if(c.id!= creature.id) return false;

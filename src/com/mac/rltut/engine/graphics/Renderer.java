@@ -44,7 +44,6 @@ public class Renderer {
                 renderPixel(color, xa, ya);
             }
         }
-        
     }
     
     public void renderSprite(Sprite sprite, int xp, int yp){

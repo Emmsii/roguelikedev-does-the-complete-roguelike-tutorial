@@ -12,10 +12,11 @@ import java.awt.event.KeyEvent;
  * PC
  * Created by Matt on 29/06/2017 at 10:33 AM.
  */
-public class TestMenu extends Screen{
+public class StartScreen extends Screen{
     
     @Override
     public Screen input(KeyEvent e) {
+//        if(e.getKeyCode() == KeyEvent.VK_SPACE) return new SkillSelectScreen();
         if(e.getKeyCode() == KeyEvent.VK_SPACE) return new LoadingScreen(new WorldBuilder(92, 92, 20, System.currentTimeMillis()));
         return this;
     }
@@ -25,6 +26,6 @@ public class TestMenu extends Screen{
         renderBorder(renderer);
         renderer.writeCenter("Roguelikedev Tutorial Follow Along Week 5", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3, 0x7A7A7A);
         renderer.writeCenter(Engine.instance().version(), Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3 + 1, 0x636363);
-        renderer.writeCenter("Press [SPACE] to generate a new world.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2);
+        renderer.writeCenter("Press [SPACE] to start", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2);
     }
 }

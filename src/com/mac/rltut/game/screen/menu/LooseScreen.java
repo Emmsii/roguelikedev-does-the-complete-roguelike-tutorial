@@ -2,7 +2,6 @@ package com.mac.rltut.game.screen.menu;
 
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
-import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
@@ -26,7 +25,7 @@ public class LooseScreen extends Screen{
     
     @Override
     public Screen input(KeyEvent e) {
-        return new TestMenu();
+        return new StartScreen();
     }
 
     @Override

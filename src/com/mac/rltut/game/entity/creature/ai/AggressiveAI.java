@@ -14,25 +14,44 @@ import java.time.LocalDate;
  */
 public class AggressiveAI extends CreatureAI{
     
+    private Creature target;
+    private Point lastSeen;
+    
     public AggressiveAI(Creature creature) {
         super(creature);
     }
 
     @Override
     public void update() {
-        if(creature.canSee(creature.world().player())){
-            //hunt
-//            Creature player = creature.world().player();
-//            Path path = new Path(creature, player.x, player.y);
-//            if(path.hasNext()){
-//                Point next = path.getNext();
-//                creature.moveBy(next.x - creature.x, next.y - creature.y, 0);
-//            }
-            
-            pathTo(creature.world().player().x, creature.world().player().y);
-            
-        }else{
-            wander(0.5f);
+        if(creature.hasFlag("slow") && Math.random() < 0.25) return;
+        
+        boolean canSee = creature.canSee(creature.world().player());
+        
+        if(canSee){
+            target = creature.world().player();
+            lastSeen = new Point(target.x, target.y, target.z);
+            Log.debug("CAN SEE PLAYER");
         }
+        
+        if(!creature.hasFlag("smart")){
+            if(canSee && target != null) pathTo(target.x, target.y);
+            else wander(0.5f);
+        }else if(creature.hasFlag("smart")){
+            if(lastSeen != null) {
+                Log.debug("Pathing to last seen point");
+                int length = pathTo(lastSeen.x, lastSeen.y);
+                if (length == 1 && !canSee) {
+                    Log.debug("Lost player");
+                    target = null;
+                    lastSeen = null;
+                }
+            }else{
+                wander(0.5f);
+            }
+        }
+        
+       
+        
+       
     }
 }

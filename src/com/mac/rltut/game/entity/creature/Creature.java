@@ -5,11 +5,15 @@ import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
+import com.mac.rltut.game.entity.item.Inventory;
+import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.world.World;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Project: complete-rltut
@@ -23,6 +27,9 @@ public class Creature extends Entity {
     private CreatureAI ai;
     private String aiType;
 
+    private Inventory<Item> inventory;
+    private Set<String> flags;
+    
     private int maxHp;
     private int hp;
     private int maxMana;
@@ -49,6 +56,8 @@ public class Creature extends Entity {
     public Creature(String name, Sprite sprite, int size, String aiType) {
         super(name, sprite);
         this.size = size;
+        this.inventory = new Inventory<Item>();
+        this.flags = new HashSet<String>();
         this.level = 1;
         this.aiType = aiType;
     }
@@ -126,6 +135,31 @@ public class Creature extends Entity {
     }
     
     /* Item Methods */
+    
+    public void pickup(){
+        Item item = world.item(x, y, z);
+        
+        if(item == null){
+            doAction(new ColoredString("grab at nothing"));
+            return;
+        }
+        
+        if(inventory.isFull()) notify(new ColoredString("You are carrying too much.", Color.ORANGE.getRGB()));
+        else{
+            doAction(new ColoredString("pickup a %s"), item.name());
+            world.remove(item);
+            inventory.add(item);
+        }
+    }
+    
+    public void drop(Item item){
+        if(world.addAtEmptyPoint(x, y, z, item)){
+            doAction(new ColoredString("drop a %d"), item.name());
+            inventory.remove(item);
+        }else{
+            notify(new ColoredString("There is nowhere to drop the %s.", Color.ORANGE.getRGB()), item.name());
+        }
+    }
     
     /* Log Methods */
     
@@ -267,6 +301,10 @@ public class Creature extends Entity {
         return level;
     }
     
+    public Inventory<Item> inventory(){
+        return inventory;
+    }
+    
     public String aiType(){
         return aiType;
     }
@@ -279,6 +317,10 @@ public class Creature extends Entity {
         return timeStationary;
     }
     
+    public boolean hasFlag(String flag){
+        return flags.contains(flag.toLowerCase().trim());
+    }
+    
     //TODO: CHANGE THIS!
     public boolean isPlayer(){
         return this instanceof Player;
@@ -288,5 +330,9 @@ public class Creature extends Entity {
     
     public void setAi(CreatureAI ai){
         this.ai = ai;
+    }
+    
+    public void addFlag(String flag){
+        flags.add(flag.toLowerCase().trim());
     }
 }

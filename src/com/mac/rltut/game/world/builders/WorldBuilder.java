@@ -11,6 +11,7 @@ import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.ai.*;
+import com.mac.rltut.game.entity.item.ItemBuilder;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 
@@ -193,12 +194,24 @@ public class WorldBuilder {
         return this;
     }
     
+    public WorldBuilder spawnItems(){
+        
+        Point spawn = world.randomEmptyPointInRadius(world.startPointAt(0), 7);
+        world.add(spawn.x, spawn.y, spawn.z, ItemBuilder.newDagger(0));
+        
+        for(int z = 0; z < depth; z++){
+            
+        }
+        
+        return this;
+    }
+    
     private Point getSpawnPoint(CreatureSpawnProperty toSpawn, int z){
         Point spawn = null;
         boolean blocked = true;
         while(blocked) {
-            if (toSpawn.spawnNear().isEmpty()) spawn = world.randomEmptyPoint(z);
-            else {
+            if(toSpawn.spawnNear().isEmpty()) spawn = world.randomEmptyPoint(z);
+            else{
                 String spawnNear = toSpawn.spawnNear().get(random.nextInt(toSpawn.spawnNear().size()));
                 spawn = world.randomEmptyPointNearType(z, spawnNear);
             }
@@ -228,14 +241,24 @@ public class WorldBuilder {
     }
     
     private void modifyStats(Creature creature, int z){
-        creature.modifyMaxHp((int) Math.pow(1.25, z));
-        creature.modifyMaxMana((int) Math.pow(1.275, z));
-        creature.modifyStrength((int) Math.pow(1.125, z));
-        creature.modifyDefense((int) Math.pow(1.125, z));
-        creature.modifyAccuracy((int) Math.pow(1.125, z));
-        creature.modifyIntelligence((int) Math.pow(1.125, z));
+        creature.modifyMaxHp(z / 4);
+        creature.modifyMaxMana(z / 4);
+        creature.modifyStrength(z / 4);
+        creature.modifyDefense(z / 4);
+        creature.modifyAccuracy(z / 4);
+        creature.modifyIntelligence(z / 4);
         creature.modifyHp(creature.maxHp(), "");
         creature.modifyMana(creature.maxMana());
+        
+        
+        Log.debug("Stats for " + creature.name() + " on level " + z);
+        Log.debug("HP: " + creature.maxHp());
+        Log.debug("MAN: " + creature.maxMana());
+        Log.debug("STR: " + creature.strength());
+        Log.debug("DEF: " + creature.defense());
+        Log.debug("ACC: " + creature.accuracy());
+        Log.debug("INT: " + creature.intelligence());
+        
     }
     
     private CreatureAI getAI(String ai, Creature creature){

@@ -1,5 +1,6 @@
 package com.mac.rltut.game.world;
 
+import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
@@ -191,6 +192,33 @@ public class World {
         item.y = y;
         item.z = z;
         item.init(entityId++, this);
+    }
+    
+    public boolean addAtEmptyPoint(int x, int y, int z, Item item){
+        if(!inBounds(x, y, z)) return false;
+        
+        List<Point> points = new ArrayList<Point>();
+        List<Point> checked = new ArrayList<Point>();
+        
+        points.add(new Point(x, y, z));
+        
+        while(!points.isEmpty()){
+            Point p = points.remove(0);
+            checked.add(p);
+            
+            if(tile(p.x, p.y, p.z).solid()) continue;
+            if(item(p.x, p.y, p.z) == null){
+                add(p.x, p.y, p.z, item);
+                Creature c = creature(p.x, p.y, p.z);
+                if(c != null) c.notify(new ColoredString("A %s lands at your feet."), item.name());
+                return true;
+            }else{
+                List<Point> neighbours = p.neighboursCardinal();
+                neighbours.removeAll(checked);
+                points.addAll(neighbours);
+            }
+        }
+        return false;
     }
 
     //Entity Removers --------------------

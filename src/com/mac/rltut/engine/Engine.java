@@ -12,7 +12,7 @@ import com.mac.rltut.engine.loader.TileLoader;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
 import com.mac.rltut.game.screen.Screen;
-import com.mac.rltut.game.screen.menu.TestMenu;
+import com.mac.rltut.game.screen.menu.StartScreen;
 
 import javax.imageio.ImageIO;
 import java.awt.event.KeyEvent;
@@ -77,7 +77,7 @@ public class Engine {
         panel.setRenderer(renderer);
         renderer.setDefaultFontColor(0xffffff);
         terminal.addKeyListener(input);
-        screen = new TestMenu();
+        screen = new StartScreen();
 
         render();
     }

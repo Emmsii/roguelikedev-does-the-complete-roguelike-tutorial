@@ -92,11 +92,6 @@ public class LevelScreen extends Screen{
             }
             
             if(inFov || !showFov) renderer.renderSprite(c.sprite(), xa, ya);
-            if(c.ai() instanceof PackMemberAI){
-                PackMemberAI pm = (PackMemberAI) c.ai();
-                Point av = pm.pack().getAveragePackPosition();
-                renderer.renderSprite(Tile.getTile("chestSilver").sprite(), (av.x - xp) + 1, (av.y - yp) + 1);
-            }
         }
     }
     
