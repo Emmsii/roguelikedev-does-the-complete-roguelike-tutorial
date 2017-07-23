@@ -40,12 +40,7 @@ public class InfoScreen extends Screen{
         String exp = String.format("XP: %d/%d", player.xp(), (int) (Math.pow(player.level(), 1.75) * 25));
         String time = String.format("Day: %d (%d)", player.world().dayNightController().day(), 0);
         String gold = String.format("Gold: %d", player.gold());
-
-//        if(player.strengthBonus() != 0) str += (player.strengthBonus() > 0 ? " +" : " -") + player.strengthBonus();
-        if(player.defenseBonus() != 0) def += (player.defenseBonus() > 0 ? " +" : " -") + player.defenseBonus();
-//        if(player.accuracyBonus() != 0) acc += (player.accuracyBonus() > 0 ? " +" : " -") + player.accuracyBonus();
-//        if(player.intelligenceBonus() != 0) intel += (player.intelligenceBonus() > 0 ? " +" : " -") + player.intelligenceBonus();
-        
+ 
         int xp = this.x + 2;
         int yp = this.y + 2;
         

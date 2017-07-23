@@ -20,6 +20,10 @@ public class DataObject {
         this.values = new HashMap<String, Object>();
     }
 
+    public boolean isType(String input){
+        return type.equalsIgnoreCase(input.trim().toLowerCase());
+    }
+    
     public void add(String token, Object value){
         values.put(token, value);
     }

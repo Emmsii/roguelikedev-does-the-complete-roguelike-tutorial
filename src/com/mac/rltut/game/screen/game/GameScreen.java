@@ -48,7 +48,7 @@ public class GameScreen extends Screen{
         log.add(new ColoredString("hello world", Color.cyan.getRGB()));
         
         player = new Player("player", Sprite.get("player"));//temp
-        player.setStats(100, 100, 3, 3, 3, 3, 16, null);
+        player.setStats(100, 100, 2, 1, 3, 3, 3, 3, 16, null);
         new PlayerAI(player, log);
 
         logScreen = new LogScreen(Engine.instance().widthInTiles(), log, 9, "Log");
@@ -71,13 +71,21 @@ public class GameScreen extends Screen{
             switch (key.getKeyCode()) {
                 case KeyEvent.VK_COMMA: shouldUpdate = true; break;
                 case KeyEvent.VK_UP:
+                case KeyEvent.VK_NUMPAD8:
                 case KeyEvent.VK_W: shouldUpdate = player.moveBy(0, -1, 0); break;
                 case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_NUMPAD2:
                 case KeyEvent.VK_S: shouldUpdate = player.moveBy(0, 1, 0); break;
                 case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_NUMPAD4:
                 case KeyEvent.VK_A: shouldUpdate = player.moveBy(-1, 0, 0); break;
                 case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_NUMPAD6:
                 case KeyEvent.VK_D: shouldUpdate = player.moveBy(1, 0, 0); break;
+                case KeyEvent.VK_NUMPAD7: shouldUpdate = player.moveBy(-1, -1, 0); break;
+                case KeyEvent.VK_NUMPAD9: shouldUpdate = player.moveBy(1, -1, 0); break;
+                case KeyEvent.VK_NUMPAD1: shouldUpdate = player.moveBy(-1, 1, 0); break;
+                case KeyEvent.VK_NUMPAD3: shouldUpdate = player.moveBy(1, 1, 0); break;
                 case KeyEvent.VK_SPACE: 
                     Chest chest = player.tryOpen(); 
                     if(chest != null){

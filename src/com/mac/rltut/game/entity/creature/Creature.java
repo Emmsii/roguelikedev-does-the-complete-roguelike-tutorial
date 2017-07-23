@@ -44,6 +44,8 @@ public class Creature extends Entity {
     private int hp;
     private int maxMana;
     private int mana;
+    private int manaRegenAmount;
+    private int manaRegenSpeed;
     
     private int strength;
     private int defense;
@@ -61,6 +63,8 @@ public class Creature extends Entity {
     private boolean hasMoved;
     private MapObject mapObject;
     
+    private int tick;
+    
     public Creature(String name, String description, Sprite sprite, String aiType) {
         this(name, description, sprite, 1, aiType);
     }
@@ -74,11 +78,13 @@ public class Creature extends Entity {
         this.aiType = aiType;
     }
 
-    public void setStats(int maxHp, int maxMana, int strength, int defense, int accuracy, int intelligence, int vision, DropTable dropTable){
+    public void setStats(int maxHp, int maxMana, int manaRegenAmount, int manaRegenSpeed, int strength, int defense, int accuracy, int intelligence, int vision, DropTable dropTable){
         this.maxHp = maxHp;
         this.hp = maxHp;
         this.maxMana = maxMana;
         this.mana = maxMana;
+        this.manaRegenAmount = manaRegenAmount;
+        this.manaRegenSpeed = manaRegenSpeed;
         this.strength = strength;
         this.defense = defense;
         this.accuracy = accuracy;
@@ -94,7 +100,10 @@ public class Creature extends Entity {
 
     @Override
     public void update() {
+        tick++;
         ai.update();
+        
+        if(tick % manaRegenSpeed == 0) modifyMana(manaRegenAmount);
         
         if(!hasMoved) timeStationary++;
         else timeStationary = 0;
@@ -337,6 +346,14 @@ public class Creature extends Entity {
         return mana;
     }
     
+    public int manaRegenAmount(){
+        return manaRegenAmount;
+    }
+    
+    public int getManaRegenSpeed(){
+        return manaRegenSpeed;
+    }
+    
     public int strength(){
         return strength;
     }
@@ -357,7 +374,27 @@ public class Creature extends Entity {
         return Math.min(vision, world.dayNightController().light());
     }
 
+    public int strengthBonus(){
+        return 7;
+    }
+    
     public int defenseBonus(){
+        return 2;
+    }
+    
+    public int accuracyBonus(){
+        return -3;
+    }
+    
+    public int intelligenceBonus(){
+        return 1;
+    }
+    
+    public int manaRegenAmountBonus(){
+        return 2;
+    }
+
+    public int manaRegenSpeedBonus(){
         return 0;
     }
     

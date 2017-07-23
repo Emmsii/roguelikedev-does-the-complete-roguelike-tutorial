@@ -27,7 +27,6 @@ public class TileLoader extends DataLoader{
         HashMap<String, TileType> tileTypes = new HashMap<>();
         
         for(DataObject obj : data){
-            
             if(obj.type().equalsIgnoreCase("type")) {
                 String name = obj.getString("name");
                 boolean solid = obj.getBoolean("solid");
@@ -52,7 +51,7 @@ public class TileLoader extends DataLoader{
                 Sprite openSprite = Sprite.get(obj.getString("sprite_open"));
                 TileType type = tileTypes.get(obj.getString("type"));
                 String typeName = obj.hasToken("type_name") ? obj.getString("type_name") : type.name;
-                        
+
                 ChestTile chestTile = new ChestTile((byte) id, name, description, closedSprite, openSprite, typeName, type.solid, type.canSee, type.canFly);
                 Tile.addTile(chestTile);
             }

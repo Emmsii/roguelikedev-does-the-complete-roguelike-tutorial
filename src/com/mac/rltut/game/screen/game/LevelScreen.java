@@ -27,7 +27,7 @@ public class LevelScreen extends Screen{
     
     private byte[][] fogBit;
     
-    public static boolean showFov = false; //Debug
+    public static boolean showFov = true; //Debug
     
     public LevelScreen(int x, int y, int width, int height, String title, World world, Creature player){
         super(x, y, width, height, title);

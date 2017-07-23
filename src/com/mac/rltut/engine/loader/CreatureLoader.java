@@ -27,71 +27,55 @@ public class CreatureLoader extends DataLoader{
     public void load() {
         Log.debug("Loading creatures...");
         for(DataObject obj : data){
-            if(obj.type().equalsIgnoreCase("creature")){
-                String name = obj.getString("name");
-                String description = obj.getString("description");                
-                Sprite sprite = Sprite.get(obj.getString("sprite"));
-                int hp = obj.getInt("hp");
-                int mana = obj.hasToken("mana") ? obj.getInt("mana") : 0;
-                int strength = obj.getInt("strength");
-                int defense = obj.getInt("defense");
-                int accuracy = obj.getInt("accuracy");
-                int intelligence = obj.hasToken("intelligence") ? obj.getInt("intelligence") : 0;
-                int vision = obj.getInt("vision");
-                String ai = obj.getString("ai");
-                
-                String spawnLevels = obj.hasToken("spawn_levels") ? obj.getString("spawn_levels") : "all";
-                String spawnTypes = obj.hasToken("spawn_types") ? obj.getString("spawn_types") : "all";
-                String spawnNear = obj.hasToken("spawn_near") ? obj.getString("spawn_near") : "all";
-                int spawnWeight = obj.hasToken("spawn_weight") ? obj.getInt("spawn_weight") : 100;
-                String packSize = obj.hasToken("pack_size") ? obj.getString("pack_size") : "0";
-                
-                String[] flags = obj.hasToken("flags") ? parseFlags(obj.getString("flags")) : null;
+            
+            CreatureSpawnProperty spawnProperty = null;
 
-                DropTable drops = obj.hasToken("drops") ? parseDropTable(obj.getString("drops")) : null;
-                
-                Creature creature = new Creature(name, description, sprite, ai);
-                creature.setStats(hp, mana, strength, defense, accuracy, intelligence, vision, drops);
-                if(flags != null) for(String s : flags) creature.addFlag(s);
-                
-                CreatureSpawnProperty spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnWeight, packSize);
-                Codex.creatures.put(name.toLowerCase(), spawnProperty);
-                
-                //TODO: This is bad, duplicating code. Fix me later.
-            }else if(obj.type().equalsIgnoreCase("boss")){
-                String name = obj.getString("name");
-                String description = obj.getString("description");
-                Sprite sprite = Sprite.get(obj.getString("sprite"));
-                int hp = obj.getInt("hp");
-                int mana = obj.hasToken("mana") ? obj.getInt("mana") : 0;
-                int strength = obj.getInt("strength");
-                int defense = obj.getInt("defense");
-                int accuracy = obj.getInt("accuracy");
-                int intelligence = obj.hasToken("intelligence") ? obj.getInt("intelligence") : 0;
-                int vision = obj.getInt("vision");
-                
+            String name = obj.getString("name");
+            String description = obj.getString("description");
+            Sprite sprite = Sprite.get(obj.getString("sprite"));
+            int hp = obj.getInt("hp");
+            int mana = obj.hasToken("mana") ? obj.getInt("mana") : 0;
+            int manaRegenAmount= obj.hasToken("mana_regen_amount") ? obj.getInt("mana_regen_amount") : 0;
+            int manaRegenSpeed= obj.hasToken("mana_regen_speed") ? obj.getInt("mana_regen_speed") : -1;
+            int strength = obj.getInt("strength");
+            int defense = obj.getInt("defense");
+            int accuracy = obj.getInt("accuracy");
+            int intelligence = obj.hasToken("intelligence") ? obj.getInt("intelligence") : 0;
+            int vision = obj.getInt("vision");
+            String ai = obj.hasToken("ai") ? obj.getString("ai") : "aggressive";
+
+            String spawnLevels = obj.hasToken("spawn_levels") ? obj.getString("spawn_levels") : "all";
+            String spawnTypes = obj.hasToken("spawn_types") ? obj.getString("spawn_types") : "all";
+            String spawnNear = obj.hasToken("spawn_near") ? obj.getString("spawn_near") : "all";
+            int spawnWeight = obj.hasToken("spawn_weight") ? obj.getInt("spawn_weight") : 100;
+            String packSize = obj.hasToken("pack_size") ? obj.getString("pack_size") : "0";
+            int size = obj.hasToken("size") ? obj.getInt("size") : 1;
+
+            String[] flags = obj.hasToken("flags") ? parseFlags(obj.getString("flags")) : null;
+
+            DropTable drops = obj.hasToken("drops") ? parseDropTable(obj.getString("drops")) : null;
+            
+            if(obj.isType("creature")) {
+                Creature creature = new Creature(name, description, sprite, size, ai);
+                spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnWeight, packSize);
+            }else if(obj.isType("boss")) {
                 int spawnEvery = obj.hasToken("spawn_every") ? obj.getInt("spawn_every") : 0;
-                String spawnLevels = obj.hasToken("spawn_levels") ? obj.getString("spawn_levels") : "all";
-                String spawnTypes = obj.hasToken("spawn_types") ? obj.getString("spawn_types") : "all";
-                String spawnNear = obj.hasToken("spawn_near") ? obj.getString("spawn_near") : "all";
-                int spawnWeight = obj.hasToken("spawn_weight") ? obj.getInt("spawn_weight") : 100;
-                int size = obj.hasToken("size") ? obj.getInt("size") : 1;
-
                 String minions = obj.hasToken("minions") ? obj.getString("minions") : "none";
                 String minionCount = obj.hasToken("minion_count") ? obj.getString("minion_count") : "0";
                 boolean unique = obj.hasToken("unique") && obj.getInt("unique") == 1;
-
-                String[] flags = obj.hasToken("flags") ? parseFlags(obj.getString("flags")) : null;
-
-                DropTable drops = obj.hasToken("drops") ? parseDropTable(obj.getString("drops")) : null;
                 
                 Boss boss = new Boss(name, description, sprite, size);
-                boss.setStats(hp, mana, strength, defense, accuracy, intelligence, vision, drops);
-                if(flags != null) for(String s : flags) boss.addFlag(s);
-                
-                BossSpawnProperty spawnProperty = new BossSpawnProperty(boss, spawnLevels, spawnEvery, spawnTypes, spawnNear, spawnWeight, minions, minionCount, unique);
-                Codex.creatures.put(name.toLowerCase(), spawnProperty);
+                spawnProperty = new BossSpawnProperty(boss, spawnLevels, spawnEvery, spawnTypes, spawnNear, spawnWeight, minions, minionCount, unique);
+            }else{
+                Log.error("Unknown object type [" + obj.type() + "]");
+                continue;
             }
+
+            if(spawnProperty != null) {
+                spawnProperty.creature().setStats(hp, mana, manaRegenAmount, manaRegenSpeed, strength, defense, accuracy, intelligence, vision, drops);
+                if (flags != null) for(String s : flags) spawnProperty.creature().addFlag(s);
+                Codex.creatures.put(name.toLowerCase(), spawnProperty);
+            }else Log.warn("Cannot add null creature into codex. [" + name + "]");
         }
         
         Log.debug("Loaded " + Codex.creatures.size() + " creatures.");

@@ -25,19 +25,24 @@ public class SpritesheetLoader extends DataLoader{
     public void load() {
         Log.debug("Loading spritesheets...");
         for(DataObject obj : data){
-            if(obj.type().equalsIgnoreCase("spritesheet")){
-                String name = obj.getString("name");
-                String fileName = obj.getString("file_name");
-                Spritesheet newSheet = new Spritesheet(fileName);
-                Spritesheet.add(name, newSheet);
-            }else if(obj.type().equalsIgnoreCase("font")){
-                String name = obj.getString("name");
-                String fileName = obj.getString("file_name");
+            
+            Spritesheet sheet = null;
+            
+            String name = obj.getString("name");
+            String fileName = obj.getString("file_name");
+            
+            if(obj.isType("spritesheet")) sheet = new Spritesheet(fileName);
+            else if(obj.isType("font")){
                 int charWidth = obj.getInt("char_width");
                 int charHeight = obj.getInt("char_height");
-                Font newFont = new Font(fileName, charWidth, charHeight);
-                Spritesheet.add(name, newFont);
+                sheet = new Font(fileName, charWidth, charHeight);
+            }else{
+                Log.error("Unknown object type [" + obj.type() + "]");
+                continue;
             }
+            
+            if(sheet != null) Spritesheet.add(name, sheet);
+            else Log.warn("Cannot load null spritesheet. [" + name + "]");
         }
         
         Log.debug("Loaded " + Spritesheet.sheets.size() + " spritesheets.");

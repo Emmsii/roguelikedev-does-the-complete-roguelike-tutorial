@@ -31,7 +31,7 @@ public class LoadingScreen extends Screen {
                 finished = true;
                 Engine.instance().input(null);
             }
-        });
+        }, "Loader Thread");
         
         t.start();
     }

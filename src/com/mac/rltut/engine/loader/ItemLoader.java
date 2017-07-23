@@ -25,28 +25,23 @@ public class ItemLoader extends DataLoader {
     public void load() {
         Log.debug("Loading items...");
         for(DataObject obj : data){
-            if(obj.type().equalsIgnoreCase("ITEM")){
-                String name = obj.getString("name");
-                String description = obj.getString("description");
-                Sprite sprite = Sprite.get(obj.getString("sprite"));
-
-                Item item = new Item(name, description, sprite);
-                Codex.items.put(name, item);
-            }else if(obj.type().equalsIgnoreCase("ITEM_STACK")){
-                String name = obj.getString("name");
-                String description = obj.getString("description");
-                Sprite sprite = Sprite.get(obj.getString("sprite"));
-
-                ItemStack stack = new ItemStack(name, description, sprite, 0);
-                Codex.items.put(name, stack);
-            }else if(obj.type().equalsIgnoreCase("FOOD")){
-                String name = obj.getString("name");
-                String description = obj.getString("description");
-                Sprite sprite = Sprite.get(obj.getString("sprite"));
-                
-                Food food = new Food(name, description, sprite);
-                Codex.items.put(name, food);
+            
+            Item item = null;
+            
+            String name = obj.getString("name");
+            String description = obj.getString("description");
+            Sprite sprite = Sprite.get(obj.getString("sprite"));
+            
+            if(obj.isType("item")) item = new Item(name, description, sprite);
+            else if(obj.isType("item_stack")) item = new ItemStack(name, description, sprite, 1);
+            else if(obj.isType("food"))item = new Food(name, description, sprite);
+            else{
+                Log.error("Unknown object type [" + obj.type() + "]");
+                continue;
             }
+            
+            if(item != null) Codex.items.put(name, item);
+            else Log.warn("Cannot add null item into codex. [" + name + "]");
         }
         Log.debug("Loaded " + Codex.items.size() + " items.");
     }
