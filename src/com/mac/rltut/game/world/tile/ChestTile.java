@@ -10,14 +10,16 @@ import com.mac.rltut.engine.graphics.Sprite;
 public class ChestTile extends Tile{
     
     private Sprite openSprite;
-
-    public ChestTile(byte id, String name, Sprite closedSprite, Sprite openSprite, String type, boolean solid, boolean canSee, boolean canFly) {
-        super(id, name, closedSprite, type, solid, canSee, canFly);
+    private Sprite closedSprite;
+    
+    public ChestTile(byte id, String name, String description, Sprite closedSprite, Sprite openSprite, String type, boolean solid, boolean canSee, boolean canFly) {
+        super(id, name, description, closedSprite, type, solid, canSee, canFly);
         this.openSprite = openSprite;
+        this.closedSprite = closedSprite;
     }
 
     public Sprite closedSprite(){
-        return sprite();
+        return closedSprite;
     }
     
     public Sprite openSprite(){

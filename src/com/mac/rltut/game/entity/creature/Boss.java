@@ -9,11 +9,11 @@ import com.mac.rltut.engine.graphics.Sprite;
  */
 public class Boss extends Creature{
     
-    public Boss(String name, Sprite sprite) {
-        this(name, sprite, 1);
+    public Boss(String name, String description, Sprite sprite) {
+        this(name, description, sprite, 1);
     }
 
-    public Boss(String name, Sprite sprite, int size) {
-        super(name, sprite, size, "boss");
+    public Boss(String name, String description, Sprite sprite, int size) {
+        super(name, description, sprite, size, "boss");
     }
 }

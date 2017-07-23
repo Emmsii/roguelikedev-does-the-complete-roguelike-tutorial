@@ -5,9 +5,10 @@ import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Boss;
-import com.mac.rltut.game.entity.creature.BossSpawnProperty;
+import com.mac.rltut.game.entity.creature.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.CreatureSpawnProperty;
+import com.mac.rltut.game.entity.creature.util.CreatureSpawnProperty;
+import com.mac.rltut.game.entity.item.DropTable;
 
 import java.io.IOException;
 
@@ -28,6 +29,7 @@ public class CreatureLoader extends DataLoader{
         for(DataObject obj : data){
             if(obj.type().equalsIgnoreCase("creature")){
                 String name = obj.getString("name");
+                String description = obj.getString("description");                
                 Sprite sprite = Sprite.get(obj.getString("sprite"));
                 int hp = obj.getInt("hp");
                 int mana = obj.hasToken("mana") ? obj.getInt("mana") : 0;
@@ -45,9 +47,11 @@ public class CreatureLoader extends DataLoader{
                 String packSize = obj.hasToken("pack_size") ? obj.getString("pack_size") : "0";
                 
                 String[] flags = obj.hasToken("flags") ? parseFlags(obj.getString("flags")) : null;
+
+                DropTable drops = obj.hasToken("drops") ? parseDropTable(obj.getString("drops")) : null;
                 
-                Creature creature = new Creature(name, sprite, ai);
-                creature.setStats(hp, mana, strength, defense, accuracy, intelligence, vision);
+                Creature creature = new Creature(name, description, sprite, ai);
+                creature.setStats(hp, mana, strength, defense, accuracy, intelligence, vision, drops);
                 if(flags != null) for(String s : flags) creature.addFlag(s);
                 
                 CreatureSpawnProperty spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnWeight, packSize);
@@ -56,6 +60,7 @@ public class CreatureLoader extends DataLoader{
                 //TODO: This is bad, duplicating code. Fix me later.
             }else if(obj.type().equalsIgnoreCase("boss")){
                 String name = obj.getString("name");
+                String description = obj.getString("description");
                 Sprite sprite = Sprite.get(obj.getString("sprite"));
                 int hp = obj.getInt("hp");
                 int mana = obj.hasToken("mana") ? obj.getInt("mana") : 0;
@@ -77,9 +82,11 @@ public class CreatureLoader extends DataLoader{
                 boolean unique = obj.hasToken("unique") && obj.getInt("unique") == 1;
 
                 String[] flags = obj.hasToken("flags") ? parseFlags(obj.getString("flags")) : null;
+
+                DropTable drops = obj.hasToken("drops") ? parseDropTable(obj.getString("drops")) : null;
                 
-                Boss boss = new Boss(name, sprite, size);
-                boss.setStats(hp, mana, strength, defense, accuracy, intelligence, vision);
+                Boss boss = new Boss(name, description, sprite, size);
+                boss.setStats(hp, mana, strength, defense, accuracy, intelligence, vision, drops);
                 if(flags != null) for(String s : flags) boss.addFlag(s);
                 
                 BossSpawnProperty spawnProperty = new BossSpawnProperty(boss, spawnLevels, spawnEvery, spawnTypes, spawnNear, spawnWeight, minions, minionCount, unique);
@@ -94,5 +101,12 @@ public class CreatureLoader extends DataLoader{
         String[] split = input.split(",");
         for(int i = 0; i < split.length; i++) split[i] = split[i].toLowerCase().trim();
         return split;
+    }
+    
+    private DropTable parseDropTable(String input){
+        DropTable drops = new DropTable();
+        String[] split = input.trim().split(",");
+        for(String s : split) drops.addDrop(s.trim());
+        return drops;
     }
 }

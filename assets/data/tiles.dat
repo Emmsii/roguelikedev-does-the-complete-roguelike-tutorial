@@ -21,12 +21,14 @@ CAN_FLY=true
 [TILE]
 ID=0
 NAME=empty
+DESCRIPTION=There is nothing here
 SPRITE=empty
 TYPE=empty
 
 [TILE]
 ID=1
 NAME=floor
+DESCRIPTION=There is nothing here
 SPRITE=empty
 TYPE=empty
 TYPE_NAME=floor
@@ -34,6 +36,7 @@ TYPE_NAME=floor
 [TILE]
 ID=2
 NAME=wallTopRed
+DESCRIPTION=A red wall
 SPRITE=wallTopRed
 TYPE=solid
 TYPE_NAME=wall
@@ -41,6 +44,7 @@ TYPE_NAME=wall
 [TILE]
 ID=3
 NAME=wallTopBlue
+DESCRIPTION=A blue wall
 SPRITE=wallTopBlue
 TYPE=solid
 TYPE_NAME=wall
@@ -48,6 +52,7 @@ TYPE_NAME=wall
 [TILE]
 ID=4
 NAME=wallSide
+DESCRIPTION=A wall
 SPRITE=wallSide
 TYPE=solid
 TYPE_NAME=wall
@@ -55,6 +60,7 @@ TYPE_NAME=wall
 [TILE]
 ID=5
 NAME=grassYellow
+DESCRIPTION=Tall, yellow grass
 SPRITE=grassYellow
 TYPE=empty
 TYPE_NAME=grass
@@ -62,6 +68,7 @@ TYPE_NAME=grass
 [TILE]
 ID=6
 NAME=grassGreen
+DESCRIPTION=Tall, green grass
 SPRITE=grassGreen
 TYPE=empty
 TYPE_NAME=grass
@@ -69,6 +76,7 @@ TYPE_NAME=grass
 [TILE]
 ID=7
 NAME=grassBlue
+DESCRIPTION=Tall, blue grass
 SPRITE=grassBlue
 TYPE=empty
 TYPE_NAME=grass
@@ -76,6 +84,7 @@ TYPE_NAME=grass
 [TILE]
 ID=8
 NAME=grassPurple
+DESCRIPTION=Tall, purple grass
 SPRITE=grassPurple
 TYPE=empty
 TYPE_NAME=grass
@@ -83,6 +92,7 @@ TYPE_NAME=grass
 [TILE]
 ID=9
 NAME=treeDeciduous
+DESCRIPTION=A deciduous tree
 SPRITE=treeDeciduous
 TYPE=solid
 TYPE_NAME=tree
@@ -90,6 +100,7 @@ TYPE_NAME=tree
 [TILE]
 ID=10
 NAME=treeConifer
+DESCRIPTION=A conifer tree
 SPRITE=treeConifer
 TYPE=solid
 TYPE_NAME=tree
@@ -97,6 +108,7 @@ TYPE_NAME=tree
 [TILE]
 ID=11
 NAME=waterFoul
+DESCRIPTION=Foul water
 SPRITE=waterPurple
 TYPE=impassable
 TYPE_NAME=water
@@ -104,6 +116,7 @@ TYPE_NAME=water
 [TILE]
 ID=12
 NAME=waterDirty
+DESCRIPTION=Dirty water
 SPRITE=waterBrown
 TYPE=impassable
 TYPE_NAME=water
@@ -111,6 +124,7 @@ TYPE_NAME=water
 [TILE]
 ID=13
 NAME=waterBlue
+DESCRIPTION=Water
 SPRITE=waterBlue
 TYPE=impassable
 TYPE_NAME=water
@@ -118,6 +132,7 @@ TYPE_NAME=water
 [TILE]
 ID=14
 NAME=waterLilypad
+DESCRIPTION=A lilypad
 SPRITE=waterLilypad
 TYPE=impassable
 TYPE_NAME=water
@@ -125,6 +140,7 @@ TYPE_NAME=water
 [TILE]
 ID=15
 NAME=waterBonesFoul1
+DESCRIPTION=Old bones in foul water
 SPRITE=waterBonesPurple1
 TYPE=impassable
 TYPE_NAME=water
@@ -132,6 +148,7 @@ TYPE_NAME=water
 [TILE]
 ID=16
 NAME=waterBonesFoul2
+DESCRIPTION=Old bones in foul water
 SPRITE=waterBonesPurple2
 TYPE=impassable
 TYPE_NAME=water
@@ -139,6 +156,7 @@ TYPE_NAME=water
 [TILE]
 ID=17
 NAME=waterBonesDirty1
+DESCRIPTION=Old bones in dirty water
 SPRITE=waterBonesBrown1
 TYPE=impassable
 TYPE_NAME=water
@@ -146,6 +164,7 @@ TYPE_NAME=water
 [TILE]
 ID=18
 NAME=waterBonesDirty2
+DESCRIPTION=Old bones in dirty water
 SPRITE=waterBonesBrown2
 TYPE=impassable
 TYPE_NAME=water
@@ -153,6 +172,7 @@ TYPE_NAME=water
 [CHEST]
 ID=19
 NAME=chestGold
+DESCRIPTION=A gold chest
 SPRITE_CLOSED=chestGoldClosed
 SPRITE_OPEN=chestGoldOpen
 TYPE=solid
@@ -161,6 +181,7 @@ TYPE_NAME=chest
 [CHEST]
 ID=20
 NAME=chestSilver
+DESCRIPTION=A silver chest
 SPRITE_CLOSED=chestSilverClosed
 SPRITE_OPEN=chestSilverOpen
 TYPE=solid
@@ -169,6 +190,7 @@ TYPE_NAME=chest
 [TILE]
 ID=21
 NAME=mushroom
+DESCRIPTION=A mushroom
 SPRITE=mushroom
 TYPE=empty
 TYPE_NAME=mushroom
@@ -176,6 +198,7 @@ TYPE_NAME=mushroom
 [TILE]
 ID=22
 NAME=grassMediumGreen
+DESCRIPTION=Medium length, green grass
 SPRITE=grassMediumGreen
 TYPE=empty
 TYPE_NAME=grass
@@ -183,6 +206,7 @@ TYPE_NAME=grass
 [TILE]
 ID=23
 NAME=grassMediumYellow
+DESCRIPTION=Medium length, yellow grass
 SPRITE=grassMediumYellow
 TYPE=empty
 TYPE_NAME=grass
@@ -190,6 +214,7 @@ TYPE_NAME=grass
 [TILE]
 ID=24
 NAME=grassMediumBlue
+DESCRIPTION=Medium length, blue grass
 SPRITE=grassMediumBlue
 TYPE=empty
 TYPE_NAME=grass
@@ -197,6 +222,7 @@ TYPE_NAME=grass
 [TILE]
 ID=25
 NAME=grassMediumPurple
+DESCRIPTION=Medium length, purple grass
 SPRITE=grassMediumPurple
 TYPE=empty
 TYPE_NAME=grass
@@ -204,6 +230,7 @@ TYPE_NAME=grass
 [TILE]
 ID=26
 NAME=grassSmallGreen
+DESCRIPTION=Short, green grass
 SPRITE=grassSmallGreen
 TYPE=empty
 TYPE_NAME=grass
@@ -211,6 +238,7 @@ TYPE_NAME=grass
 [TILE]
 ID=27
 NAME=grassSmallYellow
+DESCRIPTION=Short, yellow grass
 SPRITE=grassSmallYellow
 TYPE=empty
 TYPE_NAME=grass
@@ -218,6 +246,7 @@ TYPE_NAME=grass
 [TILE]
 ID=28
 NAME=grassSmallBlue
+DESCRIPTION=Short, blue grass
 SPRITE=grassSmallBlue
 TYPE=empty
 TYPE_NAME=grass
@@ -225,6 +254,7 @@ TYPE_NAME=grass
 [TILE]
 ID=29
 NAME=grassSmallPurple
+DESCRIPTION=Short, purple grass
 SPRITE=grassSmallPurple
 TYPE=empty
 TYPE_NAME=grass
@@ -232,6 +262,7 @@ TYPE_NAME=grass
 [TILE]
 ID=30
 NAME=reeds1
+DESCRIPTION=Reeds
 SPRITE=reeds1
 TYPE=solid
 TYPE_NAME=water
@@ -239,6 +270,7 @@ TYPE_NAME=water
 [TILE]
 ID=31
 NAME=reeds2
+DESCRIPTION=Reeds
 SPRITE=reeds2
 TYPE=solid
 TYPE_NAME=water

@@ -1,13 +1,19 @@
 package com.mac.rltut.game.entity.creature;
 
 import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.engine.util.ColoredString;
-import com.mac.rltut.engine.util.StringUtil;
+import com.mac.rltut.engine.util.*;
+import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
+import com.mac.rltut.game.entity.creature.util.CombatManager;
+import com.mac.rltut.game.entity.item.DropTable;
 import com.mac.rltut.game.entity.item.Inventory;
 import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.ItemStack;
+import com.mac.rltut.game.entity.item.equipment.Weapon;
 import com.mac.rltut.game.world.World;
+import com.mac.rltut.game.world.objects.Chest;
+import com.mac.rltut.game.world.objects.MapObject;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,7 +34,11 @@ public class Creature extends Entity {
     private String aiType;
 
     private Inventory<Item> inventory;
+    
+    private Weapon weapon;
+        
     private Set<String> flags;
+    private DropTable dropTable;
     
     private int maxHp;
     private int hp;
@@ -43,18 +53,20 @@ public class Creature extends Entity {
     
     private int xp;
     private int level;
+    private int gold;
     
     private String causeOfDeath;
     
     private int timeStationary;
     private boolean hasMoved;
+    private MapObject mapObject;
     
-    public Creature(String name, Sprite sprite, String aiType) {
-        this(name, sprite, 1, aiType);
+    public Creature(String name, String description, Sprite sprite, String aiType) {
+        this(name, description, sprite, 1, aiType);
     }
         
-    public Creature(String name, Sprite sprite, int size, String aiType) {
-        super(name, sprite);
+    public Creature(String name, String description, Sprite sprite, int size, String aiType) {
+        super(name, description, sprite);
         this.size = size;
         this.inventory = new Inventory<Item>();
         this.flags = new HashSet<String>();
@@ -62,7 +74,7 @@ public class Creature extends Entity {
         this.aiType = aiType;
     }
 
-    public void setStats(int maxHp, int maxMana, int strength, int defense, int accuracy, int intelligence, int vision){
+    public void setStats(int maxHp, int maxMana, int strength, int defense, int accuracy, int intelligence, int vision, DropTable dropTable){
         this.maxHp = maxHp;
         this.hp = maxHp;
         this.maxMana = maxMana;
@@ -72,6 +84,7 @@ public class Creature extends Entity {
         this.accuracy = accuracy;
         this.intelligence = intelligence;
         this.vision = vision;
+        this.dropTable = dropTable;
     }
 
     @Override
@@ -114,6 +127,11 @@ public class Creature extends Entity {
         
         Creature other = world.creature(xp, yp, zp);
         if(other == null) return ai.onMove(xp, yp, zp);
+
+        MapObject obj = world.mapObject(xp, yp, zp);
+        if(obj != null){
+            return false;
+        }
         
         return false;
     }
@@ -146,19 +164,58 @@ public class Creature extends Entity {
         
         if(inventory.isFull()) notify(new ColoredString("You are carrying too much.", Color.ORANGE.getRGB()));
         else{
-            doAction(new ColoredString("pickup a %s"), item.name());
+            String str = "pickup a %s";
+            if(item instanceof ItemStack) str += " x" + ((ItemStack) item).amount() + "";
+            doAction(new ColoredString(str), item.name());
             world.remove(item);
-            inventory.add(item);
+            
+            if(item instanceof ItemStack && item.name().equalsIgnoreCase("gold pile")) gold += ((ItemStack) item).amount();
+            else inventory.add(item);
         }
     }
     
     public void drop(Item item){
         if(world.addAtEmptyPoint(x, y, z, item)){
-            doAction(new ColoredString("drop a %d"), item.name());
+            doAction(new ColoredString("drop a %s"), item.name());
             inventory.remove(item);
         }else{
             notify(new ColoredString("There is nowhere to drop the %s.", Color.ORANGE.getRGB()), item.name());
         }
+    }
+    
+    public void dropFromDropTable(){
+        if(dropTable == null) return;
+        Set<String> dropped = new HashSet<String>();
+        for(int i = 0; i < dropTable.count(); i++) {
+            Item item = dropTable.getItem();
+            if (item != null && !dropped.contains(item.name())) {
+                drop(item);
+                dropped.add(item.name());
+            }
+        }
+    }
+    
+    public void equip(Item item){
+        if(item instanceof Weapon){
+            weapon = (Weapon) item;
+            doAction(new ColoredString("equip a %s"), item.name());
+        }
+    }
+    
+    public void unequip(Item item){
+        if(item instanceof Weapon){
+            weapon = null;
+            doAction(new ColoredString("unequip a %s"), item.name());
+        }
+    }
+    
+    public Chest tryOpen(){
+        for(Point p : new Point(x, y, z).neighboursAll()) {
+            if (world.mapObject(p.x, p.y, p.z) instanceof Chest) {
+                return (Chest) world.mapObject(p.x, p.y, p.z);
+            }
+        }
+        return null;
     }
     
     /* Log Methods */
@@ -201,6 +258,8 @@ public class Creature extends Entity {
         else if(hp < 1){
             doAction(new ColoredString("die", Color.RED.getRGB()));
             world.remove(this);
+            world.addCorpse(this);
+            dropFromDropTable();
         }
     }
     
@@ -251,6 +310,11 @@ public class Creature extends Entity {
         }
     }
     
+    public void modifyGold(int amount){
+        gold += amount;
+        if(amount < 0) gold = 0;
+    }
+    
     /* Getter Methods */
     
     public int size(){
@@ -292,6 +356,10 @@ public class Creature extends Entity {
     public int vision(){
         return Math.min(vision, world.dayNightController().light());
     }
+
+    public int defenseBonus(){
+        return 0;
+    }
     
     public int xp(){
         return xp;
@@ -301,8 +369,16 @@ public class Creature extends Entity {
         return level;
     }
     
+    public int gold(){
+        return gold;
+    }
+    
     public Inventory<Item> inventory(){
         return inventory;
+    }
+    
+    public Weapon weapon(){
+        return weapon;
     }
     
     public String aiType(){
@@ -317,11 +393,14 @@ public class Creature extends Entity {
         return timeStationary;
     }
     
+    public MapObject mapObject(){
+        return mapObject;
+    }
+    
     public boolean hasFlag(String flag){
         return flags.contains(flag.toLowerCase().trim());
     }
     
-    //TODO: CHANGE THIS!
     public boolean isPlayer(){
         return this instanceof Player;
     }
@@ -334,5 +413,9 @@ public class Creature extends Entity {
     
     public void addFlag(String flag){
         flags.add(flag.toLowerCase().trim());
+    }
+    
+    public void setMapObject(MapObject mapObject){
+        this.mapObject = mapObject;
     }
 }

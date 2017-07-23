@@ -5,10 +5,7 @@ import com.mac.rltut.engine.graphics.Font;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Spritesheet;
 import com.mac.rltut.engine.input.Input;
-import com.mac.rltut.engine.loader.CreatureLoader;
-import com.mac.rltut.engine.loader.SpriteLoader;
-import com.mac.rltut.engine.loader.SpritesheetLoader;
-import com.mac.rltut.engine.loader.TileLoader;
+import com.mac.rltut.engine.loader.*;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
 import com.mac.rltut.game.screen.Screen;
@@ -55,6 +52,7 @@ public class Engine {
             new SpritesheetLoader("data/sheets.dat").load();
             new SpriteLoader("data/sprites.dat").load();
             new TileLoader("data/tiles.dat").load();
+            new ItemLoader("data/items.dat").load();
             new CreatureLoader("data/creatures.dat").load();
         } catch (IOException e) {
             e.printStackTrace();

@@ -37,21 +37,23 @@ public class TileLoader extends DataLoader{
             }else if(obj.type().equalsIgnoreCase("tile")){
                 int id = obj.getInt("id");
                 String name = obj.getString("name");
+                String description = obj.getString("description");
                 Sprite sprite = Sprite.get(obj.getString("sprite"));
                 TileType type = tileTypes.get(obj.getString("type"));
                 String typeName = obj.hasToken("type_name") ? obj.getString("type_name") : type.name;
 
-                Tile newTile = new Tile((byte) id, name, sprite, typeName, type.solid, type.canSee, type.canFly);
+                Tile newTile = new Tile((byte) id, name, description, sprite, typeName, type.solid, type.canSee, type.canFly);
                 Tile.addTile(newTile);
             }else if(obj.type().equalsIgnoreCase("chest")){
                 int id = obj.getInt("id");
                 String name = obj.getString("name");
+                String description = obj.getString("description");
                 Sprite closedSprite = Sprite.get(obj.getString("sprite_closed"));
                 Sprite openSprite = Sprite.get(obj.getString("sprite_open"));
                 TileType type = tileTypes.get(obj.getString("type"));
                 String typeName = obj.hasToken("type_name") ? obj.getString("type_name") : type.name;
                         
-                ChestTile chestTile = new ChestTile((byte) id, name, closedSprite, openSprite, typeName, type.solid, type.canSee, type.canFly);
+                ChestTile chestTile = new ChestTile((byte) id, name, description, closedSprite, openSprite, typeName, type.solid, type.canSee, type.canFly);
                 Tile.addTile(chestTile);
             }
         }

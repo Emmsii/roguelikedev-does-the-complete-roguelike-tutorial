@@ -7,6 +7,7 @@ import com.mac.rltut.engine.util.Line;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.stats.LevelUpController;
+import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
 /**
@@ -57,9 +58,10 @@ public class CreatureAI {
     public boolean canEnter(int xp, int yp, int zp){
         for(int y = 0; y < creature.size(); y++){
             for(int x = 0; x < creature.size(); x++){
-                Tile t = creature.world().tile(x + xp, y + yp, zp);
+                Tile t = creature.world().tile(x + xp, y + yp, zp); //TODO: SOLID!
                 if(t.canFly() && creature.hasFlag("can_fly")) continue;
-                if(t.solid()) return false;
+                MapObject obj = creature.world().mapObject(x + xp, y + yp, zp);
+                if(t.solid() || obj != null) return false;
                 Creature c = creature.world().creature(x + xp, y + yp, zp);
                 if(c == null) continue;
                 else if(c.id!= creature.id) return false;

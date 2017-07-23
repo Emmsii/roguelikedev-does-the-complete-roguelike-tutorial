@@ -1,0 +1,21 @@
+[FOOD]
+NAME=meat chunk
+DESCRIPTION=A piece of meat
+SPRITE=meat
+HEAL=10
+
+[FOOD]
+NAME=mushroom
+DESCRIPTION=A mushroom
+SPRITE=mushroom
+HEAL=5
+
+[ITEM_STACK]
+NAME=gold pile
+DESCRIPTION=A pile o' gold
+SPRITE=gold
+
+[WEAPON]
+NAME=dagger
+DESCRIPTION=A dagger
+SPRITE=dagger

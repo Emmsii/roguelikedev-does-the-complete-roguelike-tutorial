@@ -1,6 +1,8 @@
 package com.mac.rltut.game.screen.game;
 
+import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.screen.Screen;
 
@@ -28,5 +30,47 @@ public class EquipmentScreen extends Screen {
     @Override
     public void render(Renderer renderer) {
         renderBorder(renderer);
+        
+        int xp = (width / 2);
+        
+        renderBox(xp - 1, 3, 3, 3, false, renderer);
+        renderer.renderSprite(Sprite.get("helm_large"), this.x + xp, this.y + 4);
+        renderer.colorizeSprite(this.x + xp, this.y + 4, 0x2E2E2E, 1f);
+        
+        renderBox(xp - 1, 8, 3, 3, false, renderer);
+        renderer.renderSprite(Sprite.get("chest_plate_armor"), this.x + xp, this.y + 9);
+        renderer.colorizeSprite(this.x + xp, this.y + 9, 0x2E2E2E, 1f);
+
+        renderBox(xp - 5, 6, 3, 3, false, renderer);
+        renderer.renderSprite(Sprite.get("necklace"), this.x + xp - 4, this.y + 7);
+        renderer.colorizeSprite(this.x + xp - 4, this.y + 7, 0x2E2E2E, 1f);
+
+        renderBox(xp - 7, 14, 3, 3, false, renderer);
+        renderer.renderSprite(Sprite.get("ring_gold"), this.x + xp - 6, this.y + 15);
+        renderer.colorizeSprite(this.x + xp - 6, this.y + 15, 0x2E2E2E, 1f);
+        
+        renderBox(xp + 5, 14, 3, 3, false, renderer);
+        renderer.renderSprite(Sprite.get("ring_gold"), this.x + xp + 6, this.y + 15);
+        renderer.colorizeSprite(this.x + xp + 6, this.y + 15, 0x2E2E2E, 1f);
+        
+                
+        renderBox(xp - 7, 10, 3, 3, false, renderer);
+        if(player.weapon() != null) renderer.renderSprite(player.weapon().sprite(), this.x + xp - 6, this.y + 11);
+        else{
+            renderer.renderSprite(Sprite.get("sword"), this.x + xp - 6, this.y + 11);
+            renderer.colorizeSprite(this.x + xp - 6, this.y + 11, 0x2E2E2E, 1f);
+        }
+        
+        renderBox(xp + 5, 10, 3, 3, false, renderer);
+        renderer.renderSprite(Sprite.get("shield_kite"), this.x + xp + 6, this.y + 11);
+        renderer.colorizeSprite(this.x + xp + 6, this.y + 11, 0x2E2E2E, 1f);
+
+        renderBox(xp - 1, 13, 3, 3, false, renderer);
+        renderer.renderSprite(Sprite.get("platelegs_silver"), this.x + xp, this.y + 14);
+        renderer.colorizeSprite(this.x + xp, this.y + 14, 0x2E2E2E, 1f);
+
+        renderBox(xp - 1, 18, 3, 3, false, renderer);
+        renderer.renderSprite(Sprite.get("boot_silver"), this.x + xp, this.y + 19);
+        renderer.colorizeSprite(this.x + xp, this.y + 19, 0x2E2E2E, 1f);
     }
 }

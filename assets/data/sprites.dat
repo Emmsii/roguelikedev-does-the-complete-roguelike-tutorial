@@ -173,6 +173,11 @@ X=9
 Y=1
 
 [SPRITE]
+NAME=blood
+X=10
+Y=1
+
+[SPRITE]
 NAME=chestGoldClosed
 X=0
 Y=2
@@ -504,7 +509,7 @@ X=1
 Y=4
 
 [SPRITE]
-NAME=battle_axe 
+NAME=battleaxe 
 X=2
 Y=4
 
@@ -559,7 +564,7 @@ X=13
 Y=4
 
 [SPRITE]
-NAME=chain_mail 
+NAME=chainmail 
 X=14
 Y=4
 
@@ -598,6 +603,16 @@ NAME=shield_kite
 X=11
 Y=12
 
+[SPRITE]
+NAME=boot_silver 
+X=12
+Y=12
+
+[SPRITE]
+NAME=platelegs_silver 
+X=13
+Y=12
+
 # ---------------- UI
 
 [SPRITE]
@@ -629,3 +644,20 @@ Y=10
 NAME=uiBorderTR
 X=13
 Y=9
+
+[SPRITE]
+NAME=ui_dot
+X=14
+Y=12
+
+[SPRITE]
+NAME=ui_selection
+X=15
+Y=12
+
+# ---------------- Misc
+
+[SPRITE]
+NAME=corpse
+X=9
+Y=12

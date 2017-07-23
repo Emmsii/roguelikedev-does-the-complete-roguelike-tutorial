@@ -1,10 +1,9 @@
 package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.engine.util.Dice;
 import com.mac.rltut.game.entity.creature.Boss;
-import com.mac.rltut.game.entity.creature.BossSpawnProperty;
-import com.mac.rltut.game.entity.creature.CreatureSpawnProperty;
+import com.mac.rltut.game.entity.creature.util.BossSpawnProperty;
+import com.mac.rltut.game.entity.creature.util.CreatureSpawnProperty;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.Pool;
@@ -16,7 +15,6 @@ import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -34,6 +32,7 @@ public class WorldBuilder {
 
     private String creatureSpawnBaseCount = "12-20"; 
     private String maxCreatureTypesPerLevel = "5-6";
+    private String itemsPerLevel = "5-10";
     
     private float[] creatureSpawnMultiplier;
 
@@ -196,7 +195,7 @@ public class WorldBuilder {
     
     public WorldBuilder spawnItems(){
         
-        Point spawn = world.randomEmptyPointInRadius(world.startPointAt(0), 7);
+        Point spawn = world.randomEmptyPointInRadius(world.startPointAt(0), 12);
         world.add(spawn.x, spawn.y, spawn.z, ItemBuilder.newDagger(0));
         
         for(int z = 0; z < depth; z++){
@@ -221,7 +220,7 @@ public class WorldBuilder {
             blocked = false;
             for(int y = spawn.y; y <= spawn.y + toSpawn.creature().size(); y++){
                 for(int x = spawn.x; x <= spawn.x + toSpawn.creature().size(); x++){
-                    if(world.tile(x, y, z).solid() || world.creature(x, y, z) != null){
+                    if(world.solid(x, y, z) || world.creature(x, y, z) != null){
                         blocked = true;
                         break;
                     }
@@ -251,13 +250,13 @@ public class WorldBuilder {
         creature.modifyMana(creature.maxMana());
         
         
-        Log.debug("Stats for " + creature.name() + " on level " + z);
-        Log.debug("HP: " + creature.maxHp());
-        Log.debug("MAN: " + creature.maxMana());
-        Log.debug("STR: " + creature.strength());
-        Log.debug("DEF: " + creature.defense());
-        Log.debug("ACC: " + creature.accuracy());
-        Log.debug("INT: " + creature.intelligence());
+//        Log.debug("Stats for " + creature.name() + " on level " + z);
+//        Log.debug("HP: " + creature.maxHp());
+//        Log.debug("MAN: " + creature.maxMana());
+//        Log.debug("STR: " + creature.strength());
+//        Log.debug("DEF: " + creature.defense());
+//        Log.debug("ACC: " + creature.accuracy());
+//        Log.debug("INT: " + creature.intelligence());
         
     }
     

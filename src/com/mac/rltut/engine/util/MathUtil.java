@@ -33,6 +33,10 @@ public class MathUtil {
         return range(Math.min(left, right), Math.max(left, right), rand);
     }
 
+    public static int randomIntFromString(String input){
+        return randomIntFromString(input, random);
+    }
+    
     //TODO: I might be broken
     public static int randomIntFromString(String input, Random rand){
         String[] split = input.trim().split("-");

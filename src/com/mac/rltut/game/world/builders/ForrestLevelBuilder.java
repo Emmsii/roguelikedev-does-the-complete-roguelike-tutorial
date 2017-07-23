@@ -1,9 +1,11 @@
 package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
-import com.mac.rltut.engine.util.Pool;
+import com.mac.rltut.game.world.objects.Chest;
+import com.mac.rltut.game.world.tile.ChestTile;
 import com.mac.rltut.game.world.tile.Tile;
 
 import java.awt.*;
@@ -127,7 +129,7 @@ public class ForrestLevelBuilder extends LevelBuilder{
         Log.trace("Randomizing trees...");
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
-                if(tile(x, y).solid()) continue;
+                if(solid(x, y)) continue;
                 if(random.nextFloat() <= frequency) setTile(x, y, getRandomTile("tree"));
                 else setTile(x, y, Tile.getTile("empty"));
             }
@@ -271,7 +273,7 @@ public class ForrestLevelBuilder extends LevelBuilder{
             for(int x = 0; x < w; x++) {
                 int xa = x + xp;
                 total++;
-                if(tile(xa, ya).solid()) solid++;
+                if(solid(xa, ya)) solid++;
             }
         }
         float percentSolid = (float) solid / (float) total;
@@ -308,17 +310,20 @@ public class ForrestLevelBuilder extends LevelBuilder{
         Log.trace("Adding chests...");
         for(Rectangle r : ruins){
             if(random.nextFloat() <= chestFrequency){
-                Tile chestTile = getRandomTile("chest");
+                ChestTile chestTile = (ChestTile) getRandomTile("chest");
                 int x, y;
                 int tries = 0;
                 do {
                     x = MathUtil.range(r.x + 1, r.x + r.width, random);
                     y = MathUtil.range(r.y + 1, r.y + r.height, random);
-                }while(tile(x, y).solid() && tries++ < (r.width * r.height));
-                setTile(x, y, chestTile);
-                //TODO: separate list of chests
+                }while(solid(x, y) && tries++ < (r.width * r.height));
+                addChest(x, y, chestTile);
             }
         }
+    }
+    
+    private void addChest(int x, int y, ChestTile tile){
+        addMapObject(x, y, new Chest(tile));
     }
     
     private void addGrass(){
@@ -345,7 +350,7 @@ public class ForrestLevelBuilder extends LevelBuilder{
 
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
-                if(!tile(x, y).solid() && regions[x][y] == 0){
+                if(!solid(x, y) && regions[x][y] == 0){
                     int size = fillRegion(nextRegion++, x, y);
                     if(size < minSize){
                         removeRegion(nextRegion - 1);
@@ -378,7 +383,7 @@ public class ForrestLevelBuilder extends LevelBuilder{
 
             for(Point n : p.neighboursCardinal()){
                 if(!inBounds(n.x, n.y)) continue;
-                if(regions[n.x][n.y] > 0 || tile(n.x, n.y).solid()) continue;
+                if(regions[n.x][n.y] > 0 || solid(n.x, n.y)) continue;
                 size++;
                 regions[n.x][n.y] = id;
                 open.add(n);

@@ -66,7 +66,7 @@ public class Dijkstra {
 
             for(Point p : neighbours){
                 //If neighbour tile is solid, ignore
-                if(world.tile(p.x, p.y, p.z).solid()) continue;
+                if(world.solid(p.x, p.y, p.z)) continue;
                 //If out of bounds, ignore
                 if(!world.inBounds(p.x, p.y, p.z)) continue;
                 //If neighbour tile value is < lowestNeighbourTile
@@ -108,7 +108,7 @@ public class Dijkstra {
             //
             for(Point p : neighbours){
                 //If neighbour tile is solid, ignore
-                if(world.tile(p.x, p.y, p.z).solid()) continue;
+                if(world.solid(p.x, p.y, p.z)) continue;
                 //If out of bounds, ignore
                 if(!world.inBounds(p.x, p.y, p.z)) continue;
                 //If neighbour tile value is < lowestNeighbourTile

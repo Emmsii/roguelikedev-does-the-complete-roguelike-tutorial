@@ -14,11 +14,13 @@ public abstract class Entity implements Cloneable{
     public int id;
     public int x, y, z;
     protected String name;
+    protected String description;
     protected Sprite sprite;
     protected World world;
     
-    public Entity(String name, Sprite sprite){
+    public Entity(String name, String description, Sprite sprite){
         this.name = name;
+        this.description = description;
         this.sprite = sprite;
     }
     
@@ -31,6 +33,10 @@ public abstract class Entity implements Cloneable{
     
     public String name(){
         return name;
+    }
+    
+    public String description(){
+        return description;
     }
     
     public Sprite sprite(){

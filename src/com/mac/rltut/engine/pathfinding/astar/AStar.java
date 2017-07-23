@@ -37,7 +37,7 @@ public class AStar {
             System.exit(-1);
         }
         
-        if(world.tile(startPos.x, startPos.y, startPos.z).solid() || world.tile(endPos.x, endPos.y, endPos.z).solid()){
+        if(world.solid(startPos.x, startPos.y, startPos.z) || world.tile(endPos.x, endPos.y, endPos.z).solid()){
             return null;
         }
         
@@ -99,8 +99,8 @@ public class AStar {
                 if(x == 0 && y == 0) continue;
                 int checkX = from.pos.x + x;
                 int checkY = from.pos.y + y;
-                if(world.inBounds(checkX, checkY, z) && !world.tile(checkX, checkY, z).solid()){
-                    result.add(new Node(!world.tile(checkX, checkY, z).solid(), new Point(checkX, checkY, z)));
+                if(world.inBounds(checkX, checkY, z) && !world.solid(checkX, checkY, z)){
+                    result.add(new Node(!world.solid(checkX, checkY, z), new Point(checkX, checkY, z)));
                 }
             }
         }

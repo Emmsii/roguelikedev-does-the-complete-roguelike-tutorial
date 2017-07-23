@@ -10,6 +10,7 @@ import com.mac.rltut.game.entity.creature.ai.PackMemberAI;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.screen.Screen;
+import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
 import java.awt.event.KeyEvent;
@@ -123,6 +124,13 @@ public class LevelScreen extends Screen{
     private Sprite spriteAt(int xp, int yp, int zp){
         Item i = world.item(xp, yp, zp);
         if(i != null) return i.sprite();
+        
+        if(world.level(zp).blood(xp, yp)) return Sprite.get("blood");
+
+        MapObject obj = world.mapObject(xp, yp, zp);
+        if(obj != null) return obj.sprite();
+        
+        
         return world.tile(xp, yp, zp).sprite();
     }
 

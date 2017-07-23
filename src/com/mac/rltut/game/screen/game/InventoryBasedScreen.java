@@ -4,6 +4,7 @@ import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
+import com.mac.rltut.game.entity.item.Inventory;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.screen.Screen;
 
@@ -18,10 +19,12 @@ import java.util.List;
  */
 public abstract class InventoryBasedScreen extends Screen{
     
+    protected Inventory<Item> inventory;
     protected Creature player;
     
-    public InventoryBasedScreen(int x, int y, int w, int h, String title, Creature player){
+    public InventoryBasedScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player){
         super(x, y, w, h, title);
+        this.inventory = inventory;
         this.player = player;
     }
 
@@ -63,7 +66,7 @@ public abstract class InventoryBasedScreen extends Screen{
     
     private List<Item> getList(){
         List<Item> newItems = new ArrayList<Item>();
-        List<Item> items = player.inventory().items();
+        List<Item> items = inventory.items();
         for(Item i : items) if(isAcceptable(i)) newItems.add(i);
         return newItems;
     }

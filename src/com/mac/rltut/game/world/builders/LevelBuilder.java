@@ -5,6 +5,7 @@ import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.world.Level;
+import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
 import javax.imageio.ImageIO;
@@ -37,6 +38,7 @@ public abstract class LevelBuilder {
     private HashMap<String, HashMap<Tile, Integer>> tileTypeChances;
     
     private byte[][] tiles;
+    private MapObject[][] mapObjects;
     private Level level;   
     
     private Point start;
@@ -64,6 +66,7 @@ public abstract class LevelBuilder {
     public void init(int z){
         Log.trace("Init " + type + " level at " + z + "...");
         this.tiles = new byte[width][height];
+        this.mapObjects = new MapObject[width][height];
         this.level = new Level(type, width, height, z);
         for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) setTile(x, y, Tile.getTile("empty"));
         this.random.setSeed(random.nextLong());
@@ -74,7 +77,7 @@ public abstract class LevelBuilder {
     public abstract LevelBuilder generate(int z);
 
     protected void addDecalTiles(){
-        Log.trace("Adding decal tiles...");
+        Log.trace("Adding objects tiles...");
         Pool<Tile> pool = new Pool<Tile>();
         Tile currentTile = null;
         for(int y = 0; y < height; y++) {
@@ -100,7 +103,7 @@ public abstract class LevelBuilder {
         do{
             x = random.nextInt(width);
             y = random.nextInt(height);
-        }while(tile(x, y).solid());
+        }while(solid(x, y));
         level.setStart(new Point(x, y, z));
     }
     
@@ -114,7 +117,7 @@ public abstract class LevelBuilder {
         
     protected void addDecalTile(Tile decal, int chance, Tile ... canPlaceOn){
         if(canPlaceOn == null || canPlaceOn.length < 1){
-            Log.error("Decal tile must have a tile if can place on.");
+            Log.error("MapObject tile must have a tile if can place on.");
             return;
         }
         decalTiles.add(new DecalTile(decal, chance, canPlaceOn));
@@ -145,7 +148,7 @@ public abstract class LevelBuilder {
     protected boolean isValid(int minimumEmpty){
         Log.trace("Checking is valid...");
         int empty = 0;
-        for(int y = 0; y < height; y++) for (int x = 0; x < width; x++) if(!tile(x, y).solid()) empty++;
+        for(int y = 0; y < height; y++) for (int x = 0; x < width; x++) if(!solid(x, y)) empty++;
         return empty > minimumEmpty;
     }
     
@@ -161,6 +164,11 @@ public abstract class LevelBuilder {
     protected Tile tile(int x, int y){
         if(!level.inBounds(x, y)) return Tile.getTile("empty");
         return Tile.getTile(tiles[x][y]);
+    }
+    
+    protected boolean solid(int x, int y){
+        if(!level.inBounds(x, y)) return true;
+        return tile(x, y).solid();
     }
     
     public byte[][] tiles(){
@@ -180,8 +188,14 @@ public abstract class LevelBuilder {
         tiles[x][y] = tile.id;
     }
     
+    protected void addMapObject(int x, int y, MapObject obj){
+        if(!level.inBounds(x, y)) return;
+        mapObjects[x][y] = obj;
+    }
+    
     public Level build(){
         level.setTiles(tiles);
+        level.setMapObjects(mapObjects);
         return level;
     }
     

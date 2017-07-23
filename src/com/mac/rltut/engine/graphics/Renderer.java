@@ -1,5 +1,6 @@
 package com.mac.rltut.engine.graphics;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.util.Colors;
 
@@ -14,6 +15,7 @@ public class Renderer {
 
     public static final int FLIP_SPRITE = 1;
     public static final int DARKEN_SPRITE = 2;
+    public static final int TRANSPARENT = 4;
     
     private int defaultFontColor = 0xffffff;
     private int nightColor = 0x1e3e66; 
@@ -55,12 +57,17 @@ public class Renderer {
     }
     
     public void renderSpritePrecise(Sprite sprite, int xp, int yp, int flags){
+        if(sprite == null){
+            Log.error("Cannot render null sprite");
+            return;
+        }
         for(int y = 0; y < sprite.height; y++){
             int ya = y + yp;
             for(int x = 0; x < sprite.width; x++){
                 int xa = x + xp;
                 int pixelColor = sprite.pixel((flags & FLIP_SPRITE) == FLIP_SPRITE ? sprite.width - x : x, y);
                 if((flags & DARKEN_SPRITE) == DARKEN_SPRITE) pixelColor = Colors.darken(pixelColor);
+                if((flags & TRANSPARENT) == TRANSPARENT) if(pixelColor == 0xff000000) continue;
                 renderPixel(pixelColor, xa, ya);
             }
         }

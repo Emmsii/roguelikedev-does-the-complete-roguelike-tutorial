@@ -19,15 +19,17 @@ public class Tile {
     
     public final byte id;
     private String name;
+    private String description;
     private Sprite sprite;
     private String type;
     protected boolean solid;
     protected boolean canSee;
     protected boolean canFly;
 
-    public Tile(byte id, String name, Sprite sprite, String type, boolean solid, boolean canSee, boolean canFly){
+    public Tile(byte id, String name, String description, Sprite sprite, String type, boolean solid, boolean canSee, boolean canFly){
         this.id = id;
         this.name = name;
+        this.description = description;
         this.sprite = sprite;
         this.type = type;
         this.solid = solid;
@@ -37,6 +39,10 @@ public class Tile {
     
     public String name(){
         return name;
+    }
+    
+    public String description(){
+        return description;
     }
     
     public Sprite sprite(){

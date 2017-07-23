@@ -1,5 +1,6 @@
 [CREATURE]
 NAME=Wizard
+DESCRIPTION=A wizard
 SPRITE=wizard
 HP=20
 MANA=100
@@ -14,6 +15,7 @@ AI=aggressive
 
 [CREATURE]
 NAME=Undead Wizard
+DESCRIPTION=An undead wizard
 SPRITE=wizard_undead
 HP=20
 MANA=100
@@ -28,6 +30,7 @@ AI=aggressive
 
 [CREATURE]
 NAME=Werewolf
+DESCRIPTION=A werewolf
 SPRITE=werewolf
 HP=40
 STRENGTH=7
@@ -41,6 +44,7 @@ FLAGS=smart
 
 [CREATURE]
 NAME=Zombie
+DESCRIPTION=A zombie
 SPRITE=zombie
 HP=15
 STRENGTH=3
@@ -50,9 +54,11 @@ INTELLIGENCE=0
 VISION=10
 AI=aggressive
 FLAGS=slow
+DROPS=gold pile:2-12:45
 
 [CREATURE]
 NAME=Ent
+DESCRIPTION=An ent
 SPRITE=ent
 HP=35
 MANA=100
@@ -65,10 +71,11 @@ SPAWN_TYPES=dark, dense
 SPAWN_LEVELS=6-20
 SPAWN_WEIGHT=85
 AI=aggressive
-FLAGS=slow
+FLAGS=slow, no_blood
 
 [CREATURE]
 NAME=Bat
+DESCRIPTION=A bat
 SPRITE=bat
 HP=10
 MANA=100
@@ -78,9 +85,11 @@ ACCURACY=2
 VISION=10
 AI=passive
 FLAGS=can_fly
+DROPS=meat chunk:1:40, gold pile:1-10:30
 
 [CREATURE]
 NAME=Fire Sprite
+DESCRIPTION=A fire sprite
 SPRITE=fire_sprite
 HP=10
 MANA=100
@@ -95,6 +104,7 @@ AI=aggressive
 
 [CREATURE]
 NAME=Blue Octopus
+DESCRIPTION=A blue octopus
 SPRITE=octopus_blue
 HP=30
 MANA=100
@@ -109,6 +119,7 @@ AI=aggressive
 
 [CREATURE]
 NAME=Green Octopus
+DESCRIPTION=A green octopus
 SPRITE=octopus_green
 HP=30
 MANA=100
@@ -123,6 +134,7 @@ AI=aggressive
 
 [CREATURE]
 NAME=Skeleton
+DESCRIPTION=A skeleton
 SPRITE=skeleton
 HP=10
 STRENGTH=4
@@ -133,10 +145,11 @@ PACK_SIZE=1-4
 SPAWN_LEVELS=2-10
 SPAWN_WEIGHT=50
 AI=aggressive
-FLAGS=smart, slow
+FLAGS=smart, no_blood
 
 [CREATURE]
 NAME=Spectre
+DESCRIPTION=A spectre
 SPRITE=spectre
 HP=50
 MANA=100
@@ -151,6 +164,7 @@ AI=aggressive
 
 [CREATURE]
 NAME=Blue Snake
+DESCRIPTION=A blue snake
 SPRITE=snake_blue
 HP=10
 STRENGTH=3
@@ -164,6 +178,7 @@ AI=aggressive
 
 [CREATURE]
 NAME=Green Snake
+DESCRIPTION=A green snake
 SPRITE=snake_green
 HP=10
 STRENGTH=3
@@ -177,6 +192,7 @@ AI=aggressive
 
 [CREATURE]
 NAME=Brown Snake
+DESCRIPTION=A brown snake
 SPRITE=snake_brown
 HP=10
 STRENGTH=3
@@ -190,6 +206,7 @@ AI=aggressive
 
 [CREATURE]
 NAME=Ghost
+DESCRIPTION=A ghost
 SPRITE=ghost
 HP=20
 MANA=100
@@ -201,9 +218,11 @@ VISION=12
 SPAWN_TYPES=!default, !dense, !lakes, !sparse
 SPAWN_LEVELS=6-20
 AI=aggressive
+FLAGS=no_blood
 
 [CREATURE]
 NAME=Cat
+DESCRIPTION=A cat
 SPRITE=cat
 HP=10
 STRENGTH=1
@@ -218,6 +237,7 @@ AI=aggressive
 
 [BOSS]
 NAME=Green Octopus Boss
+DESCRIPTION=A large, green octopus
 SPRITE=octopus_boss_green
 HP=10
 MANA=100
@@ -234,6 +254,7 @@ SIZE=2
 
 [BOSS]
 NAME=Blue Octopus Boss
+DESCRIPTION=A large, blue octopus
 SPRITE=octopus_boss_blue
 HP=10
 MANA=100
@@ -250,6 +271,7 @@ SIZE=2
 
 [BOSS]
 NAME=Skeleton King
+DESCRIPTION=A skeleton king
 SPRITE=skeleton_boss
 HP=60
 STRENGTH=15
@@ -264,6 +286,7 @@ SIZE=2
 
 [BOSS]
 NAME=Grand Ent
+DESCRIPTION=A grand end
 SPRITE=ent_boss
 HP=80
 MANA=100
@@ -279,6 +302,7 @@ SIZE=2
 
 [BOSS]
 NAME=Spectre Boss
+DESCRIPTION=A large spectre
 SPRITE=spectre_boss
 HP=10
 MANA=100
@@ -294,6 +318,7 @@ SIZE=2
 
 [BOSS]
 NAME=Giant Snake
+DESCRIPTION=A giant snake
 SPRITE=snake_boss
 HP=10
 MANA=100
@@ -309,6 +334,7 @@ SIZE=2
 
 [BOSS]
 NAME=Fire Demon
+DESCRIPTION=A fire demon
 SPRITE=fire_demon
 HP=10
 MANA=100
@@ -324,6 +350,7 @@ SIZE=2
 
 [BOSS]
 NAME=Eye Thing
+DESCRIPTION=An eye thing
 SPRITE=eye_thing
 HP=10
 MANA=100
@@ -339,6 +366,7 @@ SIZE=2
 
 [BOSS]
 NAME=Golem
+DESCRIPTION=A large golem
 SPRITE=golem
 HP=10
 MANA=100
@@ -354,6 +382,7 @@ SIZE=2
 
 [BOSS]
 NAME=Gargoyle
+DESCRIPTION=A large gargoyle
 SPRITE=gargoyle
 HP=10
 MANA=100
@@ -370,6 +399,7 @@ SIZE=2
 # very temp
 [BOSS]
 NAME=Cat Boss
+DESCRIPTION=A cat boss
 SPRITE=cat
 HP=10
 MANA=100

@@ -1,5 +1,6 @@
 package com.mac.rltut.game.world;
 
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.MathUtil;
@@ -7,6 +8,7 @@ import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.ai.PackAI;
 import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
 import java.util.ArrayList;
@@ -68,7 +70,8 @@ public class World {
                 for(int x = 0; x < width; x++){
                     setExplored(x, y, z, false);
                     setVisible(x, y, z, true);
-                    if(!tile(x, y, z).solid()) totalExplorableTiles[z]++;
+                    level(z).setBlood(x, y, false);
+                    if(!solid(x, y, z)) totalExplorableTiles[z]++;
                 }
             }
         }
@@ -122,7 +125,7 @@ public class World {
         do{
             x = (int) (Math.random() * width);
             y = (int) (Math.random() * height);
-        }while(tile(x, y, z).solid() || creature(x, y, z) != null);
+        }while(solid(x, y, z) || creature(x, y, z) != null);
         
         return new Point(x, y, z);
     }
@@ -143,7 +146,7 @@ public class World {
                 }
             }
             
-        }while(tile(x, y, z).solid() || creature(x, y, z) != null || !nearType);
+        }while(solid(x, y, z) || creature(x, y, z) != null || !nearType);
 
         return new Point(x, y, z);
     }
@@ -157,7 +160,7 @@ public class World {
             x = MathUtil.range(point.x - half, point.x + half, new Random());
             y = MathUtil.range(point.y - half, point.y + half, new Random());
             
-        }while (tile(x, y, point.z).solid() || creature(x, y, point.z) != null || MathUtil.distance(x, y, point.x, point.y) > half);
+        }while (solid(x, y, point.z) || creature(x, y, point.z) != null || MathUtil.distance(x, y, point.x, point.y) > half);
         
         return new Point(x, y, point.z);
     }
@@ -194,6 +197,21 @@ public class World {
         item.init(entityId++, this);
     }
     
+    public void addCorpse(Creature dead){
+        if(!inBounds(dead.x, dead.y, dead.z) || tile(dead.x, dead.y, dead.z).isType("water")) return;
+        add(dead.x, dead.y, dead.z, (Item) new Item(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse")).newInstance());
+        if(!dead.hasFlag("no_blood")){
+            for(int y = -1; y <= 1; y++){
+                int ya = y + dead.y;
+                for(int x = -1; x <= 1; x++){
+                    int xa = x + dead.x;
+                    if(solid(xa, ya, dead.z)) continue;
+                    if(Math.random() < 0.275) level(dead.z).setBlood(xa, ya, true);
+                }
+            }
+        }
+    }
+    
     public boolean addAtEmptyPoint(int x, int y, int z, Item item){
         if(!inBounds(x, y, z)) return false;
         
@@ -206,7 +224,7 @@ public class World {
             Point p = points.remove(0);
             checked.add(p);
             
-            if(tile(p.x, p.y, p.z).solid()) continue;
+            if(solid(p.x, p.y, p.z)) continue;
             if(item(p.x, p.y, p.z) == null){
                 add(p.x, p.y, p.z, item);
                 Creature c = creature(p.x, p.y, p.z);
@@ -325,6 +343,16 @@ public class World {
         return levels[z].tile(x, y);
     }
 
+    public boolean solid(int x, int y, int z){
+        if(!inBounds(x, y, z)) return true;
+        return tile(x, y, z).solid();
+    }
+    
+    public MapObject mapObject(int x, int y, int z){
+        if(!inBounds(0, 0, z)) return null;
+        return level(z).mapObject(x, y);
+    }
+    
     public Point startPointAt(int z){
         if(!inBounds(0, 0, z)) return null;
         return levels[z].startPoint();

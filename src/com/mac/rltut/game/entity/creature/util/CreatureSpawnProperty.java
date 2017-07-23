@@ -1,4 +1,4 @@
-package com.mac.rltut.game.entity.creature;
+package com.mac.rltut.game.entity.creature.util;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.MathUtil;
