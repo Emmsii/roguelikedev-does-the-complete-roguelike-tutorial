@@ -616,32 +616,32 @@ Y=12
 # ---------------- UI
 
 [SPRITE]
-NAME=uiBorderVer
+NAME=ui_border_ver
 X=12
 Y=9
 
 [SPRITE]
-NAME=uiBorderHor
+NAME=ui_border_hor
 X=10
 Y=9
 
 [SPRITE]
-NAME=uiBorderBL
+NAME=ui_border_bl
 X=9
 Y=9
 
 [SPRITE]
-NAME=uiBorderBR
+NAME=ui_border_br
 X=11
 Y=9
 
 [SPRITE]
-NAME=uiBorderTL
+NAME=ui_border_tl
 X=12
 Y=10
 
 [SPRITE]
-NAME=uiBorderTR
+NAME=ui_border_tr
 X=13
 Y=9
 

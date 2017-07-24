@@ -2,6 +2,7 @@ package com.mac.rltut;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
+import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.engine.window.CustomExceptionHandler;
 import com.mac.rltut.game.world.DayNightController;
 
@@ -16,7 +17,7 @@ public class Main {
     
     public static void main(String[] args){
         Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler("logs/"));
-        Engine.instance().init(80, 45, parseScale(args), 8, "RLTUT","v0.5.2");
+        Engine.instance().init(80, 45, parseScale(args), 8, "RLTUT","v0.5.3");
     }
     
     private static int parseScale(String[] args){

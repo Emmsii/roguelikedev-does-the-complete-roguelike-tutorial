@@ -5,6 +5,7 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.ai.PackMemberAI;
 import com.mac.rltut.game.entity.item.Item;
@@ -43,8 +44,12 @@ public class LevelScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-        setTitle("Map " + (player.z + 1));
+//        setTitle("Map " + (player.z + 1));
        
+        String levelType = world.level(player.z).type();
+        if(levelType.equalsIgnoreCase("default")) setTitle("Forrest " + (player.z + 1));
+        else setTitle(StringUtil.capitalizeFirst(levelType) + " Forrest " + (player.z + 1));
+        
         world.computeFov(player.x, player.y, player.z, player.vision(), FieldOfView.FOVType.SHADOWCAST);
         
         for(int ya = 1; ya < height - 1; ya++){

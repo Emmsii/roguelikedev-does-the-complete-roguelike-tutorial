@@ -1,10 +1,9 @@
 package com.mac.rltut.game.screen.game;
 
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.item.equipment.Armor;
 import com.mac.rltut.game.entity.item.Inventory;
 import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.entity.item.equipment.Weapon;
+import com.mac.rltut.game.entity.item.equipment.Equippable;
 import com.mac.rltut.game.screen.Screen;
 
 /**
@@ -25,7 +24,7 @@ public class EquipScreen extends InventoryBasedScreen{
 
     @Override
     protected boolean isAcceptable(Item item) {
-        return item instanceof Weapon || item instanceof Armor;
+        return item instanceof Equippable;
     }
 
     @Override

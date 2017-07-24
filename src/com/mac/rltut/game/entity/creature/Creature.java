@@ -1,5 +1,6 @@
 package com.mac.rltut.game.entity.creature;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.*;
 import com.mac.rltut.engine.util.Point;
@@ -10,16 +11,14 @@ import com.mac.rltut.game.entity.item.DropTable;
 import com.mac.rltut.game.entity.item.Inventory;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
-import com.mac.rltut.game.entity.item.equipment.Weapon;
+import com.mac.rltut.game.entity.item.equipment.Equippable;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Project: complete-rltut
@@ -34,9 +33,8 @@ public class Creature extends Entity {
     private String aiType;
 
     private Inventory<Item> inventory;
-    
-    private Weapon weapon;
-        
+    private HashMap<String, Equippable> equippedItems;
+         
     private Set<String> flags;
     private DropTable dropTable;
     
@@ -73,6 +71,7 @@ public class Creature extends Entity {
         super(name, description, sprite);
         this.size = size;
         this.inventory = new Inventory<Item>();
+        this.equippedItems = new HashMap<String, Equippable>();
         this.flags = new HashSet<String>();
         this.level = 1;
         this.aiType = aiType;
@@ -178,7 +177,7 @@ public class Creature extends Entity {
             doAction(new ColoredString(str), item.name());
             world.remove(item);
             
-            if(item instanceof ItemStack && item.name().equalsIgnoreCase("gold pile")) gold += ((ItemStack) item).amount();
+            if(item instanceof ItemStack && item.name().equalsIgnoreCase("gold")) gold += ((ItemStack) item).amount();
             else inventory.add(item);
         }
     }
@@ -205,17 +204,13 @@ public class Creature extends Entity {
     }
     
     public void equip(Item item){
-        if(item instanceof Weapon){
-            weapon = (Weapon) item;
-            doAction(new ColoredString("equip a %s"), item.name());
-        }
+        if(item instanceof Equippable) ((Equippable) item).equip(this);
+        else notify(new ColoredString("You cannot equip a %s."), item.name());
     }
     
     public void unequip(Item item){
-        if(item instanceof Weapon){
-            weapon = null;
-            doAction(new ColoredString("unequip a %s"), item.name());
-        }
+        if(item instanceof Equippable) ((Equippable) item).unequip(this);
+        else notify(new ColoredString("You cannot unequip a %s."), item.name());
     }
     
     public Chest tryOpen(){
@@ -375,27 +370,39 @@ public class Creature extends Entity {
     }
 
     public int strengthBonus(){
-        return 7;
+        int result = 0;
+        for(String s : equippedItems.keySet()) result += equippedItems.get(s).strengthBonus(); 
+        return result;
     }
     
     public int defenseBonus(){
-        return 2;
+        int result = 0;
+        for(String s : equippedItems.keySet()) result += equippedItems.get(s).defenseBonus();
+        return result;
     }
     
     public int accuracyBonus(){
-        return -3;
+        int result = 0;
+        for(String s : equippedItems.keySet()) result += equippedItems.get(s).accuracyBonus();
+        return result;
     }
     
     public int intelligenceBonus(){
-        return 1;
+        int result = 0;
+        for(String s : equippedItems.keySet()) result += equippedItems.get(s).intelligenceBonus();
+        return result;
     }
     
     public int manaRegenAmountBonus(){
-        return 2;
+        int result = 0;
+        for(String s : equippedItems.keySet()) result += equippedItems.get(s).manaRegenAmountBonus();
+        return result;
     }
 
     public int manaRegenSpeedBonus(){
-        return 0;
+        int result = 0;
+        for(String s : equippedItems.keySet()) result += equippedItems.get(s).manaRegenSpeedBonus();
+        return result;
     }
     
     public int xp(){
@@ -414,8 +421,8 @@ public class Creature extends Entity {
         return inventory;
     }
     
-    public Weapon weapon(){
-        return weapon;
+    public Equippable getEquippedAt(String location){
+        return equippedItems.get(location.toLowerCase().trim());
     }
     
     public String aiType(){
@@ -454,5 +461,9 @@ public class Creature extends Entity {
     
     public void setMapObject(MapObject mapObject){
         this.mapObject = mapObject;
+    }
+    
+    public void setEquippable(String loation, Equippable equippable){
+        equippedItems.put(loation.toLowerCase().trim(), equippable);
     }
 }

@@ -30,7 +30,7 @@ public class ExamineScreen extends InventoryBasedScreen{
     @Override
     protected Screen use(Item item) {
         String article = "aeiou".contains(item.name().subSequence(0, 1)) ? "an " : "a ";
-        player.notify(new ColoredString("It's " + article + item.name() + "."));
-        return null;
+//        player.notify(new ColoredString("It's " + article + item.name() + ". "));
+        return new ExamineItemScreen(x, y, width, height, item, this);
     }
 }

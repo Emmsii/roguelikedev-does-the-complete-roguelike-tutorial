@@ -57,12 +57,12 @@ public abstract class Screen {
                 
                 if(fill) renderer.renderSprite(Sprite.get("empty"), xa, ya);
                 
-                if(xp == 0 || xp == w - 1) renderer.renderSprite(Sprite.get("uiBorderVer"), xa, ya);
-                else if(yp == 0 || yp == h - 1) renderer.renderSprite(Sprite.get("uiBorderHor"), xa, ya);
-                if(xp == 0 && yp == 0) renderer.renderSprite(Sprite.get("uiBorderTL"), xa, ya);
-                else if(xp == w - 1 && yp == 0) renderer.renderSprite(Sprite.get("uiBorderTR"), xa, ya);
-                else if(xp == 0 && yp == h - 1) renderer.renderSprite(Sprite.get("uiBorderBL"), xa, ya);
-                else if(xp == w - 1 && yp == h - 1) renderer.renderSprite(Sprite.get("uiBorderBR"), xa, ya);
+                if(xp == 0 || xp == w - 1) renderer.renderSprite(Sprite.get("ui_border_ver"), xa, ya);
+                else if(yp == 0 || yp == h - 1) renderer.renderSprite(Sprite.get("ui_border_hor"), xa, ya);
+                if(xp == 0 && yp == 0) renderer.renderSprite(Sprite.get("ui_border_tl"), xa, ya);
+                else if(xp == w - 1 && yp == 0) renderer.renderSprite(Sprite.get("ui_border_tr"), xa, ya);
+                else if(xp == 0 && yp == h - 1) renderer.renderSprite(Sprite.get("ui_border_bl"), xa, ya);
+                else if(xp == w - 1 && yp == h - 1) renderer.renderSprite(Sprite.get("ui_border_br"), xa, ya);
             }
         }
     }

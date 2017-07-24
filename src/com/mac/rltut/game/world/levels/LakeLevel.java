@@ -11,10 +11,10 @@ import java.util.Random;
  * PC
  * Created by Matt on 01/07/2017 at 12:00 PM.
  */
-public class LakesLevel extends ForrestLevelBuilder {
+public class LakeLevel extends ForrestLevelBuilder {
     
-    public LakesLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
-        super("Lakes", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, random);
+    public LakeLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
+        super("Lake", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, random);
     }
 
     @Override
@@ -39,7 +39,8 @@ public class LakesLevel extends ForrestLevelBuilder {
     protected void setProperties() {
         super.setProperties();
         setProperty("tree_random_frequency", "0.325-0.425");
-        setProperty("liquid_random_frequency", "0.425-0.455");
+//        setProperty("liquid_random_frequency", "0.445-0.465");
+        setProperty("liquid_random_frequency", "0.5-0.52");
         setProperty("border_thickness", "4");
         setProperty("room_count", "0");
     }

@@ -3,9 +3,11 @@ package com.mac.rltut.game.screen.game;
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
+import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.ItemStack;
 import com.mac.rltut.game.world.tile.Tile;
 
 import java.util.List;
@@ -48,14 +50,14 @@ public class LookScreen extends TargetBasedScreen{
         
         if(creature != null){
             if(creature.isPlayer()) caption.append("You are standing on ");
-            else caption.append(creature.description().toLowerCase() + " standing on ");
+            else caption.append(articleName(creature) + " standing on ");
         }
         
-        if(item != null) caption.append(item.description().toLowerCase() + " lying on ");
+        if(item != null) caption.append(articleName(item) + " lying on ");
         if(blood) caption.append("a pool of blood, splattered on ");
                 
         caption.append(player.world().tile(xa, ya, player.z).description().toLowerCase());
-
+        
         caption.trimToSize();
         caption.append(".");
         caption = new StringBuilder(caption.substring(0, 1).toUpperCase().concat(caption.substring(1, caption.length())));
@@ -64,5 +66,12 @@ public class LookScreen extends TargetBasedScreen{
     @Override
     public boolean isAcceptable(int xa, int ya) {
         return player.world().inFov(xa, ya, player.z);
+    }
+    
+    private String articleName(Entity entity){
+        if(entity instanceof ItemStack) return "some ";
+        String article = "aeiou".contains(entity.name().subSequence(0, 1)) ? "an " : "a ";
+        String name = StringUtil.capitalizeEachWord(StringUtil.clean(entity.name()));
+        return article + name;
     }
 }

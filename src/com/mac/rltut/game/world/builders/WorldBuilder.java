@@ -10,7 +10,8 @@ import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.ai.*;
-import com.mac.rltut.game.entity.item.ItemBuilder;
+import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.ItemStack;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 
@@ -54,7 +55,7 @@ public class WorldBuilder {
         levels.add(new DefaultLevel(width, height, 0, depth + 1, 70, -0.5f, 1.5f, random));
         levels.add(new DenseLevel(width, height, 1, depth + 1, 55, 0.95f, 1.5f, random));
         levels.add(new SparseLevel(width, height, 1, 8, 70, 0.9f, 1.5f, random));
-        levels.add(new LakesLevel(width, height, 3, 10, 50, 1.325f, 1.5f, random));
+        levels.add(new LakeLevel(width, height, 3, 10, 50, 1.325f, 1.5f, random));
         levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.5f, random));
         levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.7f, random));
         levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 0f, 1.7f, random));
@@ -143,7 +144,7 @@ public class WorldBuilder {
                         PackAI pack = new PackAI();
                         for (int i = 0; i < minionCount; i++) {
                             Pool<CreatureSpawnProperty> minionPool = new Pool<CreatureSpawnProperty>();
-                            for (CreatureSpawnProperty c : minions) minionPool.add(c, c.spawnWeight());
+                            for (CreatureSpawnProperty c : minions) minionPool.add(c, c.spawnWeight()); //TODO: Find why this makes null pointer
 
                             CreatureSpawnProperty minion = minionPool.get();
                             Point minionSpawn = world.randomEmptyPointInRadius(spawn, 6);
@@ -196,10 +197,34 @@ public class WorldBuilder {
     public WorldBuilder spawnItems(){
         
         Point spawn = world.randomEmptyPointInRadius(world.startPointAt(0), 12);
-        world.add(spawn.x, spawn.y, spawn.z, ItemBuilder.newDagger(0));
+        world.add(spawn.x, spawn.y, spawn.z, (Item) Codex.items.get("dagger").newInstance());
         
         for(int z = 0; z < depth; z++){
             
+            int items = MathUtil.randomIntFromString(itemsPerLevel, random);
+            
+            for(int i = 0; i < items; i++){
+                Pool<Item> pool = new Pool<Item>();
+                for(Item item : Codex.items.values()){
+                    if(item.spawnChance() == -1) continue;
+                    pool.add(item, item.spawnChance());
+                }
+                
+                if(pool.isEmpty()){
+                    Log.warn("Cannot get item from empty pool.");
+                    continue;
+                }
+                
+                Item newItem = (Item) pool.get().newInstance();
+                if(newItem != null){
+                    if(newItem instanceof ItemStack){
+                        ItemStack stack = (ItemStack) newItem;
+                        stack.setAmount(MathUtil.randomIntFromString(stack.spawnAmount(), random));
+                    }
+                    spawn = world.randomEmptyPoint(z);
+                    world.add(spawn.x, spawn.y, spawn.z, newItem);
+                }
+            }
         }
         
         return this;

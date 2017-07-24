@@ -10,12 +10,19 @@ import com.mac.rltut.game.entity.Entity;
  */
 public class Item extends Entity {
     
-    public Item(String name, String description, Sprite sprite) {
+    private int spawnChance;
+    
+    public Item(String name, String description, Sprite sprite, int spawnChance) {
         super(name, description, sprite);
+        this.spawnChance = spawnChance;
     }
 
     @Override
     public void update() {
         
+    }
+    
+    public int spawnChance(){
+        return spawnChance;
     }
 }

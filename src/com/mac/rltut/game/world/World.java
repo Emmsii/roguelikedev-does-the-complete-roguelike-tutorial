@@ -199,7 +199,7 @@ public class World {
     
     public void addCorpse(Creature dead){
         if(!inBounds(dead.x, dead.y, dead.z) || tile(dead.x, dead.y, dead.z).isType("water")) return;
-        add(dead.x, dead.y, dead.z, (Item) new Item(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse")).newInstance());
+        add(dead.x, dead.y, dead.z, (Item) new Item(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse"), 100).newInstance());
         if(!dead.hasFlag("no_blood")){
             for(int y = -1; y <= 1; y++){
                 int ya = y + dead.y;

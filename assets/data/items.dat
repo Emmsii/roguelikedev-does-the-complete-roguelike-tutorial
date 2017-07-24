@@ -1,21 +1,84 @@
 [FOOD]
 NAME=meat chunk
-DESCRIPTION=A piece of meat
+DESCRIPTION=Looks a bit chewy
 SPRITE=meat
 HEAL=10
+SPAWN_CHANCE=-1
 
 [FOOD]
 NAME=mushroom
-DESCRIPTION=A mushroom
+DESCRIPTION=Is this safe to eat?
 SPRITE=mushroom
 HEAL=5
+SPAWN_CHANCE=-1
 
 [ITEM_STACK]
-NAME=gold pile
+NAME=gold
 DESCRIPTION=A pile o' gold
 SPRITE=gold
+AMOUNT=1-10
+SPAWN_CHANCE=4
 
-[WEAPON]
+[EQUIPPABLE]
 NAME=dagger
+LOCATION=weapon
 DESCRIPTION=A dagger
 SPRITE=dagger
+DAMAGE=1d5
+SPAWN_CHANCE=15
+
+[EQUIPPABLE]
+NAME=sword
+LOCATION=weapon
+DESCRIPTION=A sword
+SPRITE=sword
+DAMAGE=1d9
+SPAWN_CHANCE=10
+
+[EQUIPPABLE]
+NAME=battleaxe
+LOCATION=weapon
+DESCRIPTION=A battleaxe
+SPRITE=battleaxe
+DAMAGE=2d7
+SPAWN_CHANCE=5
+
+[EQUIPPABLE]
+NAME=mace
+LOCATION=weapon
+DESCRIPTION=A mace
+SPRITE=mace
+DAMAGE=2d5
+SPAWN_CHANCE=5
+
+[EQUIPPABLE]
+NAME=scimitar
+LOCATION=weapon
+DESCRIPTION=A scimitar
+SPRITE=scimitar
+DAMAGE=1d8
+SPAWN_CHANCE=2
+
+[EQUIPPABLE]
+NAME=kite shield
+LOCATION=shield
+DESCRIPTION=A kite shield
+SPRITE=shield_kite
+DEFENSE=4
+SPAWN_CHANCE=5
+
+[EQUIPPABLE]
+NAME=round shield
+LOCATION=shield
+DESCRIPTION=A round shield
+SPRITE=shield_round
+DEFENSE=3
+SPAWN_CHANCE=5
+
+[EQUIPPABLE]
+NAME=chainmail
+LOCATION=chest
+DESCRIPTION=Some chainmail
+SPRITE=chainmail
+DEFENSE=6
+SPAWN_CHANCE=3

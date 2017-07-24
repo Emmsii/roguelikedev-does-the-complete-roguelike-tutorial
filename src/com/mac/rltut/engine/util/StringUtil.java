@@ -1,5 +1,7 @@
 package com.mac.rltut.engine.util;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,24 @@ import java.util.List;
  * Created by Matt on 18/07/2017 at 09:27 AM.
  */
 public class StringUtil {
+    
+    public static String clean(String text){
+        if(text == null || text.length() == 0) return text;
+        return text.toLowerCase().trim().replace("_", " ");
+    }
+    
+    public static String capitalizeFirst(String text){
+        if(text == null || text.length() == 0) return text;
+        return text.substring(0, 1).toUpperCase() + text.substring(1, text.length());
+    }
+    
+    public static String capitalizeEachWord(String text){
+        if(text == null || text.length() == 0) return text;
+        String[] split = text.split(" ");
+        StringBuilder result = new StringBuilder();
+        for(String s : split) result.append(s.substring(0, 1).toUpperCase()).append(s.substring(1, s.length())).append(" ");
+        return result.toString().trim();
+    }
     
     public static String makeSecondPerson(String text){
         if(text == null || text.length() == 0) return "null";

@@ -1,6 +1,7 @@
 package com.mac.rltut.game.screen.game;
 
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.screen.Screen;
 
@@ -38,8 +39,7 @@ public class InfoScreen extends Screen{
         String intel = String.format("INT: %d", player.intelligence());
         String level = String.format("Level: %d", player.level());
         String exp = String.format("XP: %d/%d", player.xp(), (int) (Math.pow(player.level(), 1.75) * 25));
-        String time = String.format("Day: %d (%d)", player.world().dayNightController().day(), 0);
-        String gold = String.format("Gold: %d", player.gold());
+        String time = String.format("Day: %d (%d)", player.world().dayNightController().day(), player.world().dayNightController().tick);
  
         int xp = this.x + 2;
         int yp = this.y + 2;
@@ -65,6 +65,8 @@ public class InfoScreen extends Screen{
         renderer.write(exp, xp, yp++);
 
         yp++;
-        renderer.write(gold, xp, yp++);
+        String gold = player.gold() + "";
+        renderer.write(gold, xp - gold.length() + 11, yp);
+        renderer.renderSprite(Sprite.get("gold"), xp + 12, yp);
     }
 }

@@ -45,7 +45,6 @@ public class GameScreen extends Screen{
     
     private void init(){
         log = new MessageLog();
-        log.add(new ColoredString("hello world", Color.cyan.getRGB()));
         
         player = new Player("player", Sprite.get("player"));//temp
         player.setStats(100, 100, 2, 1, 3, 3, 3, 3, 16, null);
