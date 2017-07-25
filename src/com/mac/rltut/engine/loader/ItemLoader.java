@@ -3,11 +3,14 @@ package com.mac.rltut.engine.loader;
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.parser.DataObject;
+import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.codex.Codex;
-import com.mac.rltut.game.entity.item.Food;
+import com.mac.rltut.game.effects.Effect;
+import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.item.Consumeable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
-import com.mac.rltut.game.entity.item.equipment.Equippable;
+import com.mac.rltut.game.entity.item.Equippable;
 
 import java.io.IOException;
 
@@ -32,18 +35,24 @@ public class ItemLoader extends DataLoader {
             String name = obj.getString("name");
             String description = obj.getString("description");
             Sprite sprite = Sprite.get(obj.getString("sprite"));
-            int spawnChance = obj.hasToken("spawn_chance") ? obj.getInt("spawn_chance") : 100;
+            int spawnChance = obj.hasToken("spawn_chance") ? obj.getInt("spawn_chance") : -1;
             
             if(obj.isType("item")) item = new Item(name, description, sprite, spawnChance);
             else if(obj.isType("item_stack")){
                 String amount = obj.getString("amount");
                 item = new ItemStack(name, description, sprite, spawnChance, amount, 1);
-            }else if(obj.isType("food")){
-                int healAmount = obj.getInt("heal");
-                item = new Food(name, description, sprite, spawnChance, healAmount);
+            }else if(obj.isType("consumeable")){
+                Effect consumeEffect = new Effect(0){
+                    @Override
+                    public void start(Creature creature) {
+                        if(obj.hasToken("heal")) creature.modifyHp(obj.getInt("heal"),"ate too much");
+                        if(obj.hasToken("action")) creature.doAction(new ColoredString(obj.getString("action") + " the %s"), name);
+                    }
+                };
+                item = new Consumeable(name, description, sprite, spawnChance, consumeEffect);
             }else if(obj.isType("equippable")){
-                String location = obj.getString("location");
-                Equippable e = new Equippable(name, description, sprite, spawnChance, location);
+                String slot = obj.getString("slot");
+                Equippable e = new Equippable(name, description, sprite, spawnChance, slot);
                 e.setStrengthBonus(obj.hasToken("strength") ? obj.getInt("strength") : 0);
                 e.setDefenseBonus(obj.hasToken("defense") ? obj.getInt("defense") : 0);
                 e.setAccuracyBonus(obj.hasToken("accuracy") ? obj.getInt("accuracy") : 0);

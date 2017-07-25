@@ -1,9 +1,11 @@
-package com.mac.rltut.game.entity.item;
+package com.mac.rltut.game.entity.item.util;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.codex.Codex;
+import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;

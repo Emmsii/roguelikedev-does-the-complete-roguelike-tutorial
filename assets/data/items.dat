@@ -1,16 +1,16 @@
-[FOOD]
+[CONSUMEABLE]
 NAME=meat chunk
 DESCRIPTION=Looks a bit chewy
 SPRITE=meat
 HEAL=10
-SPAWN_CHANCE=-1
+ACTION=eat
 
-[FOOD]
+[CONSUMEABLE]
 NAME=mushroom
 DESCRIPTION=Is this safe to eat?
 SPRITE=mushroom
 HEAL=5
-SPAWN_CHANCE=-1
+ACTION=eat
 
 [ITEM_STACK]
 NAME=gold
@@ -21,7 +21,7 @@ SPAWN_CHANCE=4
 
 [EQUIPPABLE]
 NAME=dagger
-LOCATION=weapon
+SLOT=weapon
 DESCRIPTION=A dagger
 SPRITE=dagger
 DAMAGE=1d5
@@ -29,7 +29,7 @@ SPAWN_CHANCE=15
 
 [EQUIPPABLE]
 NAME=sword
-LOCATION=weapon
+SLOT=weapon
 DESCRIPTION=A sword
 SPRITE=sword
 DAMAGE=1d9
@@ -37,7 +37,7 @@ SPAWN_CHANCE=10
 
 [EQUIPPABLE]
 NAME=battleaxe
-LOCATION=weapon
+SLOT=weapon
 DESCRIPTION=A battleaxe
 SPRITE=battleaxe
 DAMAGE=2d7
@@ -45,7 +45,7 @@ SPAWN_CHANCE=5
 
 [EQUIPPABLE]
 NAME=mace
-LOCATION=weapon
+SLOT=weapon
 DESCRIPTION=A mace
 SPRITE=mace
 DAMAGE=2d5
@@ -53,7 +53,7 @@ SPAWN_CHANCE=5
 
 [EQUIPPABLE]
 NAME=scimitar
-LOCATION=weapon
+SLOT=weapon
 DESCRIPTION=A scimitar
 SPRITE=scimitar
 DAMAGE=1d8
@@ -61,7 +61,7 @@ SPAWN_CHANCE=2
 
 [EQUIPPABLE]
 NAME=kite shield
-LOCATION=shield
+SLOT=shield
 DESCRIPTION=A kite shield
 SPRITE=shield_kite
 DEFENSE=4
@@ -69,7 +69,7 @@ SPAWN_CHANCE=5
 
 [EQUIPPABLE]
 NAME=round shield
-LOCATION=shield
+SLOT=shield
 DESCRIPTION=A round shield
 SPRITE=shield_round
 DEFENSE=3
@@ -77,8 +77,32 @@ SPAWN_CHANCE=5
 
 [EQUIPPABLE]
 NAME=chainmail
-LOCATION=chest
+SLOT=chest
 DESCRIPTION=Some chainmail
 SPRITE=chainmail
+DEFENSE=5
+SPAWN_CHANCE=3
+
+[EQUIPPABLE]
+NAME=chest plate
+SLOT=chest
+DESCRIPTION=A chest plate
+SPRITE=chest_plate
+DEFENSE=7
+SPAWN_CHANCE=2
+
+[EQUIPPABLE]
+NAME=platelegs
+SLOT=legs
+DESCRIPTION=Some platelegs
+SPRITE=platelegs
 DEFENSE=6
+SPAWN_CHANCE=2
+
+[EQUIPPABLE]
+NAME=boots
+SLOT=legs
+DESCRIPTION=A pair of boots
+SPRITE=boots_silver
+DEFENSE=4
 SPAWN_CHANCE=3

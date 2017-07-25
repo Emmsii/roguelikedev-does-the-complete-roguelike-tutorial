@@ -1,11 +1,9 @@
 package com.mac.rltut.game.world.objects;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.game.entity.item.Inventory;
+import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.world.tile.ChestTile;
-import com.mac.rltut.game.world.tile.Tile;
 
 /**
  * Project: complete-rltut

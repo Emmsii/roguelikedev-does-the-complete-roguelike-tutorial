@@ -50,7 +50,7 @@ public class LookScreen extends TargetBasedScreen{
         
         if(creature != null){
             if(creature.isPlayer()) caption.append("You are standing on ");
-            else caption.append(articleName(creature) + " standing on ");
+            else caption.append(articleName(creature) + " (lvl " + creature.level() + ") standing on ");
         }
         
         if(item != null) caption.append(articleName(item) + " lying on ");

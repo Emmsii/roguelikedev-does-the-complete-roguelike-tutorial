@@ -1,4 +1,4 @@
-package com.mac.rltut.game.entity.item;
+package com.mac.rltut.game.entity.item.util;
 
 import java.util.ArrayList;
 import java.util.List;

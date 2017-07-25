@@ -8,7 +8,7 @@ import com.mac.rltut.game.entity.creature.Boss;
 import com.mac.rltut.game.entity.creature.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.util.CreatureSpawnProperty;
-import com.mac.rltut.game.entity.item.DropTable;
+import com.mac.rltut.game.entity.item.util.DropTable;
 
 import java.io.IOException;
 

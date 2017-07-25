@@ -1,17 +1,17 @@
 package com.mac.rltut.game.entity.creature;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.*;
 import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
 import com.mac.rltut.game.entity.creature.util.CombatManager;
-import com.mac.rltut.game.entity.item.DropTable;
-import com.mac.rltut.game.entity.item.Inventory;
+import com.mac.rltut.game.entity.item.util.DropTable;
+import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
-import com.mac.rltut.game.entity.item.equipment.Equippable;
+import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
@@ -35,6 +35,8 @@ public class Creature extends Entity {
     private Inventory<Item> inventory;
     private HashMap<String, Equippable> equippedItems;
          
+    private List<Effect> effects;
+    
     private Set<String> flags;
     private DropTable dropTable;
     
@@ -72,6 +74,7 @@ public class Creature extends Entity {
         this.size = size;
         this.inventory = new Inventory<Item>();
         this.equippedItems = new HashMap<String, Equippable>();
+        this.effects = new ArrayList<Effect>();
         this.flags = new HashSet<String>();
         this.level = 1;
         this.aiType = aiType;
@@ -100,12 +103,32 @@ public class Creature extends Entity {
     @Override
     public void update() {
         tick++;
+        regenMana();
+        updateEffects();
         ai.update();
         
         if(tick % manaRegenSpeed == 0) modifyMana(manaRegenAmount);
         
         if(!hasMoved) timeStationary++;
         else timeStationary = 0;
+    }
+    
+    private void regenMana(){
+        if(tick % manaRegenSpeed == 0) modifyMana(manaRegenAmount);
+    }
+    
+    private void updateEffects(){
+        List<Effect> done = new ArrayList<Effect>();
+        
+        for(Effect e : effects){
+            e.update(this);
+            if(e.isDone()){
+                e.stop(this);
+                done.add(e);
+            }
+        }
+        
+        effects.removeAll(done);
     }
     
     /* Movement Methods */
@@ -179,11 +202,17 @@ public class Creature extends Entity {
             
             if(item instanceof ItemStack && item.name().equalsIgnoreCase("gold")) gold += ((ItemStack) item).amount();
             else inventory.add(item);
+            
+            if(item instanceof Equippable){
+                Equippable e = (Equippable) item;
+                if(getEquippedAt(e.slot()) == null) e.equip(this);
+            }
         }
     }
     
     public void drop(Item item){
-        if(world.addAtEmptyPoint(x, y, z, item)){
+        if(world.addAtEmptyPoint(x, y, z, item)){ //TODO: message item falls at feet comes before unequip item
+            if(item instanceof Equippable) ((Equippable) item).unequip(this);
             doAction(new ColoredString("drop a %s"), item.name());
             inventory.remove(item);
         }else{
@@ -226,7 +255,7 @@ public class Creature extends Entity {
     
     public void notify(ColoredString message, Object ... params){
         message.text = String.format(message.text, params);
-        ai.notify(message);
+        if(ai != null) ai.notify(message);
     }
 
     public void doAction(ColoredString message, Object ... params){
@@ -249,6 +278,7 @@ public class Creature extends Entity {
     }
     
     public boolean canSee(int xp, int yp, int zp){
+        if(ai == null) return false;
         return ai.canSee(xp, yp, zp);
     }
     
@@ -264,6 +294,7 @@ public class Creature extends Entity {
             world.remove(this);
             world.addCorpse(this);
             dropFromDropTable();
+            for(Item i : inventory().items()) drop(i);
         }
     }
     
@@ -317,6 +348,12 @@ public class Creature extends Entity {
     public void modifyGold(int amount){
         gold += amount;
         if(amount < 0) gold = 0;
+    }
+    
+    public void addEffect(Effect effect){
+        if(effect == null) return;
+        effect.start(this);
+        effects.add(effect);
     }
     
     /* Getter Methods */
@@ -421,8 +458,8 @@ public class Creature extends Entity {
         return inventory;
     }
     
-    public Equippable getEquippedAt(String location){
-        return equippedItems.get(location.toLowerCase().trim());
+    public Equippable getEquippedAt(String slot){
+        return equippedItems.get(slot.toLowerCase().trim());
     }
     
     public String aiType(){

@@ -33,7 +33,7 @@ public class WorldBuilder {
 
     private String creatureSpawnBaseCount = "12-20"; 
     private String maxCreatureTypesPerLevel = "5-6";
-    private String itemsPerLevel = "5-10";
+    private String itemsPerLevel = "4-8";
     
     private float[] creatureSpawnMultiplier;
 
@@ -132,7 +132,9 @@ public class WorldBuilder {
                     if (boss.isUnique()) uniquesSpawned.add(boss.creature().name());
 
                     Point spawn = getSpawnPoint(boss, z);
-                    BossAI bossAI = new BossAI(newCreature(spawn, (Creature) boss.creature().newInstance()));
+                    Boss newBoss  = (Boss) newCreature(spawn, (Creature) boss.creature().newInstance());
+                    BossAI bossAI = new BossAI(newBoss);
+                    modifyStats(newBoss, z);
                     spawnedThisLevel++;
 
                     int minionCount = MathUtil.randomIntFromString(boss.minionCount(), random);
@@ -150,6 +152,7 @@ public class WorldBuilder {
                             Point minionSpawn = world.randomEmptyPointInRadius(spawn, 6);
                             Creature packMember = newCreature(minionSpawn, (Creature) minion.creature().newInstance());
                             pack.addPackMember(new PackMemberAI(packMember, pack));
+                            modifyStats(packMember, z);
                             spawnedThisLevel++;
                         }
                         bossAI.setPack(pack);
@@ -174,7 +177,9 @@ public class WorldBuilder {
                 typesSpawned.add(toSpawn.creature().name());
                 
                 if(packSize == 0) {
-                    getAI(toSpawn.creature().aiType(), newCreature(spawn, (Creature) toSpawn.creature().newInstance()));
+                    Creature newCreature = newCreature(spawn, (Creature) toSpawn.creature().newInstance());
+                    getAI(toSpawn.creature().aiType(), newCreature);
+                    modifyStats(newCreature, z);
                     spawnedThisLevel++;
                 }else{
                     PackAI pack = new PackAI();
@@ -182,6 +187,7 @@ public class WorldBuilder {
                         Point newSpawn = world.randomEmptyPointInRadius(spawn, 4);
                         Creature packMember = newCreature(newSpawn, (Creature) toSpawn.creature().newInstance());
                         pack.addPackMember(new PackMemberAI(packMember, pack));
+                        modifyStats(packMember, z);
                         spawnedThisLevel++;
                     }
                 }
@@ -257,7 +263,7 @@ public class WorldBuilder {
 
     private Creature newCreature(Point spawn, Creature creature){
         world.add(spawn.x, spawn.y, spawn.z, creature);
-        modifyStats(creature, spawn.z);
+        //modifyStats(creature, spawn.z);
         
         if(!spawnCounts.get(spawn.z).containsKey(creature.name())) spawnCounts.get(spawn.z).put(creature.name(), 0);
         spawnCounts.get(spawn.z).put(creature.name(), spawnCounts.get(spawn.z).get(creature.name()) + 1);
@@ -265,14 +271,16 @@ public class WorldBuilder {
     }
     
     private void modifyStats(Creature creature, int z){
-        creature.modifyMaxHp(z / 4);
-        creature.modifyMaxMana(z / 4);
-        creature.modifyStrength(z / 4);
-        creature.modifyDefense(z / 4);
-        creature.modifyAccuracy(z / 4);
-        creature.modifyIntelligence(z / 4);
-        creature.modifyHp(creature.maxHp(), "");
-        creature.modifyMana(creature.maxMana());
+//        creature.modifyMaxHp(z / 4);
+//        creature.modifyMaxMana(z / 4);
+//        creature.modifyStrength(z / 4);
+//        creature.modifyDefense(z / 4);
+//        creature.modifyAccuracy(z / 4);
+//        creature.modifyIntelligence(z / 4);
+//        creature.modifyHp(creature.maxHp(), "");
+//        creature.modifyMana(creature.maxMana());
+        int xp = (int) (Math.pow(1.295, z + 3) * 10);
+        creature.modifyXp(xp);
         
         
 //        Log.debug("Stats for " + creature.name() + " on level " + z);

@@ -1,8 +1,7 @@
 package com.mac.rltut.game.screen.game;
 
-import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.item.Inventory;
+import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.screen.Screen;
 

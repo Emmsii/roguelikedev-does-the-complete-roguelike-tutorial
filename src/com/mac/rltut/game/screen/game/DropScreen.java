@@ -1,35 +1,34 @@
 package com.mac.rltut.game.screen.game;
 
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.entity.item.Equippable;
+import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
 
 /**
  * Project: complete-rltut
  * PC
- * Created by Matt on 21/07/2017 at 04:40 PM.
+ * Created by Matt on 25/07/2017 at 12:25 PM.
  */
-public class EquipScreen extends InventoryBasedScreen{
+public class DropScreen extends InventoryBasedScreen{
     
-    public EquipScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player) {
+    public DropScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player) {
         super(x, y, w, h, title, inventory, player);
     }
 
     @Override
     protected String getVerb() {
-        return "equip";
+        return "drop";
     }
 
     @Override
     protected boolean isAcceptable(Item item) {
-        return item instanceof Equippable;
+        return true;
     }
 
     @Override
     protected Screen use(Item item) {
-        player.equip(item);
+        player.drop(item);
         return null;
     }
 }

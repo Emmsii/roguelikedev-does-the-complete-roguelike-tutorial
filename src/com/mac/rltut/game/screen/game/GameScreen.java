@@ -68,23 +68,21 @@ public class GameScreen extends Screen{
         else {
             
             switch (key.getKeyCode()) {
+                case KeyEvent.VK_NUMPAD5:
                 case KeyEvent.VK_COMMA: shouldUpdate = true; break;
                 case KeyEvent.VK_UP:
-                case KeyEvent.VK_NUMPAD8:
-                case KeyEvent.VK_W: shouldUpdate = player.moveBy(0, -1, 0); break;
+                case KeyEvent.VK_NUMPAD8: shouldUpdate = player.moveBy(0, -1, 0); break;
                 case KeyEvent.VK_DOWN:
-                case KeyEvent.VK_NUMPAD2:
-                case KeyEvent.VK_S: shouldUpdate = player.moveBy(0, 1, 0); break;
+                case KeyEvent.VK_NUMPAD2: shouldUpdate = player.moveBy(0, 1, 0); break;
                 case KeyEvent.VK_LEFT:
-                case KeyEvent.VK_NUMPAD4:
-                case KeyEvent.VK_A: shouldUpdate = player.moveBy(-1, 0, 0); break;
+                case KeyEvent.VK_NUMPAD4: shouldUpdate = player.moveBy(-1, 0, 0); break;
                 case KeyEvent.VK_RIGHT:
-                case KeyEvent.VK_NUMPAD6:
-                case KeyEvent.VK_D: shouldUpdate = player.moveBy(1, 0, 0); break;
+                case KeyEvent.VK_NUMPAD6: shouldUpdate = player.moveBy(1, 0, 0); break;
                 case KeyEvent.VK_NUMPAD7: shouldUpdate = player.moveBy(-1, -1, 0); break;
                 case KeyEvent.VK_NUMPAD9: shouldUpdate = player.moveBy(1, -1, 0); break;
                 case KeyEvent.VK_NUMPAD1: shouldUpdate = player.moveBy(-1, 1, 0); break;
                 case KeyEvent.VK_NUMPAD3: shouldUpdate = player.moveBy(1, 1, 0); break;
+                
                 case KeyEvent.VK_SPACE: 
                     Chest chest = player.tryOpen(); 
                     if(chest != null){
@@ -102,12 +100,17 @@ public class GameScreen extends Screen{
                 case KeyEvent.VK_Q: equipmentScreen = new EquipmentScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[Q] Equipment [T] Stats", player); break;
                 case KeyEvent.VK_T: equipmentScreen = new EquipmentStatsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[Q] Equipment [T] Stats", player); break;
 
+                case KeyEvent.VK_D: subscreen = new DropScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player.inventory(), player); break;
+                case KeyEvent.VK_R: subscreen = new ReadScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player.inventory(), player); break;
+                case KeyEvent.VK_C: subscreen = new ConsumeScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player.inventory(), player); break;
                 case KeyEvent.VK_X: subscreen = new ExamineScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player.inventory(), player); break;
                 case KeyEvent.VK_E: subscreen = new EquipScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player.inventory(), player); break;
                 case KeyEvent.VK_L: subscreen = new LookScreen(0, 0, levelScreen.width(), levelScreen.height(), player, player.x - levelScreen.getScrollX() + 1, player.y - levelScreen.getScrollY() + 1); break;
 
                 case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
             }
+            
+            if(key.getKeyChar() == '?') subscreen = new HelpScreen();
         }
         
         if(subscreen == null){
@@ -125,7 +128,6 @@ public class GameScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-//        levelScreen.setTitle("Level " + (player.z + 1) + " Explored: " + world.exploredPercent(player.z) + "% Time: " + world.dayNightController().currentTime() + " (" + world.dayNightController().light() + ")");
         
         levelScreen.render(renderer);
         logScreen.render(renderer);

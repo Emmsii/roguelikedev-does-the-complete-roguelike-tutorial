@@ -31,6 +31,10 @@ public abstract class Entity implements Cloneable{
     
     public abstract void update();
     
+    public void setName(String name){
+        this.name = name;
+    }
+    
     public String name(){
         return name;
     }

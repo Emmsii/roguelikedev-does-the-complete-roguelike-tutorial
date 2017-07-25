@@ -589,7 +589,7 @@ X=2
 Y=5
 
 [SPRITE]
-NAME=chest_plate_armor 
+NAME=chest_plate
 X=4
 Y=5
 
@@ -604,12 +604,12 @@ X=11
 Y=12
 
 [SPRITE]
-NAME=boot_silver 
+NAME=boots_silver 
 X=12
 Y=12
 
 [SPRITE]
-NAME=platelegs_silver 
+NAME=platelegs
 X=13
 Y=12
 

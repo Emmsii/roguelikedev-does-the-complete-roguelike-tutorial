@@ -39,8 +39,7 @@ public class LakeLevel extends ForrestLevelBuilder {
     protected void setProperties() {
         super.setProperties();
         setProperty("tree_random_frequency", "0.325-0.425");
-//        setProperty("liquid_random_frequency", "0.445-0.465");
-        setProperty("liquid_random_frequency", "0.5-0.52");
+        setProperty("liquid_random_frequency", "0.445-0.465");
         setProperty("border_thickness", "4");
         setProperty("room_count", "0");
     }

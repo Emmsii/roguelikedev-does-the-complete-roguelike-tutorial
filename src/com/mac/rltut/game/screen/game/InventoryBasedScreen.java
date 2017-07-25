@@ -1,10 +1,9 @@
 package com.mac.rltut.game.screen.game;
 
-import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.Player;
-import com.mac.rltut.game.entity.item.Inventory;
+import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.screen.Screen;
 
@@ -61,7 +60,7 @@ public abstract class InventoryBasedScreen extends Screen{
     private void drawItem(char index, Item item, int xp, int yp, Renderer renderer){
         renderer.write("[" + index + "]", xp, yp);
         renderer.renderSprite(item.sprite(), xp + 4, yp);
-        renderer.write(item.name(), xp + 6, yp);
+        renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(item.name())), xp + 6, yp);
     }
     
     private List<Item> getList(){

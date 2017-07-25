@@ -7,6 +7,7 @@ import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.ai.PackAI;
+import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
@@ -213,6 +214,7 @@ public class World {
     }
     
     public boolean addAtEmptyPoint(int x, int y, int z, Item item){
+        
         if(!inBounds(x, y, z)) return false;
         
         List<Point> points = new ArrayList<Point>();

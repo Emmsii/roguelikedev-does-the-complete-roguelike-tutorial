@@ -11,10 +11,12 @@ import com.mac.rltut.game.entity.Entity;
 public class Item extends Entity {
     
     private int spawnChance;
+    private boolean unique;
     
     public Item(String name, String description, Sprite sprite, int spawnChance) {
         super(name, description, sprite);
         this.spawnChance = spawnChance;
+        this.unique = false;
     }
 
     @Override
@@ -22,7 +24,15 @@ public class Item extends Entity {
         
     }
     
+    public void setUnique(boolean unique){
+        this.unique = unique;
+    }
+    
     public int spawnChance(){
         return spawnChance;
+    }
+    
+    public boolean unique(){
+        return unique;
     }
 }
