@@ -18,7 +18,7 @@ import java.util.Random;
  * PC
  * Created by Matt on 02/07/2017 at 05:24 PM.
  */
-public class ForrestLevelBuilder extends LevelBuilder{
+public class ForestLevelBuilder extends LevelBuilder{
     
     private int[][] regions;
     private boolean[][] liquid;
@@ -26,7 +26,7 @@ public class ForrestLevelBuilder extends LevelBuilder{
     private List<Rectangle> ruins;
     private int nextRegion;
     
-    public ForrestLevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
+    public ForestLevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
         super(type, width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, random);
     }
 

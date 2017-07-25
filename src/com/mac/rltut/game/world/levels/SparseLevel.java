@@ -1,7 +1,6 @@
 package com.mac.rltut.game.world.levels;
 
-import com.mac.rltut.game.world.builders.ForrestLevelBuilder;
-import com.mac.rltut.game.world.builders.LevelBuilder;
+import com.mac.rltut.game.world.builders.ForestLevelBuilder;
 import com.mac.rltut.game.world.tile.Tile;
 
 import java.util.Random;
@@ -11,7 +10,7 @@ import java.util.Random;
  * PC
  * Created by Matt on 01/07/2017 at 12:00 PM.
  */
-public class SparseLevel extends ForrestLevelBuilder {
+public class SparseLevel extends ForestLevelBuilder {
     
     public SparseLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
         super("Sparse", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, random);

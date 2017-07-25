@@ -1,7 +1,6 @@
 package com.mac.rltut.game.world.levels;
 
-import com.mac.rltut.game.world.builders.ForrestLevelBuilder;
-import com.mac.rltut.game.world.builders.LevelBuilder;
+import com.mac.rltut.game.world.builders.ForestLevelBuilder;
 
 import java.util.Random;
 
@@ -10,7 +9,7 @@ import java.util.Random;
  * PC
  * Created by Matt on 30/06/2017 at 09:42 AM.
  */
-public class DefaultLevel extends ForrestLevelBuilder {
+public class DefaultLevel extends ForestLevelBuilder {
 
     public DefaultLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
         super("Default", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, random);

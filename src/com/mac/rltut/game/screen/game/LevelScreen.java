@@ -47,8 +47,8 @@ public class LevelScreen extends Screen{
 //        setTitle("Map " + (player.z + 1));
        
         String levelType = world.level(player.z).type();
-        if(levelType.equalsIgnoreCase("default")) setTitle("Forrest " + (player.z + 1));
-        else setTitle(StringUtil.capitalizeFirst(levelType) + " Forrest " + (player.z + 1));
+        if(levelType.equalsIgnoreCase("default")) setTitle("Forest " + (player.z + 1));
+        else setTitle(StringUtil.capitalizeFirst(levelType) + " Forest " + (player.z + 1));
         
         world.computeFov(player.x, player.y, player.z, player.vision(), FieldOfView.FOVType.SHADOWCAST);
         
