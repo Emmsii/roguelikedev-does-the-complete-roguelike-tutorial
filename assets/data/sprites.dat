@@ -469,22 +469,22 @@ X=8
 Y=3
 
 [SPRITE]
-NAME=book_brown
+NAME=spell_book_1
 X=10
 Y=3
 
 [SPRITE]
-NAME=spell_book_1
+NAME=spell_book_2
 X=11
 Y=3
 
 [SPRITE]
-NAME=spell_book_2
+NAME=spell_book_3
 X=12
 Y=3
 
 [SPRITE]
-NAME=spell_book_3
+NAME=spell_book_4 
 X=13
 Y=3
 
@@ -514,7 +514,7 @@ X=2
 Y=4
 
 [SPRITE]
-NAME=cross_bow 
+NAME=crossbow 
 X=3
 Y=4
 

@@ -13,8 +13,8 @@ public class Consumeable extends Item {
     
     private Effect effect;
     
-    public Consumeable(String name, String description, Sprite sprite, int spawnChance, Effect effect) {
-        super(name, description, sprite, spawnChance);
+    public Consumeable(String name, String description, Sprite sprite, Effect effect) {
+        super(name, description, sprite);
         this.effect = effect;
     }
     

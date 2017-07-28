@@ -5,6 +5,7 @@ import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.world.Level;
+import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
@@ -39,6 +40,7 @@ public abstract class LevelBuilder {
     
     private byte[][] tiles;
     private MapObject[][] mapObjects;
+    private List<Chest> chests;
     private Level level;   
     
     private Point start;
@@ -67,6 +69,7 @@ public abstract class LevelBuilder {
         Log.trace("Init " + type + " level at " + z + "...");
         this.tiles = new byte[width][height];
         this.mapObjects = new MapObject[width][height];
+        this.chests = new ArrayList<Chest>();
         this.level = new Level(type, width, height, z);
         for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) setTile(x, y, Tile.getTile("empty"));
         this.random.setSeed(random.nextLong());
@@ -191,11 +194,13 @@ public abstract class LevelBuilder {
     protected void addMapObject(int x, int y, MapObject obj){
         if(!level.inBounds(x, y)) return;
         mapObjects[x][y] = obj;
+        if(obj instanceof Chest) chests.add((Chest) obj);
     }
     
     public Level build(){
         level.setTiles(tiles);
         level.setMapObjects(mapObjects);
+        level.setChests(chests);
         return level;
     }
     
@@ -261,22 +266,24 @@ public abstract class LevelBuilder {
             e.printStackTrace();
         }
     }
+
+    class DecalTile {
+
+        public Tile tile;
+        public int chance;
+        public Tile[] tilesCanPlaceOn;
+
+        public DecalTile(Tile tile, int chance, Tile[] tilesCanPlaceOn){
+            this.tile = tile;
+            this.chance = chance;
+            this.tilesCanPlaceOn = tilesCanPlaceOn;
+        }
+
+        public boolean canPlaceOn(Tile tile){
+            for(Tile t : tilesCanPlaceOn) if(t.id == tile.id) return true;
+            return false;
+        }
+    }
 }
 
-class DecalTile {
 
-    public Tile tile;
-    public int chance;
-    public Tile[] tilesCanPlaceOn;
-            
-    public DecalTile(Tile tile, int chance, Tile[] tilesCanPlaceOn){
-        this.tile = tile;
-        this.chance = chance;
-        this.tilesCanPlaceOn = tilesCanPlaceOn;
-    }
-    
-    public boolean canPlaceOn(Tile tile){
-        for(Tile t : tilesCanPlaceOn) if(t.id == tile.id) return true;
-        return false;
-    }
-}

@@ -1,22 +1,30 @@
 package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.entity.creature.Boss;
-import com.mac.rltut.game.entity.creature.util.BossSpawnProperty;
-import com.mac.rltut.game.entity.creature.util.CreatureSpawnProperty;
+import com.mac.rltut.game.entity.item.*;
+import com.mac.rltut.game.entity.item.util.Inventory;
+import com.mac.rltut.game.entity.item.util.JewelryGenerator;
+import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
+import com.mac.rltut.game.entity.util.BossSpawnProperty;
+import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.ai.*;
-import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.entity.item.ItemStack;
+import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
+import com.mac.rltut.game.world.objects.Chest;
+import com.sun.deploy.panel.ITreeNode;
 
+import java.awt.*;
 import java.io.File;
 import java.util.*;
+import java.util.List;
 
 /**
  * Project: complete-rltut
@@ -121,7 +129,7 @@ public class WorldBuilder {
                 for (CreatureSpawnProperty c : canSpawn){
                     if (c instanceof BossSpawnProperty){
                         if(uniquesSpawned.contains(c.creature().name())) continue;
-                        pool.add((BossSpawnProperty) c, c.spawnWeight());
+                        pool.add((BossSpawnProperty) c, c.chance());
                     }
                 } 
                 
@@ -146,7 +154,7 @@ public class WorldBuilder {
                         PackAI pack = new PackAI();
                         for (int i = 0; i < minionCount; i++) {
                             Pool<CreatureSpawnProperty> minionPool = new Pool<CreatureSpawnProperty>();
-                            for (CreatureSpawnProperty c : minions) minionPool.add(c, c.spawnWeight()); //TODO: Find why this makes null pointer
+                            for (CreatureSpawnProperty c : minions) minionPool.add(c, c.chance()); //TODO: Find why this makes null pointer
 
                             CreatureSpawnProperty minion = minionPool.get();
                             Point minionSpawn = world.randomEmptyPointInRadius(spawn, 6);
@@ -168,7 +176,7 @@ public class WorldBuilder {
                 for (CreatureSpawnProperty c : canSpawn){
                     if(c instanceof BossSpawnProperty) continue;
                     if(!typesSpawned.contains(c.creature().name()) && typesSpawned.size() >= typesThisLevel) continue;
-                    pool.add(c, c.spawnWeight());
+                    pool.add(c, c.chance());
                 }
                 
                 CreatureSpawnProperty toSpawn = pool.get();
@@ -201,39 +209,100 @@ public class WorldBuilder {
     }
     
     public WorldBuilder spawnItems(){
+        Point spawn = null;
         
-        Point spawn = world.randomEmptyPointInRadius(world.startPointAt(0), 12);
-        world.add(spawn.x, spawn.y, spawn.z, (Item) Codex.items.get("dagger").newInstance());
+        //Pick 2 weapons and 2 armor items to spawn, place at random
+        //Spellbooks have 10% chance to spawn on floor
+        //20% for rings, necklaces
+        //Find chests, 75% chance to have items
+        //Pick ring, necklace, potion, spellbooks
+        
+        //Find any bosses
+        //Give items with +5 or +10 depth
+        
+        int weaponCount = 2;
+        int armorCount = 2;
         
         for(int z = 0; z < depth; z++){
+            Log.debug("Level " + z + " --------------------");
             
-            int items = MathUtil.randomIntFromString(itemsPerLevel, random);
+            for(int i = 0; i < weaponCount; i++){
+                spawnItem(getEquipmentFromSlot(z, true, EquipmentSlot.WEAPON), z);
+            }
             
-            for(int i = 0; i < items; i++){
-                Pool<Item> pool = new Pool<Item>();
-                for(Item item : Codex.items.values()){
-                    if(item.spawnChance() == -1) continue;
-                    pool.add(item, item.spawnChance());
-                }
-                
-                if(pool.isEmpty()){
-                    Log.warn("Cannot get item from empty pool.");
+            for(int i = 0; i < armorCount; i++){
+                spawnItem(getEquipmentFromSlot(z, true, EquipmentSlot.ARMOR), z);    
+            }
+            
+            if(random.nextFloat() < 0.1){
+                spawnItem(SpellbookGenerator.generate(z), z);
+            }
+            
+            for(int i = 0; i < 3; i++){
+                if(random.nextFloat() >= 0.3) break;
+                spawnItem(JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), random), z);
+            }
+            
+            for(Chest chest : world.level(z).chests()){
+                if(random.nextFloat() >= 0.75){
+                    Log.debug("Chest is empty");
                     continue;
                 }
                 
-                Item newItem = (Item) pool.get().newInstance();
-                if(newItem != null){
-                    if(newItem instanceof ItemStack){
-                        ItemStack stack = (ItemStack) newItem;
-                        stack.setAmount(MathUtil.randomIntFromString(stack.spawnAmount(), random));
-                    }
-                    spawn = world.randomEmptyPoint(z);
-                    world.add(spawn.x, spawn.y, spawn.z, newItem);
+                Inventory<Item> inventory = chest.inventory();
+
+                for(int i = 0; i < random.nextInt(2); i++) {
+                    Item item = JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), random);
+                    Log.debug("Added " + item.name() + " to chest");
+                    inventory.add(item);
+                }
+
+                for(int i = 0; i < 3; i++){
+                    Item item = SpellbookGenerator.generate(z);
+                    Log.debug("Added " + item.name() + " to chest");
+                    inventory.add(item);
+                    if(random.nextFloat() >= 0.1) break;
                 }
             }
         }
         
         return this;
+    }
+    
+    private void spawnItem(Item newItem, int z){
+        if(newItem == null) return; 
+        if(newItem instanceof ItemStack){
+            ItemStack stack = (ItemStack) newItem;
+            stack.setAmount(MathUtil.randomIntFromString(stack.spawnAmount(), random));
+        }
+        Point spawn = world.randomEmptyPoint(z);
+        world.add(spawn.x, spawn.y, spawn.z, newItem);
+        Log.debug("Spawned " + newItem.name());
+    }
+
+    private Item getEquipmentFromSlot(int z, boolean useSpawnChance, EquipmentSlot ... slots){
+        Pool<ItemSpawnProperty> pool = new Pool<ItemSpawnProperty>();
+        for (ItemSpawnProperty spawnProperty : Codex.items.values()) {
+            if(spawnProperty.chance() == -1 || spawnProperty.chanceAtDepth(z) < 2) continue;
+            if (spawnProperty.entity() instanceof Equippable) {
+                Equippable e = (Equippable) spawnProperty.entity();
+                for (EquipmentSlot s : slots) {
+                    if (e.slot() == s) {
+                        pool.add(spawnProperty, useSpawnChance ? spawnProperty.chanceAtDepth(z) : 100);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (pool.isEmpty()) {
+            Log.warn("No equipment spawned on level " + z);
+            return null;
+        }
+
+//            spawnItem((Item) pool.get().entity().newInstance(), z);
+            
+        return (Item) pool.get().entity().newInstance();
     }
     
     private Point getSpawnPoint(CreatureSpawnProperty toSpawn, int z){
@@ -271,17 +340,28 @@ public class WorldBuilder {
     }
     
     private void modifyStats(Creature creature, int z){
-//        creature.modifyMaxHp(z / 4);
-//        creature.modifyMaxMana(z / 4);
+//        creature.modifyMaxHp((z / 4) * 5);
+//        creature.modifyMaxMana((z / 4) * 10);
 //        creature.modifyStrength(z / 4);
 //        creature.modifyDefense(z / 4);
 //        creature.modifyAccuracy(z / 4);
 //        creature.modifyIntelligence(z / 4);
 //        creature.modifyHp(creature.maxHp(), "");
-//        creature.modifyMana(creature.maxMana());
+//        creature.modifyMana(creature.maxMana()); 
         int xp = (int) (Math.pow(1.295, z + 3) * 10);
         creature.modifyXp(xp);
         
+        int totalLevel = creature.totalLevel() - 4;
+
+//        xp += amount;
+//
+//        notify(new ColoredString("You %s %d xp.", amount < 0 ? Color.red.getRGB() : Color.green.getRGB()), amount < 0 ? "lose" : "gain", amount);
+//
+//        while(xp > (int) (Math.pow(level, 1.75) * 25)){
+//            level++;
+//            doAction(new ColoredString("advance to level %d", Color.GREEN.getRGB()), level);
+//            ai.onGainLevel();
+//        }
         
 //        Log.debug("Stats for " + creature.name() + " on level " + z);
 //        Log.debug("HP: " + creature.maxHp());

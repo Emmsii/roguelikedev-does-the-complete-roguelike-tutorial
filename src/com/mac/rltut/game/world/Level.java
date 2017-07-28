@@ -1,8 +1,12 @@
 package com.mac.rltut.game.world;
 
 import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: complete-rltut
@@ -18,6 +22,7 @@ public class Level {
     private Point startPoint;
     private byte[][] tiles;
     private MapObject[][] mapObjects;
+    private List<Chest> chests;
     private boolean[][] blood;
     
     private boolean[][] explored;
@@ -31,6 +36,7 @@ public class Level {
         this.z = z;
         this.tiles = new byte[width][height];
         this.mapObjects = new MapObject[width][height];
+        this.chests = new ArrayList<Chest>();
         this.blood = new boolean[width][height];
         this.explored = new boolean[width][height];
         this.visible = new boolean[width][height];
@@ -85,6 +91,10 @@ public class Level {
         this.mapObjects = mapObjects;
     }
     
+    public void setChests(List<Chest> chests){
+        this.chests = chests;
+    }
+    
     public void setBlood(int x, int y, boolean value){
         if(!inBounds(x, y)) return;
         blood[x][y] = value;
@@ -112,6 +122,10 @@ public class Level {
 
     public int z(){
         return z;
+    }
+
+    public List<Chest> chests(){
+        return chests;
     }
 
     public boolean inBounds(int x, int y){

@@ -1,3 +1,12 @@
+[ITEM_STACK]
+NAME=gold
+DESCRIPTION=A pile o' gold
+SPRITE=gold
+AMOUNT=1-10
+SPAWN_CHANCE=4
+
+# --------- Consumeables
+
 [CONSUMEABLE]
 NAME=meat chunk
 DESCRIPTION=Looks a bit chewy
@@ -12,36 +21,56 @@ SPRITE=mushroom
 HEAL=5
 ACTION=eat
 
-[ITEM_STACK]
-NAME=gold
-DESCRIPTION=A pile o' gold
-SPRITE=gold
-AMOUNT=1-10
+# --------- Equipment
+
+# --------- Weapons
+
+[EQUIPPABLE]
+NAME=bow
+SLOT=weapon
+DESCRIPTION=A bow
+SPRITE=bow
+DAMAGE=1d1
+DAMAGE_RANGED=1d4
+SPAWN_CHANCE=6
+DEPTH_MULTIPLIER=-0.8
+
+[EQUIPPABLE]
+NAME=crossbow
+SLOT=weapon
+DESCRIPTION=A crossbow
+SPRITE=crossbow
+DAMAGE=1d1
+DAMAGE_RANGED=2d3
 SPAWN_CHANCE=4
+DEPTH_MULTIPLIER=1.2
 
 [EQUIPPABLE]
 NAME=dagger
 SLOT=weapon
 DESCRIPTION=A dagger
 SPRITE=dagger
-DAMAGE=1d5
-SPAWN_CHANCE=15
+DAMAGE=1d4
+SPAWN_CHANCE=9
+DEPTH_MULTIPLIER=-1.2
 
 [EQUIPPABLE]
 NAME=sword
 SLOT=weapon
 DESCRIPTION=A sword
 SPRITE=sword
-DAMAGE=1d9
-SPAWN_CHANCE=10
+DAMAGE=1d6
+SPAWN_CHANCE=7
+DEPTH_MULTIPLIER=-0.5
 
 [EQUIPPABLE]
 NAME=battleaxe
 SLOT=weapon
 DESCRIPTION=A battleaxe
 SPRITE=battleaxe
-DAMAGE=2d7
-SPAWN_CHANCE=5
+DAMAGE=2d6
+SPAWN_CHANCE=2
+DEPTH_MULTIPLIER=1.2
 
 [EQUIPPABLE]
 NAME=mace
@@ -56,8 +85,11 @@ NAME=scimitar
 SLOT=weapon
 DESCRIPTION=A scimitar
 SPRITE=scimitar
-DAMAGE=1d8
+DAMAGE=1d7
 SPAWN_CHANCE=2
+DEPTH_MULTIPLIER=1.1
+
+# --------- Armor
 
 [EQUIPPABLE]
 NAME=kite shield
@@ -65,7 +97,7 @@ SLOT=shield
 DESCRIPTION=A kite shield
 SPRITE=shield_kite
 DEFENSE=4
-SPAWN_CHANCE=5
+SPAWN_CHANCE=3
 
 [EQUIPPABLE]
 NAME=round shield
@@ -73,7 +105,7 @@ SLOT=shield
 DESCRIPTION=A round shield
 SPRITE=shield_round
 DEFENSE=3
-SPAWN_CHANCE=5
+SPAWN_CHANCE=3
 
 [EQUIPPABLE]
 NAME=chainmail
@@ -82,6 +114,7 @@ DESCRIPTION=Some chainmail
 SPRITE=chainmail
 DEFENSE=5
 SPAWN_CHANCE=3
+DEPTH_MULTIPLIER=-0.4
 
 [EQUIPPABLE]
 NAME=chest plate
@@ -90,6 +123,39 @@ DESCRIPTION=A chest plate
 SPRITE=chest_plate
 DEFENSE=7
 SPAWN_CHANCE=2
+DEPTH_MULTIPLIER=1.3
+
+[EQUIPPABLE]
+NAME=gloves
+SLOT=hands
+DESCRIPTION=Some gloves
+SPRITE=glove_silver
+DEFENSE=2
+SPAWN_CHANCE=6
+
+[EQUIPPABLE]
+NAME=light helmet
+SLOT=head
+DESCRIPTION=A light helmet
+SPRITE=helm_small
+DEFENSE=2
+SPAWN_CHANCE=6
+
+[EQUIPPABLE]
+NAME=medium helmet
+SLOT=head
+DESCRIPTION=A medium helmet
+SPRITE=helm_medium
+DEFENSE=3
+SPAWN_CHANCE=5
+
+[EQUIPPABLE]
+NAME=heavy helmet
+SLOT=head
+DESCRIPTION=A heavy helmet
+SPRITE=helm_large
+DEFENSE=4
+SPAWN_CHANCE=4
 
 [EQUIPPABLE]
 NAME=platelegs
@@ -106,3 +172,26 @@ DESCRIPTION=A pair of boots
 SPRITE=boots_silver
 DEFENSE=4
 SPAWN_CHANCE=3
+
+# --------- Jewelry
+
+[EQUIPPABLE]
+NAME=necklace
+SLOT=necklace
+DESCRIPTION=A shiny necklace
+SPRITE=necklace
+SPAWN_CHANCE=100
+
+[EQUIPPABLE]
+NAME=gold ring
+SLOT=ring
+DESCRIPTION=A gold ring 
+SPRITE=ring_gold
+SPAWN_CHANCE=100
+
+[EQUIPPABLE]
+NAME=silver ring
+SLOT=ring
+DESCRIPTION=A silver ring 
+SPRITE=ring_silver
+SPAWN_CHANCE=100

@@ -7,8 +7,15 @@ import com.mac.rltut.engine.pathfinding.astar.AStar;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.MessageLog;
+import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.entity.creature.Player;
+import com.mac.rltut.game.entity.item.EquipmentSlot;
+import com.mac.rltut.game.entity.item.Equippable;
+import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
+import com.mac.rltut.game.screen.game.inventory.*;
+import com.mac.rltut.game.screen.game.inventory.examine.EquipScreen;
 import com.mac.rltut.game.screen.menu.LevelUpScreen;
 import com.mac.rltut.game.screen.menu.LooseScreen;
 import com.mac.rltut.game.world.World;
@@ -47,6 +54,12 @@ public class GameScreen extends Screen{
         log = new MessageLog();
         
         player = new Player("player", Sprite.get("player"));//temp
+        player.inventory().add((Item) Codex.items.get("bow").entity().newInstance());
+        
+        for(int i = 0; i < 12; i++){
+            player.inventory().add(SpellbookGenerator.generate(i + 10));
+        }
+        
         player.setStats(100, 100, 2, 1, 3, 3, 3, 3, 16, null);
         new PlayerAI(player, log);
 
@@ -63,10 +76,11 @@ public class GameScreen extends Screen{
     public Screen input(KeyEvent key) {
         int level = player.level();
         boolean shouldUpdate = false;
+        
+        player.setHasUsedEquipment(false);
 
         if(subscreen != null) subscreen = subscreen.input(key);
-        else {
-            
+        else{
             switch (key.getKeyCode()) {
                 case KeyEvent.VK_NUMPAD5:
                 case KeyEvent.VK_COMMA: shouldUpdate = true; break;
@@ -101,28 +115,36 @@ public class GameScreen extends Screen{
                 case KeyEvent.VK_T: equipmentScreen = new EquipmentStatsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[Q] Equipment [T] Stats", player); break;
 
                 case KeyEvent.VK_D: subscreen = new DropScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player.inventory(), player); break;
-                case KeyEvent.VK_R: subscreen = new ReadScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player.inventory(), player); break;
+                case KeyEvent.VK_R: subscreen = new ReadScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player.inventory(), player); break;
                 case KeyEvent.VK_C: subscreen = new ConsumeScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player.inventory(), player); break;
-                case KeyEvent.VK_X: subscreen = new ExamineScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player.inventory(), player); break;
+                case KeyEvent.VK_X: subscreen = new ExamineScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player.inventory(), player); break;
                 case KeyEvent.VK_E: subscreen = new EquipScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player.inventory(), player); break;
                 case KeyEvent.VK_L: subscreen = new LookScreen(0, 0, levelScreen.width(), levelScreen.height(), player, player.x - levelScreen.getScrollX() + 1, player.y - levelScreen.getScrollY() + 1); break;
-
+                case KeyEvent.VK_F:
+                    Equippable weapon = player.getEquippedAt(EquipmentSlot.WEAPON);
+                    if(weapon != null && (weapon.rangedDamage() != null || weapon.rangedDamage().equals("0"))){
+                        subscreen = new FireWeaponScreen(0, 0, levelScreen.width(), levelScreen.height(), player, player.x - levelScreen.getScrollX() + 1, player.y - levelScreen.getScrollY() + 1);
+                    }else player.notify(new ColoredString("You don't have a ranged weapon equipped.", Color.ORANGE.getRGB()));
+                    break;
+                    
                 case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
             }
             
             if(key.getKeyChar() == '?') subscreen = new HelpScreen();
         }
         
-        if(subscreen == null){
-            if(player.level() > level){
-                subscreen = new LevelUpScreen(Engine.instance().widthInTiles() / 2 - 20, Engine.instance().heightInTiles() / 2 - 6, 40, 11, player, player.level() - level);
-                return this;
-            }
-            if(shouldUpdate) world.update(player.z);
+        if(player.hasUsedEquipment()) shouldUpdate = true;
+        
+        if(player.level() > level){
+            subscreen = new LevelUpScreen(Engine.instance().widthInTiles() / 2 - 20, Engine.instance().heightInTiles() / 2 - 6, 40, 11, player, player.level() - level);
+            return this;
         }
         
+        if(subscreen == null || shouldUpdate) world.update(player.z);
+        
+        
         if(player.hp() < 1) return new LooseScreen(player);
-                        
+
         return this;
     }
 

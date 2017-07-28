@@ -26,7 +26,10 @@ public class StringUtil {
         if(text == null || text.length() == 0) return text;
         String[] split = text.split(" ");
         StringBuilder result = new StringBuilder();
-        for(String s : split) result.append(s.substring(0, 1).toUpperCase()).append(s.substring(1, s.length())).append(" ");
+        for(String s : split){
+            if(s.equalsIgnoreCase("the") || s.equalsIgnoreCase("of")) result.append(s).append(" ");
+            else result.append(s.substring(0, 1).toUpperCase()).append(s.substring(1, s.length())).append(" ");
+        }
         return result.toString().trim();
     }
     

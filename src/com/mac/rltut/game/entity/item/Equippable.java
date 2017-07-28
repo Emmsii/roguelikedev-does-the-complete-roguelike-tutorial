@@ -12,23 +12,16 @@ import com.mac.rltut.game.entity.creature.Creature;
  */
 public class Equippable extends Item{
 
-    protected String slot;
+    protected EquipmentSlot slot;
     protected boolean equipped;
     
-    private int strengthBonus;
-    private int defenseBonus;
-    private int accuracyBonus;
-    private int intelligenceBonus;
-    
-    private int manaRegenAmountBonus;
-    private int manaRegenSpeedBonus;
-    
     private String damage;
+    private String rangedDamage;
     
     private Effect effect;
     
-    public Equippable(String name, String description, Sprite sprite, int spawnChance, String slot) {
-        super(name, description, sprite, spawnChance);
+    public Equippable(String name, String description, Sprite sprite, EquipmentSlot slot) {
+        super(name, description, sprite);
         this.slot = slot;
         this.equipped = false;
     }
@@ -54,71 +47,31 @@ public class Equippable extends Item{
         equipped = false;
     }
 
-    public void setStrengthBonus(int strengthBonus){
-        this.strengthBonus = strengthBonus;
-    }
-
-    public void setDefenseBonus(int defenseBonus){
-        this.defenseBonus = defenseBonus;
-    }
-
-    public void setAccuracyBonus(int accuracyBonus){
-        this.accuracyBonus = accuracyBonus;
-    }
-
-    public void setIntelligenceBonus(int intelligenceBonus){
-        this.intelligenceBonus = intelligenceBonus;
-    }
-    
-    public void setManaRegenAmountBonus(int manaRegenAmountBonus){
-        this.manaRegenAmountBonus = manaRegenAmountBonus;
-    }
-    
-    public void setManaRegenSpeedBonus(int manaRegenSpeedBonus){
-        this.manaRegenSpeedBonus = manaRegenSpeedBonus;
-    }
-
     public void setDamage(String damage){
         this.damage = damage;
+    }
+    
+    public void setRangedDamage(String rangedDamage){
+        this.rangedDamage = rangedDamage;
     }
 
     public void setEffect(Effect effect){
         this.effect = effect;
     }
     
-    public int strengthBonus(){
-        return strengthBonus;
-    }
-
-    public int defenseBonus(){
-        return defenseBonus;
-    }
-
-    public int accuracyBonus(){
-        return accuracyBonus;
-    }
-
-    public int intelligenceBonus(){
-        return intelligenceBonus;
-    }
-
-    public int manaRegenAmountBonus(){
-        return manaRegenAmountBonus;
-    }
-    
-    public int manaRegenSpeedBonus(){
-        return manaRegenSpeedBonus;
-    }
-    
     public String damage(){
         return damage;
+    }
+    
+    public String rangedDamage(){
+        return rangedDamage;
     }
     
     public Effect effect(){
         return effect;
     }
     
-    public String slot(){
+    public EquipmentSlot slot(){
         return slot;
     }
     

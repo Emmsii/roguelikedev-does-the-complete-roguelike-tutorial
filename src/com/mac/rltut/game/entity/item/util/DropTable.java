@@ -34,7 +34,7 @@ public class DropTable {
         String amount = split[1];
         int chance = Integer.parseInt(split[2].trim());
         if(!Codex.items.containsKey(name)) Log.warn("Cannot add item [" + name + "] to drop table.");
-        else drops.add(new Drop(Codex.items.get(name.toLowerCase().trim()), amount, chance));
+        else drops.add(new Drop((Item) Codex.items.get(name.toLowerCase().trim()).entity(), amount, chance));
     }
     
     public Item getItem(){
@@ -62,17 +62,18 @@ public class DropTable {
     public int count(){
         return drops.size();
     }
-}
 
-class Drop{
-    
-    public final Item item;
-    public final String amount;
-    public final int chance;
-    
-    public Drop(Item item, String amount, int chance){
-        this.item = item;
-        this.amount = amount;
-        this.chance = chance;
+    class Drop{
+
+        public final Item item;
+        public final String amount;
+        public final int chance;
+
+        public Drop(Item item, String amount, int chance){
+            this.item = item;
+            this.amount = amount;
+            this.chance = chance;
+        }
     }
 }
+

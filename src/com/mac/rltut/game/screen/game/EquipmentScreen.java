@@ -3,6 +3,7 @@ package com.mac.rltut.game.screen.game;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.screen.Screen;
 
@@ -33,12 +34,12 @@ public class EquipmentScreen extends Screen {
         
         int xp = (width / 2);
 
-        Equippable weapon = player.getEquippedAt("weapon");
-        Equippable head = player.getEquippedAt("head");
-        Equippable chest = player.getEquippedAt("chest");
-        Equippable legs = player.getEquippedAt("legs");
-        Equippable feet = player.getEquippedAt("feet");
-        Equippable shield= player.getEquippedAt("shield");
+        Equippable weapon = player.getEquippedAt(EquipmentSlot.WEAPON);
+        Equippable head = player.getEquippedAt(EquipmentSlot.HEAD);
+        Equippable chest = player.getEquippedAt(EquipmentSlot.CHEST);
+        Equippable legs = player.getEquippedAt(EquipmentSlot.LEGS);
+        Equippable feet = player.getEquippedAt(EquipmentSlot.FEET);
+        Equippable shield= player.getEquippedAt(EquipmentSlot.SHIELD);
         
         renderBox(xp - 1, 3, 3, 3, false, renderer);
         if(head != null) renderer.renderSprite(head.sprite(), this.x + xp, this.y + 4);
@@ -46,7 +47,7 @@ public class EquipmentScreen extends Screen {
             renderer.renderSprite(Sprite.get("helm_large"), this.x + xp, this.y + 4);
             renderer.colorizeSprite(this.x + xp, this.y + 4, 0x2E2E2E, 1f);
         }
-        
+
         renderBox(xp - 1, 8, 3, 3, false, renderer);
         if(chest != null) renderer.renderSprite(chest.sprite(), this.x + xp, this.y + 9);
         else {

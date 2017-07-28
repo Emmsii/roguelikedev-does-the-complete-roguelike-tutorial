@@ -1,5 +1,6 @@
 package com.mac.rltut.game.screen.game;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.Line;
@@ -29,10 +30,15 @@ public abstract class TargetBasedScreen extends Screen {
 
     @Override
     public void render(Renderer renderer) {
+        
         for(Point p : new Line(sx, sy, sx + xp, sy + yp)){
             if(p.x < 0 || p.y < 0 || p.x >= width - 1 || p.y >= height - 1) continue;
             if(p.x != sx || p.y != sy) {
-                if (p.x != sx + xp || p.y != sy + yp) renderer.renderSprite(Sprite.get("ui_dot"), p.x, p.y);                
+                if (p.x != sx + xp || p.y != sy + yp){
+                    int wx = p.x + player.x - sx;
+                    int wy = p.y + player.y - sy;
+                    if(player.world().creature(wx, wy, player.z) == null) renderer.renderSprite(Sprite.get("ui_dot"), p.x, p.y);                 
+                }                
             }
             if(p.x == sx + xp && p.y == sy + yp) renderer.renderSprite(Sprite.get("ui_selection"), p.x, p.y, Renderer.TRANSPARENT);
         }

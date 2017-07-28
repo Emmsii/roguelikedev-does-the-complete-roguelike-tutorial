@@ -1,6 +1,6 @@
-package com.mac.rltut.game.entity.creature.util;
+package com.mac.rltut.game.entity.util;
 
-import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.Boss;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,9 @@ public class BossSpawnProperty extends CreatureSpawnProperty{
     private final List<String> minions;
     private final String minionCount;
     private final boolean unique;
-    
-    public BossSpawnProperty(Creature creature, String spawnLevels, int spawnEvery, String spawnTypes, String spawnNear, int spawnWeight, String minions, String minionCount, boolean unique) {
-        super(creature, spawnLevels, spawnTypes, spawnNear, spawnWeight, "0");
+
+    public BossSpawnProperty(Boss boss, String spawnLevels, int spawnEvery, String spawnTypes, String spawnNear, int chance, String minions, String minionCount, boolean unique) {
+        super(boss, spawnLevels, spawnTypes, spawnNear, chance, 1f, "0");
         this.spawnEvery = spawnEvery;
         this.minions = getMinions(minions.trim());
         this.minionCount = minionCount;

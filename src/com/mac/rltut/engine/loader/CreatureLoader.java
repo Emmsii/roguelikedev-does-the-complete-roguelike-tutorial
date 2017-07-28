@@ -5,9 +5,9 @@ import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Boss;
-import com.mac.rltut.game.entity.creature.util.BossSpawnProperty;
+import com.mac.rltut.game.entity.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.util.CreatureSpawnProperty;
+import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
 import com.mac.rltut.game.entity.item.util.DropTable;
 
 import java.io.IOException;
@@ -48,6 +48,7 @@ public class CreatureLoader extends DataLoader{
             String spawnTypes = obj.hasToken("spawn_types") ? obj.getString("spawn_types") : "all";
             String spawnNear = obj.hasToken("spawn_near") ? obj.getString("spawn_near") : "all";
             int spawnWeight = obj.hasToken("spawn_weight") ? obj.getInt("spawn_weight") : 100;
+            float depthMultiplier = obj.hasToken("depth_multiplier") ? obj.getFloat("depth_multiplier") : 1f;
             String packSize = obj.hasToken("pack_size") ? obj.getString("pack_size") : "0";
             int size = obj.hasToken("size") ? obj.getInt("size") : 1;
 
@@ -57,7 +58,7 @@ public class CreatureLoader extends DataLoader{
             
             if(obj.isType("creature")) {
                 Creature creature = new Creature(name, description, sprite, size, ai);
-                spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnWeight, packSize);
+                spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnWeight, depthMultiplier, packSize);
             }else if(obj.isType("boss")) {
                 int spawnEvery = obj.hasToken("spawn_every") ? obj.getInt("spawn_every") : 0;
                 String minions = obj.hasToken("minions") ? obj.getString("minions") : "none";

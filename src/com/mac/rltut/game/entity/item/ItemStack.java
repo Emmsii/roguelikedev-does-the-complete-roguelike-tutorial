@@ -13,8 +13,8 @@ public class ItemStack extends Item{
     private String spawnAmount;
     private int amount;
     
-    public ItemStack(String name, String description, Sprite sprite, int spawnChance, String spawnAmount, int amount) {
-        super(name, description, sprite, spawnChance);
+    public ItemStack(String name, String description, Sprite sprite, String spawnAmount, int amount) {
+        super(name, description, sprite);
         this.spawnAmount = spawnAmount;
         this.amount = amount;
     }

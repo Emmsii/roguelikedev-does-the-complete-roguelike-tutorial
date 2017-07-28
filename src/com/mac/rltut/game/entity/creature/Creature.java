@@ -6,7 +6,8 @@ import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
-import com.mac.rltut.game.entity.creature.util.CombatManager;
+import com.mac.rltut.game.entity.item.EquipmentSlot;
+import com.mac.rltut.game.entity.util.CombatManager;
 import com.mac.rltut.game.entity.item.util.DropTable;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.Item;
@@ -33,7 +34,7 @@ public class Creature extends Entity {
     private String aiType;
 
     private Inventory<Item> inventory;
-    private HashMap<String, Equippable> equippedItems;
+    private HashMap<EquipmentSlot, Equippable> equippedItems;
          
     private List<Effect> effects;
     
@@ -61,7 +62,7 @@ public class Creature extends Entity {
     
     private int timeStationary;
     private boolean hasMoved;
-    private MapObject mapObject;
+    private boolean hasUsedEquipment;
     
     private int tick;
     
@@ -73,7 +74,7 @@ public class Creature extends Entity {
         super(name, description, sprite);
         this.size = size;
         this.inventory = new Inventory<Item>();
-        this.equippedItems = new HashMap<String, Equippable>();
+        this.equippedItems = new HashMap<EquipmentSlot, Equippable>();
         this.effects = new ArrayList<Effect>();
         this.flags = new HashSet<String>();
         this.level = 1;
@@ -103,11 +104,10 @@ public class Creature extends Entity {
     @Override
     public void update() {
         tick++;
+        
         regenMana();
         updateEffects();
         ai.update();
-        
-        if(tick % manaRegenSpeed == 0) modifyMana(manaRegenAmount);
         
         if(!hasMoved) timeStationary++;
         else timeStationary = 0;
@@ -358,6 +358,11 @@ public class Creature extends Entity {
     
     /* Getter Methods */
     
+    public int totalLevel(){
+        int total = strength + defense + accuracy + intelligence;
+        return total; 
+    }
+    
     public int size(){
         return size;
     }
@@ -408,37 +413,37 @@ public class Creature extends Entity {
 
     public int strengthBonus(){
         int result = 0;
-        for(String s : equippedItems.keySet()) result += equippedItems.get(s).strengthBonus(); 
+        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).strengthBonus(); 
         return result;
     }
     
     public int defenseBonus(){
         int result = 0;
-        for(String s : equippedItems.keySet()) result += equippedItems.get(s).defenseBonus();
+        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).defenseBonus();
         return result;
     }
     
     public int accuracyBonus(){
         int result = 0;
-        for(String s : equippedItems.keySet()) result += equippedItems.get(s).accuracyBonus();
+        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).accuracyBonus();
         return result;
     }
     
     public int intelligenceBonus(){
         int result = 0;
-        for(String s : equippedItems.keySet()) result += equippedItems.get(s).intelligenceBonus();
+        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).intelligenceBonus();
         return result;
     }
     
     public int manaRegenAmountBonus(){
         int result = 0;
-        for(String s : equippedItems.keySet()) result += equippedItems.get(s).manaRegenAmountBonus();
+        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).manaRegenAmountBonus();
         return result;
     }
 
     public int manaRegenSpeedBonus(){
         int result = 0;
-        for(String s : equippedItems.keySet()) result += equippedItems.get(s).manaRegenSpeedBonus();
+        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).manaRegenSpeedBonus();
         return result;
     }
     
@@ -458,8 +463,8 @@ public class Creature extends Entity {
         return inventory;
     }
     
-    public Equippable getEquippedAt(String slot){
-        return equippedItems.get(slot.toLowerCase().trim());
+    public Equippable getEquippedAt(EquipmentSlot slot){
+        return equippedItems.get(slot);
     }
     
     public String aiType(){
@@ -473,9 +478,9 @@ public class Creature extends Entity {
     public int timeStationary(){
         return timeStationary;
     }
-    
-    public MapObject mapObject(){
-        return mapObject;
+
+    public boolean hasUsedEquipment(){
+        return hasUsedEquipment;
     }
     
     public boolean hasFlag(String flag){
@@ -496,11 +501,11 @@ public class Creature extends Entity {
         flags.add(flag.toLowerCase().trim());
     }
     
-    public void setMapObject(MapObject mapObject){
-        this.mapObject = mapObject;
+    public void setHasUsedEquipment(boolean hasUsedEquipment){
+        this.hasUsedEquipment = hasUsedEquipment;
     }
     
-    public void setEquippable(String loation, Equippable equippable){
-        equippedItems.put(loation.toLowerCase().trim(), equippable);
+    public void setEquippable(EquipmentSlot slot, Equippable equippable){
+        equippedItems.put(slot, equippable);
     }
 }

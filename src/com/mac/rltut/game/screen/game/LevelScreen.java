@@ -44,8 +44,6 @@ public class LevelScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-//        setTitle("Map " + (player.z + 1));
-       
         String levelType = world.level(player.z).type();
         if(levelType.equalsIgnoreCase("default")) setTitle("Forest " + (player.z + 1));
         else setTitle(StringUtil.capitalizeFirst(levelType) + " Forest " + (player.z + 1));
@@ -134,8 +132,7 @@ public class LevelScreen extends Screen{
 
         MapObject obj = world.mapObject(xp, yp, zp);
         if(obj != null) return obj.sprite();
-        
-        
+                
         return world.tile(xp, yp, zp).sprite();
     }
 

@@ -34,6 +34,7 @@ public class Sprite extends Bitmap{
     }
     
     public static Sprite get(String name){
+        if(!sprites.containsKey(name)) Log.warn("Unknown sprite [" + name + "]");
         return sprites.get(name);
     }
     

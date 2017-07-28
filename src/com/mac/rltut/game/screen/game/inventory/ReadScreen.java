@@ -1,4 +1,4 @@
-package com.mac.rltut.game.screen.game;
+package com.mac.rltut.game.screen.game.inventory;
 
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;

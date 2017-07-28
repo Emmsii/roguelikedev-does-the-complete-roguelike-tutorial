@@ -9,6 +9,7 @@ import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.ai.PackAI;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
@@ -200,7 +201,7 @@ public class World {
     
     public void addCorpse(Creature dead){
         if(!inBounds(dead.x, dead.y, dead.z) || tile(dead.x, dead.y, dead.z).isType("water")) return;
-        add(dead.x, dead.y, dead.z, (Item) new Item(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse"), 100).newInstance());
+        add(dead.x, dead.y, dead.z, (Item) new Item(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse")).newInstance());
         if(!dead.hasFlag("no_blood")){
             for(int y = -1; y <= 1; y++){
                 int ya = y + dead.y;
@@ -367,7 +368,7 @@ public class World {
     }
     
     /* Getter Methods */
-
+        
     public int exploredPercent(int z){
         return (int) (((float) level(z).exploredTiles() / (float) totalExplorableTiles[z]) * 100);
     }

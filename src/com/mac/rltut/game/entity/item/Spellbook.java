@@ -1,7 +1,11 @@
 package com.mac.rltut.game.entity.item;
 
 import com.mac.rltut.engine.graphics.Sprite;
+import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.effects.Effect;
+import com.mac.rltut.game.entity.creature.Creature;
+
+import java.awt.*;
 
 /**
  * Project: complete-rltut
@@ -12,21 +16,14 @@ public class Spellbook extends Item{
     
     private Effect blessing;
     
-    private int strengthBonus;
-    private int defenseBonus;
-    private int accuracyBonus;
-    private int intelligenceBonus;
-    
-    private int manaRegenAmountBonus;
-    private int manaRegenSpeedBonus;
-    
-    public Spellbook(String name, String description, Sprite sprite, int spawnChance, Effect blessing) {
-        super(name, description, sprite, spawnChance);
+    public Spellbook(String name, String description, Sprite sprite, Effect blessing) {
+        super(name, description, sprite);
     }
 
-    public void bless(Equippable equippable){
+    public void bless(Creature creature, Equippable equippable){
+        creature.doAction(new ColoredString("bless the %s", Color.CYAN.getRGB()), equippable.name());
         equippable.setUnique(true);
-        equippable.setName("Unique " + equippable.name());
+        equippable.setName("Blessed " + equippable.name());
         
         equippable.setStrengthBonus(strengthBonus);
         equippable.setDefenseBonus(defenseBonus);
@@ -36,29 +33,8 @@ public class Spellbook extends Item{
         equippable.setManaRegenSpeedBonus(manaRegenSpeedBonus);
         
         if(blessing != null) equippable.setEffect(blessing);
-    }
-    
-    public void setStrengthBonus(int strengthBonus){
-        this.strengthBonus = strengthBonus;
-    }
-    
-    public void setDefenseBonus(int defenseBonus){
-        this.defenseBonus = defenseBonus;
-    }
-    
-    public void setAccuracyBonus(int accuracyBonus){
-        this.accuracyBonus = accuracyBonus;
-    }
-    
-    public void setIntelligenceBonus(int intelligenceBonus){
-        this.intelligenceBonus = intelligenceBonus;
-    }
-    
-    public void setManaRegenAmountBonus(int manaRegenAmountBonus){
-        this.manaRegenAmountBonus = manaRegenAmountBonus;
-    }
-    
-    public void setManaRegenSpeedBonus(int manaRegenSpeedBonus){
-        this.manaRegenSpeedBonus = manaRegenSpeedBonus;
+        
+        creature.inventory().remove(this);
+        creature.notify(new ColoredString("The book looses its magic!"));
     }
 }

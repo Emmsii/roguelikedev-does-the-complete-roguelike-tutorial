@@ -1,4 +1,4 @@
-package com.mac.rltut.game.screen.game;
+package com.mac.rltut.game.screen.game.inventory;
 
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Equippable;
@@ -33,7 +33,7 @@ public class ApplySpellbookScreen extends InventoryBasedScreen{
 
     @Override
     protected Screen use(Item item) {
-        spellbook.bless((Equippable) item);
+        spellbook.bless(player, (Equippable) item);
         return null;
     }
 }

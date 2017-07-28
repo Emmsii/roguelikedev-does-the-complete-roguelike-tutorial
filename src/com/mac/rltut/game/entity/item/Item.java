@@ -1,5 +1,6 @@
 package com.mac.rltut.game.entity.item;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.entity.Entity;
 
@@ -10,12 +11,17 @@ import com.mac.rltut.game.entity.Entity;
  */
 public class Item extends Entity {
     
-    private int spawnChance;
     private boolean unique;
+
+    protected int strengthBonus;
+    protected int defenseBonus;
+    protected int accuracyBonus;
+    protected int intelligenceBonus;
+    protected int manaRegenAmountBonus;
+    protected int manaRegenSpeedBonus;
     
-    public Item(String name, String description, Sprite sprite, int spawnChance) {
+    public Item(String name, String description, Sprite sprite) {
         super(name, description, sprite);
-        this.spawnChance = spawnChance;
         this.unique = false;
     }
 
@@ -28,11 +34,55 @@ public class Item extends Entity {
         this.unique = unique;
     }
     
-    public int spawnChance(){
-        return spawnChance;
+    public void setStrengthBonus(int strengthBonus){
+        this.strengthBonus = strengthBonus;
+    }
+
+    public void setDefenseBonus(int defenseBonus){
+        this.defenseBonus = defenseBonus;
+    }
+
+    public void setAccuracyBonus(int accuracyBonus){
+        this.accuracyBonus = accuracyBonus;
+    }
+
+    public void setIntelligenceBonus(int intelligenceBonus){
+        this.intelligenceBonus = intelligenceBonus;
+    }
+
+    public void setManaRegenAmountBonus(int manaRegenAmountBonus){
+        this.manaRegenAmountBonus = manaRegenAmountBonus;
+    }
+
+    public void setManaRegenSpeedBonus(int manaRegenSpeedBonus){
+        this.manaRegenSpeedBonus = manaRegenSpeedBonus;
     }
     
     public boolean unique(){
         return unique;
+    }
+
+    public int strengthBonus(){
+        return strengthBonus;
+    }
+
+    public int defenseBonus(){
+        return defenseBonus;
+    }
+
+    public int accuracyBonus(){
+        return accuracyBonus;
+    }
+
+    public int intelligenceBonus(){
+        return intelligenceBonus;
+    }
+
+    public int manaRegenAmountBonus(){
+        return manaRegenAmountBonus;
+    }
+
+    public int manaRegenSpeedBonus(){
+        return manaRegenSpeedBonus;
     }
 }
