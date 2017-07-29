@@ -15,10 +15,12 @@ import com.mac.rltut.game.screen.Screen;
 public class ApplySpellbookScreen extends InventoryBasedScreen{
     
     private Spellbook spellbook;
+    private Screen lastScreen;
     
-    public ApplySpellbookScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player, Spellbook spellbook) {
+    public ApplySpellbookScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player, Spellbook spellbook, Screen lastScreen) {
         super(x, y, w, h, title, inventory, player);
         this.spellbook = spellbook;
+        this.lastScreen = lastScreen;
     }
 
     @Override
@@ -28,12 +30,12 @@ public class ApplySpellbookScreen extends InventoryBasedScreen{
 
     @Override
     protected boolean isAcceptable(Item item) {
-        return item instanceof Equippable && !item.unique();
+        return item instanceof Equippable && !item.unique() && spellbook.validSlot(((Equippable) item).slot());
     }
 
     @Override
     protected Screen use(Item item) {
         spellbook.bless(player, (Equippable) item);
-        return null;
+        return lastScreen;
     }
 }

@@ -235,7 +235,7 @@ public class WorldBuilder {
             }
             
             if(random.nextFloat() < 0.1){
-                spawnItem(SpellbookGenerator.generate(z), z);
+                spawnItem(SpellbookGenerator.generate(z, random), z);
             }
             
             for(int i = 0; i < 3; i++){
@@ -258,7 +258,7 @@ public class WorldBuilder {
                 }
 
                 for(int i = 0; i < 3; i++){
-                    Item item = SpellbookGenerator.generate(z);
+                    Item item = SpellbookGenerator.generate(z, random);
                     Log.debug("Added " + item.name() + " to chest");
                     inventory.add(item);
                     if(random.nextFloat() >= 0.1) break;

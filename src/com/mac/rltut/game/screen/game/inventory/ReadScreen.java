@@ -29,6 +29,6 @@ public class ReadScreen extends InventoryBasedScreen{
 
     @Override
     protected Screen use(Item item) {
-        return new ApplySpellbookScreen(x, y, width, height, null, inventory, player, (Spellbook) item);
+        return new ApplySpellbookScreen(x, y, width, height, null, inventory, player, (Spellbook) item, this);
     }
 }

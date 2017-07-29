@@ -38,7 +38,8 @@ public class EquipmentStatsScreen extends Screen {
         String acc = "ACC";
         String intel = "INT";
 
-        String manaRegAmount = String.format("+%d mana per %d %s", player.manaRegenAmount(), player.getManaRegenSpeed(), player.getManaRegenSpeed() > 1 ? "turns" : "turn");
+//        String manaRegAmount = String.format("+%d mana per %d %s", player.manaRegenAmount(), player.getManaRegenSpeed(), player.getManaRegenSpeed() > 1 ? "turns" : "turn");
+        String manaRegAmount = String.format("+%d mana per ", player.manaRegenAmount()) + (player.getManaRegenSpeed() > 1 ? player.getManaRegenSpeed() + " turns" : "turn");
         
         if(player.strengthBonus() != 0) str += (player.strengthBonus() > 0 ? " +" + player.strengthBonus() : " " + player.strengthBonus());
         if(player.defenseBonus() != 0) def += (player.defenseBonus() > 0 ? " +" + player.defenseBonus() : " " + player.defenseBonus());

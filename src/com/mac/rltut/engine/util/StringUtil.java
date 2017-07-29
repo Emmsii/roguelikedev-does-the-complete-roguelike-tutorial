@@ -12,6 +12,10 @@ import java.util.List;
  */
 public class StringUtil {
     
+    public static String getPercent(float amount){
+        return Math.round(amount * 100) + "%";
+    }
+    
     public static String clean(String text){
         if(text == null || text.length() == 0) return text;
         return text.toLowerCase().trim().replace("_", " ");

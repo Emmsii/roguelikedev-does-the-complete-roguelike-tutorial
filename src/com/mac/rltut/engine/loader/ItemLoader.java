@@ -6,6 +6,7 @@ import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.effects.Effect;
+import com.mac.rltut.game.effects.EffectBuilder;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
@@ -42,14 +43,7 @@ public class ItemLoader extends DataLoader {
                 String amount = obj.getString("amount");
                 item = new ItemStack(name, description, sprite, amount, 1);
             }else if(obj.isType("consumeable")){
-                Effect consumeEffect = new Effect(0){
-                    @Override
-                    public void start(Creature creature) {
-                        if(obj.hasToken("heal")) creature.modifyHp(obj.getInt("heal"),"ate too much");
-                        if(obj.hasToken("action")) creature.doAction(new ColoredString(obj.getString("action") + " the %s"), name);
-                    }
-                };
-                item = new Consumeable(name, description, sprite, consumeEffect);
+                item = new Consumeable(name, description, sprite, EffectBuilder.heal(obj.getInt("heal"), 1f));
             }else if(obj.isType("equippable")){
                 String slot = obj.getString("slot");
                 Equippable e = new Equippable(name, description, sprite, getSlot(slot));

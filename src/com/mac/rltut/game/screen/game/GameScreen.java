@@ -24,6 +24,7 @@ import com.mac.rltut.game.world.objects.Chest;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 /**
  * Project: complete-rltut
@@ -56,11 +57,11 @@ public class GameScreen extends Screen{
         player = new Player("player", Sprite.get("player"));//temp
         player.inventory().add((Item) Codex.items.get("bow").entity().newInstance());
         
-        for(int i = 0; i < 12; i++){
-            player.inventory().add(SpellbookGenerator.generate(i + 10));
+        for(int i = 0; i < 20; i++){
+            player.inventory().add(SpellbookGenerator.generate(i, new Random())); //TODO: BETTER RANDOM
         }
         
-        player.setStats(100, 100, 2, 1, 3, 3, 3, 3, 16, null);
+        player.setStats(100, 100, 2, 20, 3, 3, 3, 3, 16, null);
         new PlayerAI(player, log);
 
         logScreen = new LogScreen(Engine.instance().widthInTiles(), log, 9, "Log");

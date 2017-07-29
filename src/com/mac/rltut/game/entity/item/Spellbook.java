@@ -6,6 +6,7 @@ import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
 
 import java.awt.*;
+import java.util.List;
 
 /**
  * Project: complete-rltut
@@ -14,10 +15,13 @@ import java.awt.*;
  */
 public class Spellbook extends Item{
     
-    private Effect blessing;
+    private Effect effect;
+    private int manaCost;
+    private EquipmentSlot[] slots;
     
-    public Spellbook(String name, String description, Sprite sprite, Effect blessing) {
+    public Spellbook(String name, String description, Sprite sprite, EquipmentSlot[] slots) {
         super(name, description, sprite);
+        this.slots = slots;
     }
 
     public void bless(Creature creature, Equippable equippable){
@@ -32,9 +36,30 @@ public class Spellbook extends Item{
         equippable.setManaRegenAmountBonus(manaRegenAmountBonus);
         equippable.setManaRegenSpeedBonus(manaRegenSpeedBonus);
         
-        if(blessing != null) equippable.setEffect(blessing);
+        if(effect != null) equippable.setEffect(effect);
         
         creature.inventory().remove(this);
         creature.notify(new ColoredString("The book looses its magic!"));
+    }
+    
+    public void setEffect(Effect effect){
+        this.effect = effect;
+    }
+    
+    public void setManaCost(int manaCost){
+        this.manaCost = manaCost;
+    }
+    
+    public Effect effect(){
+        return new Effect(effect);
+    }
+    
+    public int manaCost(){
+        return manaCost;
+    }
+    
+    public boolean validSlot(EquipmentSlot slot){
+        for(EquipmentSlot s : slots) if(s == slot) return true;
+        return false;
     }
 }

@@ -27,7 +27,7 @@ public class EffectsLoader extends DataLoader{
                 int duration = obj.hasToken("duration") ? obj.getInt("duration") : 0;
                 String causeOfDeath = obj.hasToken("death_cause") ? obj.getString("death_cause") : "unknown";
                 
-                Effect effect = new Effect(duration){
+                Effect effect = new Effect(name, "", duration, 1, false){
 
                     @Override
                     public void start(Creature creature) {

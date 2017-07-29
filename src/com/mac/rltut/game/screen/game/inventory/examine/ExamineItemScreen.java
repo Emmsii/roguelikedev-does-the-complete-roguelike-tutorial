@@ -2,8 +2,10 @@ package com.mac.rltut.game.screen.game.inventory.examine;
 
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
+import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.Spellbook;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;
@@ -60,6 +62,28 @@ public class ExamineItemScreen extends Screen {
             yp++;
             renderer.write("Slot: " + StringUtil.capitalizeFirst(e.slot().toString().toLowerCase()), xp, yp++);
             yp++;
+            if(e.effect() != null){
+                Effect effect = e.effect();
+                renderer.write("Effect", xp, yp++);
+                renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(effect.name())) + " (" + effect.chancePercent() + " chance)", xp + 1, yp++);
+                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4);
+                for(String s : desc) renderer.write(s, xp + 1, yp++);
+            }
+            yp++;
+        }
+        
+        if(item instanceof Spellbook){
+            Spellbook book = (Spellbook) item;
+            renderer.write("Mana Cost: " + book.manaCost(), xp, yp++);
+            if(book.effect() != null){
+                yp++;
+                Effect effect = book.effect();
+                renderer.write("Effect", xp, yp++);
+                renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(effect.name())) + " (" + effect.chancePercent() + " chance)", xp + 1, yp++);
+                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4);
+                for(String s : desc) renderer.write(s, xp + 1, yp++);
+            }
+            yp++;
         }
         
         renderer.write("Bonuses", xp, yp++);
@@ -70,5 +94,7 @@ public class ExamineItemScreen extends Screen {
         renderer.write("Mana", xp, yp++);
         if(item.manaRegenAmountBonus() != 0) renderer.write("REGEN " + (item.manaRegenAmountBonus() > 0 ? "+" + item.manaRegenAmountBonus() : item.manaRegenAmountBonus()), xp + 1, yp++);
         if(item.manaRegenSpeedBonus() != 0) renderer.write("SPEED " + item.manaRegenSpeedBonus(), xp + 1, yp++);
+        yp++;
+        
     }
 }

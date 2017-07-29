@@ -4,8 +4,10 @@ import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Dice;
 import com.mac.rltut.engine.util.MathUtil;
+import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
+import com.mac.rltut.game.entity.item.Equippable;
 
 /**
  * Project: complete-rltut
@@ -30,15 +32,20 @@ public class CombatManager {
                 
         Log.debug("Hit Roll: " + attackerHitRoll + "(1d" + attacker.accuracy() + ")");
         Log.debug("Block Roll: " + defenderBlockRoll + "(1d" + defender.defense() + " + " + defender.defenseBonus() + ")");
-        
+
+        Equippable weapon = attacker.getEquippedAt(EquipmentSlot.WEAPON);
         int damage = Dice.roll("1d" + attacker.strength()) + attacker.strengthBonus();
-        if(attacker.getEquippedAt(EquipmentSlot.WEAPON) != null) damage += Dice.roll(attacker.getEquippedAt(EquipmentSlot.WEAPON).damage());
+        if(weapon != null) damage += Dice.roll(weapon.damage());
         
         if(attackerHitRoll > defenderBlockRoll || attackerHitRoll == defenderBlockRoll && Math.random() <= 0.5){
             //Attacker hits
-            Log.debug("Damage: " + damage + " (1d" + attacker.strength() + " + " + attacker.strengthBonus() + (attacker.getEquippedAt(EquipmentSlot.WEAPON) != null ? " + " + attacker.getEquippedAt(EquipmentSlot.WEAPON).damage() : "") + ")");
+            Log.debug("Damage: " + damage + " (1d" + attacker.strength() + " + " + attacker.strengthBonus() + (weapon != null ? " + " + weapon.damage() : "") + ")");
             attacker.doAction(new ColoredString("attack the %s for %d damage"), defender.name(), damage);
             defender.damage(damage, "melee attack from " + attacker.name());
+
+            
+            doEffect(weapon, attacker, defender);
+            
             if(defender.hp() < 1) attacker.gainXp(defender);
         }else{
             //Defender blocks attack
@@ -61,19 +68,31 @@ public class CombatManager {
         Log.debug("Hit Roll: " + attackerHitRoll + "(1d" + attacker.accuracy() + ")");
         Log.debug("Block Roll: " + defenderBlockRoll + "(1d" + defender.defense() + " + " + defender.defenseBonus() + ")");
         
+        Equippable weapon = attacker.getEquippedAt(EquipmentSlot.WEAPON);
         int damage = Dice.roll("1d" + attacker.strength()) + attacker.strengthBonus();
-        if(attacker.getEquippedAt(EquipmentSlot.WEAPON) != null) damage += Dice.roll(attacker.getEquippedAt(EquipmentSlot.WEAPON).damage());
+        if(weapon != null) damage += Dice.roll(weapon.damage());
         
         if(attackerHitRoll > defenderBlockRoll || attackerHitRoll == defenderBlockRoll && Math.random() <= 0.5){
-            Log.debug("Damage: " + damage + " (1d" + attacker.strength() + " + " + attacker.strengthBonus() + (attacker.getEquippedAt(EquipmentSlot.WEAPON) != null ? " + " + attacker.getEquippedAt(EquipmentSlot.WEAPON).damage() : "") + ")");
+            Log.debug("Damage: " + damage + " (1d" + attacker.strength() + " + " + attacker.strengthBonus() + (weapon != null ? " + " + weapon.damage() : "") + ")");
             attacker.doAction(new ColoredString("fire a %s at the %s for %d damage"), attacker.getEquippedAt(EquipmentSlot.WEAPON).name(), defender.name(), damage);
             defender.damage(damage, "ranged attack from " + attacker.name());
+            
+            doEffect(weapon, attacker, defender);
+            
             if(defender.hp() < 1) attacker.gainXp(defender);
         }else if(attackerHitRoll < defenderBlockRoll && attackerHitRoll < attackerHitRoll / 4){
             attacker.doAction(new ColoredString("miss completely"));
         }else{
             defender.doAction(new ColoredString("block the attack"));
         }
+    }
+    
+    private static void doEffect(Equippable equippable, Creature attacker, Creature defender){
+        if(equippable.effect() == null || !equippable.effect().canUseWithItem() || defender.hp() < 1) return;
+        Effect effect = equippable.effect();
+        if(Math.random() > effect.chance()) return;
+        effect.onUseSelf(attacker);
+        effect.onUseOther(defender);
     }
     
 }

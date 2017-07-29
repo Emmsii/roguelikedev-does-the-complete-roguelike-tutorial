@@ -285,6 +285,7 @@ public class Creature extends Entity {
     /* Modifier Methods */
     
     public void modifyHp(int amount, String causeOfDeath){
+        if(hp < 1) return;
         this.causeOfDeath = causeOfDeath;
         hp += amount;
                 
