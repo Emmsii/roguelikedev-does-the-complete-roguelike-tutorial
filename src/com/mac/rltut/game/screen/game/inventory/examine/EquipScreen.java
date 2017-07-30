@@ -15,7 +15,7 @@ import com.mac.rltut.game.screen.game.inventory.InventoryBasedScreen;
 public class EquipScreen extends InventoryBasedScreen {
     
     public EquipScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player) {
-        super(x, y, w, h, title, inventory, player);
+        super(x, y, w, h, title, inventory, player, null);
     }
 
     @Override
@@ -31,6 +31,6 @@ public class EquipScreen extends InventoryBasedScreen {
     @Override
     protected Screen use(Item item) {
         player.equip(item);
-        return null;
+        return this;
     }
 }

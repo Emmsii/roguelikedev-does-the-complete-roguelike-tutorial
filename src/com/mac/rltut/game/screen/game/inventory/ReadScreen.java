@@ -17,7 +17,7 @@ import java.awt.*;
 public class ReadScreen extends InventoryBasedScreen{
     
     public ReadScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player) {
-        super(x, y, w, h, title, inventory, player);
+        super(x, y, w, h, title, inventory, player, null);
     }
 
     @Override

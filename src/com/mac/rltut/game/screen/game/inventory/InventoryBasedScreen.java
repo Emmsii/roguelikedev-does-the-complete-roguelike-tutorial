@@ -21,11 +21,13 @@ public abstract class InventoryBasedScreen extends Screen{
     
     protected Inventory<Item> inventory;
     protected Creature player;
+    protected Screen lastScreen;
     
-    public InventoryBasedScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player){
+    public InventoryBasedScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player, Screen lastScreen){
         super(x, y, w, h, title);
         this.inventory = inventory;
         this.player = player;
+        this.lastScreen = lastScreen;
     }
 
     protected abstract String getVerb();
@@ -37,7 +39,7 @@ public abstract class InventoryBasedScreen extends Screen{
         char index = key.getKeyChar();
         List<Item> list = getList();
         if(letters.indexOf(index) > -1 && list.size() > letters.indexOf(index) && isAcceptable(list.get(letters.indexOf(index)))) return use(list.get(letters.indexOf(index)));
-        else if(key.getKeyCode() == KeyEvent.VK_ESCAPE) return null;
+        else if(key.getKeyCode() == KeyEvent.VK_ESCAPE) return lastScreen;
         else return this;
     }
 

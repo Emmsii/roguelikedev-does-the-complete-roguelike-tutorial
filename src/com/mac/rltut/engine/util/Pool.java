@@ -34,17 +34,16 @@ public class Pool<T> {
             return null;
         }
 
-        int runningWeight = 0;
-        int roll = random.nextInt(totalWeight - 1) + 1;
+        int rand = random.nextInt(totalWeight);
         
         for(PoolItem<T> poolItem : poolItems){
-            runningWeight += poolItem.weight;
-            if(roll <= runningWeight){
+            rand -= poolItem.weight;
+            if(rand <= 0){
                 remove(poolItem);
                 return poolItem.item;
             }
         }
-
+        
         throw new RuntimeException("Cannot get item from pool. (size: " + poolItems.size() + ")");
     }
 

@@ -14,7 +14,7 @@ import com.mac.rltut.game.screen.game.inventory.examine.ExamineItemScreen;
 public class ExamineScreen extends InventoryBasedScreen {
     
     public ExamineScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player) {
-        super(x, y, w, h, title, inventory, player);
+        super(x, y, w, h, title, inventory, player, null);
     }
 
     @Override

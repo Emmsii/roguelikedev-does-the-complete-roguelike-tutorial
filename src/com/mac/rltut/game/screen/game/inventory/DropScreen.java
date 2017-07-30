@@ -13,7 +13,7 @@ import com.mac.rltut.game.screen.Screen;
 public class DropScreen extends InventoryBasedScreen{
     
     public DropScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player) {
-        super(x, y, w, h, title, inventory, player);
+        super(x, y, w, h, title, inventory, player, null);
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.awt.*;
 public class ChestScreen extends InventoryBasedScreen{
     
     public ChestScreen(int x, int y, int w, int h, String title, Chest chest, Creature player) {
-        super(x, y, w, h, title, chest.inventory(), player);
+        super(x, y, w, h, title, chest.inventory(), player, null);
     }
 
     @Override
