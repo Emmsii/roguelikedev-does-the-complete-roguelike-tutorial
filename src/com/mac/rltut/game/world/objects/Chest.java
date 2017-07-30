@@ -43,4 +43,5 @@ public class Chest extends MapObject {
     public Sprite sprite() {
         return open ? tile.openSprite() : tile.closedSprite();
     }
+    
 }

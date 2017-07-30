@@ -3,6 +3,7 @@ package com.mac.rltut.game.screen.menu;
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.game.Game;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.builders.WorldBuilder;
@@ -18,7 +19,7 @@ import java.security.Key;
  */
 public class LoadingScreen extends Screen {
 
-    private World world;
+    private Game game;
     private boolean finished;
 
     public LoadingScreen(WorldBuilder worldBuilder){
@@ -27,19 +28,19 @@ public class LoadingScreen extends Screen {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                world = worldBuilder.generate().populate().spawnItems().build();
+                game = new Game().newGame(worldBuilder.generate().populate().spawnItems().build());
                 finished = true;
                 Engine.instance().input(null);
             }
-        }, "Loader Thread");
+        });
         
         t.start();
     }
     
     @Override
     public Screen input(KeyEvent e) {
-        if(!finished) return this;
-        return new GameScreen(world);
+        if(!finished || game == null) return this;
+        return new GameScreen(game);
     }
 
     @Override

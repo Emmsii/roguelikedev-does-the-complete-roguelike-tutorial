@@ -1,6 +1,5 @@
 package com.mac.rltut.game.entity;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.world.World;
 
@@ -63,4 +62,5 @@ public abstract class Entity implements Cloneable{
         }
         return null;
     }
+
 }

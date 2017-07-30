@@ -1,8 +1,9 @@
 package com.mac.rltut.game.entity.item;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.entity.Entity;
+
+import java.io.DataInputStream;
 
 /**
  * Project: complete-rltut
@@ -85,4 +86,5 @@ public class Item extends Entity {
     public int manaRegenSpeedBonus(){
         return manaRegenSpeedBonus;
     }
+
 }

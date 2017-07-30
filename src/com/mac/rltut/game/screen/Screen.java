@@ -35,7 +35,7 @@ public abstract class Screen {
         this.title = title;
     }
 
-    public abstract Screen input(KeyEvent e);
+    public abstract Screen input(KeyEvent key);
     public abstract void render(Renderer renderer);
 
     protected void renderBorderFill(Renderer renderer){

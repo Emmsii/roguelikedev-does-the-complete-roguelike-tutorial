@@ -40,6 +40,7 @@ public class HelpScreen extends Screen{
         renderer.write("Read: R", xp, yp++);
         renderer.write("Consume: C", xp, yp++);
         renderer.write("Equip: E", xp, yp++);
+        renderer.write("Examine: X", xp, yp++);
         renderer.write("Look: L", xp, yp++);
         renderer.write("Toggle Equipment/Stats Panel: Q / T", xp, yp++);
         yp++;

@@ -6,10 +6,7 @@ import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.MathUtil;
 import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.ai.PackAI;
-import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
@@ -80,15 +77,8 @@ public class World {
     }
     
     public void update(int z){
-        dayNightController.update();
-        
-        //TODO: Maybe move this out of the update method...
-        int min = z - 1 < 0 ? 0 : z - 1;
-        int max = z + 1 >= depth - 1 ? depth - 1: z + 1;
-        for(int level = min; level <= max; level++) {
-            List<Creature> toUpdate = new ArrayList<Creature>(creatureList.get(level));
-            for (Creature c : toUpdate) c.update();
-        }
+        List<Creature> toUpdate = new ArrayList<Creature>(creatureList.get(z));
+        for (Creature c : toUpdate) c.update();
     }
     
     /* FOV Methods */
@@ -388,5 +378,5 @@ public class World {
     public int depth(){
         return depth;
     }
-    
+
 }

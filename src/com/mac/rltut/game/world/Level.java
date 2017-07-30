@@ -131,4 +131,5 @@ public class Level {
     public boolean inBounds(int x, int y){
         return x >= 0 && y >= 0 && x < width && y < height;
     }
+
 }
