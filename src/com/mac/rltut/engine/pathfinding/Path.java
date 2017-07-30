@@ -1,7 +1,7 @@
 package com.mac.rltut.engine.pathfinding;
 
 import com.mac.rltut.engine.pathfinding.astar.AStar;
-import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 
 import java.util.List;

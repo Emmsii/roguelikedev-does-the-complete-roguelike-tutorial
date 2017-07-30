@@ -8,8 +8,6 @@ import com.mac.rltut.engine.input.Input;
 import com.mac.rltut.engine.loader.*;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
-import com.mac.rltut.game.entity.item.Spellbook;
-import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.menu.StartScreen;
 

@@ -1,8 +1,5 @@
 package com.mac.rltut.engine.parser;
 
-import com.esotericsoftware.minlog.Log;
-import jdk.nashorn.internal.runtime.ParserException;
-
 import java.util.HashMap;
 
 /**

@@ -1,6 +1,4 @@
-package com.mac.rltut.engine.util;
-
-import com.esotericsoftware.minlog.Log;
+package com.mac.rltut.engine.util.maths;
 
 import java.util.Random;
 

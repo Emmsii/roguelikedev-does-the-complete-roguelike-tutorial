@@ -3,8 +3,6 @@ package com.mac.rltut.game.entity.item;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.entity.Entity;
 
-import java.io.DataInputStream;
-
 /**
  * Project: complete-rltut
  * PC

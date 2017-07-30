@@ -4,7 +4,6 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.stats.LevelUpController;
 import com.mac.rltut.game.screen.Screen;
-import com.mac.rltut.game.screen.game.InfoScreen;
 
 import java.awt.event.KeyEvent;
 import java.util.List;

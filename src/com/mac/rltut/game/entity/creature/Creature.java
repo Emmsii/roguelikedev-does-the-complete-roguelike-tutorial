@@ -2,7 +2,7 @@ package com.mac.rltut.game.entity.creature;
 
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.*;
-import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
@@ -278,9 +278,8 @@ public class Creature extends Entity {
         return canSee(c.x, c.y, c.z);
     }
     
-    public boolean canSee(int xp, int yp, int zp){
-        if(ai == null) return false;
-        return ai.canSee(xp, yp, zp);
+    public boolean canSee(int xp, int yp, int zp) {
+        return ai != null && ai.canSee(xp, yp, zp);
     }
     
     /* Modifier Methods */

@@ -1,7 +1,5 @@
 package com.mac.rltut.game.world;
 
-import com.esotericsoftware.minlog.Log;
-
 /**
  * Project: complete-rltut
  * PC

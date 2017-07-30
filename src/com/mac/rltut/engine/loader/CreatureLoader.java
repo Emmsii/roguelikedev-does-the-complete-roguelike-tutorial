@@ -47,7 +47,7 @@ public class CreatureLoader extends DataLoader{
             String spawnLevels = obj.hasToken("spawn_levels") ? obj.getString("spawn_levels") : "all";
             String spawnTypes = obj.hasToken("spawn_types") ? obj.getString("spawn_types") : "all";
             String spawnNear = obj.hasToken("spawn_near") ? obj.getString("spawn_near") : "all";
-            int spawnWeight = obj.hasToken("spawn_weight") ? obj.getInt("spawn_weight") : 100;
+            int spawnChance = obj.hasToken("spawn_chance") ? obj.getInt("spawn_chance") : 100;
             float depthMultiplier = obj.hasToken("depth_multiplier") ? obj.getFloat("depth_multiplier") : 1f;
             String packSize = obj.hasToken("pack_size") ? obj.getString("pack_size") : "0";
             int size = obj.hasToken("size") ? obj.getInt("size") : 1;
@@ -58,7 +58,7 @@ public class CreatureLoader extends DataLoader{
             
             if(obj.isType("creature")) {
                 Creature creature = new Creature(name, description, sprite, size, ai);
-                spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnWeight, depthMultiplier, packSize);
+                spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnChance, depthMultiplier, packSize);
             }else if(obj.isType("boss")) {
                 int spawnEvery = obj.hasToken("spawn_every") ? obj.getInt("spawn_every") : 0;
                 String minions = obj.hasToken("minions") ? obj.getString("minions") : "none";
@@ -66,7 +66,7 @@ public class CreatureLoader extends DataLoader{
                 boolean unique = obj.hasToken("unique") && obj.getInt("unique") == 1;
                 
                 Boss boss = new Boss(name, description, sprite, size);
-                spawnProperty = new BossSpawnProperty(boss, spawnLevels, spawnEvery, spawnTypes, spawnNear, spawnWeight, minions, minionCount, unique);
+                spawnProperty = new BossSpawnProperty(boss, spawnLevels, spawnEvery, spawnTypes, spawnNear, spawnChance, minions, minionCount, unique);
             }else{
                 Log.error("Unknown object type [" + obj.type() + "]");
                 continue;

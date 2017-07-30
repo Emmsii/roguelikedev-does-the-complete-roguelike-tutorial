@@ -3,7 +3,6 @@ package com.mac.rltut.game.entity.creature;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.stats.PlayerStats;
-import com.mac.rltut.game.screen.Screen;
 
 /**
  * Project: complete-rltut

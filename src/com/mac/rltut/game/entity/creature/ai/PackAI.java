@@ -1,8 +1,6 @@
 package com.mac.rltut.game.entity.creature.ai;
 
-import com.mac.rltut.engine.pathfinding.Path;
-import com.mac.rltut.engine.util.MathUtil;
-import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 
 import java.util.ArrayList;

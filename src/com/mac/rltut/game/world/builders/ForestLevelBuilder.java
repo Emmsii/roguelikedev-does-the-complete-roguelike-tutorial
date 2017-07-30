@@ -1,9 +1,8 @@
 package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.engine.util.MathUtil;
-import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.maths.MathUtil;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.tile.ChestTile;
 import com.mac.rltut.game.world.tile.Tile;

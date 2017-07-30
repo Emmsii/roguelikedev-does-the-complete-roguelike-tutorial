@@ -1,6 +1,6 @@
 package com.mac.rltut.engine.pathfinding.astar;
 
-import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.maths.Point;
 
 /**
  * Project: complete-rltut

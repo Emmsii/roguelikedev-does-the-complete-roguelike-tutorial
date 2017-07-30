@@ -1,11 +1,8 @@
 package com.mac.rltut.game.world.tile;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Project: complete-rltut

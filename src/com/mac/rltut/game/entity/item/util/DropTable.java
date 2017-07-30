@@ -1,7 +1,7 @@
 package com.mac.rltut.game.entity.item.util;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.engine.util.MathUtil;
+import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.item.Item;

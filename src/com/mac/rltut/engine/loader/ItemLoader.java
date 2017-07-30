@@ -3,11 +3,8 @@ package com.mac.rltut.engine.loader;
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.parser.DataObject;
-import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.codex.Codex;
-import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.effects.EffectBuilder;
-import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 
@@ -35,6 +32,7 @@ public class ItemLoader extends DataLoader {
             String name = obj.getString("name");
             String description = obj.getString("description");
             Sprite sprite = Sprite.get(obj.getString("sprite"));
+            String spawnLevels = obj.hasToken("spawn_levels") ? obj.getString("spawn_levels") : "all";
             int spawnChance = obj.hasToken("spawn_chance") ? obj.getInt("spawn_chance") : -1;
             float depthMultiplier = obj.hasToken("depth_multiplier") ? obj.getFloat("depth_multiplier") : 1f;
             
@@ -62,7 +60,7 @@ public class ItemLoader extends DataLoader {
                 continue;
             }
 
-            spawnProperty = new ItemSpawnProperty(item, "all", "all", "all", spawnChance, depthMultiplier);
+            spawnProperty = new ItemSpawnProperty(item, spawnLevels, "all", spawnChance, depthMultiplier);
             
             if(item != null) Codex.items.put(name, spawnProperty);
             else Log.warn("Cannot add null item into codex. [" + name + "]");

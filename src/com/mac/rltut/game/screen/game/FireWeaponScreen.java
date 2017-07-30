@@ -1,8 +1,8 @@
 package com.mac.rltut.game.screen.game;
 
 import com.mac.rltut.engine.util.ColoredString;
-import com.mac.rltut.engine.util.Line;
-import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.maths.Line;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.util.CombatManager;

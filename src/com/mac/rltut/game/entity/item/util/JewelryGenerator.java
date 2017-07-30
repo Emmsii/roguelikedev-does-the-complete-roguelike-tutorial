@@ -1,8 +1,6 @@
 package com.mac.rltut.game.entity.item.util;
 
-import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
-import com.mac.rltut.game.entity.item.Item;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +29,7 @@ public class JewelryGenerator {
         Collections.shuffle(bonuses);
         
         for(String s : bonuses){
-            addBonus(s, random.nextInt(3), equippable);
+            addBonus(s, random.nextInt(3) + 1, equippable);
             if(random.nextFloat() >= 0.2) break;
         }
         

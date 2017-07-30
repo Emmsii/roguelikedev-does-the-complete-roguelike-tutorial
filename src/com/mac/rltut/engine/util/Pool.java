@@ -48,8 +48,12 @@ public class Pool<T> {
     }
 
     public void add(T item, int weight){
+        if(weight < 1){
+            Log.warn("Cannot add item [" + item + "] with weight [" + weight + "] less than 1.");
+            return;
+        }
+        
         poolItems.add(new PoolItem<T>(weight, item));
-        if(weight < 1) weight = 1;
         totalWeight += weight;
     }
 

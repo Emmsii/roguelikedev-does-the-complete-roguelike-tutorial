@@ -1,10 +1,9 @@
 package com.mac.rltut.game.screen.game;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.engine.util.Line;
-import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.maths.Line;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.screen.Screen;
 

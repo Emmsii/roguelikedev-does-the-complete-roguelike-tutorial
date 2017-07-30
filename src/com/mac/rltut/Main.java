@@ -2,9 +2,7 @@ package com.mac.rltut;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
-import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.engine.window.CustomExceptionHandler;
-import com.mac.rltut.game.world.DayNightController;
 
 /**
  * Project: complete-rltut

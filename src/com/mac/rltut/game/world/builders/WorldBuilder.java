@@ -1,7 +1,6 @@
 package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.entity.creature.Boss;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.item.util.Inventory;
@@ -9,8 +8,8 @@ import com.mac.rltut.game.entity.item.util.JewelryGenerator;
 import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
 import com.mac.rltut.game.entity.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
-import com.mac.rltut.engine.util.MathUtil;
-import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.maths.MathUtil;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
@@ -19,12 +18,9 @@ import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 import com.mac.rltut.game.world.objects.Chest;
-import com.sun.deploy.panel.ITreeNode;
 
-import java.awt.*;
 import java.io.File;
 import java.util.*;
-import java.util.List;
 
 /**
  * Project: complete-rltut

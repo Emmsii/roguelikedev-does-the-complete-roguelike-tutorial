@@ -4,8 +4,6 @@ import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.util.Colors;
 
-import java.awt.*;
-
 /**
  * Project: complete-rltut
  * PC

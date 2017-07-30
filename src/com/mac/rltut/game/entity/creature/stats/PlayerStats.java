@@ -1,7 +1,6 @@
 package com.mac.rltut.game.entity.creature.stats;
 
 import com.mac.rltut.game.entity.creature.Player;
-import jdk.nashorn.internal.ir.IdentNode;
 
 import java.util.HashMap;
 

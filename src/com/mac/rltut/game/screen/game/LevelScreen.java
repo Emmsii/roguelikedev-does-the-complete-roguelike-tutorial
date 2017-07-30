@@ -1,18 +1,14 @@
 package com.mac.rltut.game.screen.game;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.FieldOfView;
-import com.mac.rltut.engine.util.Point;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.ai.PackMemberAI;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.world.objects.MapObject;
-import com.mac.rltut.game.world.tile.Tile;
 
 import java.awt.event.KeyEvent;
 

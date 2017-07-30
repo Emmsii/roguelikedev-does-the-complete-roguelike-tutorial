@@ -7,7 +7,6 @@ import com.mac.rltut.game.world.tile.ChestTile;
 import com.mac.rltut.game.world.tile.Tile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 
 /**

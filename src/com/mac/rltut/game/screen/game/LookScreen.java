@@ -1,6 +1,5 @@
 package com.mac.rltut.game.screen.game;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.Entity;
@@ -8,7 +7,6 @@ import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
-import com.mac.rltut.game.world.tile.Tile;
 
 import java.util.List;
 

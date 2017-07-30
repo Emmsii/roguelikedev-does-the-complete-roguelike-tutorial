@@ -1,7 +1,7 @@
 package com.mac.rltut.game.entity.util;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.engine.util.MathUtil;
+import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.game.entity.creature.Creature;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class CreatureSpawnProperty extends EntitySpawnProperty{
     private final String packSize;
     
     public CreatureSpawnProperty(Creature creature, String spawnLevels, String spawnTypes, String spawnNear, int chance, float depthMultiplier, String packSize) {
-        super(creature, spawnLevels, spawnTypes, spawnNear, chance, depthMultiplier);
+        super(creature, spawnLevels, spawnTypes, chance, depthMultiplier);
         this.spawnNear = spawnNear;
         this.packSize = packSize;
     }

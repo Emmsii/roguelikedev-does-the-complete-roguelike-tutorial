@@ -1,4 +1,4 @@
-package com.mac.rltut.engine.util;
+package com.mac.rltut.engine.util.maths;
 
 /**
  * Project: complete-rltut

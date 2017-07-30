@@ -24,7 +24,7 @@ public class EntitySpawnProperty {
     protected final List<String> canSpawnAtTypes;
     protected final List<String> cannotSpawnAtTypes;
     
-    public EntitySpawnProperty(Entity entity, String spawnLevels, String spawnTypes, String spawnNear, int chance, float depthMultiplier){
+    public EntitySpawnProperty(Entity entity, String spawnLevels, String spawnTypes, int chance, float depthMultiplier){
         this.entity = entity;
         this.chance = chance;
         this.depthMultiplier = depthMultiplier;

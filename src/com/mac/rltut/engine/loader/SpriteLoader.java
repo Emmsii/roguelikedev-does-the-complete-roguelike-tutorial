@@ -5,9 +5,7 @@ import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.graphics.Spritesheet;
 import com.mac.rltut.engine.parser.DataObject;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Project: complete-rltut

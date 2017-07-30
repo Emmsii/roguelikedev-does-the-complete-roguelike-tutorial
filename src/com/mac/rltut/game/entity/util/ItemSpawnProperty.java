@@ -1,6 +1,5 @@
 package com.mac.rltut.game.entity.util;
 
-import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.item.Item;
 
 /**
@@ -10,7 +9,7 @@ import com.mac.rltut.game.entity.item.Item;
  */
 public class ItemSpawnProperty extends EntitySpawnProperty{
     
-    public ItemSpawnProperty(Item item, String spawnLevels, String spawnTypes, String spawnNear, int chance, float depthMultiplier) {
-        super(item, spawnLevels, spawnTypes, spawnNear, chance, depthMultiplier);
+    public ItemSpawnProperty(Item item, String spawnLevels, String spawnTypes, int chance, float depthMultiplier) {
+        super(item, spawnLevels, spawnTypes, chance, depthMultiplier);
     }
 }

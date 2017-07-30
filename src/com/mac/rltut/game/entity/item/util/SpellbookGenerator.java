@@ -1,9 +1,6 @@
 package com.mac.rltut.game.entity.item.util;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.engine.util.Pool;
-import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.effects.EffectBuilder;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Spellbook;

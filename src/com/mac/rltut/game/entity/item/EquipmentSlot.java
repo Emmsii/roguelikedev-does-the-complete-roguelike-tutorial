@@ -1,9 +1,5 @@
 package com.mac.rltut.game.entity.item;
 
-import javafx.beans.property.adapter.JavaBeanObjectProperty;
-
-import java.awt.*;
-
 /**
  * Project: complete-rltut
  * PC

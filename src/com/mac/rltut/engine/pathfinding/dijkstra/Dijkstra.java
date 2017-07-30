@@ -1,6 +1,6 @@
 package com.mac.rltut.engine.pathfinding.dijkstra;
 
-import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.world.World;
 
 import java.util.ArrayList;

@@ -1,12 +1,10 @@
 package com.mac.rltut.game.screen.menu;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;
-import java.security.Key;
 
 /**
  * Project: complete-rltut

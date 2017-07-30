@@ -1,5 +1,8 @@
 package com.mac.rltut.engine.util;
 
+import com.mac.rltut.engine.util.maths.Direction;
+import com.mac.rltut.engine.util.maths.Line;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.world.World;
 
 import java.util.HashSet;

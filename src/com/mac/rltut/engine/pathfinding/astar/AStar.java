@@ -1,7 +1,7 @@
 package com.mac.rltut.engine.pathfinding.astar;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.engine.util.Point;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.world.World;
 
