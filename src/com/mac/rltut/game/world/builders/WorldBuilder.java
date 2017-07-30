@@ -75,7 +75,7 @@ public class WorldBuilder {
         if(files != null) for(File f : files) f.delete();
 
         for (int z = 0; z < depth; z++) {
-            Pool<LevelBuilder> pool = new Pool<LevelBuilder>();
+            Pool<LevelBuilder> pool = new Pool<LevelBuilder>(random);
             for (LevelBuilder l : levels) {
                 int zChance = (int) ((z * l.zMultiplier()) * 3);
                 int chance = l.chance() + zChance;
@@ -126,7 +126,7 @@ public class WorldBuilder {
             int count = (int) (creatureSpawnMultiplier[z] * MathUtil.randomIntFromString(creatureSpawnBaseCount, random) + (z * 1.2));
 
             if(canSpawnBoss) {
-                Pool<BossSpawnProperty> pool = new Pool<BossSpawnProperty>();
+                Pool<BossSpawnProperty> pool = new Pool<BossSpawnProperty>(random);
                 for (CreatureSpawnProperty c : canSpawn){
                     if (c instanceof BossSpawnProperty){
                         if(uniquesSpawned.contains(c.creature().name())) continue;
@@ -154,7 +154,7 @@ public class WorldBuilder {
 
                         PackAI pack = new PackAI();
                         for (int i = 0; i < minionCount; i++) {
-                            Pool<CreatureSpawnProperty> minionPool = new Pool<CreatureSpawnProperty>();
+                            Pool<CreatureSpawnProperty> minionPool = new Pool<CreatureSpawnProperty>(random);
                             for (CreatureSpawnProperty c : minions) minionPool.add(c, c.chance()); //TODO: Find why this makes null pointer
 
                             CreatureSpawnProperty minion = minionPool.get();
@@ -173,7 +173,7 @@ public class WorldBuilder {
             int typesThisLevel = MathUtil.randomIntFromString(maxCreatureTypesPerLevel, random);
             
             while(spawnedThisLevel < count) {
-                Pool<CreatureSpawnProperty> pool = new Pool<CreatureSpawnProperty>();
+                Pool<CreatureSpawnProperty> pool = new Pool<CreatureSpawnProperty>(random);
                 for (CreatureSpawnProperty c : canSpawn){
                     if(c instanceof BossSpawnProperty) continue;
                     if(!typesSpawned.contains(c.creature().name()) && typesSpawned.size() >= typesThisLevel) continue;
@@ -267,7 +267,7 @@ public class WorldBuilder {
     }
 
     private Item getEquipmentFromSlot(int z, boolean useSpawnChance, EquipmentSlot ... slots){
-        Pool<ItemSpawnProperty> pool = new Pool<ItemSpawnProperty>();
+        Pool<ItemSpawnProperty> pool = new Pool<ItemSpawnProperty>(random);
         for (ItemSpawnProperty spawnProperty : Codex.items.values()) {
             if(spawnProperty.chance() == -1 || spawnProperty.chanceAtDepth(z) < 2) continue;
             if (spawnProperty.entity() instanceof Equippable) {

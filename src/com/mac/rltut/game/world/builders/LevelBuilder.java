@@ -81,7 +81,7 @@ public abstract class LevelBuilder {
 
     protected void addDecalTiles(){
         Log.trace("Adding objects tiles...");
-        Pool<Tile> pool = new Pool<Tile>();
+        Pool<Tile> pool = new Pool<Tile>(random);
         Tile currentTile = null;
         for(int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -159,7 +159,7 @@ public abstract class LevelBuilder {
         if(!tileTypes.containsKey(type)) Log.warn("Unknown tile type [" + type + "] in level type " + this.type + ".");
         List<Tile> tiles = tileTypes.get(type);
         HashMap<Tile, Integer> chances = tileTypeChances.get(type);
-        Pool<Tile> pool = new Pool<Tile>();
+        Pool<Tile> pool = new Pool<Tile>(random);
         for(Tile t : tiles) pool.add(t, chances.get(t));
         return pool.get();
     }

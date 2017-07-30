@@ -43,7 +43,7 @@ public class ItemLoader extends DataLoader {
                 String amount = obj.getString("amount");
                 item = new ItemStack(name, description, sprite, amount, 1);
             }else if(obj.isType("consumeable")){
-                item = new Consumeable(name, description, sprite, EffectBuilder.heal(obj.getInt("heal"), 1f));
+                item = new Consumeable(name, description, sprite, EffectBuilder.heal(obj.getInt("heal")));
             }else if(obj.isType("equippable")){
                 String slot = obj.getString("slot");
                 Equippable e = new Equippable(name, description, sprite, getSlot(slot));

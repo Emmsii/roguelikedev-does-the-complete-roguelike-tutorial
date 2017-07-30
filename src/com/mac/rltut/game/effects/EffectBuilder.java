@@ -1,10 +1,9 @@
 package com.mac.rltut.game.effects;
 
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.game.entity.creature.Creature;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -15,13 +14,26 @@ import java.util.Random;
 public class EffectBuilder {
     
     public static Effect randomItemEffect(int z, Random random){
-        List<Effect> effects = new ArrayList<Effect>();
-        effects.add(effectToOther(poison(1 + ((z / 2) + 1), 5 + ((z / 3) * 2), 0.75f)));
-        effects.add(leach(5 + ((z / 3) * 5), 0.1f));
-        return effects.get(random.nextInt(effects.size()));
+        Pool<Effect> pool = new Pool<Effect>(random);
+        pool.add(leach(5 + ((z / 3) * 5), 0.1f), 30);
+        pool.add(effectOther(poison(1 + ((z / 2) + 1), 5 + ((z / 3) * 2), 0.75f)), 100);
+        pool.add(effectOther(blind(10 + (z / 4) * 2)), 50);
+        return pool.get();
     }
     
-    public static Effect effectToOther(Effect effect){
+    public static Effect randomPotionEffect(int z, Random random){
+        Pool<Effect> pool = new Pool<Effect>(random);
+        
+        pool.add(heal(10 + (z / 2) * 2), 100);
+        pool.add(healthRegen(2 + (z / 3) + 1, 5 + (z / 3) + 1), 100);
+        pool.add(manaRegen(2 + z, 10 + (z / 3) + 1), 80);
+        pool.add(rage(3 + z, 15 + (z / 5) * 5), 25);
+        pool.add(nightVision(16, 20 + (z / 4) * 4), 40);
+        
+        return pool.get();
+    }
+    
+    public static Effect effectOther(Effect effect){
         return new Effect(effect.name, effect.description, 1, 1f, true){
             @Override
             public void onUseOther(Creature other) {
@@ -30,8 +42,8 @@ public class EffectBuilder {
         };
     }
     
-    public static Effect heal(int amount, float chance){
-        return new Effect("heal", "gain health", 1, chance, true){
+    public static Effect heal(int amount){
+        return new Effect("heal", "gain health", 1, 1f, true){
             @Override
             public void onUseSelf(Creature creature) {
                 if(Math.random() > chance) return;
@@ -40,8 +52,8 @@ public class EffectBuilder {
         };
     }
     
-    public static Effect healthRegen(int amount, int duration, float chance){
-        return new Effect("regen health", "regenerate " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, false){
+    public static Effect healthRegen(int amount, int duration){
+        return new Effect("regen health", "regenerate " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, 1f, false){
             @Override
             public void update(Creature creature) {
                 super.update(creature);
@@ -51,7 +63,7 @@ public class EffectBuilder {
     }
 
     public static Effect manaRegen(int amount, int duration){
-        return new Effect("regen mana", "regenerate " + amount + " mana per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, 1, false){
+        return new Effect("regen mana", "regenerate " + amount + " mana per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, 1f, false){
             @Override
             public void update(Creature creature) {
                 super.update(creature);
@@ -60,8 +72,10 @@ public class EffectBuilder {
         };
     }
     
+    //TODO: Check if def - amount is < 1. 
     public static Effect rage(int amount, int duration){
-        return new Effect("rage", "sacrifice " + amount + " for " + (-amount) + " for " + duration + " turns", duration, 1, false){
+        return new Effect("rage", "sacrifice " + amount + " for " + (-amount) + " for " + duration + " turns", duration, 1f, false){
+            
             @Override
             public void start(Creature creature) {
                 creature.modifyStrength(amount);
@@ -79,7 +93,7 @@ public class EffectBuilder {
     }
     
     public static Effect nightVision(int amount, int duration){
-        return new Effect("night vision", "increase vision by " + amount + " for " + duration + " turns", duration, 1, false){
+        return new Effect("night vision", "increase vision by " + amount + " for " + duration + " turns", duration, 1f, false){
             @Override
             public void start(Creature creature) {
                 creature.modifyVisionBonus(amount);
@@ -93,7 +107,7 @@ public class EffectBuilder {
     }
     
     public static Effect blind(int duration){
-        return new Effect("blind", "loose vision for " + duration + " turns", duration, 1, false){
+        return new Effect("blind", "loose vision for " + duration + " turns", duration, 1f, false){
             @Override
             public void start(Creature creature) {
                 creature.modifyVision(-creature.vision() + 3);
