@@ -1,5 +1,6 @@
 package com.mac.rltut.game.effects;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.game.entity.creature.Creature;
 import jdk.nashorn.internal.ir.Terminal;
 

@@ -1,5 +1,6 @@
 package com.mac.rltut.game.entity.item;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.effects.Effect;
@@ -25,9 +26,13 @@ public class Spellbook extends Item{
     }
 
     public void bless(Creature creature, Equippable equippable){
-        creature.doAction(new ColoredString("bless the %s", Color.CYAN.getRGB()), equippable.name());
+        if(creature.mana() < manaCost) return;
+        
+        creature.doAction(new ColoredString("enhance the %s", Color.CYAN.getRGB()), equippable.name());
         equippable.setUnique(true);
-        equippable.setName("Blessed " + equippable.name());
+
+        if(effect == null) equippable.setName("Enhanced " + equippable.name());
+        else equippable.setName("Magical " + equippable.name());
         
         equippable.setStrengthBonus(strengthBonus);
         equippable.setDefenseBonus(defenseBonus);
@@ -39,7 +44,7 @@ public class Spellbook extends Item{
         if(effect != null) equippable.setEffect(effect);
         
         creature.inventory().remove(this);
-        creature.notify(new ColoredString("The book looses its magic!"));
+        creature.notify(new ColoredString("The book looses its magic and vanishes!"));
     }
     
     public void setEffect(Effect effect){
@@ -51,6 +56,7 @@ public class Spellbook extends Item{
     }
     
     public Effect effect(){
+        if(effect == null) return null;
         return new Effect(effect);
     }
     

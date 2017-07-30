@@ -4,6 +4,7 @@ import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Dice;
 import com.mac.rltut.engine.util.MathUtil;
+import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
@@ -74,7 +75,7 @@ public class CombatManager {
         
         if(attackerHitRoll > defenderBlockRoll || attackerHitRoll == defenderBlockRoll && Math.random() <= 0.5){
             Log.debug("Damage: " + damage + " (1d" + attacker.strength() + " + " + attacker.strengthBonus() + (weapon != null ? " + " + weapon.damage() : "") + ")");
-            attacker.doAction(new ColoredString("fire a %s at the %s for %d damage"), attacker.getEquippedAt(EquipmentSlot.WEAPON).name(), defender.name(), damage);
+            attacker.doAction(new ColoredString("fire the %s at the %s for %d damage"), StringUtil.capitalizeEachWord(attacker.getEquippedAt(EquipmentSlot.WEAPON).name()), defender.name(), damage);
             defender.damage(damage, "ranged attack from " + attacker.name());
             
             doEffect(weapon, attacker, defender);
@@ -88,7 +89,7 @@ public class CombatManager {
     }
     
     private static void doEffect(Equippable equippable, Creature attacker, Creature defender){
-        if(equippable.effect() == null || !equippable.effect().canUseWithItem() || defender.hp() < 1) return;
+        if(equippable == null || equippable.effect() == null || !equippable.effect().canUseWithItem() || defender.hp() < 1) return;
         Effect effect = equippable.effect();
         if(Math.random() > effect.chance()) return;
         effect.onUseSelf(attacker);

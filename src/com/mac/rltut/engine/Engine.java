@@ -55,7 +55,6 @@ public class Engine {
             new SpritesheetLoader("data/sheets.dat").load();
             new SpriteLoader("data/sprites.dat").load();
             new TileLoader("data/tiles.dat").load();
-            new EffectsLoader("data/effects.dat").load();
             new ItemLoader("data/items.dat").load();
             new CreatureLoader("data/creatures.dat").load();
         } catch (IOException e) {

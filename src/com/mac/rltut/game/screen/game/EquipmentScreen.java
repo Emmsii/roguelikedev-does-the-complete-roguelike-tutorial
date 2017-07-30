@@ -36,7 +36,10 @@ public class EquipmentScreen extends Screen {
 
         Equippable weapon = player.getEquippedAt(EquipmentSlot.WEAPON);
         Equippable head = player.getEquippedAt(EquipmentSlot.HEAD);
+        Equippable necklace = player.getEquippedAt(EquipmentSlot.NECKLACE);
         Equippable chest = player.getEquippedAt(EquipmentSlot.CHEST);
+        Equippable hands = player.getEquippedAt(EquipmentSlot.HANDS);
+        Equippable ring = player.getEquippedAt(EquipmentSlot.RING);
         Equippable legs = player.getEquippedAt(EquipmentSlot.LEGS);
         Equippable feet = player.getEquippedAt(EquipmentSlot.FEET);
         Equippable shield= player.getEquippedAt(EquipmentSlot.SHIELD);
@@ -56,18 +59,26 @@ public class EquipmentScreen extends Screen {
         }
 
         renderBox(xp - 5, 6, 3, 3, false, renderer);
-        renderer.renderSprite(Sprite.get("necklace"), this.x + xp - 4, this.y + 7);
-        renderer.colorizeSprite(this.x + xp - 4, this.y + 7, 0x2E2E2E, 1f);
+        if(necklace != null) renderer.renderSprite(necklace.sprite(), this.x + xp - 4, this.y + 7);
+        else {
+            renderer.renderSprite(Sprite.get("necklace"), this.x + xp - 4, this.y + 7);
+            renderer.colorizeSprite(this.x + xp - 4, this.y + 7, 0x2E2E2E, 1f);
+        }
 
         renderBox(xp - 7, 14, 3, 3, false, renderer);
-        renderer.renderSprite(Sprite.get("glove_silver"), this.x + xp - 6, this.y + 15);
-        renderer.colorizeSprite(this.x + xp - 6, this.y + 15, 0x2E2E2E, 1f);
+        if(hands != null) renderer.renderSprite(hands.sprite(), this.x + xp - 6, this.y + 15);
+        else {
+            renderer.renderSprite(Sprite.get("glove_silver"), this.x + xp - 6, this.y + 15);
+            renderer.colorizeSprite(this.x + xp - 6, this.y + 15, 0x2E2E2E, 1f);
+        }
         
         renderBox(xp + 5, 14, 3, 3, false, renderer);
-        renderer.renderSprite(Sprite.get("ring_gold"), this.x + xp + 6, this.y + 15);
-        renderer.colorizeSprite(this.x + xp + 6, this.y + 15, 0x2E2E2E, 1f);
-        
-                
+        if(ring != null) renderer.renderSprite(ring.sprite(), this.x + xp + 6, this.y + 15);
+        else {
+            renderer.renderSprite(Sprite.get("ring_gold"), this.x + xp + 6, this.y + 15);
+            renderer.colorizeSprite(this.x + xp + 6, this.y + 15, 0x2E2E2E, 1f);
+        }
+                        
         renderBox(xp - 7, 10, 3, 3, false, renderer);
         if(weapon != null) renderer.renderSprite(weapon.sprite(), this.x + xp - 6, this.y + 11);
         else{

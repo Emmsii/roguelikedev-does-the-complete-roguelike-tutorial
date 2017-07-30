@@ -55,6 +55,7 @@ public class ItemLoader extends DataLoader {
                 e.setManaRegenSpeedBonus(obj.hasToken("mana_speed") ? obj.getInt("mana_speed") : 0);
                 e.setDamage(obj.hasToken("damage") ? obj.getString("damage") : "0");
                 e.setRangedDamage(obj.hasToken("damage_ranged") ? obj.getString("damage_ranged") : null);
+                e.setBlockedSlot(obj.hasToken("blocked_slot") ? obj.getString("blocked_slot") : null);
                 item = e;
             }else{
                 Log.error("Unknown object type [" + obj.type() + "]");

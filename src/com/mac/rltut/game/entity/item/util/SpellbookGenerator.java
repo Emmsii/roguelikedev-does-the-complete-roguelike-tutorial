@@ -78,15 +78,6 @@ public class SpellbookGenerator {
     };
     
     public static Spellbook generate(int z, Random random){
-        
-        //Pick a skill to give bonus in
-        //Pick bonus count - 1
-        //Chosen skill is regular value
-        //Other skills are regular value / 2
-        //Pick rarity
-        
-        
-        
         BonusModifier chosenSkill = MODIFIERS[random.nextInt(MODIFIERS.length)];
         int bonusCount = (int) (1 + (z / 3) + Math.floor(((Math.random() + Math.random()) - 1.8) * 2));
         if(bonusCount < 1) bonusCount = 1;
@@ -113,12 +104,12 @@ public class SpellbookGenerator {
         
         int manaCost = 0;
         
-        if(book.strengthBonus() > 0) manaCost += (book.strengthBonus() / 2) + 1;
-        if(book.defenseBonus() > 0) manaCost += (book.defenseBonus() / 2) + 1;
-        if(book.accuracyBonus() > 0) manaCost += (book.accuracyBonus() / 2) + 1;
-        if(book.intelligenceBonus() > 0) manaCost += (book.intelligenceBonus() / 2) + 1;
-        if(book.manaRegenAmountBonus() > 0) manaCost += (book.manaRegenAmountBonus() / 2) + 1;
-        if(book.manaRegenSpeedBonus() < 0) manaCost += ((book.manaRegenSpeedBonus() * -1) / 2) + 1;
+        manaCost += (book.strengthBonus() / 2) + 1;
+        manaCost += (book.defenseBonus() / 2) + 1;
+        manaCost += (book.accuracyBonus() / 2) + 1;
+        manaCost += (book.intelligenceBonus() / 2) + 1;
+        manaCost += (book.manaRegenAmountBonus() / 2) + 1;
+        manaCost += ((book.manaRegenSpeedBonus() * -1) / 2) + 1;
         
         manaCost *= 5;
         book.setManaCost(manaCost);
@@ -128,12 +119,8 @@ public class SpellbookGenerator {
         else if(bonusCount <= 3) rarity = "uncommon";
         else if(bonusCount <= 5) rarity = "rare";
 
-        if(bonusCount > 3 && random.nextFloat() <= 0.75){
-            book.setEffect(EffectBuilder.randomItemEffect(z, random));
-            Log.debug("Effect: " + book.effect().name());    
-        }
-        
-        
+        if(bonusCount > 3 && random.nextFloat() <= 0.75) book.setEffect(EffectBuilder.randomItemEffect(z, random));
+                
         book.setName(rarity + " spellbook of " + chosenSkill.bookName);
         book.setDescription(generateDescription(chosenSkill, rarity, chosen));
         return book;
@@ -156,66 +143,8 @@ public class SpellbookGenerator {
         }
         
         return builder.toString().trim();
-        
-//        builder.append("The book grants abilities in ");
-//        for(int i = 0; i < chosen.size(); i++){
-//            BonusModifier bonus = chosen.get(i);
-//            if(i == chosen.size() - 1 && chosen.size() != 1) builder.append(" and ");
-//            builder.append(bonus.description);
-//            if(i == chosen.size() - 1) builder.append(".");
-//            else if(i != chosen.size() - 2)builder.append(", ");
-//        }
-//        return builder.toString().trim();        
     }
     
-//    private static final BonusModifier[] BONUS_MODIFIERS = {
-//            new BonusModifier("str", "strength", 1f),
-//            new BonusModifier("def", "defense", 1f),
-//            new BonusModifier("acc", "accuracy", 1f),
-//            new BonusModifier("int", "intelligence", 1f),
-//            new BonusModifier("manaA", "mana regen", 0.8f),
-//            new BonusModifier("manaS", "mana regen speed", -0.675f)
-//    };
-//    
-//    private static final String[] BOOK_DESC = { "common", "uncommon", "rare" };
-//    
-//    public static Spellbook generate(int z){
-//        Sprite sprite = randomBookSprite();
-//
-//        Spellbook book = new Spellbook(null, null, sprite, null);
-//
-//        int bonusCount = (int) (1 + (z / 3) + Math.floor(((Math.random() + Math.random()) - 1.8) * 2));
-//        if(bonusCount < 1) bonusCount = 1;
-//        if(bonusCount >= BONUS_MODIFIERS.length) bonusCount = BONUS_MODIFIERS.length;
-//
-//        List<BonusModifier> toChoose = Arrays.asList(BONUS_MODIFIERS);
-//        Collections.shuffle(toChoose);
-//        List<BonusModifier> chosen = new ArrayList<BonusModifier>();
-//        for(int i = 0; i < bonusCount; i++){
-//            int bonusValue = (int) (((z / 2) + (Math.floor(Math.random() * 3))) * 0.75f) + 1;
-//            BonusModifier chose = toChoose.get(i);
-//            applyBonusModifier(book, chose.name, (int) (bonusValue * chose.multiplier));
-//            chosen.add(chose);
-//        }
-//
-//        book.setDescription(generateDescription(chosen));
-//        book.setName(BOOK_DESC[(bonusCount - 1) / 2] + " spellbook of " + getName(book)); //TODO: out of bounds
-//        return book;
-//    }
-//
-//    private static String generateDescription(List<BonusModifier> chosen){
-//        StringBuilder builder = new StringBuilder();
-//        builder.append("The book grants abilities in ");
-//        for(int i = 0; i < chosen.size(); i++){
-//        BonusModifier bonus = chosen.get(i);
-//            if(i == chosen.size() - 1 && chosen.size() != 1) builder.append(" and "); 
-//            builder.append(bonus.description);
-//            if(i == chosen.size() - 1) builder.append(".");
-//            else if(i != chosen.size() - 2)builder.append(", ");
-//        }
-//        return builder.toString().trim();
-//    }
-//
     private static Spellbook applyBonusModifier(Spellbook book, String name, int value){
         switch (name.trim()){
             case "str": book.setStrengthBonus(value); break;
@@ -228,90 +157,5 @@ public class SpellbookGenerator {
         }
         return book;
     }
-//   
-//    private static String getName(Spellbook book){
-//        String highestName = "";
-//        int highestStat = 0;
-//        int lowestStat = 1000;
-//        int count = 0;
-//        
-//        if(book.strengthBonus() != 0){
-//            count++;
-//            if(book.strengthBonus() < lowestStat) lowestStat = book.strengthBonus();
-//            if(book.strengthBonus() > highestStat){
-//                highestStat = book.strengthBonus();
-//                highestName = "strength";
-//            }
-//        }
-//
-//        if(book.defenseBonus() != 0){
-//            count++;
-//            if(book.defenseBonus() < lowestStat) lowestStat = book.defenseBonus();
-//            if(book.defenseBonus() > highestStat){
-//                highestStat = book.defenseBonus();
-//                highestName = "defense";
-//            }
-//        }
-//
-//        if(book.accuracyBonus() != 0){
-//            count++;
-//            if(book.accuracyBonus() < lowestStat) lowestStat = book.accuracyBonus();
-//            if(book.accuracyBonus() > highestStat){
-//                highestStat = book.accuracyBonus();
-//                highestName = "accuracy";
-//            }
-//        }
-//
-//        if(book.intelligenceBonus() != 0){
-//            count++;
-//            if(book.intelligenceBonus() < lowestStat) lowestStat = book.intelligenceBonus();
-//            if(book.intelligenceBonus() > highestStat){
-//                highestStat = book.intelligenceBonus();
-//                highestName = "intelligence";
-//            }
-//        }
-//
-//        if(book.manaRegenAmountBonus() != 0){
-//            count++;
-//            if(book.manaRegenAmountBonus() < lowestStat) lowestStat = book.manaRegenAmountBonus();
-//            if(book.manaRegenAmountBonus() > highestStat){
-//                highestStat = book.manaRegenAmountBonus();
-//                highestName = "mana";
-//            }
-//        }
-//
-//        if(book.manaRegenSpeedBonus() != 0){
-//            count++;
-//            if(book.manaRegenSpeedBonus() * -1 < lowestStat) lowestStat = book.manaRegenSpeedBonus() * -1;
-//            if(book.manaRegenSpeedBonus() * -1 > highestStat){
-//                highestStat = book.manaRegenSpeedBonus() * -1;
-//                highestName = "mana";
-//            }
-//        }
-//        
-//        if(highestStat == 0 || (lowestStat == highestStat && count > 1)) return "balance";
-//        return highestName;
-//    }
-//    
-//    private static Sprite randomBookSprite(){
-//        List<Sprite> sprites = new ArrayList<Sprite>();
-//        sprites.add(Sprite.get("spell_book_1"));
-//        sprites.add(Sprite.get("spell_book_2"));
-//        sprites.add(Sprite.get("spell_book_3"));
-//        sprites.add(Sprite.get("spell_book_4"));
-//        return sprites.get((int) (Math.random() * sprites.size()));
-//    }
-//    
-//    
-//    static class BonusModifier{
-//        public String name;
-//        public String description;
-//        public float multiplier;
-//        
-//        public BonusModifier(String name, String description, float multiplier){
-//            this.name = name;
-//            this.description = description;
-//            this.multiplier = multiplier;
-//        }
-//    }
+
 }

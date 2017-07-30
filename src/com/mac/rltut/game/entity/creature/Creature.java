@@ -53,6 +53,7 @@ public class Creature extends Entity {
     private int accuracy;
     private int intelligence;
     private int vision;
+    private int visionBonus;
     
     private int xp;
     private int level;
@@ -114,7 +115,7 @@ public class Creature extends Entity {
     }
     
     private void regenMana(){
-        if(tick % manaRegenSpeed == 0) modifyMana(manaRegenAmount);
+        if(tick % manaRegenSpeed == 0) modifyMana(manaRegenAmount());
     }
     
     private void updateEffects(){
@@ -295,7 +296,7 @@ public class Creature extends Entity {
             world.remove(this);
             world.addCorpse(this);
             dropFromDropTable();
-            for(Item i : inventory().items()) drop(i);
+            for(int i = inventory().count() - 1; i >= 0; i--) drop(inventory.get(i));
         }
     }
     
@@ -332,6 +333,10 @@ public class Creature extends Entity {
     
     public void modifyVision(int amount){
         vision += amount;
+    }
+    
+    public void modifyVisionBonus(int amount){
+        visionBonus += amount;
     }
     
     public void modifyXp(int amount){
@@ -385,7 +390,7 @@ public class Creature extends Entity {
     }
     
     public int manaRegenAmount(){
-        return manaRegenAmount;
+        return manaRegenAmount + (intelligence / 2) + intelligenceBonus();
     }
     
     public int getManaRegenSpeed(){
@@ -409,7 +414,7 @@ public class Creature extends Entity {
     }
     
     public int vision(){
-        return Math.min(vision, world.dayNightController().light());
+        return Math.max(vision + visionBonus, Math.min(vision, world.dayNightController().light()));
     }
 
     public int strengthBonus(){
@@ -462,6 +467,10 @@ public class Creature extends Entity {
     
     public Inventory<Item> inventory(){
         return inventory;
+    }
+    
+    public HashMap<EquipmentSlot, Equippable> equippedItems(){
+        return equippedItems;
     }
     
     public Equippable getEquippedAt(EquipmentSlot slot){

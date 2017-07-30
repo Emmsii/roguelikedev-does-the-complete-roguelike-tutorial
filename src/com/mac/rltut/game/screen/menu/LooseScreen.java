@@ -25,7 +25,8 @@ public class LooseScreen extends Screen{
     
     @Override
     public Screen input(KeyEvent e) {
-        return new StartScreen();
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE) return new StartScreen();
+        return this;
     }
 
     @Override

@@ -56,12 +56,13 @@ public class GameScreen extends Screen{
         
         player = new Player("player", Sprite.get("player"));//temp
         player.inventory().add((Item) Codex.items.get("bow").entity().newInstance());
+        player.inventory().add((Item) Codex.items.get("kite shield").entity().newInstance());
         
-        for(int i = 0; i < 20; i++){
-            player.inventory().add(SpellbookGenerator.generate(i, new Random())); //TODO: BETTER RANDOM
-        }
+//        for(int i = 0; i < 20; i++){
+//            player.inventory().add(SpellbookGenerator.generate(i + 10, new Random())); //TODO: BETTER RANDOM
+//        }
         
-        player.setStats(100, 100, 2, 20, 3, 3, 3, 3, 16, null);
+        player.setStats(50, 50, 2, 20, 3, 3, 3, 3, 16, null);
         new PlayerAI(player, log);
 
         logScreen = new LogScreen(Engine.instance().widthInTiles(), log, 9, "Log");
@@ -142,7 +143,6 @@ public class GameScreen extends Screen{
         }
         
         if(subscreen == null || shouldUpdate) world.update(player.z);
-        
         
         if(player.hp() < 1) return new LooseScreen(player);
 

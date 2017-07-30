@@ -55,13 +55,13 @@ public class ExamineItemScreen extends Screen {
         if(item instanceof Equippable){
             Equippable e = (Equippable) item;
             renderer.write("Damage", xp, yp++);
-            if(e.damage() != null || !e.damage().equals("0")) renderer.write("Melee  - " + e.damage(), xp + 1, yp++);
-            else renderer.write("Melee - 0", xp + 1, yp);
-            if(e.rangedDamage() != null || !e.rangedDamage().equals("0")) renderer.write("Ranged - " + e.rangedDamage(), xp + 1, yp++);
-            else renderer.write("Ranged - 0", xp + 1, yp);
+            
+            if(e.damage() != null && !e.damage().equals("0")) renderer.write("Melee    " + e.damage(), xp + 1, yp++);
+            if(e.rangedDamage() != null && !e.rangedDamage().equals("0")) renderer.write("Ranged   " + e.rangedDamage(), xp + 1, yp++);
             yp++;
+            
             renderer.write("Slot: " + StringUtil.capitalizeFirst(e.slot().toString().toLowerCase()), xp, yp++);
-            yp++;
+            
             if(e.effect() != null){
                 Effect effect = e.effect();
                 renderer.write("Effect", xp, yp++);
@@ -86,15 +86,28 @@ public class ExamineItemScreen extends Screen {
             yp++;
         }
         
-        renderer.write("Bonuses", xp, yp++);
-        if(item.strengthBonus() != 0) renderer.write("STR " + (item.strengthBonus() > 0 ? "+" + item.strengthBonus() : item.strengthBonus()), xp + 1, yp++);
-        if(item.defenseBonus() != 0) renderer.write("DEF " + (item.defenseBonus() > 0 ? "+" + item.defenseBonus() : item.defenseBonus()), xp + 1, yp++);
-        if(item.accuracyBonus() != 0) renderer.write("ACC " + (item.accuracyBonus() > 0 ? "+" + item.accuracyBonus() : item.accuracyBonus()), xp + 1, yp++);
-        if(item.intelligenceBonus() != 0) renderer.write("INT " + (item.intelligenceBonus() > 0 ? "+" + item.intelligenceBonus() : item.intelligenceBonus()), xp + 1, yp++);
-        renderer.write("Mana", xp, yp++);
-        if(item.manaRegenAmountBonus() != 0) renderer.write("REGEN " + (item.manaRegenAmountBonus() > 0 ? "+" + item.manaRegenAmountBonus() : item.manaRegenAmountBonus()), xp + 1, yp++);
-        if(item.manaRegenSpeedBonus() != 0) renderer.write("SPEED " + item.manaRegenSpeedBonus(), xp + 1, yp++);
-        yp++;
+        if(hasBonus(item)) {
+            renderer.write("Bonuses", xp, yp++);
+            if(item.strengthBonus() != 0) renderer.write("STR " + (item.strengthBonus() > 0 ? "+" + item.strengthBonus() : item.strengthBonus()), xp + 1, yp++);
+            if(item.defenseBonus() != 0) renderer.write("DEF " + (item.defenseBonus() > 0 ? "+" + item.defenseBonus() : item.defenseBonus()), xp + 1, yp++);
+            if(item.accuracyBonus() != 0) renderer.write("ACC " + (item.accuracyBonus() > 0 ? "+" + item.accuracyBonus() : item.accuracyBonus()), xp + 1, yp++);
+            if(item.intelligenceBonus() != 0) renderer.write("INT " + (item.intelligenceBonus() > 0 ? "+" + item.intelligenceBonus() : item.intelligenceBonus()), xp + 1, yp++);
+            if(item.manaRegenSpeedBonus() != 0 || item.manaRegenAmountBonus() != 0) {
+                renderer.write("Mana", xp, yp++);
+                if (item.manaRegenAmountBonus() != 0) renderer.write("REGEN " + (item.manaRegenAmountBonus() > 0 ? "+" + item.manaRegenAmountBonus() : item.manaRegenAmountBonus()), xp + 1, yp++);
+                if (item.manaRegenSpeedBonus() != 0) renderer.write("SPEED " + item.manaRegenSpeedBonus(), xp + 1, yp++);
+            }
+            yp++;
+        }
         
+    }
+    
+    private boolean hasBonus(Item item){
+        return item.strengthBonus() != 0 || 
+                item.defenseBonus() != 0 ||
+                item.accuracyBonus() != 0 ||
+                item.intelligenceBonus() != 0 ||
+                item.manaRegenAmountBonus() != 0 ||
+                item.manaRegenSpeedBonus() != 0;
     }
 }

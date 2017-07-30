@@ -1,9 +1,13 @@
 package com.mac.rltut.game.entity.item;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
+
+import java.awt.*;
 
 /**
  * Project: complete-rltut
@@ -14,6 +18,7 @@ public class Equippable extends Item{
 
     protected EquipmentSlot slot;
     protected boolean equipped;
+    protected EquipmentSlot blockedSlot;
     
     private String damage;
     private String rangedDamage;
@@ -35,6 +40,23 @@ public class Equippable extends Item{
             return;
         }
         
+        if(blockedSlot != null){
+            Equippable blocked = creature.getEquippedAt(blockedSlot);
+            if(blocked != null){
+                creature.notify(new ColoredString("You cannot equip a %s with a %s equipped.", Color.ORANGE.getRGB()), StringUtil.capitalizeEachWord(name), StringUtil.capitalizeEachWord(blocked.name()));
+                return;
+            }
+        }
+        
+        for (Equippable equipped : creature.equippedItems().values()) {
+            if (equipped == null || equipped.blockedSlot == null) continue;
+            if (equipped.blockedSlot == slot) {
+                creature.notify(new ColoredString("You cannot equip a %s with a %s equipped.", Color.ORANGE.getRGB()), StringUtil.capitalizeEachWord(name), StringUtil.capitalizeEachWord(equipped.name()));
+                return;
+            }
+        }
+        
+        
         creature.setEquippable(slot, this);
         creature.doAction(new ColoredString("equip a %s"), name);
         equipped = true;
@@ -55,6 +77,11 @@ public class Equippable extends Item{
         this.rangedDamage = rangedDamage;
     }
 
+    public void setBlockedSlot(String blockedSlot){
+        if(blockedSlot == null) this.blockedSlot = null;
+        else this.blockedSlot = EquipmentSlot.valueOf(blockedSlot.toUpperCase().trim());
+    }
+    
     public void setEffect(Effect effect){
         this.effect = effect;
     }

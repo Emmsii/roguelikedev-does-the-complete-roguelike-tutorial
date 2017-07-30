@@ -99,6 +99,7 @@ public class WorldBuilder {
     List<HashMap<String, Integer>> spawnCounts = new ArrayList<HashMap<String, Integer>>();
     
     public WorldBuilder populate(){
+        double start = System.nanoTime();
         Collection<CreatureSpawnProperty> creatures = Codex.creatures.values();
         
         int creaturesSpawned = 0;
@@ -204,27 +205,18 @@ public class WorldBuilder {
 //            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] " + spawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
         }
 //        Log.debug("Spawned " + creaturesSpawned + " creatures total.");
-
+        Log.debug("Spawned creatures in " + ((System.nanoTime() - start) / 1000000) + "ms");
         return this;
     }
     
     public WorldBuilder spawnItems(){
+        double start = System.nanoTime();
         Point spawn = null;
-        
-        //Pick 2 weapons and 2 armor items to spawn, place at random
-        //Spellbooks have 10% chance to spawn on floor
-        //20% for rings, necklaces
-        //Find chests, 75% chance to have items
-        //Pick ring, necklace, potion, spellbooks
-        
-        //Find any bosses
-        //Give items with +5 or +10 depth
-        
+
         int weaponCount = 2;
         int armorCount = 2;
         
         for(int z = 0; z < depth; z++){
-            Log.debug("Level " + z + " --------------------");
             
             for(int i = 0; i < weaponCount; i++){
                 spawnItem(getEquipmentFromSlot(z, true, EquipmentSlot.WEAPON), z);
@@ -244,28 +236,23 @@ public class WorldBuilder {
             }
             
             for(Chest chest : world.level(z).chests()){
-                if(random.nextFloat() >= 0.75){
-                    Log.debug("Chest is empty");
-                    continue;
-                }
+                if(random.nextFloat() >= 0.75) continue;
                 
                 Inventory<Item> inventory = chest.inventory();
 
                 for(int i = 0; i < random.nextInt(2); i++) {
                     Item item = JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), random);
-                    Log.debug("Added " + item.name() + " to chest");
                     inventory.add(item);
                 }
 
                 for(int i = 0; i < 3; i++){
                     Item item = SpellbookGenerator.generate(z, random);
-                    Log.debug("Added " + item.name() + " to chest");
                     inventory.add(item);
                     if(random.nextFloat() >= 0.1) break;
                 }
             }
         }
-        
+        Log.debug("Placed items in " + ((System.nanoTime() - start) / 1000000) + "ms");
         return this;
     }
     
@@ -277,7 +264,6 @@ public class WorldBuilder {
         }
         Point spawn = world.randomEmptyPoint(z);
         world.add(spawn.x, spawn.y, spawn.z, newItem);
-        Log.debug("Spawned " + newItem.name());
     }
 
     private Item getEquipmentFromSlot(int z, boolean useSpawnChance, EquipmentSlot ... slots){
@@ -299,9 +285,7 @@ public class WorldBuilder {
             Log.warn("No equipment spawned on level " + z);
             return null;
         }
-
-//            spawnItem((Item) pool.get().entity().newInstance(), z);
-            
+        
         return (Item) pool.get().entity().newInstance();
     }
     
