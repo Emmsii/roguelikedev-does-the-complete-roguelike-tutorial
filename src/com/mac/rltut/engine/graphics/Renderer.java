@@ -159,4 +159,8 @@ public class Renderer {
     public void setDefaultFontColor(int color){
         this.defaultFontColor = color;
     }
+    
+    public int defaultFontColor(){
+        return defaultFontColor;
+    }
 }

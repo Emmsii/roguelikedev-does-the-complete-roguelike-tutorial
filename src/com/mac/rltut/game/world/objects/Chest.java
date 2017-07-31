@@ -1,8 +1,8 @@
 package com.mac.rltut.game.world.objects;
 
 import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.world.tile.ChestTile;
 
 /**
@@ -15,6 +15,8 @@ public class Chest extends MapObject {
     private ChestTile tile;
     private Inventory<Item> inventory;
     private boolean open;
+    
+    public Chest(){}
     
     public Chest(ChestTile tile) {
         super(tile.name(), tile.description(), tile.sprite());

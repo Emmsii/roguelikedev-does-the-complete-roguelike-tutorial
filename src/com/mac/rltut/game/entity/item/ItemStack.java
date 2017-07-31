@@ -13,6 +13,8 @@ public class ItemStack extends Item{
     private String spawnAmount;
     private int amount;
     
+    public ItemStack(){}
+    
     public ItemStack(String name, String description, Sprite sprite, String spawnAmount, int amount) {
         super(name, description, sprite);
         this.spawnAmount = spawnAmount;

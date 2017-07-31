@@ -5,21 +5,51 @@ SPRITE=gold
 AMOUNT=1-10
 SPAWN_CHANCE=4
 
-# --------- Consumeables
+# --------- CONSUMABLES
 
-[CONSUMEABLE]
+[CONSUMABLE]
 NAME=meat chunk
 DESCRIPTION=Looks a bit chewy
 SPRITE=meat
 HEAL=10
-ACTION=eat
+ACTION=eat1
 
-[CONSUMEABLE]
+[CONSUMABLE]
 NAME=mushroom
 DESCRIPTION=Is this safe to eat?
 SPRITE=mushroom
 HEAL=5
-ACTION=eat
+ACTION=eat2
+
+[CONSUMABLE]
+NAME=red potion
+DESCRIPTION=I wonder what this does?
+SPRITE=potion_red
+ACTION=drink
+
+[CONSUMABLE]
+NAME=blue potion
+DESCRIPTION=I wonder what this does?
+SPRITE=potion_blue
+ACTION=drink
+
+[CONSUMABLE]
+NAME=purple potion
+DESCRIPTION=I wonder what this does?
+SPRITE=potion_purple
+ACTION=drink
+
+[CONSUMABLE]
+NAME=green potion
+DESCRIPTION=I wonder what this does?
+SPRITE=potion_green
+ACTION=drink
+
+[CONSUMABLE]
+NAME=yellow potion
+DESCRIPTION=I wonder what this does?
+SPRITE=potion_yellow
+ACTION=drink
 
 # --------- Equipment
 

@@ -2,8 +2,12 @@ package com.mac.rltut.game.screen.menu;
 
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.engine.util.Colors;
+import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.screen.Screen;
+import com.mac.rltut.game.world.builders.WorldBuilder;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
@@ -11,7 +15,7 @@ import java.awt.event.KeyEvent;
  * PC
  * Created by Matt on 21/07/2017 at 03:19 PM.
  */
-public class SkillSelectScreen extends Screen{
+public class PlayerSkillSelectScreen extends Screen{
     
     private int startingPoints;
     private int points;
@@ -23,13 +27,16 @@ public class SkillSelectScreen extends Screen{
     
     private int selection = 0;
     
-    public SkillSelectScreen(){
+    private Player player;
+    
+    public PlayerSkillSelectScreen(Player player){
         this.startingPoints = 8;
         this.points = 8;
         this.strength = 1;
         this.defence = 1;
         this.accuracy = 1;
         this.intelligence = 1;
+        this.player = player;
     }
     
     @Override
@@ -70,6 +77,11 @@ public class SkillSelectScreen extends Screen{
             }
         }
         
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            player.setStats(50, 50, 2, 20, strength, defence, accuracy, intelligence, 16, null);
+            return new LoadingScreen(player, new WorldBuilder(92, 92, 20, System.currentTimeMillis()));
+        }
+        
         return this;
     }
 
@@ -77,7 +89,7 @@ public class SkillSelectScreen extends Screen{
     public void render(Renderer renderer) {
         renderBorder(renderer);
         
-        renderer.writeCenter("Choose your skills", Engine.instance().widthInTiles() / 2, 5);
+        renderer.writeCenter("Choose your skills", Engine.instance().widthInTiles() / 2, 8);
         renderer.write("Points Left: " + points, 10, 13);
 
         int xp = 12;
@@ -98,6 +110,6 @@ public class SkillSelectScreen extends Screen{
         renderer.write(acc, xp, yp+=2);
         renderer.write(intel, xp, yp+=2);
 
-        renderer.writeCenter("Press [ENTER] to continue.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 4);
+        renderer.writeCenter("Press [ENTER] to continue.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 4, Colors.GRAY);
     }
 }

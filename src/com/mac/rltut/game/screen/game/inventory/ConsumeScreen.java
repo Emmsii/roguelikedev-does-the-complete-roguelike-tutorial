@@ -1,7 +1,7 @@
 package com.mac.rltut.game.screen.game.inventory;
 
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.item.Consumeable;
+import com.mac.rltut.game.entity.item.Consumable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
@@ -24,12 +24,12 @@ public class ConsumeScreen extends InventoryBasedScreen{
 
     @Override
     protected boolean isAcceptable(Item item) {
-        return item instanceof Consumeable;
+        return item instanceof Consumable;
     }
 
     @Override
     protected Screen use(Item item) {
-        ((Consumeable) item).consume(player);
+        ((Consumable) item).consume(player);
         return null;
     }
 }

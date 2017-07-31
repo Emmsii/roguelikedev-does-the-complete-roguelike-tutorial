@@ -35,7 +35,7 @@ public class SpriteLoader extends DataLoader{
                 String sheetName = obj.hasToken("sheet") ? obj.getString("sheet") : defaults.getString("sheet");
                 Spritesheet sheet = Spritesheet.get(sheetName);
                 
-                Sprite newSprite = sheet.cutSprite(x, y, size, size, tileIndexSize);
+                Sprite newSprite = sheet.cutSprite(name, x, y, size, size, tileIndexSize);
                 Sprite.add(name, newSprite);
             }
         }

@@ -6,8 +6,8 @@ import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.screen.Screen;
+import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.objects.MapObject;
 
 import java.awt.event.KeyEvent;

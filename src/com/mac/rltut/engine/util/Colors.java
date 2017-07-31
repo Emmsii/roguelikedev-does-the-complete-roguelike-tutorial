@@ -9,6 +9,15 @@ public class Colors {
     
     public static final float DARKEN_FACTOR = 0.4f;
     
+    public static final int WHITE = 0xE8EAE5;
+    public static final int BLACK = 0x111111;
+    public static final int GRAY = 0x676866;
+    public static final int RED = 0xF25F5C;
+    public static final int ORANGE = 0xF2764D;
+    public static final int YELLOW = 0xFFE066;
+    public static final int BLUE = 0x247BA0;
+    public static final int GREEN = 0x7EC15E;
+    
     public static int darken(int color){
        return darken(color, DARKEN_FACTOR);
     }

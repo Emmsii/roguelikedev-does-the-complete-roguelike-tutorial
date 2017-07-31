@@ -26,4 +26,6 @@ public enum EquipmentSlot {
     public static boolean isWeapon(EquipmentSlot slot){
         return slot == WEAPON;
     }
+    
+    EquipmentSlot() {}
 }

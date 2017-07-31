@@ -3,11 +3,26 @@ SHEET=textures
 SIZE=8
 TILE_INDEX_SIZE=8
 
-# ---------------- Temp
+# ---------------- Player
 
 [SPRITE]
-NAME=player
+NAME=player_1
 X=5
+Y=5
+
+[SPRITE]
+NAME=player_2
+X=6
+Y=5
+
+[SPRITE]
+NAME=player_3
+X=7
+Y=5
+
+[SPRITE]
+NAME=player_4
+X=9
 Y=5
 
 # ---------------- Tiles

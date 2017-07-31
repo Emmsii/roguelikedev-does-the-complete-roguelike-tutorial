@@ -13,9 +13,7 @@ public class Point {
 
     public int x, y, z;
 
-    public Point(){
-        this(0, 0, 0);
-    }
+    public Point(){}
 
     public Point(int x, int y, int z){
         this.x = x;
@@ -81,4 +79,5 @@ public class Point {
     public String toString() {
         return x + ", " + y + ", " + z;
     }
+
 }

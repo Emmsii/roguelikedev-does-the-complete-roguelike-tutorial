@@ -11,10 +11,12 @@ import java.util.HashMap;
  */
 public class PlayerStats {
     
-    private final Player player;
+    private Player player;
     
     private HashMap<String, Integer> kills;
     private int tilesTraveled;
+    
+    public PlayerStats() {}
     
     public PlayerStats(Player player){
         this.player = player;

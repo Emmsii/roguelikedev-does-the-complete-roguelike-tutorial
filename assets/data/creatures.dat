@@ -54,7 +54,7 @@ INTELLIGENCE=0
 VISION=10
 AI=aggressive
 FLAGS=slow
-DROPS=gold:2-12:45
+# DROPS=gold:2-12:45
 
 [CREATURE]
 NAME=ent
@@ -85,7 +85,7 @@ ACCURACY=2
 VISION=10
 AI=passive
 FLAGS=can_fly
-DROPS=meat chunk:1:40, gold:1-10:30
+# DROPS=meat chunk:1:40, gold:1-10:30
 
 [CREATURE]
 NAME=fire sprite

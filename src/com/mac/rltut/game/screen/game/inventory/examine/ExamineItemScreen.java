@@ -3,6 +3,7 @@ package com.mac.rltut.game.screen.game.inventory.examine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.effects.Effect;
+import com.mac.rltut.game.entity.item.Consumable;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.Spellbook;
@@ -70,6 +71,18 @@ public class ExamineItemScreen extends Screen {
                 for(String s : desc) renderer.write(s, xp + 1, yp++);
             }
             yp++;
+        }
+        
+        if(item instanceof Consumable){
+            Consumable consumable = (Consumable) item;
+            if(consumable.effect() != null){
+                yp++;
+                Effect effect = consumable.effect();
+                renderer.write("Effect", xp, yp++);
+                renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(effect.name())), xp + 1, yp++);
+                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4);
+                for(String s : desc) renderer.write(s, xp + 1, yp++);
+            }
         }
         
         if(item instanceof Spellbook){

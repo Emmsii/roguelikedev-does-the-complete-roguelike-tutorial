@@ -19,12 +19,14 @@ public class Spritesheet extends Bitmap {
 
     private String name;
 
+    public Spritesheet() {}
+    
     public Spritesheet(String name){
         this.name = name;
         load();
     }
 
-    public Sprite cutSprite(int xp, int yp, int w, int h, int tileIndexSize){
+    public Sprite cutSprite(String name, int xp, int yp, int w, int h, int tileIndexSize){
         xp *= tileIndexSize;
         yp *= tileIndexSize;
         int[] spritePixels = new int[w * h];
@@ -35,7 +37,7 @@ public class Spritesheet extends Bitmap {
                 spritePixels[x + y * w] = pixels[xa + ya * width];
             }
         }
-        return new Sprite(w, h, spritePixels);
+        return new Sprite(name, w, h, spritePixels);
     }
 
     private void load(){

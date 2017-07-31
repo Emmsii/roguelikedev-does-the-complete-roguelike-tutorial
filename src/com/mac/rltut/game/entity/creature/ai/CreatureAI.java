@@ -18,6 +18,8 @@ public class CreatureAI {
     
     protected Creature creature;
     
+    public CreatureAI() {}
+    
     public CreatureAI(Creature creature){
         this.creature = creature;
         if(creature != null) creature.setAi(this);

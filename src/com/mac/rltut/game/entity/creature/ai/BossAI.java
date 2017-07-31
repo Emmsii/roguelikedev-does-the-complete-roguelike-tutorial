@@ -10,6 +10,8 @@ import com.mac.rltut.game.entity.creature.Creature;
 public class BossAI extends CreatureAI{
     
     private PackAI pack;
+
+    public BossAI() {}
     
     public BossAI(Creature creature) {
         super(creature);

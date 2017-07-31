@@ -17,9 +17,12 @@ public class PackAI {
   
     public Creature packTarget;
     public Point packLastSeen;
-    private int maxWanderDistance = 10;
+    private int maxWanderDistance;
+
+    public PackAI() {}
     
-    public PackAI(){
+    public PackAI(int maxWanderDistance){
+        this.maxWanderDistance = maxWanderDistance;
         this.members = new ArrayList<PackMemberAI>();
     }
     

@@ -13,6 +13,8 @@ public class AggressiveAI extends CreatureAI{
     
     private Creature target;
     private Point lastSeen;
+
+    public AggressiveAI() {}
     
     public AggressiveAI(Creature creature) {
         super(creature);

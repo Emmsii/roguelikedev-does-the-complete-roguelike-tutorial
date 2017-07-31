@@ -1,18 +1,20 @@
 package com.mac.rltut.game.entity.creature;
 
 import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.engine.util.*;
+import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
+import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
-import com.mac.rltut.game.entity.util.CombatManager;
-import com.mac.rltut.game.entity.item.util.DropTable;
-import com.mac.rltut.game.entity.item.util.Inventory;
+import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
-import com.mac.rltut.game.entity.item.Equippable;
+import com.mac.rltut.game.entity.item.util.DropTable;
+import com.mac.rltut.game.entity.item.util.Inventory;
+import com.mac.rltut.game.entity.util.CombatManager;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
@@ -66,6 +68,8 @@ public class Creature extends Entity {
     private boolean hasUsedEquipment;
     
     private int tick;
+    
+    public Creature() {}
     
     public Creature(String name, String description, Sprite sprite, String aiType) {
         this(name, description, sprite, 1, aiType);
@@ -194,7 +198,7 @@ public class Creature extends Entity {
             return;
         }
         
-        if(inventory.isFull()) notify(new ColoredString("You are carrying too much.", Color.ORANGE.getRGB()));
+        if(inventory.isFull()) notify(new ColoredString("You are carrying too much.", Colors.ORANGE));
         else{
             String str = "pickup a %s";
             if(item instanceof ItemStack) str += " x" + ((ItemStack) item).amount() + "";
@@ -217,7 +221,7 @@ public class Creature extends Entity {
             doAction(new ColoredString("drop a %s"), item.name());
             inventory.remove(item);
         }else{
-            notify(new ColoredString("There is nowhere to drop the %s.", Color.ORANGE.getRGB()), item.name());
+            notify(new ColoredString("There is nowhere to drop the %s.", Colors.ORANGE), item.name());
         }
     }
     
@@ -291,7 +295,7 @@ public class Creature extends Entity {
                 
         if(hp > maxHp) hp = maxHp;
         else if(hp < 1){
-            doAction(new ColoredString("die", Color.RED.getRGB()));
+            doAction(new ColoredString("die", Colors.RED));
             world.remove(this);
             world.addCorpse(this);
             dropFromDropTable();
@@ -341,11 +345,11 @@ public class Creature extends Entity {
     public void modifyXp(int amount){
         xp += amount;
         
-        notify(new ColoredString("You %s %d xp.", amount < 0 ? Color.red.getRGB() : Color.green.getRGB()), amount < 0 ? "lose" : "gain", amount);
+        notify(new ColoredString("You %s %d xp.", amount < 0 ? Colors.RED : Colors.GREEN), amount < 0 ? "lose" : "gain", amount);
         
         while(xp > (int) (Math.pow(level, 1.75) * 25)){
             level++;
-            doAction(new ColoredString("advance to level %d", Color.GREEN.getRGB()), level);
+            doAction(new ColoredString("advance to level %d", Colors.GREEN), level);
             ai.onGainLevel();
         }
     }

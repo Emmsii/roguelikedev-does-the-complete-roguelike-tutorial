@@ -3,9 +3,10 @@ package com.mac.rltut.game.screen.menu;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.game.Game;
+import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.screen.Screen;
-import com.mac.rltut.game.world.builders.WorldBuilder;
 import com.mac.rltut.game.screen.game.GameScreen;
+import com.mac.rltut.game.world.builders.WorldBuilder;
 
 import java.awt.event.KeyEvent;
 
@@ -19,13 +20,13 @@ public class LoadingScreen extends Screen {
     private Game game;
     private boolean finished;
 
-    public LoadingScreen(WorldBuilder worldBuilder){
+    public LoadingScreen(Player player, WorldBuilder worldBuilder){
         finished = false;
         //TODO: This is a really shit way to do this; but hey, it works!
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                game = new Game().newGame(worldBuilder.generate().populate().spawnItems().build());
+                game = new Game().newGame(player, worldBuilder.generate().populate().spawnItems().build());
                 finished = true;
                 Engine.instance().input(null);
             }

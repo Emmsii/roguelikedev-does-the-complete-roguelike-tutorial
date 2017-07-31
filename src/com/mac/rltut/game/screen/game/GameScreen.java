@@ -3,15 +3,16 @@ package com.mac.rltut.game.screen.game;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.Game;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
+import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.game.inventory.*;
-import com.mac.rltut.game.screen.game.inventory.examine.EquipScreen;
+import com.mac.rltut.game.screen.game.inventory.examine.ExamineScreen;
 import com.mac.rltut.game.screen.menu.LevelUpScreen;
 import com.mac.rltut.game.screen.menu.LooseScreen;
-import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.world.objects.Chest;
 
 import java.awt.*;
@@ -71,10 +72,10 @@ public class GameScreen extends Screen{
                 case KeyEvent.VK_SPACE:
                     Chest chest = player().tryOpen();
                     if(chest != null){
-                        if(chest.inventory().isEmpty()) player().notify(new ColoredString("The chest is empty", Color.ORANGE.getRGB()));
+                        if(chest.inventory().isEmpty()) player().notify(new ColoredString("The chest is empty", Colors.ORANGE));
                         else subscreen = new ChestScreen(levelScreen.width() / 2 - 20, Engine.instance().heightInTiles() / 2  - 20, 40, 30, "Chest", chest, player());
                     }
-                    else player().notify(new ColoredString("There is nothing there.", Color.ORANGE.getRGB()));
+                    else player().notify(new ColoredString("There is nothing there.", Colors.ORANGE));
                     break;
                     
                 case KeyEvent.VK_PAGE_DOWN: game.world().moveDown(player()); break;
@@ -95,7 +96,7 @@ public class GameScreen extends Screen{
                     Equippable weapon = player().getEquippedAt(EquipmentSlot.WEAPON);
                     if(weapon != null && (weapon.rangedDamage() != null || weapon.rangedDamage().equals("0"))){
                         subscreen = new FireWeaponScreen(0, 0, levelScreen.width(), levelScreen.height(), player(), player().x - levelScreen.getScrollX() + 1, player().y - levelScreen.getScrollY() + 1);
-                    }else player().notify(new ColoredString("You don't have a ranged weapon equipped.", Color.ORANGE.getRGB()));
+                    }else player().notify(new ColoredString("You don't have a ranged weapon equipped.", Colors.ORANGE));
                     break;
 
                 case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
@@ -111,7 +112,7 @@ public class GameScreen extends Screen{
             return this;
         }
 
-        if(subscreen == null || shouldUpdate) game.world().update(player().z);
+        if(subscreen == null || shouldUpdate) game.update();
         if(player().hp() < 1) return new LooseScreen(player());
         
         return this;

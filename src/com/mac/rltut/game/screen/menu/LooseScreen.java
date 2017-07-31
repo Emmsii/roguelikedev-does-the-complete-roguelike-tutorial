@@ -2,6 +2,7 @@ package com.mac.rltut.game.screen.menu;
 
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
@@ -33,7 +34,7 @@ public class LooseScreen extends Screen{
     public void render(Renderer renderer) {
         renderBorder(renderer);
         
-        renderer.writeCenter("You died!", Engine.instance().widthInTiles() / 2, (int) (Engine.instance().heightInTiles() * 0.15f), Color.RED.getRGB());
+        renderer.writeCenter("You died!", Engine.instance().widthInTiles() / 2, (int) (Engine.instance().heightInTiles() * 0.15f), Colors.RED);
         renderer.write("Kills", 10, 10);
         int xp = 11;
         int yp = 12;

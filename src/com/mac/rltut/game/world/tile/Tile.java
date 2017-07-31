@@ -14,7 +14,7 @@ public class Tile {
     public static HashMap<String, Tile> tileNames = new HashMap<>();
     private static Tile[] tiles = new Tile[256]; 
     
-    public final byte id;
+    public byte id;
     private String name;
     private String description;
     private Sprite sprite;
@@ -23,6 +23,8 @@ public class Tile {
     protected boolean canSee;
     protected boolean canFly;
 
+    public Tile() {}
+    
     public Tile(byte id, String name, String description, Sprite sprite, String type, boolean solid, boolean canSee, boolean canFly){
         this.id = id;
         this.name = name;

@@ -1,6 +1,7 @@
 package com.mac.rltut.game.screen.game.inventory;
 
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.screen.Screen;
@@ -32,11 +33,12 @@ public class ChestScreen extends InventoryBasedScreen{
     @Override
     protected Screen use(Item item) {
         if(player.inventory().isFull()){
-            player.notify(new ColoredString("You are carrying too much.", Color.ORANGE.getRGB()));
+            player.notify(new ColoredString("You are carrying too much.", Colors.ORANGE));
             return this;
         }else{
             inventory.remove(item);
             player.inventory().add(item);
+            player.doAction(new ColoredString("take the %s"), item.name());
         }
         return null;
     }

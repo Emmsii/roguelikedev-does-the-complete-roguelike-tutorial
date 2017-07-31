@@ -12,7 +12,9 @@ import com.mac.rltut.game.entity.creature.Creature;
 public class PackMemberAI extends CreatureAI{
     
     private PackAI pack;
-        
+
+    public PackMemberAI() {}
+    
     public PackMemberAI(Creature creature, PackAI pack) {
         super(creature);
         this.pack = pack;

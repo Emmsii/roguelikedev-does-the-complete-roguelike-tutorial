@@ -2,6 +2,7 @@ package com.mac.rltut.game.entity.item;
 
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
 
@@ -18,6 +19,8 @@ public class Spellbook extends Item{
     private int manaCost;
     private EquipmentSlot[] slots;
     
+    public Spellbook(){}
+    
     public Spellbook(String name, String description, Sprite sprite, EquipmentSlot[] slots) {
         super(name, description, sprite);
         this.slots = slots;
@@ -26,7 +29,7 @@ public class Spellbook extends Item{
     public void bless(Creature creature, Equippable equippable){
         if(creature.mana() < manaCost) return;
         
-        creature.doAction(new ColoredString("enhance the %s", Color.CYAN.getRGB()), equippable.name());
+        creature.doAction(new ColoredString("enhance the %s", Colors.BLUE), equippable.name());
         equippable.setUnique(true);
 
         if(effect == null) equippable.setName("Enhanced " + equippable.name());

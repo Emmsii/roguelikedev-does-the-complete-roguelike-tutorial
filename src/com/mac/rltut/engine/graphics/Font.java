@@ -12,6 +12,8 @@ public class Font extends Spritesheet{
     private int charWidth, charHeight;
     private Sprite[] chars;
 
+    public Font() {}
+    
     public Font(String name, int charWidth, int charHeight) {
         super(name);
         this.charWidth = charWidth;
@@ -24,7 +26,7 @@ public class Font extends Spritesheet{
     private void loadChars(){
         for(int y = 0; y < height / charHeight; y++){
             for(int x = 0; x < width / charWidth; x++){
-                chars[x + y * (width / charWidth)] = cutSprite(x, y, charWidth, charHeight, charWidth);
+                chars[x + y * (width / charWidth)] = cutSprite("name_" + x + "_" + y, x, y, charWidth, charHeight, charWidth);
             }
         }
     }

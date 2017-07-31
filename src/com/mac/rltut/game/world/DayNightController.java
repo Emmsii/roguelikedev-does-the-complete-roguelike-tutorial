@@ -21,6 +21,8 @@ public class DayNightController {
     
     public int tick;
     
+    public DayNightController(){}
+    
     public DayNightController(int dayLength, int minLight, int maxLight, int lightChangeEvery){
         this.day = 1;
         this.dayLength = dayLength;
@@ -42,8 +44,8 @@ public class DayNightController {
         }
                 
         if(currentTime % lightChangeEvery == 0) {
-            if (isNight() && light > minLight) modifyLight(-1);
-            if (isDay() && light < maxLight) modifyLight(1);
+            if(isNight() && light > minLight) modifyLight(-1);
+            if(isDay() && light < maxLight) modifyLight(1);
         }
     }
     

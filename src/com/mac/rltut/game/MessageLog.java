@@ -66,4 +66,5 @@ public class MessageLog {
     public List<ColoredString> getEntries(){
         return entries;
     }
+
 }

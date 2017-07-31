@@ -19,6 +19,8 @@ public class Item extends Entity {
     protected int manaRegenAmountBonus;
     protected int manaRegenSpeedBonus;
     
+    public Item(){}
+    
     public Item(String name, String description, Sprite sprite) {
         super(name, description, sprite);
         this.unique = false;

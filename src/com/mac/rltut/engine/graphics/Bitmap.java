@@ -10,9 +10,7 @@ public class Bitmap {
     protected int width, height;
     protected int[] pixels;
 
-    public Bitmap(){
-
-    }
+    public Bitmap() {}
 
     public Bitmap(int[] pixels, int width, int height){
         this.width = width;

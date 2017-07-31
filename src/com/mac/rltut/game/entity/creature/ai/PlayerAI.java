@@ -13,6 +13,8 @@ public class PlayerAI extends CreatureAI{
     
     private MessageLog log;
     
+    public PlayerAI() {}
+    
     public PlayerAI(Creature creature, MessageLog log) {
         super(creature);
         this.log = log;

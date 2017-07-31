@@ -4,6 +4,7 @@ import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.game.codex.Codex;
+import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.effects.EffectBuilder;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
@@ -40,8 +41,11 @@ public class ItemLoader extends DataLoader {
             else if(obj.isType("item_stack")){
                 String amount = obj.getString("amount");
                 item = new ItemStack(name, description, sprite, amount, 1);
-            }else if(obj.isType("consumeable")){
-                item = new Consumeable(name, description, sprite, EffectBuilder.heal(obj.getInt("heal")));
+            }else if(obj.isType("consumable")){
+                Effect effect = null;
+                if(obj.hasToken("heal")) EffectBuilder.heal(obj.getInt("heal"));
+                String action = obj.hasToken("action") ? obj.getString("action") : "fumble";
+                item = new Consumable(name, description, sprite, action, effect);
             }else if(obj.isType("equippable")){
                 String slot = obj.getString("slot");
                 Equippable e = new Equippable(name, description, sprite, getSlot(slot));

@@ -6,6 +6,7 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Spritesheet;
 import com.mac.rltut.engine.input.Input;
 import com.mac.rltut.engine.loader.*;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
 import com.mac.rltut.game.screen.Screen;
@@ -14,7 +15,8 @@ import com.mac.rltut.game.screen.menu.StartScreen;
 import javax.imageio.ImageIO;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 
 /**
@@ -43,8 +45,7 @@ public class Engine {
     private Engine(){
         Log.set(Log.LEVEL_DEBUG);
         loadData();
-        setFont("cheepicus");
-        
+        setFont("cheepicus");        
     }
     
     private void loadData(){
@@ -74,7 +75,7 @@ public class Engine {
         this.input = new Input();
 
         panel.setRenderer(renderer);
-        renderer.setDefaultFontColor(0xffffff);
+        renderer.setDefaultFontColor(Colors.WHITE);
         terminal.addKeyListener(input);
         screen = new StartScreen();
 
@@ -128,6 +129,10 @@ public class Engine {
     
     public String version(){
         return version;
+    }
+    
+    public int defaultFontColor(){
+        return renderer.defaultFontColor();
     }
 
     public static Engine instance(){

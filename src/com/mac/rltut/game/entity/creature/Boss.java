@@ -9,6 +9,8 @@ import com.mac.rltut.engine.graphics.Sprite;
  */
 public class Boss extends Creature{
     
+    public Boss(){}
+    
     public Boss(String name, String description, Sprite sprite) {
         this(name, description, sprite, 1);
     }

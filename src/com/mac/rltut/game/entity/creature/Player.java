@@ -1,7 +1,6 @@
 package com.mac.rltut.game.entity.creature;
 
 import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.stats.PlayerStats;
 
 /**
@@ -12,6 +11,8 @@ import com.mac.rltut.game.entity.creature.stats.PlayerStats;
 public class Player extends Creature{
     
     private PlayerStats stats;
+    
+    public Player() {}
     
     public Player(String name, Sprite sprite) {
         super(name, "its you", sprite, "player");

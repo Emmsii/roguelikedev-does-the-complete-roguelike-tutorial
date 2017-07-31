@@ -13,6 +13,8 @@ import java.util.Random;
  */
 public class EffectBuilder {
     
+    public EffectBuilder() {}
+    
     public static Effect randomItemEffect(int z, Random random){
         Pool<Effect> pool = new Pool<Effect>(random);
         pool.add(leach(5 + ((z / 3) * 5), 0.1f), 30);
@@ -48,12 +50,19 @@ public class EffectBuilder {
             public void onUseSelf(Creature creature) {
                 if(Math.random() > chance) return;
                 creature.modifyHp(amount, "too much health");
+                creature.doAction(new ColoredString("feel restored"));
             }
         };
     }
     
     public static Effect healthRegen(int amount, int duration){
         return new Effect("regen health", "regenerate " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, 1f, false){
+            
+            @Override
+            public void start(Creature creature) {
+                creature.doAction(new ColoredString("feel life slowly coming back to you..."));
+            }
+
             @Override
             public void update(Creature creature) {
                 super.update(creature);
@@ -64,6 +73,12 @@ public class EffectBuilder {
 
     public static Effect manaRegen(int amount, int duration){
         return new Effect("regen mana", "regenerate " + amount + " mana per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, 1f, false){
+
+            @Override
+            public void start(Creature creature) {
+                creature.doAction(new ColoredString("feel magic slowly coming back to you..."));
+            }
+            
             @Override
             public void update(Creature creature) {
                 super.update(creature);
@@ -97,6 +112,7 @@ public class EffectBuilder {
             @Override
             public void start(Creature creature) {
                 creature.modifyVisionBonus(amount);
+                creature.doAction(new ColoredString("look further into the forest"));
             }
 
             @Override
@@ -123,6 +139,12 @@ public class EffectBuilder {
     
     public static Effect poison(int amount, int duration, float chance){
         return new Effect("poison", "loose " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, false){
+
+            @Override
+            public void start(Creature creature) {
+                creature.doAction(new ColoredString("feel poisoned"));
+            }
+            
             @Override
             public void update(Creature creature) {
                 super.update(creature);

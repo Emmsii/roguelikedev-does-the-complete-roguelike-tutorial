@@ -1,19 +1,20 @@
 package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.util.Pool;
+import com.mac.rltut.engine.util.maths.MathUtil;
+import com.mac.rltut.engine.util.maths.Point;
+import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Boss;
+import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.ai.*;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.util.JewelryGenerator;
+import com.mac.rltut.game.entity.item.util.PotionBuilder;
 import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
 import com.mac.rltut.game.entity.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
-import com.mac.rltut.engine.util.maths.MathUtil;
-import com.mac.rltut.engine.util.maths.Point;
-import com.mac.rltut.engine.util.Pool;
-import com.mac.rltut.game.codex.Codex;
-import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.ai.*;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
@@ -148,7 +149,7 @@ public class WorldBuilder {
                         List<CreatureSpawnProperty> minions = new ArrayList<CreatureSpawnProperty>();
                         for (String s : boss.minions()) minions.add(Codex.creatures.get(s.toLowerCase()));
 
-                        PackAI pack = new PackAI();
+                        PackAI pack = new PackAI(10);
                         for (int i = 0; i < minionCount; i++) {
                             Pool<CreatureSpawnProperty> minionPool = new Pool<CreatureSpawnProperty>(random);
                             for (CreatureSpawnProperty c : minions) minionPool.add(c, c.chance()); //TODO: Find why this makes null pointer
@@ -187,7 +188,7 @@ public class WorldBuilder {
                     modifyStats(newCreature, z);
                     spawnedThisLevel++;
                 }else{
-                    PackAI pack = new PackAI();
+                    PackAI pack = new PackAI(10);
                     for(int i = 0; i < packSize; i++){
                         Point newSpawn = world.randomEmptyPointInRadius(spawn, 4);
                         Creature packMember = newCreature(newSpawn, (Creature) toSpawn.creature().newInstance());
@@ -245,6 +246,11 @@ public class WorldBuilder {
                     Item item = SpellbookGenerator.generate(z, random);
                     inventory.add(item);
                     if(random.nextFloat() >= 0.1) break;
+                }
+                
+                for(int i = 0; i < random.nextInt(3); i++){
+                    Consumable potion = PotionBuilder.randomPotion(z, random);
+                    inventory.add(potion);
                 }
             }
         }

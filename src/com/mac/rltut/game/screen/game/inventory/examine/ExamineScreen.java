@@ -1,10 +1,10 @@
-package com.mac.rltut.game.screen.game.inventory;
+package com.mac.rltut.game.screen.game.inventory.examine;
 
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
-import com.mac.rltut.game.screen.game.inventory.examine.ExamineItemScreen;
+import com.mac.rltut.game.screen.game.inventory.InventoryBasedScreen;
 
 /**
  * Project: complete-rltut

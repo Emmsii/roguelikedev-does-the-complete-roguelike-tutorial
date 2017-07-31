@@ -16,15 +16,18 @@ public class Sprite extends Bitmap{
     public static HashMap<String, Sprite> sprites = new HashMap<>();
     public static final List<Sprite> fog = Sprite.loadFogSprites(Spritesheet.get("fog"), 4, 4, 8);
 
-    public Sprite(int width, int height, int[] pixels){
-        this.width = width;
-        this.height = height;
-        this.pixels = pixels;
+    protected String name;
+    
+    public Sprite() {}
+    
+    public Sprite(String name, int width, int height, int[] pixels){
+        super(pixels, width, height);
+        this.name = name;
     }
 
     private static List<Sprite> loadFogSprites(Spritesheet sheet, int w, int h, int size){
         List<Sprite> sprites = new ArrayList<Sprite>();
-        for(int y = 0; y < h; y++) for(int x = 0; x < w; x++) sprites.add(sheet.cutSprite(x, y, size, size, size));
+        for(int y = 0; y < h; y++) for(int x = 0; x < w; x++) sprites.add(sheet.cutSprite("fog_" + x + "_" + y, x, y, size, size, size));
         return sprites;
     }
     
@@ -40,5 +43,9 @@ public class Sprite extends Bitmap{
     
     public static void add(String name, Sprite sprite){
         sprites.put(name, sprite);
+    }
+    
+    public String name(){
+        return name;
     }
 }

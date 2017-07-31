@@ -6,6 +6,7 @@ import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
@@ -22,8 +23,8 @@ import java.util.Random;
  */
 public class World {
     
-    private final int width, height, depth;
-    private final long seed;
+    private int width, height, depth;
+    private long seed;
 
     private Level[] levels;
 
@@ -38,7 +39,9 @@ public class World {
     
     private DayNightController dayNightController;
 
-    private Creature player;
+    private Player player;
+    
+    public World() {}
     
     public World(int width, int height, int depth, long seed){
         this.width = width;
@@ -176,7 +179,7 @@ public class World {
         creature.y = y;
         creature.z = z;
         creature.init(entityId++, this);
-        if(creature.isPlayer()) this.player = creature;
+        if(creature.isPlayer()) this.player = (Player) creature;
     }
     
     public void add(int x, int y, int z, Item item){

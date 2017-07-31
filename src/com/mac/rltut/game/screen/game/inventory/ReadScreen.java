@@ -1,6 +1,7 @@
 package com.mac.rltut.game.screen.game.inventory;
 
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.Spellbook;
@@ -34,7 +35,7 @@ public class ReadScreen extends InventoryBasedScreen{
     protected Screen use(Item item) {
         Spellbook book = (Spellbook) item;
         if(player.mana() < book.manaCost()){
-            player.notify(new ColoredString("Not enough mana, need [" + book.manaCost() + "] mana to use this book.", Color.RED.getRGB()));
+            player.notify(new ColoredString("Not enough mana, need [" + book.manaCost() + "] mana to use this book.", Colors.RED));
             return null;
         }
         

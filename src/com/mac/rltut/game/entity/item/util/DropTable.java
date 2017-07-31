@@ -1,8 +1,8 @@
 package com.mac.rltut.game.entity.item.util;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.Pool;
+import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
@@ -18,7 +18,7 @@ import java.util.List;
 public class DropTable {
     
     private List<Drop> drops;
-    
+        
     public DropTable(){
         this.drops = new ArrayList<Drop>();
     }
@@ -59,16 +59,22 @@ public class DropTable {
         }
     }
     
+    public List<Drop> drops(){
+        return drops;
+    }
+    
     public int count(){
         return drops.size();
     }
 
-    class Drop{
+    public static class Drop{
 
-        public final Item item;
-        public final String amount;
-        public final int chance;
+        public Item item;
+        public String amount;
+        public int chance;
 
+        public Drop(){}
+        
         public Drop(Item item, String amount, int chance){
             this.item = item;
             this.amount = amount;

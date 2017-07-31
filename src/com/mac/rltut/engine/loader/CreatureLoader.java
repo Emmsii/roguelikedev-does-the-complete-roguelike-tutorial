@@ -5,10 +5,10 @@ import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Boss;
-import com.mac.rltut.game.entity.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
 import com.mac.rltut.game.entity.item.util.DropTable;
+import com.mac.rltut.game.entity.util.BossSpawnProperty;
+import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
 
 import java.io.IOException;
 

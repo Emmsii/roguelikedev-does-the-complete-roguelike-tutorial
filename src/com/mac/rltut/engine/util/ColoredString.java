@@ -1,5 +1,7 @@
 package com.mac.rltut.engine.util;
 
+import com.mac.rltut.engine.Engine;
+
 import java.awt.*;
 
 /**
@@ -12,17 +14,15 @@ public class ColoredString {
     public String text;
     public int color;
     
-    public ColoredString(){
-        
-    }
+    public ColoredString(){}
     
     public ColoredString(String text){
-        this(text, Color.white.getRGB());
+        this(text, Engine.instance().defaultFontColor());
     }
     
     public ColoredString(String text, int color){
         this.text = text;
         this.color = color;
     }
-    
+
 }

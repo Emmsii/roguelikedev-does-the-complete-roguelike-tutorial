@@ -2,6 +2,7 @@ package com.mac.rltut.game.entity.item;
 
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
@@ -24,6 +25,8 @@ public class Equippable extends Item{
     
     private Effect effect;
     
+    public Equippable(){}
+    
     public Equippable(String name, String description, Sprite sprite, EquipmentSlot slot) {
         super(name, description, sprite);
         this.slot = slot;
@@ -42,7 +45,7 @@ public class Equippable extends Item{
         if(blockedSlot != null){
             Equippable blocked = creature.getEquippedAt(blockedSlot);
             if(blocked != null){
-                creature.notify(new ColoredString("You cannot equip a %s with a %s equipped.", Color.ORANGE.getRGB()), StringUtil.capitalizeEachWord(name), StringUtil.capitalizeEachWord(blocked.name()));
+                creature.notify(new ColoredString("You cannot equip a %s with a %s equipped.", Colors.ORANGE), StringUtil.capitalizeEachWord(name), StringUtil.capitalizeEachWord(blocked.name()));
                 return;
             }
         }
@@ -50,7 +53,7 @@ public class Equippable extends Item{
         for (Equippable equipped : creature.equippedItems().values()) {
             if (equipped == null || equipped.blockedSlot == null) continue;
             if (equipped.blockedSlot == slot) {
-                creature.notify(new ColoredString("You cannot equip a %s with a %s equipped.", Color.ORANGE.getRGB()), StringUtil.capitalizeEachWord(name), StringUtil.capitalizeEachWord(equipped.name()));
+                creature.notify(new ColoredString("You cannot equip a %s with a %s equipped.", Colors.ORANGE), StringUtil.capitalizeEachWord(name), StringUtil.capitalizeEachWord(equipped.name()));
                 return;
             }
         }

@@ -8,13 +8,15 @@ import com.mac.rltut.game.entity.creature.Creature;
  * Created by Matt on 22/07/2017 at 09:15 AM.
  */
 public class Effect {
-
+    
     protected String name;
     protected String description;
     protected int duration;
     protected float chance;
     protected boolean canUseWithItem;
 
+    public Effect(){}
+    
     public Effect(String name, String description, int duration, float chance, boolean canUseWithItem) {
         this.name = name;
         this.description = description;

@@ -16,6 +16,8 @@ public abstract class Entity implements Cloneable{
     protected String description;
     protected Sprite sprite;
     protected World world;
+
+    public Entity() {}
     
     public Entity(String name, String description, Sprite sprite){
         this.name = name;
@@ -62,5 +64,5 @@ public abstract class Entity implements Cloneable{
         }
         return null;
     }
-
+    
 }

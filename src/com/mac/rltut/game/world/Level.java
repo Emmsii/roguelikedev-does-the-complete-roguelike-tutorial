@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class Level {
     
-    private final String type;
-    private final int width, height;
-    private final int z;
+    private String type;
+    private int width, height;
+    private int z;
     
     private Point startPoint;
     private byte[][] tiles;
@@ -28,6 +28,8 @@ public class Level {
     private boolean[][] explored;
     private boolean[][] visible;
     private int exploredTiles;
+    
+    public Level() {}
     
     public Level(String type, int width, int height, int z){
         this.type = type;
@@ -131,5 +133,5 @@ public class Level {
     public boolean inBounds(int x, int y){
         return x >= 0 && y >= 0 && x < width && y < height;
     }
-
+    
 }

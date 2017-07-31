@@ -1,11 +1,11 @@
 package com.mac.rltut.engine.window;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import com.mac.rltut.engine.graphics.Renderer;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 /**
  * Project: complete-rltut
@@ -36,7 +36,7 @@ public class Panel extends JPanel {
 
     @Override
     public void paint(Graphics g) {
-        if(renderer == null) throw new RuntimeException("Must define renderer in panel.");
+        if(renderer == null) return;
 
         for(int i = 0; i < pixels.length; i++) pixels[i] = renderer.pixels()[i];
         g.drawImage(image, 0, 0, widthInPixels() * windowScale, heightInPixels() * windowScale, null);
