@@ -6,6 +6,7 @@ import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.effects.EffectBuilder;
+import com.mac.rltut.game.effects.Heal;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 
@@ -43,7 +44,7 @@ public class ItemLoader extends DataLoader {
                 item = new ItemStack(name, description, sprite, amount, 1);
             }else if(obj.isType("consumable")){
                 Effect effect = null;
-                if(obj.hasToken("heal")) EffectBuilder.heal(obj.getInt("heal"));
+                if(obj.hasToken("heal")) new Heal(obj.getInt("heal"));
                 String action = obj.hasToken("action") ? obj.getString("action") : "fumble";
                 item = new Consumable(name, description, sprite, action, effect);
             }else if(obj.isType("equippable")){

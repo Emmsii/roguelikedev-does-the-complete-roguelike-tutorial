@@ -13,7 +13,7 @@ At [r/roguelikedev](https://www.reddit.com/r/roguelikedev/) we're doing a dev-al
 
 #### Libraries
 
-- [minlog](https://github.com/EsotericSoftware/minlog) by [Esoteric Software](https://github.com/EsotericSoftware).
+- [minlog](https://github.com/EsotericSoftware/minlog) and [Kryo](https://github.com/EsotericSoftware/kryo) by [Esoteric Software](https://github.com/EsotericSoftware).
 
 ## Requirements
 
