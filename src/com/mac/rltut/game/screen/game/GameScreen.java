@@ -86,6 +86,8 @@ public class GameScreen extends Screen{
                 case KeyEvent.VK_Q: equipmentScreen = new EquipmentScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[Q] Equipment [T] Stats", player()); break;
                 case KeyEvent.VK_T: equipmentScreen = new EquipmentStatsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[Q] Equipment [T] Stats", player()); break;
 
+                case KeyEvent.VK_ESCAPE: subscreen = new GameOptionsMenu(Engine.instance().widthInTiles() / 2 - 10, Engine.instance().heightInTiles() / 2 - 4, 21, 8, game); break;
+                
                 case KeyEvent.VK_D: subscreen = new DropScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_R: subscreen = new ReadScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_C: subscreen = new ConsumeScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
@@ -129,5 +131,9 @@ public class GameScreen extends Screen{
     
     public Player player(){
         return game.player();
+    }
+    
+    public Game game(){
+        return game;
     }
 }

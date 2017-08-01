@@ -44,6 +44,8 @@ public class Engine {
     
     private Engine(){
         Log.set(Log.LEVEL_DEBUG);
+        
+        FileHandler.init();
         loadData();
         setFont("cheepicus");        
     }
@@ -133,6 +135,10 @@ public class Engine {
     
     public int defaultFontColor(){
         return renderer.defaultFontColor();
+    }
+    
+    public Screen screen(){
+        return screen;
     }
 
     public static Engine instance(){

@@ -4,6 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.pathfinding.astar.AStar;
 import com.mac.rltut.game.Game;
 
 import java.io.*;
@@ -30,12 +31,18 @@ public class FileHandler {
         initialized = true;
     }
     
-    public static boolean gameExists(){
+    public static boolean gameSaveExists(){
         return new File(SAVE_LOCATION).exists();
     }
     
+    public static void deleteGameSave(){
+        if(!gameSaveExists()) return;
+        File file = new File(SAVE_LOCATION);
+        file.delete();
+    }
+    
     public static void createSaveFolder(){
-        if(gameExists()) return;
+        if(gameSaveExists()) return;
         File file = new File(SAVE_FOLDER);
         if(!file.exists()) file.mkdirs();
     }
@@ -85,7 +92,7 @@ public class FileHandler {
             System.exit(-1);
         }
         
-        if(!gameExists()){
+        if(!gameSaveExists()){
             Log.warn("Save file does not exist. Cannot load game.");
             return null;
         }
@@ -119,6 +126,7 @@ public class FileHandler {
         }
         Log.set(Log.LEVEL_DEBUG);
         Log.debug("Game loaded in " + ((System.nanoTime() - start) / 1000000) + "ms");
+        AStar.instance().init(game.world());
         return game;
     }
     

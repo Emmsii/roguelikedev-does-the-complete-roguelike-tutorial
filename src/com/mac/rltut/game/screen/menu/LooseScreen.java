@@ -1,6 +1,7 @@
 package com.mac.rltut.game.screen.menu;
 
 import com.mac.rltut.engine.Engine;
+import com.mac.rltut.engine.FileHandler;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.codex.Codex;
@@ -22,6 +23,7 @@ public class LooseScreen extends Screen{
     
     public LooseScreen(Player player){
         this.player = player;
+        FileHandler.deleteGameSave();
     }
     
     @Override
@@ -45,5 +47,7 @@ public class LooseScreen extends Screen{
             if(c.size() == 1) yp += 2;
             else yp += 3;
         }
+
+        renderer.writeCenter("Press [ESCAPE] to continue.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 4, Colors.GRAY);
     }
 }

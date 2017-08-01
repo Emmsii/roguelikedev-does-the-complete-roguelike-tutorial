@@ -29,9 +29,7 @@ public class Game{
     private MessageLog log;
     private Player player;
         
-    public Game(){
-        
-    }
+    public Game(){}
     
     public Game newGame(Player player, World world){
         this.player = player;
@@ -43,49 +41,10 @@ public class Game{
         
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
-
-//        Kryo kryo = new Kryo();
-//
-//        Log.debug("Saving game...");
-//        Log.set(Log.LEVEL_INFO);
-//        
-//        double start = System.nanoTime();
-//        try {
-//            Output output = new Output(new DeflaterOutputStream(new FileOutputStream("game.dat")));
-//            output.writeString(Engine.instance().version());
-//            kryo.writeObject(output, this);
-//            output.close();
-//            
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        Log.set(Log.LEVEL_DEBUG);
-//        Log.debug("Game saved in " + ((System.nanoTime() - start) / 1000000) + "ms");
-//        Log.debug("Loading game...");
-//        Log.set(Log.LEVEL_INFO);
-//        start = System.nanoTime();
-//        try {
-//            Input input = new Input(new InflaterInputStream(new FileInputStream("game.dat")));
-//            String version = input.readString();
-//            Log.info("Game version: " + version);
-//            Game newGame = kryo.readObject(input, Game.class);
-//            input.close();
-//            Log.set(Log.LEVEL_DEBUG);
-//            Log.debug("Game loaded in " + ((System.nanoTime() - start) / 1000000) + "ms");
-//            return newGame;
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-
-        FileHandler.init();
+        
         FileHandler.saveGame(this);
         
-        return FileHandler.loadGame();
-    }
-    
-    public Game loadGame(){
-        Log.warn("TODO: Load game!");
-        return null;
+        return this;
     }
     
     public void update(){
@@ -94,10 +53,7 @@ public class Game{
         int z = player.z;
         int min = z - 1 < 0 ? 0 : z - 1;
         int max = z + 1 >= world.depth() - 1 ? world.depth() - 1: z + 1;
-        for(int level = min; level <= max; level++) {
-            world.update(level);
-        }
-        
+        for(int level = min; level <= max; level++) world.update(level);
     }
     
     public World world(){
