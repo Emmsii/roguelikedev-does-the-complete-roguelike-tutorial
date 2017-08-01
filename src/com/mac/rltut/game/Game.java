@@ -4,6 +4,8 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.Engine;
+import com.mac.rltut.engine.FileHandler;
 import com.mac.rltut.engine.pathfinding.astar.AStar;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Player;
@@ -42,38 +44,43 @@ public class Game{
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
 
-        Kryo kryo = new Kryo();
+//        Kryo kryo = new Kryo();
+//
+//        Log.debug("Saving game...");
+//        Log.set(Log.LEVEL_INFO);
+//        
+//        double start = System.nanoTime();
+//        try {
+//            Output output = new Output(new DeflaterOutputStream(new FileOutputStream("game.dat")));
+//            output.writeString(Engine.instance().version());
+//            kryo.writeObject(output, this);
+//            output.close();
+//            
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        Log.set(Log.LEVEL_DEBUG);
+//        Log.debug("Game saved in " + ((System.nanoTime() - start) / 1000000) + "ms");
+//        Log.debug("Loading game...");
+//        Log.set(Log.LEVEL_INFO);
+//        start = System.nanoTime();
+//        try {
+//            Input input = new Input(new InflaterInputStream(new FileInputStream("game.dat")));
+//            String version = input.readString();
+//            Log.info("Game version: " + version);
+//            Game newGame = kryo.readObject(input, Game.class);
+//            input.close();
+//            Log.set(Log.LEVEL_DEBUG);
+//            Log.debug("Game loaded in " + ((System.nanoTime() - start) / 1000000) + "ms");
+//            return newGame;
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
-        Log.debug("Saving game...");
-        Log.set(Log.LEVEL_INFO);
+        FileHandler.init();
+        FileHandler.saveGame(this);
         
-        double start = System.nanoTime();
-        try {
-            Output output = new Output(new DeflaterOutputStream(new FileOutputStream("game.dat")));
-            kryo.writeObject(output, this);
-            output.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Log.set(Log.LEVEL_DEBUG);
-        Log.debug("Game saved in " + ((System.nanoTime() - start) / 1000000) + "ms");
-        Log.debug("Loading game...");
-        Log.set(Log.LEVEL_INFO);
-        start = System.nanoTime();
-        try {
-            Input input = new Input(new InflaterInputStream(new FileInputStream("game.dat")));
-            Game newGame = kryo.readObject(input, Game.class);
-            input.close();
-            Log.set(Log.LEVEL_DEBUG);
-            Log.debug("Game loaded in " + ((System.nanoTime() - start) / 1000000) + "ms");
-            return newGame;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        
-
-        return null;
+        return FileHandler.loadGame();
     }
     
     public Game loadGame(){
