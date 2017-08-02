@@ -7,8 +7,6 @@ import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
 
-import java.awt.*;
-
 /**
  * Project: complete-rltut
  * PC

@@ -7,8 +7,6 @@ import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.world.objects.Chest;
 
-import java.awt.*;
-
 /**
  * Project: complete-rltut
  * PC

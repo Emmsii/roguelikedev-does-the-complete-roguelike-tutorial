@@ -5,7 +5,6 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.screen.Screen;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**

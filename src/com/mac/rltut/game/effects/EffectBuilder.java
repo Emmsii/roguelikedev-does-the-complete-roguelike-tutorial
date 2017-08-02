@@ -1,8 +1,6 @@
 package com.mac.rltut.game.effects;
 
-import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Pool;
-import com.mac.rltut.game.entity.creature.Creature;
 
 import java.util.Random;
 

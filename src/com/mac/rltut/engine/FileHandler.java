@@ -3,11 +3,37 @@ package com.mac.rltut.engine;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.pathfinding.astar.AStar;
+import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.FieldOfView;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.Game;
+import com.mac.rltut.game.MessageLog;
+import com.mac.rltut.game.effects.*;
+import com.mac.rltut.game.entity.Entity;
+import com.mac.rltut.game.entity.creature.Boss;
+import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.Player;
+import com.mac.rltut.game.entity.creature.ai.*;
+import com.mac.rltut.game.entity.creature.stats.PlayerStats;
+import com.mac.rltut.game.entity.item.*;
+import com.mac.rltut.game.entity.item.util.DropTable;
+import com.mac.rltut.game.entity.item.util.Inventory;
+import com.mac.rltut.game.entity.item.util.PotionBuilder;
+import com.mac.rltut.game.world.DayNightController;
+import com.mac.rltut.game.world.Level;
+import com.mac.rltut.game.world.World;
+import com.mac.rltut.game.world.objects.Chest;
+import com.mac.rltut.game.world.objects.MapObject;
+import com.mac.rltut.game.world.tile.ChestTile;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
@@ -28,6 +54,83 @@ public class FileHandler {
     
     public static void init(){
         kryo = new Kryo();
+        kryo.setRegistrationRequired(true);
+        kryo.setDefaultSerializer(CompatibleFieldSerializer.class);
+        
+        kryo.register(ArrayList.class);
+        kryo.register(HashMap.class);
+        kryo.register(HashSet.class);
+        kryo.register(int[].class);
+        kryo.register(boolean[][].class);
+        kryo.register(boolean[].class);
+        kryo.register(byte[][].class);
+        kryo.register(byte[].class);
+        
+        kryo.register(Creature[][][].class);
+        kryo.register(Creature[][].class);
+        kryo.register(Creature[].class);
+
+        kryo.register(Item[][][].class);
+        kryo.register(Item[][].class);
+        kryo.register(Item[].class);
+
+        kryo.register(MapObject[][].class);
+        kryo.register(MapObject[].class);
+        
+        kryo.register(EquipmentSlot[].class);
+        kryo.register(Level[].class);
+        
+        kryo.register(Sprite.class);
+        
+        kryo.register(Game.class);
+        kryo.register(Player.class);
+        kryo.register(MessageLog.class);
+        kryo.register(ColoredString.class);
+        
+        kryo.register(Entity.class);
+        kryo.register(Creature.class);
+        kryo.register(Boss.class);
+        kryo.register(CreatureAI.class);
+        kryo.register(PlayerAI.class);
+        kryo.register(BossAI.class);
+        kryo.register(PackMemberAI.class);
+        kryo.register(PackAI.class);
+        kryo.register(PassiveAI.class);
+        kryo.register(AggressiveAI.class);
+        kryo.register(PlayerStats.class);
+
+        kryo.register(Item.class);
+        kryo.register(ItemStack.class);
+        kryo.register(Equippable.class);
+        kryo.register(Consumable.class);
+        kryo.register(Spellbook.class);
+        kryo.register(EquipmentSlot.class);
+        kryo.register(DropTable.class);
+        kryo.register(Inventory.class);
+        
+        kryo.register(MapObject.class);
+        kryo.register(Chest.class);
+        
+        kryo.register(ChestTile.class);
+        
+        kryo.register(Effect.class);
+        kryo.register(EffectOther.class);
+        kryo.register(Blind.class);
+        kryo.register(Heal.class);
+        kryo.register(HealthRegen.class);
+        kryo.register(Leach.class);
+        kryo.register(ManaRegen.class);
+        kryo.register(NightVision.class);
+        kryo.register(Poison.class);
+        kryo.register(Rage.class);
+
+        kryo.register(World.class);
+        kryo.register(DayNightController.class);
+        kryo.register(FieldOfView.class);
+        kryo.register(Level.class);
+
+        kryo.register(Point.class);
+        
         initialized = true;
     }
     
@@ -45,6 +148,37 @@ public class FileHandler {
         if(gameSaveExists()) return;
         File file = new File(SAVE_FOLDER);
         if(!file.exists()) file.mkdirs();
+    }
+        
+    public static String gameVersion(){
+        if(!gameSaveExists()) return null;
+        String version = null;
+        
+        File file = new File(SAVE_LOCATION);
+        FileInputStream fileInputStream = null;
+        InflaterInputStream inflaterInputStream = null;
+        Input input = null;
+
+        double start = System.nanoTime();
+        try {
+            fileInputStream = new FileInputStream(file);
+            inflaterInputStream = new InflaterInputStream(fileInputStream);
+            input = new Input(inflaterInputStream);
+            version = input.readString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                input.close();
+                inflaterInputStream.close();
+                fileInputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.debug("Loaded version in " + ((System.nanoTime() - start) / 1000000) + "ms");
+        
+        return version;
     }
     
     public static void saveGame(Game game){
@@ -68,6 +202,7 @@ public class FileHandler {
             fileOutputStream = new FileOutputStream(file);
             deflaterOutputStream = new DeflaterOutputStream(fileOutputStream);
             output = new Output(deflaterOutputStream);
+            output.writeString(Engine.instance().version());
             kryo.writeObject(output, game);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -112,6 +247,8 @@ public class FileHandler {
             fileInputStream = new FileInputStream(file);
             inflaterInputStream = new InflaterInputStream(fileInputStream);
             input = new Input(inflaterInputStream);
+            String version = input.readString();
+            Log.debug(version);
             game = kryo.readObject(input, Game.class);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

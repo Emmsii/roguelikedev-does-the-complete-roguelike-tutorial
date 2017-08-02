@@ -2,8 +2,6 @@ package com.mac.rltut.engine.util;
 
 import com.mac.rltut.engine.Engine;
 
-import java.awt.*;
-
 /**
  * Project: complete-rltut
  * PC

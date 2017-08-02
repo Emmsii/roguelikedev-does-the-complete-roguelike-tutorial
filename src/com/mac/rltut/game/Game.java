@@ -1,10 +1,5 @@
 package com.mac.rltut.game;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
-import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.FileHandler;
 import com.mac.rltut.engine.pathfinding.astar.AStar;
 import com.mac.rltut.engine.util.maths.Point;
@@ -12,11 +7,7 @@ import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.world.World;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.zip.DeflaterOutputStream;
-import java.util.zip.InflaterInputStream;
+import java.io.File;
 
 /**
  * Project: complete-rltut

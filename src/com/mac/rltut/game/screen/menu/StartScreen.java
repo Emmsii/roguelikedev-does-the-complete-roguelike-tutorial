@@ -3,12 +3,9 @@ package com.mac.rltut.game.screen.menu;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.FileHandler;
 import com.mac.rltut.engine.graphics.Renderer;
-import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.Colors;
-import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.game.GameScreen;
-import com.mac.rltut.game.world.builders.WorldBuilder;
 
 import java.awt.event.KeyEvent;
 
@@ -20,9 +17,11 @@ import java.awt.event.KeyEvent;
 public class StartScreen extends Screen{
     
     private boolean gameExists;
+    private String saveVersion;
     
     public StartScreen(){
         gameExists = FileHandler.gameSaveExists();
+        saveVersion = FileHandler.gameVersion();
     }
     
     @Override
@@ -38,6 +37,7 @@ public class StartScreen extends Screen{
         }
 
         gameExists = FileHandler.gameSaveExists();
+        saveVersion = FileHandler.gameVersion();
         return this;
     }
 
@@ -50,11 +50,16 @@ public class StartScreen extends Screen{
         
         if(gameExists) {
             renderer.writeCenter("[a] Continue", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2);
-            renderer.writeCenter("[b] New Game", Engine.instance().widthInTiles() / 2 , Engine.instance().heightInTiles() / 2 + 1);
-            renderer.writeCenter("[c] Quit", Engine.instance().widthInTiles() / 2 , Engine.instance().heightInTiles() / 2 + 2);
+            renderer.writeCenter("[b] New Game", Engine.instance().widthInTiles() / 2 , Engine.instance().heightInTiles() / 2 + 2);
+            renderer.writeCenter("[c] Quit", Engine.instance().widthInTiles() / 2 , Engine.instance().heightInTiles() / 2 + 3);
         }else{
             renderer.writeCenter("[a] New Game", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2);
             renderer.writeCenter("[b] Quit", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2 + 1);
+        }
+        
+        if(!Engine.instance().version().equals(saveVersion) && saveVersion != null){
+            renderer.writeCenter("Game version doesn't match save file version (" + saveVersion + ")", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 3, Colors.GRAY);
+            renderer.writeCenter("Loaded game might not be stable.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 2, Colors.GRAY);
         }
     }
 }

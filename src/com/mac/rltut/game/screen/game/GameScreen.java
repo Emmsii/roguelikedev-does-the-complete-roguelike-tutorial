@@ -15,7 +15,6 @@ import com.mac.rltut.game.screen.menu.LevelUpScreen;
 import com.mac.rltut.game.screen.menu.LooseScreen;
 import com.mac.rltut.game.world.objects.Chest;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**

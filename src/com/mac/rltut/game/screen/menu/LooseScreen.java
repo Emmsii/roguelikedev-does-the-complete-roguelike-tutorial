@@ -9,7 +9,6 @@ import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.screen.Screen;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**

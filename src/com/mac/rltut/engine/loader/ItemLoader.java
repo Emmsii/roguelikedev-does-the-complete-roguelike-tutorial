@@ -5,7 +5,6 @@ import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.effects.Effect;
-import com.mac.rltut.game.effects.EffectBuilder;
 import com.mac.rltut.game.effects.Heal;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;

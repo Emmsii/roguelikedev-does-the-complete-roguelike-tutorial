@@ -19,9 +19,7 @@ import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * Project: complete-rltut
@@ -417,7 +415,8 @@ public class Creature extends Entity {
     }
     
     public int vision(){
-        return Math.max(vision + visionBonus, Math.min(vision, world.dayNightController().light()));
+        if(visionBonus > 0) return visionBonus;
+        return Math.min(vision, world.dayNightController().light());
     }
 
     public int strengthBonus(){

@@ -8,8 +8,6 @@ import com.mac.rltut.game.entity.item.Spellbook;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
 
-import java.awt.*;
-
 /**
  * Project: complete-rltut
  * PC

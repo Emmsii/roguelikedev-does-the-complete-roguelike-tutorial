@@ -1,5 +1,7 @@
 package com.mac.rltut.engine.window;
 
+import com.mac.rltut.engine.Engine;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -40,6 +42,7 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
 
         try {
             writer = new PrintStream(fileName, "UTF-8");
+            writer.println("version " + Engine.instance().version());
             writer.println("Exception in thread \"" + t.getName() + "\" " + e.getClass() + ": " + e.getMessage());
             for(int i = 0; i < e.getStackTrace().length; i++){
                 writer.println(e.getStackTrace()[i].toString());

@@ -4,12 +4,10 @@ import com.mac.rltut.engine.FileHandler;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.Game;
-import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.menu.StartScreen;
 
 import java.awt.event.KeyEvent;
-import java.security.Key;
 
 /**
  * Project: complete-rltut

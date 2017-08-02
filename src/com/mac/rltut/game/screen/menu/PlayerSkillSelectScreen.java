@@ -7,7 +7,6 @@ import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.world.builders.WorldBuilder;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
