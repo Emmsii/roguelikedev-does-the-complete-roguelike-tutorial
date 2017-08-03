@@ -1,8 +1,13 @@
 package com.mac.rltut.game.entity.util;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.maths.MathUtil;
+import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.item.EquipmentSlot;
+import com.mac.rltut.game.entity.item.Equippable;
+import com.mac.rltut.game.entity.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +22,50 @@ public class CreatureSpawnProperty extends EntitySpawnProperty{
     
     private final String spawnNear;
     private final String packSize;
+    private final String equipment;
     
-    public CreatureSpawnProperty(Creature creature, String spawnLevels, String spawnTypes, String spawnNear, int chance, float depthMultiplier, String packSize) {
+    public CreatureSpawnProperty(Creature creature, String spawnLevels, String spawnTypes, String spawnNear, int chance, float depthMultiplier, String packSize, String equipment) {
         super(creature, spawnLevels, spawnTypes, chance, depthMultiplier);
         this.spawnNear = spawnNear;
         this.packSize = packSize;
+        this.equipment = equipment;
+    }
+    
+    public Equippable getEquipment(Random random){
+        if(equipment == null) return null;
+        String[] split = equipment.trim().split(",");
+
+        Pool<Equippable> pool = new Pool<Equippable>(random);
+        pool.add(new Equippable(null, null, null, null), 100);
+        
+        for(String s : split){
+            String[] equipmentSplit = s.split(":");
+            if(equipmentSplit.length != 2){
+                Log.warn("Invalid creature equipment sytnax [" + s + "]");
+                continue;
+            }
+            String name = equipmentSplit[0].trim();
+            int chance = Integer.parseInt(equipmentSplit[1].trim());
+            if(!Codex.items.containsKey(name)){
+                Log.warn("Unknown item [" + name + "]");
+                continue;
+            }
+            Item item = (Item) Codex.items.get(name).entity();
+            if(item instanceof Equippable) pool.add((Equippable) item, chance);
+            else Log.warn("Creature equipment is not equippable [" + name + "]");
+        }
+        
+        if(pool.isEmpty()){
+            Log.warn("Could not find equipment to give creature.");
+            return null;
+        }
+        Equippable item = pool.get();
+        if(item.name() == null) return null;
+        else return (Equippable) item.newInstance();
+    }
+    
+    public boolean hasEquipment(){
+        return equipment != null;
     }
     
     public boolean canSpawnAtDepth(int z){

@@ -53,12 +53,13 @@ public class CreatureLoader extends DataLoader{
             int size = obj.hasToken("size") ? obj.getInt("size") : 1;
 
             String[] flags = obj.hasToken("flags") ? parseFlags(obj.getString("flags")) : null;
-
             DropTable drops = obj.hasToken("drops") ? parseDropTable(obj.getString("drops")) : null;
+            
+            String equipment = obj.hasToken("equipment") ? obj.getString("equipment") : null;
             
             if(obj.isType("creature")) {
                 Creature creature = new Creature(name, description, sprite, size, ai);
-                spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnChance, depthMultiplier, packSize);
+                spawnProperty = new CreatureSpawnProperty(creature, spawnLevels, spawnTypes, spawnNear, spawnChance, depthMultiplier, packSize, equipment);
             }else if(obj.isType("boss")) {
                 int spawnEvery = obj.hasToken("spawn_every") ? obj.getInt("spawn_every") : 0;
                 String minions = obj.hasToken("minions") ? obj.getString("minions") : "none";
@@ -94,4 +95,6 @@ public class CreatureLoader extends DataLoader{
         for(String s : split) drops.addDrop(s.trim());
         return drops;
     }
+    
+    
 }

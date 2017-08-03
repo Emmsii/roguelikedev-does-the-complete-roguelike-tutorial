@@ -29,8 +29,8 @@ public class PlayerSkillSelectScreen extends Screen{
     private Player player;
     
     public PlayerSkillSelectScreen(Player player){
-        this.startingPoints = 8;
-        this.points = 8;
+        this.startingPoints = 4;
+        this.points = startingPoints;
         this.strength = 1;
         this.defence = 1;
         this.accuracy = 1;

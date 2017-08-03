@@ -29,7 +29,13 @@ public class StartScreen extends Screen{
         
         if(gameExists){
             if(e.getKeyCode() == KeyEvent.VK_A) return new GameScreen(FileHandler.loadGame());
-            else if(e.getKeyCode() == KeyEvent.VK_B) return new PlayerNameScreen(12);
+            else if(e.getKeyCode() == KeyEvent.VK_B) return new ConfirmScreen("This will overwrite your previous game!", new PlayerNameScreen(12), this){
+                @Override
+                public Screen onYes() {
+                    FileHandler.deleteGameSave();
+                    return super.onYes();
+                }
+            };
             else if(e.getKeyCode() == KeyEvent.VK_C) System.exit(0);
         }else{
             if(e.getKeyCode() == KeyEvent.VK_A) return new PlayerNameScreen(12);
@@ -49,12 +55,12 @@ public class StartScreen extends Screen{
         renderer.writeCenter(Engine.instance().version(), Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3 + 1, Colors.darken(Colors.GRAY, 0.8f));
         
         if(gameExists) {
-            renderer.writeCenter("[a] Continue", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2);
-            renderer.writeCenter("[b] New Game", Engine.instance().widthInTiles() / 2 , Engine.instance().heightInTiles() / 2 + 2);
-            renderer.writeCenter("[c] Quit", Engine.instance().widthInTiles() / 2 , Engine.instance().heightInTiles() / 2 + 3);
+            renderer.write("[a] Continue", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2);
+            renderer.write("[b] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 2);
+            renderer.write("[c] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 3);
         }else{
-            renderer.writeCenter("[a] New Game", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2);
-            renderer.writeCenter("[b] Quit", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2 + 1);
+            renderer.write("[a] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2);
+            renderer.write("[b] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 1);
         }
         
         if(!Engine.instance().version().equals(saveVersion) && saveVersion != null){

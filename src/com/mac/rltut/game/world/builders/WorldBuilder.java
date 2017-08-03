@@ -157,6 +157,7 @@ public class WorldBuilder {
                             CreatureSpawnProperty minion = minionPool.get();
                             Point minionSpawn = world.randomEmptyPointInRadius(spawn, 6);
                             Creature packMember = newCreature(minionSpawn, (Creature) minion.creature().newInstance());
+                            giveEquippable(packMember, minion);
                             pack.addPackMember(new PackMemberAI(packMember, pack));
                             modifyStats(packMember, z);
                             spawnedThisLevel++;
@@ -184,6 +185,7 @@ public class WorldBuilder {
                 
                 if(packSize == 0) {
                     Creature newCreature = newCreature(spawn, (Creature) toSpawn.creature().newInstance());
+                    giveEquippable(newCreature, toSpawn);
                     getAI(toSpawn.creature().aiType(), newCreature);
                     modifyStats(newCreature, z);
                     spawnedThisLevel++;
@@ -192,6 +194,7 @@ public class WorldBuilder {
                     for(int i = 0; i < packSize; i++){
                         Point newSpawn = world.randomEmptyPointInRadius(spawn, 4);
                         Creature packMember = newCreature(newSpawn, (Creature) toSpawn.creature().newInstance());
+                        giveEquippable(packMember, toSpawn);
                         pack.addPackMember(new PackMemberAI(packMember, pack));
                         modifyStats(packMember, z);
                         spawnedThisLevel++;
@@ -323,6 +326,16 @@ public class WorldBuilder {
         if(!spawnCounts.get(spawn.z).containsKey(creature.name())) spawnCounts.get(spawn.z).put(creature.name(), 0);
         spawnCounts.get(spawn.z).put(creature.name(), spawnCounts.get(spawn.z).get(creature.name()) + 1);
         return creature;
+    }
+    
+    private void giveEquippable(Creature creature, CreatureSpawnProperty spawnProperty){
+        if(spawnProperty.hasEquipment()){
+            Equippable item = spawnProperty.getEquipment(random);
+            if(item == null) return;
+            Log.debug("Given " + creature.name() + " a " + item.name());
+            creature.inventory().add(item);
+            creature.equip(item);
+        }
     }
     
     private void modifyStats(Creature creature, int z){

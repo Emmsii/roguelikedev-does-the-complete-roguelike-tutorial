@@ -38,6 +38,11 @@ public class ChestScreen extends InventoryBasedScreen{
             player.inventory().add(item);
             player.doAction(new ColoredString("take the %s"), item.name());
         }
-        return null;
+        
+        if(inventory.isEmpty()){
+            player.notify(new ColoredString("The chest is empty.", Colors.ORANGE));
+            return null;
+        }
+        return this;
     }
 }

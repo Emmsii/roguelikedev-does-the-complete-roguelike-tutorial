@@ -106,6 +106,7 @@ public class FileHandler {
         kryo.register(Spellbook.class);
         kryo.register(EquipmentSlot.class);
         kryo.register(DropTable.class);
+        kryo.register(DropTable.Drop.class);
         kryo.register(Inventory.class);
         
         kryo.register(MapObject.class);
@@ -142,6 +143,7 @@ public class FileHandler {
         if(!gameSaveExists()) return;
         File file = new File(SAVE_LOCATION);
         file.delete();
+        Log.debug("Save file deleted.");
     }
     
     public static void createSaveFolder(){

@@ -14,12 +14,12 @@ import java.awt.event.KeyEvent;
  * PC
  * Created by Matt on 01/08/2017 at 05:28 PM.
  */
-public class GameOptionsMenu extends Screen{
+public class GameEscapeMenu extends Screen{
     
     private Game game;
     private boolean saved;
     
-    public GameOptionsMenu(int x, int y, int w, int h, Game game) {
+    public GameEscapeMenu(int x, int y, int w, int h, Game game) {
         super(x, y, w, h, "");
         this.game = game;
         this.saved = false;
@@ -46,12 +46,12 @@ public class GameOptionsMenu extends Screen{
     public void render(Renderer renderer) {
         renderBorderFill(renderer);
         
-        int xp = this.x + this.width / 2;
+        int xp = this.x + 4;
         int yp = this.y + 2;
         
-        renderer.writeCenter("[a] Resume", xp, yp++);
-        renderer.writeCenter("[b] Save Game", xp, yp++, !saved ? Colors.WHITE : Colors.GRAY);
-        renderer.writeCenter("[c] Main Menu", xp, yp++);
-        renderer.writeCenter("[d] Quit Game", xp, yp++);
+        renderer.write("[a] Resume", xp, yp++);
+        renderer.write("[b] Save Game", xp, yp++, !saved ? Colors.WHITE : Colors.GRAY);
+        renderer.write("[c] Main Menu", xp, yp++);
+        renderer.write("[d] Quit Game", xp, yp++);
     }
 }

@@ -1,6 +1,7 @@
 package com.mac.rltut.game.screen.menu;
 
 import com.mac.rltut.engine.Engine;
+import com.mac.rltut.engine.FileHandler;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.screen.Screen;

@@ -18,7 +18,7 @@ public class BossSpawnProperty extends CreatureSpawnProperty{
     private final boolean unique;
 
     public BossSpawnProperty(Boss boss, String spawnLevels, int spawnEvery, String spawnTypes, String spawnNear, int chance, String minions, String minionCount, boolean unique) {
-        super(boss, spawnLevels, spawnTypes, spawnNear, chance, 1f, "0");
+        super(boss, spawnLevels, spawnTypes, spawnNear, chance, 1f, "0", null);
         this.spawnEvery = spawnEvery;
         this.minions = getMinions(minions.trim());
         this.minionCount = minionCount;
