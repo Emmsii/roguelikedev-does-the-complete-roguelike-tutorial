@@ -19,7 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-Changes have been made to the file "minirogue-all.png" which is licensed under
-Creative Commons Attribution-ShareAlike 4.0. Original creator "Arachne"
-and was found https://forums.tigsource.com/index.php?topic=14166.0 
