@@ -16,7 +16,15 @@ public class BossAI extends CreatureAI{
     public BossAI(Creature creature) {
         super(creature);
     }
-    
+
+    @Override
+    public void update() {
+        if(creature.hasFlag("slow") && Math.random() < 0.25) return;
+        
+        
+        
+    }
+
     public void setPack(PackAI pack){
         this.pack = pack;
     }

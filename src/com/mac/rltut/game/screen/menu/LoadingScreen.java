@@ -43,7 +43,7 @@ public class LoadingScreen extends Screen {
 
     @Override
     public void render(Renderer renderer) {
-        renderBorder(renderer);
+        renderBorderFill(renderer);
         renderer.writeCenter("Loading...", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 2);
     }
 }

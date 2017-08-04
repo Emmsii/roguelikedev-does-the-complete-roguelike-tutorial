@@ -207,6 +207,29 @@ public class World {
         }
     }
     
+    public Point getEmptyItemDropPoint(int x, int y, int z){
+        if(!inBounds(x, y, z)) return null;
+
+        List<Point> points = new ArrayList<Point>();
+        List<Point> checked = new ArrayList<Point>();
+
+        points.add(new Point(x, y, z));
+
+        while(!points.isEmpty()){
+            Point p = points.remove(0);
+            checked.add(p);
+
+            if(solid(p.x, p.y, p.z)) continue;
+            if(item(p.x, p.y, p.z) == null) return p;
+            else{
+                List<Point> neighbours = p.neighboursCardinal();
+                neighbours.removeAll(checked);
+                points.addAll(neighbours);
+            }
+        }
+        return null;
+    }
+    
     public boolean addAtEmptyPoint(int x, int y, int z, Item item){
         
         if(!inBounds(x, y, z)) return false;
@@ -317,7 +340,7 @@ public class World {
         return itemList.get(z);
     }
     
-    public Creature player(){
+    public Player player(){
         return player;
     }
 

@@ -44,7 +44,7 @@ public class CreatureSpawnProperty extends EntitySpawnProperty{
                 Log.warn("Invalid creature equipment sytnax [" + s + "]");
                 continue;
             }
-            String name = equipmentSplit[0].trim();
+            String name = equipmentSplit[0].trim().toLowerCase();
             int chance = Integer.parseInt(equipmentSplit[1].trim());
             if(!Codex.items.containsKey(name)){
                 Log.warn("Unknown item [" + name + "]");

@@ -1,5 +1,6 @@
 package com.mac.rltut.game.entity.creature;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
@@ -67,6 +68,9 @@ public class Creature extends Entity {
     
     private int tick;
     
+    private Creature attackedBy;
+    private int aggressionCooldown;
+    
     public Creature() {}
     
     public Creature(String name, String description, Sprite sprite, String aiType) {
@@ -76,9 +80,6 @@ public class Creature extends Entity {
     public Creature(String name, String description, Sprite sprite, int size, String aiType) {
         super(name, description, sprite);
         this.size = size;
-        this.inventory = new Inventory<Item>();
-        this.equippedItems = new HashMap<EquipmentSlot, Equippable>();
-        this.effects = new ArrayList<Effect>();
         this.flags = new HashSet<String>();
         this.level = 1;
         this.aiType = aiType;
@@ -102,6 +103,9 @@ public class Creature extends Entity {
     @Override
     public void init(int id, World world) {
         super.init(id, world);
+        this.equippedItems = new HashMap<EquipmentSlot, Equippable>();
+        this.effects = new ArrayList<Effect>();
+        this.inventory = new Inventory<Item>();
     }
 
     @Override
@@ -111,6 +115,9 @@ public class Creature extends Entity {
         regenMana();
         updateEffects();
         ai.update();
+        
+        if(aggressionCooldown > 0) aggressionCooldown--; 
+        else if(aggressionCooldown == 0) attackedBy = null;
         
         if(!hasMoved) timeStationary++;
         else timeStationary = 0;
@@ -188,6 +195,10 @@ public class Creature extends Entity {
     
     /* Item Methods */
     
+    public void addItem(Item item){
+        
+    }
+    
     public void pickup(){
         Item item = world.item(x, y, z);
         
@@ -214,10 +225,14 @@ public class Creature extends Entity {
     }
     
     public void drop(Item item){
-        if(world.addAtEmptyPoint(x, y, z, item)){ //TODO: message item falls at feet comes before unequip item
+        Point itemSpawn = world.getEmptyItemDropPoint(x, y, z);
+                
+        if(itemSpawn != null) {
             if(item instanceof Equippable) ((Equippable) item).unequip(this);
             doAction(new ColoredString("drop a %s"), item.name());
-            inventory.remove(item);
+            inventory().remove(item);
+            world.add(itemSpawn.x, itemSpawn.y, itemSpawn.z, item);
+            if(itemSpawn.x == x && itemSpawn.y == y && itemSpawn.z == z) notify(new ColoredString("A %s lands at your feet."), item.name());
         }else{
             notify(new ColoredString("There is nowhere to drop the %s.", Colors.ORANGE), item.name());
         }
@@ -421,38 +436,64 @@ public class Creature extends Entity {
 
     public int strengthBonus(){
         int result = 0;
-        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).strengthBonus(); 
+        for(EquipmentSlot s : equippedItems.keySet()){
+            if(equippedItems.get(s) == null) continue;
+            result += equippedItems.get(s).strengthBonus();
+        } 
         return result;
     }
     
     public int defenseBonus(){
         int result = 0;
-        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).defenseBonus();
+        for(EquipmentSlot s : equippedItems.keySet()){
+            if(equippedItems.get(s) == null) continue;
+            result += equippedItems.get(s).defenseBonus();
+        }
         return result;
     }
     
     public int accuracyBonus(){
         int result = 0;
-        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).accuracyBonus();
+        for(EquipmentSlot s : equippedItems.keySet()){
+            if(equippedItems.get(s) == null) continue;
+            result += equippedItems.get(s).accuracyBonus();
+        }
         return result;
     }
     
     public int intelligenceBonus(){
         int result = 0;
-        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).intelligenceBonus();
+        for(EquipmentSlot s : equippedItems.keySet()){
+            if(equippedItems.get(s) == null) continue;
+            result += equippedItems.get(s).intelligenceBonus();
+        }
         return result;
     }
     
     public int manaRegenAmountBonus(){
         int result = 0;
-        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).manaRegenAmountBonus();
+        for(EquipmentSlot s : equippedItems.keySet()){
+            if(equippedItems.get(s) == null) continue;
+            result += equippedItems.get(s).manaRegenAmountBonus();
+        }
         return result;
     }
 
     public int manaRegenSpeedBonus(){
         int result = 0;
-        for(EquipmentSlot s : equippedItems.keySet()) result += equippedItems.get(s).manaRegenSpeedBonus();
+        for(EquipmentSlot s : equippedItems.keySet()){
+            if(equippedItems.get(s) == null) continue;
+            result += equippedItems.get(s).manaRegenSpeedBonus();
+        }
         return result;
+    }
+    
+    public Creature attackedBy(){
+        return attackedBy;
+    }
+    
+    public int aggressionCooldown(){
+        return aggressionCooldown;
     }
     
     public int xp(){
@@ -519,5 +560,17 @@ public class Creature extends Entity {
     
     public void setEquippable(EquipmentSlot slot, Equippable equippable){
         equippedItems.put(slot, equippable);
+    }
+    
+    public void setAttackedBy(Creature attackedBy){
+        this.attackedBy = attackedBy;
+        if(aggressionCooldown == 0 && hp > 0) doAction(new ColoredString("get angry", Colors.RED));
+        aggressionCooldown = 10;
+    }
+    
+    @Override
+    public Entity newInstance() {
+        Creature c = (Creature) super.newInstance();
+        return c;
     }
 }

@@ -1,4 +1,4 @@
-package com.mac.rltut.game.screen.game.inventory;
+package com.mac.rltut.game.screen.game.subscreen.inventory;
 
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;

@@ -1,4 +1,4 @@
-package com.mac.rltut.game.screen.game.inventory.examine;
+package com.mac.rltut.game.screen.game.subscreen.examine;
 
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;

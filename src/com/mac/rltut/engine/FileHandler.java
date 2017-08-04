@@ -22,7 +22,6 @@ import com.mac.rltut.game.entity.creature.stats.PlayerStats;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.item.util.DropTable;
 import com.mac.rltut.game.entity.item.util.Inventory;
-import com.mac.rltut.game.entity.item.util.PotionBuilder;
 import com.mac.rltut.game.world.DayNightController;
 import com.mac.rltut.game.world.Level;
 import com.mac.rltut.game.world.World;
@@ -96,6 +95,7 @@ public class FileHandler {
         kryo.register(PackMemberAI.class);
         kryo.register(PackAI.class);
         kryo.register(PassiveAI.class);
+        kryo.register(NeutralAI.class);
         kryo.register(AggressiveAI.class);
         kryo.register(PlayerStats.class);
 

@@ -1,5 +1,6 @@
-package com.mac.rltut.game.screen.game;
+package com.mac.rltut.game.screen.game.subscreen;
 
+import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.maths.Line;
 import com.mac.rltut.engine.util.maths.Point;
@@ -16,6 +17,11 @@ public class FireWeaponScreen extends TargetBasedScreen{
        
     public FireWeaponScreen(int x, int y, int w, int h, Player player, int sx, int sy) {
         super(x, y, w, h, player, sx, sy);
+    }
+
+    @Override
+    public void render(Renderer renderer) {
+        super.render(renderer);
     }
 
     @Override

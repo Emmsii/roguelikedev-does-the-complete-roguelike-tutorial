@@ -77,7 +77,8 @@ public class PlayerSkillSelectScreen extends Screen{
         }
         
         if(e.getKeyCode() == KeyEvent.VK_ENTER){
-            player.setStats(50, 50, 2, 20, strength, defence, accuracy, intelligence, 16, null);
+            player.setStats(1000, 50, 2, 20, strength, defence, accuracy, intelligence, 16, null);
+            player.setStats(1000, 50, 2, 20, 99, 99, 99, 99, 16, null);
             return new LoadingScreen(player, new WorldBuilder(92, 92, 20, System.currentTimeMillis()));
         }
         
@@ -86,7 +87,7 @@ public class PlayerSkillSelectScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-        renderBorder(renderer);
+        renderBorderFill(renderer);
         
         renderer.writeCenter("Choose your skills", Engine.instance().widthInTiles() / 2, 8);
         renderer.write("Points Left: " + points, 10, 13);

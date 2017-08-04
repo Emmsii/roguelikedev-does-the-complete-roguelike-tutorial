@@ -55,7 +55,7 @@ VISION=10
 AI=aggressive
 FLAGS=slow
 DROPS=gold:2-12:45
-EQUIPMENT=dagger:3
+EQUIPMENT=dagger:100
 
 [CREATURE]
 NAME=ent
@@ -71,7 +71,7 @@ VISION=15
 SPAWN_TYPES=dark, dense
 SPAWN_LEVELS=6-20
 SPAWN_CHANCE=85
-AI=aggressive
+AI=neutral
 FLAGS=slow, no_blood
 
 [CREATURE]
@@ -219,7 +219,7 @@ INTELLIGENCE=5
 VISION=12
 SPAWN_TYPES=!default, !dense, !lakes, !sparse
 SPAWN_LEVELS=6-20
-AI=aggressive
+AI=neutral
 FLAGS=no_blood
 
 [CREATURE]

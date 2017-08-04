@@ -1,7 +1,6 @@
-package com.mac.rltut.game.screen.game.inventory;
+package com.mac.rltut.game.screen.game.subscreen.inventory;
 
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.item.Consumable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
@@ -9,27 +8,27 @@ import com.mac.rltut.game.screen.Screen;
 /**
  * Project: complete-rltut
  * PC
- * Created by Matt on 25/07/2017 at 10:48 AM.
+ * Created by Matt on 25/07/2017 at 12:25 PM.
  */
-public class ConsumeScreen extends InventoryBasedScreen{
+public class DropScreen extends InventoryBasedScreen{
     
-    public ConsumeScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player) {
+    public DropScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player) {
         super(x, y, w, h, title, inventory, player, null);
     }
 
     @Override
     protected String getVerb() {
-        return "consume";
+        return "drop";
     }
 
     @Override
     protected boolean isAcceptable(Item item) {
-        return item instanceof Consumable;
+        return true;
     }
 
     @Override
     protected Screen use(Item item) {
-        ((Consumable) item).consume(player);
-        return null;
+        player.drop(item);
+        return this;
     }
 }

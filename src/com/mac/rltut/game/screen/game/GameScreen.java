@@ -9,9 +9,9 @@ import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.screen.Screen;
-import com.mac.rltut.game.screen.game.inventory.*;
-import com.mac.rltut.game.screen.game.inventory.examine.ExamineScreen;
-import com.mac.rltut.game.screen.menu.LevelUpScreen;
+import com.mac.rltut.game.screen.game.subscreen.*;
+import com.mac.rltut.game.screen.game.subscreen.inventory.*;
+import com.mac.rltut.game.screen.game.subscreen.examine.ExamineScreen;
 import com.mac.rltut.game.screen.menu.LooseScreen;
 import com.mac.rltut.game.world.objects.Chest;
 
@@ -105,15 +105,13 @@ public class GameScreen extends Screen{
 
             if(key.getKeyChar() == '?') subscreen = new HelpScreen();
         }
-
-        if(player().hasUsedEquipment()) shouldUpdate = true;
-
+        
         if(player().level() > level){
             subscreen = new LevelUpScreen(Engine.instance().widthInTiles() / 2 - 20, Engine.instance().heightInTiles() / 2 - 6, 40, 11, player(), player().level() - level);
             return this;
         }
 
-        if(subscreen == null && shouldUpdate) game.update();
+        if(subscreen == null && shouldUpdate || player().hasUsedEquipment()) game.update();
         if(player().hp() < 1) return new LooseScreen(player());
         
         return this;

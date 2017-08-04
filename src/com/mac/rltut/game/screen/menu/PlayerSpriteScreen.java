@@ -42,7 +42,7 @@ public class PlayerSpriteScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-        renderBorder(renderer);
+        renderBorderFill(renderer);
 
         renderer.writeCenter("What do you look like?", Engine.instance().widthInTiles() / 2, 8);
         

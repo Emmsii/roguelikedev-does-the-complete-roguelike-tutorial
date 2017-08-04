@@ -1,11 +1,15 @@
 package com.mac.rltut.game.entity.creature.ai;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.pathfinding.Path;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.maths.Line;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.stats.LevelUpController;
+import com.mac.rltut.game.entity.item.EquipmentSlot;
+import com.mac.rltut.game.entity.item.Equippable;
+import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
@@ -19,16 +23,20 @@ public class CreatureAI {
     protected Creature creature;
     
     public CreatureAI() {}
-    
+
     public CreatureAI(Creature creature){
         this.creature = creature;
         if(creature != null) creature.setAi(this);
     }
     
     public void update(){
-        
+
     }
-    
+
+    protected int pathTo(Point point){
+        return pathTo(point.x, point.y);
+    }
+
     protected int pathTo(int xp, int yp){
         Path path = new Path(creature, xp, yp);
         if(path.hasNext()){
@@ -44,6 +52,41 @@ public class CreatureAI {
             int y = (int) Math.round(Math.random() * 2 - 1);
             creature.moveBy(x, y, 0);
         }
+    }
+    
+    protected boolean canPickup(){
+        if(creature.inventory().isFull()) return false;
+        return Math.random() < 0.5 && creature.hasFlag("smart");
+    }
+    
+    protected boolean canUseRanged(Creature other){
+        Equippable weapon = creature.getEquippedAt(EquipmentSlot.WEAPON);
+        if(weapon == null) return false;
+        return weapon.rangedDamage() != null && creature.canSee(other);
+    }
+    
+    protected boolean equipBestWeapon(){
+        if(creature.inventory().isEmpty()) return false;
+        Equippable best = creature.getEquippedAt(EquipmentSlot.WEAPON);
+        int bestScore = best != null ? best.score() : Integer.MIN_VALUE;
+        boolean betterItemFound = false;
+        
+        for(Item i : creature.inventory().items()){
+            if(!(i instanceof Equippable)) continue;
+            Equippable equippable = (Equippable) i;
+            if(equippable.score() > bestScore) {
+                best = equippable;
+                bestScore = best.score();
+                betterItemFound = true;
+            }
+        }
+        
+        if(betterItemFound){
+            Log.debug(creature.name() + " equips a " + best.name());
+            creature.equip(best);
+        }
+        
+        return true;
     }
     
     public void onGainLevel(){
@@ -85,4 +128,5 @@ public class CreatureAI {
     public void notify(ColoredString message){
         
     }
+    
 }

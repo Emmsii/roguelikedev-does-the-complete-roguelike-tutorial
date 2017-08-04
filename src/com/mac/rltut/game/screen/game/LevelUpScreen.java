@@ -1,4 +1,4 @@
-package com.mac.rltut.game.screen.menu;
+package com.mac.rltut.game.screen.game;
 
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.game.entity.creature.Player;

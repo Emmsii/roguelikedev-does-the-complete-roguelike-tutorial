@@ -44,7 +44,7 @@ public class ItemLoader extends DataLoader {
             }else if(obj.isType("consumable")){
                 Effect effect = null;
                 if(obj.hasToken("heal")) new Heal(obj.getInt("heal"));
-                String action = obj.hasToken("action") ? obj.getString("action") : "fumble";
+                String action = obj.hasToken("actions") ? obj.getString("actions") : "fumble";
                 item = new Consumable(name, description, sprite, action, effect);
             }else if(obj.isType("equippable")){
                 String slot = obj.getString("slot");

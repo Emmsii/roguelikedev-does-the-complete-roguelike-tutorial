@@ -138,7 +138,7 @@ public class WorldBuilder {
                     if (boss.isUnique()) uniquesSpawned.add(boss.creature().name());
 
                     Point spawn = getSpawnPoint(boss, z);
-                    Boss newBoss  = (Boss) newCreature(spawn, (Creature) boss.creature().newInstance());
+                    Boss newBoss  = (Boss) newCreature(spawn, (Creature) boss.creature().newInstance(), boss);
                     BossAI bossAI = new BossAI(newBoss);
                     modifyStats(newBoss, z);
                     spawnedThisLevel++;
@@ -156,8 +156,7 @@ public class WorldBuilder {
 
                             CreatureSpawnProperty minion = minionPool.get();
                             Point minionSpawn = world.randomEmptyPointInRadius(spawn, 6);
-                            Creature packMember = newCreature(minionSpawn, (Creature) minion.creature().newInstance());
-                            giveEquippable(packMember, minion);
+                            Creature packMember = newCreature(minionSpawn, (Creature) minion.creature().newInstance(), minion);
                             pack.addPackMember(new PackMemberAI(packMember, pack));
                             modifyStats(packMember, z);
                             spawnedThisLevel++;
@@ -184,8 +183,7 @@ public class WorldBuilder {
                 typesSpawned.add(toSpawn.creature().name());
                 
                 if(packSize == 0) {
-                    Creature newCreature = newCreature(spawn, (Creature) toSpawn.creature().newInstance());
-                    giveEquippable(newCreature, toSpawn);
+                    Creature newCreature = newCreature(spawn, (Creature) toSpawn.creature().newInstance(), toSpawn);
                     getAI(toSpawn.creature().aiType(), newCreature);
                     modifyStats(newCreature, z);
                     spawnedThisLevel++;
@@ -193,8 +191,7 @@ public class WorldBuilder {
                     PackAI pack = new PackAI(10);
                     for(int i = 0; i < packSize; i++){
                         Point newSpawn = world.randomEmptyPointInRadius(spawn, 4);
-                        Creature packMember = newCreature(newSpawn, (Creature) toSpawn.creature().newInstance());
-                        giveEquippable(packMember, toSpawn);
+                        Creature packMember = newCreature(newSpawn, (Creature) toSpawn.creature().newInstance(), toSpawn);
                         pack.addPackMember(new PackMemberAI(packMember, pack));
                         modifyStats(packMember, z);
                         spawnedThisLevel++;
@@ -319,23 +316,24 @@ public class WorldBuilder {
         return spawn;
     }
 
-    private Creature newCreature(Point spawn, Creature creature){
+    private Creature newCreature(Point spawn, Creature creature, CreatureSpawnProperty spawnProperty){
         world.add(spawn.x, spawn.y, spawn.z, creature);
         //modifyStats(creature, spawn.z);
         
         if(!spawnCounts.get(spawn.z).containsKey(creature.name())) spawnCounts.get(spawn.z).put(creature.name(), 0);
         spawnCounts.get(spawn.z).put(creature.name(), spawnCounts.get(spawn.z).get(creature.name()) + 1);
+        
+        giveEquippable(creature, spawnProperty);
+        
         return creature;
     }
     
     private void giveEquippable(Creature creature, CreatureSpawnProperty spawnProperty){
-        if(spawnProperty.hasEquipment()){
-            Equippable item = spawnProperty.getEquipment(random);
-            if(item == null) return;
-            Log.debug("Given " + creature.name() + " a " + item.name());
-            creature.inventory().add(item);
-            creature.equip(item);
-        }
+        if(!spawnProperty.hasEquipment()) return;
+        Equippable item = spawnProperty.getEquipment(random);
+        if(item == null) return;
+        creature.inventory().add(item);
+        creature.equip(item);
     }
     
     private void modifyStats(Creature creature, int z){
@@ -375,7 +373,11 @@ public class WorldBuilder {
     private CreatureAI getAI(String ai, Creature creature){
         if(ai.equalsIgnoreCase("aggressive")) return new AggressiveAI(creature);
         else if(ai.equalsIgnoreCase("passive")) return new PassiveAI(creature);
-        else return new CreatureAI(creature);
+        else if(ai.equalsIgnoreCase("neutral")) return new NeutralAI(creature);
+        else{
+            Log.warn("Unknown creature ai [" + ai + "]");
+            return new CreatureAI(creature);
+        }
     }
     
     public World build(){

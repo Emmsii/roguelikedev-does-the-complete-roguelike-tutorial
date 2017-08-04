@@ -1,4 +1,4 @@
-package com.mac.rltut.game.screen.game.inventory;
+package com.mac.rltut.game.screen.game.subscreen;
 
 import com.mac.rltut.engine.FileHandler;
 import com.mac.rltut.engine.graphics.Renderer;
@@ -37,7 +37,7 @@ public class GameEscapeMenu extends Screen{
         }else if(key.getKeyCode() == KeyEvent.VK_D){
             FileHandler.saveGame(game);
             System.exit(0);
-        }
+        }else if(key.getKeyCode() == KeyEvent.VK_ESCAPE) return null;
         
         return this;
     }

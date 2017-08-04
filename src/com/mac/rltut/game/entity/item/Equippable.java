@@ -1,5 +1,6 @@
 package com.mac.rltut.game.entity.item;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
@@ -33,7 +34,10 @@ public class Equippable extends Item{
     
     public void equip(Creature creature){
         Equippable alreadyEquipped = creature.getEquippedAt(slot);
-        if(alreadyEquipped != null && alreadyEquipped != this) creature.unequip(creature.getEquippedAt(slot));
+        if(alreadyEquipped != null && alreadyEquipped != this) {
+            creature.unequip(creature.getEquippedAt(slot));
+            return;
+        }        
 
         if(isEquipped()){
             unequip(creature);
@@ -55,8 +59,7 @@ public class Equippable extends Item{
                 return;
             }
         }
-        
-        
+                
         creature.setEquippable(slot, this);
         creature.doAction(new ColoredString("equip a %s"), name);
         equipped = true;
@@ -67,6 +70,36 @@ public class Equippable extends Item{
         if(alreadyEquipped != null) creature.doAction(new ColoredString("unequip a %s"), name);
         creature.setEquippable(slot, null);
         equipped = false;
+    }
+        
+    public int score(){
+        float result = 0;
+        
+        if(damage != null) {
+            String[] splitDamage = damage.split("d");
+            int rolls = Integer.parseInt(splitDamage[0].trim());
+            int sides = Integer.parseInt(splitDamage[1].trim());
+            result += sides * rolls;
+        }
+
+        if(rangedDamage != null) {
+            result *= 0.75f;
+            String[] splitDamage = rangedDamage.toLowerCase().split("d");
+            int rolls = Integer.parseInt(splitDamage[0].trim());
+            int sides = Integer.parseInt(splitDamage[1].trim());
+            result += sides * rolls;
+        }
+        
+        result += strengthBonus;
+        result += defenseBonus;
+        result += accuracyBonus;
+        result += intelligenceBonus;
+        result += manaRegenAmountBonus / 2;
+        result += manaRegenSpeedBonus / 2;
+        
+        if(effect != null) result *= 1.35f;
+        
+        return (int) result;
     }
 
     public void setDamage(String damage){

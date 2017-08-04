@@ -27,7 +27,7 @@ public class PlayerNameScreen extends Screen{
     
     @Override
     public void render(Renderer renderer) {
-        renderBorder(renderer);
+        renderBorderFill(renderer);
         
         renderer.writeCenter("Who are you?", Engine.instance().widthInTiles() / 2, 8);
         renderer.write(name + (name.length() != maxNameLength ? "_" : ""), 12, 15);

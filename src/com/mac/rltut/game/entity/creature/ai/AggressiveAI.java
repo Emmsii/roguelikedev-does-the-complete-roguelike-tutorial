@@ -3,54 +3,37 @@ package com.mac.rltut.game.entity.creature.ai;
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.util.CombatManager;
 
 /**
  * Project: complete-rltut
  * PC
- * Created by Matt on 20/07/2017 at 08:29 PM.
+ * Created by Matt on 04/08/2017 at 07:37 PM.
  */
-public class AggressiveAI extends CreatureAI{
+public class AggressiveAI extends CreatureAI {
     
     private Creature target;
-    private Point lastSeen;
-
-    public AggressiveAI() {}
     
-    public AggressiveAI(Creature creature) {
+    public AggressiveAI(){}
+    
+    public AggressiveAI(Creature creature){
         super(creature);
     }
 
     @Override
     public void update() {
-        if(creature.hasFlag("slow") && Math.random() < 0.25) return;
+        if (creature.hasFlag("slow") && Math.random() < 0.25) return;
+        target = creature.world().player();
         
-        boolean canSee = creature.canSee(creature.world().player());
-        
-        if(canSee){
-            target = creature.world().player();
-            lastSeen = new Point(target.x, target.y, target.z);
-            Log.debug("CAN SEE PLAYER");
+        if(canUseRanged(target)){
+            new CombatManager(creature, target).rangedAttack();
+        }else if(canSee(target.x, target.y, target.z)){
+            pathTo(target.x, target.y);
+        }else if(canPickup()){
+            creature.pickup();
+        }else{
+            wander(0.5f);
         }
         
-        if(!creature.hasFlag("smart")){
-            if(canSee && target != null) pathTo(target.x, target.y);
-            else wander(0.5f);
-        }else if(creature.hasFlag("smart")){
-            if(lastSeen != null) {
-                Log.debug("Pathing to last seen point");
-                int length = pathTo(lastSeen.x, lastSeen.y);
-                if (length == 1 && !canSee) {
-                    Log.debug("Lost player");
-                    target = null;
-                    lastSeen = null;
-                }
-            }else{
-                wander(0.5f);
-            }
-        }
-        
-       
-        
-       
     }
 }
