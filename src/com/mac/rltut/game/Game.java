@@ -5,11 +5,7 @@ import com.mac.rltut.engine.pathfinding.astar.AStar;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
-import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.world.World;
-
-import java.io.File;
 
 /**
  * Project: complete-rltut

@@ -29,6 +29,8 @@ public class Level {
     private boolean[][] visible;
     private int exploredTiles;
     
+    private byte[][] clearanceMap;
+    
     public Level() {}
     
     public Level(String type, int width, int height, int z){
@@ -42,6 +44,7 @@ public class Level {
         this.blood = new boolean[width][height];
         this.explored = new boolean[width][height];
         this.visible = new boolean[width][height];
+        this.clearanceMap = new byte[width][height];
         this.exploredTiles = 0;
     }
       
@@ -81,6 +84,11 @@ public class Level {
         return visible[x][y];
     }
     
+    public byte clearance(int x, int y){
+        if(!inBounds(x, y)) return -1;
+        return clearanceMap[x][y];
+    }
+    
     public int exploredTiles(){
         return exploredTiles;
     }
@@ -100,6 +108,10 @@ public class Level {
     public void setBlood(int x, int y, boolean value){
         if(!inBounds(x, y)) return;
         blood[x][y] = value;
+    }
+    
+    public void setClearanceMapMap(byte[][] clearanceMap){
+        this.clearanceMap = clearanceMap;
     }
     
     public void setStart(Point startPoint){

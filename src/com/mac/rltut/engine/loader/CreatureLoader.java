@@ -67,6 +67,7 @@ public class CreatureLoader extends DataLoader{
                 boolean unique = obj.hasToken("unique") && obj.getInt("unique") == 1;
                 
                 Boss boss = new Boss(name, description, sprite, size);
+
                 spawnProperty = new BossSpawnProperty(boss, spawnLevels, spawnEvery, spawnTypes, spawnNear, spawnChance, minions, minionCount, unique);
             }else{
                 Log.error("Unknown object type [" + obj.type() + "]");
@@ -82,7 +83,7 @@ public class CreatureLoader extends DataLoader{
         
         Log.debug("Loaded " + Codex.creatures.size() + " creatures.");
     }
-    
+
     private String[] parseFlags(String input){
         String[] split = input.split(",");
         for(int i = 0; i < split.length; i++) split[i] = split[i].toLowerCase().trim();

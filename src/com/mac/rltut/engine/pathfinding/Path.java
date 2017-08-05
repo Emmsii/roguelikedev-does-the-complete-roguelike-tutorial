@@ -16,7 +16,7 @@ public class Path {
     private List<Point> points;
     
     public Path(Creature creature, int x, int y){
-        this.points = AStar.instance().findPath(new Point(creature.x, creature.y, creature.z), new Point(x, y, creature.z));
+        this.points = AStar.instance().findPath(new Point(creature.x, creature.y, creature.z), new Point(x, y, creature.z), creature);
     }
     
     public boolean hasNext(){

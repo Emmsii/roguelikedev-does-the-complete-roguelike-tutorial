@@ -1,6 +1,5 @@
 package com.mac.rltut.game.entity.creature;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
@@ -34,13 +33,12 @@ public class Creature extends Entity {
     private CreatureAI ai;
     private String aiType;
 
+    private DropTable dropTable;
     private Inventory<Item> inventory;
     private HashMap<EquipmentSlot, Equippable> equippedItems;
          
     private List<Effect> effects;
-    
     private Set<String> flags;
-    private DropTable dropTable;
     
     private int maxHp;
     private int hp;
@@ -149,16 +147,26 @@ public class Creature extends Entity {
         if(xp == 0 && yp == 0 && zp == 0) return false;
         if(!world.inBounds(x + xp, y + yp, z + zp)) return false;
         
-        Creature other = world.creature(x + xp, y + yp, z + zp);
-        if(other == null){
-            hasMoved = ai.onMove(x + xp, y + yp, z + zp);
-            return hasMoved;
-        }else{
-            //Attack Melee
+        
+        List<Creature> others = new ArrayList<Creature>();
+        
+        for(int ya = 0; ya < size(); ya++){
+            int yb = y + yp + ya;
+            for(int xa = 0; xa < size; xa++){
+                int xb = x + xp + xa;
+                Creature other =  world.creature(xb, yb, z + zp);
+                if(other != null && other.id != id) others.add(other);
+            }
+        }
+        
+        if(others.isEmpty()) hasMoved = ai.onMove(x + xp, y + yp, z + zp);
+        
+        for(Creature other : others) {
             if(!isPlayer() && other.isPlayer() || isPlayer()) new CombatManager(this, other).meleeAttack();
             hasMoved = true;
-            return true;
         }
+        
+        return hasMoved;
     }
     
     //Move creature to position
@@ -377,7 +385,7 @@ public class Creature extends Entity {
         effect.start(this);
         effects.add(effect);
     }
-    
+
     /* Getter Methods */
     
     public int totalLevel(){
@@ -527,7 +535,7 @@ public class Creature extends Entity {
     public CreatureAI ai(){
         return ai;
     }
-    
+
     public int timeStationary(){
         return timeStationary;
     }
@@ -543,7 +551,7 @@ public class Creature extends Entity {
     public boolean isPlayer(){
         return this instanceof Player;
     }
-    
+        
     /* Setter Methods */
     
     public void setAi(CreatureAI ai){
@@ -564,7 +572,7 @@ public class Creature extends Entity {
     
     public void setAttackedBy(Creature attackedBy){
         this.attackedBy = attackedBy;
-        if(aggressionCooldown == 0 && hp > 0) doAction(new ColoredString("get angry", Colors.RED));
+        if(aggressionCooldown == 0 && hp > 0 && !isPlayer() && aiType.equalsIgnoreCase("neutral")) doAction(new ColoredString("get angry", Colors.RED));
         aggressionCooldown = 10;
     }
     

@@ -1,6 +1,7 @@
 package com.mac.rltut.game.entity.creature.ai;
 
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.util.CombatManager;
 
 /**
  * Project: complete-rltut
@@ -10,6 +11,7 @@ import com.mac.rltut.game.entity.creature.Creature;
 public class BossAI extends CreatureAI{
     
     private PackAI pack;
+    private Creature target;
 
     public BossAI() {}
     
@@ -20,8 +22,14 @@ public class BossAI extends CreatureAI{
     @Override
     public void update() {
         if(creature.hasFlag("slow") && Math.random() < 0.25) return;
+        target = creature.world().player();
         
-        
+        if(canSee(target.x, target.y, target.z)) creature.setAttackedBy(target);
+                
+        if(creature.attackedBy() != null && creature.aggressionCooldown() > 0){
+            if(canUseRanged(target)) new CombatManager(creature, target).rangedAttack();
+            else pathTo(target.x, target.y);
+        }else wander(0.5f);
         
     }
 

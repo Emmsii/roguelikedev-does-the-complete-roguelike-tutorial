@@ -10,8 +10,8 @@ import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.game.subscreen.*;
-import com.mac.rltut.game.screen.game.subscreen.inventory.*;
 import com.mac.rltut.game.screen.game.subscreen.examine.ExamineScreen;
+import com.mac.rltut.game.screen.game.subscreen.inventory.*;
 import com.mac.rltut.game.screen.menu.LooseScreen;
 import com.mac.rltut.game.world.objects.Chest;
 

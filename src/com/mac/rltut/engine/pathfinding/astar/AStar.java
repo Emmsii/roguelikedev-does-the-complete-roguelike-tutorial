@@ -22,6 +22,7 @@ public class AStar {
     private World world;
     private boolean init = false;
     
+    
     protected AStar(){
         
     }
@@ -30,8 +31,8 @@ public class AStar {
         this.world = world;
         this.init = true;
     }
-    
-    public List<Point> findPath(Point startPos, Point endPos){
+   
+    public List<Point> findPath(Point startPos, Point endPos, Creature creaturePathing){
         if(!init){
             Log.error("Pathfinder not initialized.");
             System.exit(-1);
@@ -59,15 +60,18 @@ public class AStar {
             
             for(Node neighbour : getNeighbours(node)){
                 if(!neighbour.walkable || closedSet.contains(neighbour)) continue;
+                if(!neighbour.pos.equals(endNode.pos) && world.level(neighbour.pos.z).clearance(neighbour.pos.x, neighbour.pos.y) < creaturePathing.size()) continue;
                 
-                if(world.creature(neighbour.pos.x, neighbour.pos.y, neighbour.pos.z) != null){
+                Creature creature = world.creature(neighbour.pos.x, neighbour.pos.y, neighbour.pos.z);
+                if(creature != null && creature.id != creaturePathing.id){
+                    //If neighbour tile has creature, and the creature is NOT the same as the creature pathing and the tile is NOT EQUAL to the end, ignore
                     if(!neighbour.pos.equals(endNode.pos)) continue;
                 }
                 
                 int newCostToNeighbour = node.gCost + distance(node, neighbour);
 
                 Creature c = world.creature(neighbour.pos.x, neighbour.pos.y, neighbour.pos.z);
-                if(c != null) if(!c.isPlayer()) newCostToNeighbour += (c.timeStationary() * 2) + 1;
+                if(c != null && c.id != creature.id) if(!c.isPlayer()) newCostToNeighbour += (c.timeStationary() * 2) + 1;
                 
                 if(newCostToNeighbour < neighbour.gCost || !openSet.contains(neighbour)){
                     neighbour.gCost = newCostToNeighbour;
@@ -77,6 +81,7 @@ public class AStar {
                 }
             }
         }
+        
         
         List<Point> result = new ArrayList<Point>();
         result.add(startPos);

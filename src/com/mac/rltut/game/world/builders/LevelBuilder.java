@@ -41,6 +41,9 @@ public abstract class LevelBuilder {
     private byte[][] tiles;
     private MapObject[][] mapObjects;
     private List<Chest> chests;
+    
+    private byte[][] clearanceMap;
+    
     private Level level;   
     
     private Point start;
@@ -70,6 +73,7 @@ public abstract class LevelBuilder {
         this.tiles = new byte[width][height];
         this.mapObjects = new MapObject[width][height];
         this.chests = new ArrayList<Chest>();
+        this.clearanceMap = new byte[width][height];
         this.level = new Level(type, width, height, z);
         for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) setTile(x, y, Tile.getTile("empty"));
         this.random.setSeed(random.nextLong());
@@ -110,6 +114,49 @@ public abstract class LevelBuilder {
         level.setStart(new Point(x, y, z));
     }
     
+    public void generateClearanceMap(){
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++){
+
+                if(tile(x, y).solid()){
+                    clearanceMap[x][y] = -1;
+                    continue;
+                }
+
+                byte value = 0;
+                int size = 1;
+                boolean hitSolid = false;
+                while(!hitSolid) {
+                    for (int ya = 0; ya < size; ya++){
+                        int yp = y + ya;
+                        for(int xa = 0; xa < size; xa++){
+                            int xp = x + xa;
+                            if(tile(xp, yp).solid()){
+                                hitSolid = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(hitSolid) break;
+                    size++;
+                    value++;
+                }
+
+                clearanceMap[x][y] = value;
+            }
+        }
+
+//        for(int y = 0; y < height; y++) {
+//            for (int x = 0; x < width; x++) {
+//                byte v = clearanceMap[x][y];
+//                if(v == -1) System.out.print("XX ");
+//                else if(v < 10) System.out.print("0" + v + " ");
+//                else System.out.print(v + " ");
+//            }
+//            System.out.println();
+//        }
+    }    
     protected void addTileType(Tile tile, int chance){
         String type = tile.type();
         if(!tileTypes.containsKey(type)) tileTypes.put(type, new ArrayList<Tile>());
@@ -198,9 +245,12 @@ public abstract class LevelBuilder {
     }
     
     public Level build(){
+        generateClearanceMap();
+        
         level.setTiles(tiles);
         level.setMapObjects(mapObjects);
         level.setChests(chests);
+        level.setClearanceMapMap(clearanceMap);
         return level;
     }
     

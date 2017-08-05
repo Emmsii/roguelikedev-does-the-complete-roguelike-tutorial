@@ -124,7 +124,7 @@ public class FileHandler {
         kryo.register(NightVision.class);
         kryo.register(Poison.class);
         kryo.register(Rage.class);
-
+        
         kryo.register(World.class);
         kryo.register(DayNightController.class);
         kryo.register(FieldOfView.class);

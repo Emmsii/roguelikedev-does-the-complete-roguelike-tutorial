@@ -5,7 +5,6 @@ import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
 

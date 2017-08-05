@@ -301,6 +301,7 @@ public class WorldBuilder {
                 spawn = world.randomEmptyPointNearType(z, spawnNear);
             }
             
+            if(world.level(z).clearance(spawn.x, spawn.y) < toSpawn.creature().size()) continue;
             if(MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 10) continue;
             
             blocked = false;

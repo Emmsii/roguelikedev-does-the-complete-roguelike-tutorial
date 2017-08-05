@@ -48,8 +48,8 @@ public class CreatureAI {
     
     protected void wander(float frequency){
         if(Math.random() < frequency){
-            int x = (int) Math.round(Math.random() * 2 - 1);
-            int y = (int) Math.round(Math.random() * 2 - 1);
+            int x = (int) Math.round((Math.random() * 2) - 1);
+            int y = (int) Math.round((Math.random() * 2) - 1);
             creature.moveBy(x, y, 0);
         }
     }
@@ -102,13 +102,13 @@ public class CreatureAI {
     public boolean canEnter(int xp, int yp, int zp){
         for(int y = 0; y < creature.size(); y++){
             for(int x = 0; x < creature.size(); x++){
-                Tile t = creature.world().tile(x + xp, y + yp, zp); //TODO: SOLID!
+                Tile t = creature.world().tile(x + xp, y + yp, zp);
                 if(t.canFly() && creature.hasFlag("can_fly")) continue;
                 MapObject obj = creature.world().mapObject(x + xp, y + yp, zp);
                 if(t.solid() || obj != null) return false;
                 Creature c = creature.world().creature(x + xp, y + yp, zp);
                 if(c == null) continue;
-                else if(c.id!= creature.id) return false;
+                else if(c.id != creature.id) return false;
             }
         }
         return true;
@@ -116,13 +116,21 @@ public class CreatureAI {
     
     public boolean canSee(int xp, int yp, int zp){
         if(creature.z != zp) return false;
-        if((creature.x - xp) * (creature.x - xp) + (creature.y - yp) * (creature.y - yp) > creature.vision() * creature.vision()) return false;
-        for(Point p : new Line(creature.x, creature.y, xp, yp)){
-            if(creature.world().tile(p.x, p.y, zp).canSee() || p.x == xp && p.y == yp) continue;
-            return false;
-        }
-        
-        return true;
+        boolean sightBlocked = false;
+        for(int ys = 0; ys < creature.size(); ys++){
+            int ya = ys + yp;
+            for(int xs = 0; xs < creature.size(); xs++){
+                int xa = xs + xp;
+                if((creature.x - xa) * (creature.x - xa) + (creature.y - ya) * (creature.y - ya) > creature.vision() * creature.vision()) return false;
+                for(Point p : new Line(creature.x, creature.y, xa, ya)){
+                    if(creature.world().tile(p.x, p.y, zp).canSee() || p.x == xa && p.y == ya) continue;
+                    sightBlocked = true;
+                    break;
+                }
+                if(!sightBlocked) return true;
+            }
+        }        
+        return sightBlocked;
     }
     
     public void notify(ColoredString message){
