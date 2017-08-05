@@ -1,8 +1,10 @@
 package com.mac.rltut.game.entity.creature.ai;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.util.CombatManager;
 
 /**
  * Project: complete-rltut
@@ -30,16 +32,21 @@ public class PackMemberAI extends CreatureAI{
         
         if(creature.hasFlag("smart")){
             if(pack.packLastSeen != null) {
-                int length = pathTo(pack.packLastSeen.x, pack.packLastSeen.y);
-                if (length == 1) {
-                    pack.packTarget = null;
-                    pack.packLastSeen = null;
-                }else packWander();
+                if(canUseRanged(pack.packTarget)) new CombatManager(creature, pack.packTarget).rangedAttack();
+                else {
+                    int length = pathTo(pack.packLastSeen.x, pack.packLastSeen.y);
+                    if (length == 1) {
+                        pack.packTarget = null;
+                        pack.packLastSeen = null;
+                    } else packWander();
+                }
             }else packWander();
         }else{
             if(pack.packTarget != null){
-                if(canSee) pathTo(pack.packTarget.x, pack.packTarget.y);
-                else{
+                if(canSee){
+                    if(canUseRanged(pack.packTarget)) new CombatManager(creature, pack.packTarget).rangedAttack();
+                    else pathTo(pack.packTarget.x, pack.packTarget.y);
+                }else{
                     pack.packTarget = null;
                     packWander();
                 }

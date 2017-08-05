@@ -55,7 +55,7 @@ VISION=10
 AI=aggressive
 FLAGS=slow
 DROPS=gold:2-12:45
-EQUIPMENT=dagger:100
+EQUIPMENT=sword:100
 
 [CREATURE]
 NAME=ent
@@ -147,7 +147,7 @@ SPAWN_LEVELS=2-10
 SPAWN_CHANCE=50
 AI=aggressive
 FLAGS=smart, no_blood
-EQUIPMENT=bow:10, SCIMITAR:5
+EQUIPMENT=bow:100, SCIMITAR:5
 
 [CREATURE]
 NAME=spectre

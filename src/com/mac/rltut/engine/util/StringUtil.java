@@ -37,15 +37,9 @@ public class StringUtil {
     
     public static String makeSecondPerson(String text){
         if(text == null || text.length() == 0) return "null";
-        String[] words = text.split(" ");
-        words[0] = words[0] + "s";
-        
-        StringBuilder builder = new StringBuilder();
-        for(String word : words){
-            builder.append(" ");
-            builder.append(word);
-        }
-        return builder.toString().trim();
+        int space = text.indexOf(" ");
+        if(space == -1) return text + "s";
+        else return text.substring(0, space) + "s" + text.substring(space);
     }
     
     public static List<String> lineWrap(String input, int width){
