@@ -5,6 +5,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.SessionTimer;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.pathfinding.astar.AStar;
 import com.mac.rltut.engine.util.ColoredString;
@@ -85,6 +86,7 @@ public class FileHandler {
         kryo.register(Player.class);
         kryo.register(MessageLog.class);
         kryo.register(ColoredString.class);
+        kryo.register(SessionTimer.class);
         
         kryo.register(Entity.class);
         kryo.register(Creature.class);
@@ -265,7 +267,10 @@ public class FileHandler {
         }
         Log.set(Log.LEVEL_DEBUG);
         Log.debug("Game loaded in " + ((System.nanoTime() - start) / 1000000) + "ms");
-        AStar.instance().init(game.world());
+        
+//        AStar.instance().init(game.world());
+        game.init();
+        
         return game;
     }
     

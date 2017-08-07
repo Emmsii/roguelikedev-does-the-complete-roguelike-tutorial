@@ -324,17 +324,18 @@ public class WorldBuilder {
         if(!spawnCounts.get(spawn.z).containsKey(creature.name())) spawnCounts.get(spawn.z).put(creature.name(), 0);
         spawnCounts.get(spawn.z).put(creature.name(), spawnCounts.get(spawn.z).get(creature.name()) + 1);
         
-        giveEquippable(creature, spawnProperty);
+        giveEquippables(creature, spawnProperty);
         
         return creature;
     }
     
-    private void giveEquippable(Creature creature, CreatureSpawnProperty spawnProperty){
+    private void giveEquippables(Creature creature, CreatureSpawnProperty spawnProperty){
         if(!spawnProperty.hasEquipment()) return;
-        Equippable item = spawnProperty.getEquipment(random);
-        if(item == null) return;
-        creature.inventory().add(item);
-        creature.equip(item);
+        List<Equippable> items = spawnProperty.getEquipment(random);
+        for(Equippable item : items) {
+            creature.inventory().add(item);
+            creature.equip(item);
+        }
     }
     
     private void modifyStats(Creature creature, int z){

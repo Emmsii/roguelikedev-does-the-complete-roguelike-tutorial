@@ -30,8 +30,10 @@ public class CreatureSpawnProperty extends EntitySpawnProperty{
         this.equipment = equipment;
     }
     
-    public Equippable getEquipment(Random random){
+    //TODO: Change to list
+    public List<Equippable> getEquipment(Random random){
         if(equipment == null) return null;
+        List<Equippable> result = new ArrayList<Equippable>();
         String[] split = equipment.trim().split(",");
 
         Pool<Equippable> pool = new Pool<Equippable>(random);
@@ -50,7 +52,10 @@ public class CreatureSpawnProperty extends EntitySpawnProperty{
                 continue;
             }
             Item item = (Item) Codex.items.get(name).entity();
-            if(item instanceof Equippable) pool.add((Equippable) item, chance);
+            if(item instanceof Equippable){
+                if(chance == 100) result.add((Equippable) item);
+                else pool.add((Equippable) item, chance);
+            }
             else Log.warn("Creature equipment is not equippable [" + name + "]");
         }
         
@@ -59,8 +64,8 @@ public class CreatureSpawnProperty extends EntitySpawnProperty{
             return null;
         }
         Equippable item = pool.get();
-        if(item.name() == null) return null;
-        else return (Equippable) item.newInstance();
+        if(item.name() != null) result.add((Equippable) item.newInstance());
+        return result;
     }
     
     public boolean hasEquipment(){
