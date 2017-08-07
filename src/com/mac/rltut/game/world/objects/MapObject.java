@@ -9,8 +9,8 @@ import com.mac.rltut.game.entity.Entity;
  * Created by Matt on 21/07/2017 at 02:33 PM.
  */
 public abstract class MapObject extends Entity{
-    
-    public MapObject(){}
+
+    protected MapObject(){}
     
     public MapObject(String name, String description, Sprite sprite) {
         super(name, description, sprite);

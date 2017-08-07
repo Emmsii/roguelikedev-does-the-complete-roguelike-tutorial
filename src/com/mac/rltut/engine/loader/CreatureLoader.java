@@ -52,10 +52,12 @@ public class CreatureLoader extends DataLoader{
             String packSize = obj.hasToken("pack_size") ? obj.getString("pack_size") : "0";
             int size = obj.hasToken("size") ? obj.getInt("size") : 1;
 
-            String[] flags = obj.hasToken("flags") ? parseFlags(obj.getString("flags")) : null;
+            String[] flags = obj.hasToken("flags") ? parseStringArray(obj.getString("flags")) : null;
             DropTable drops = obj.hasToken("drops") ? parseDropTable(obj.getString("drops")) : null;
             
             String equipment = obj.hasToken("equipment") ? obj.getString("equipment") : null;
+            
+            String[] immuneTo = obj.hasToken("immune_to") ? parseStringArray(obj.getString("immune_to")) : null;
             
             if(obj.isType("creature")) {
                 Creature creature = new Creature(name, description, sprite, size, ai);
@@ -77,6 +79,7 @@ public class CreatureLoader extends DataLoader{
             if(spawnProperty != null) {
                 spawnProperty.creature().setStats(hp, mana, manaRegenAmount, manaRegenSpeed, strength, defense, accuracy, intelligence, vision, drops);
                 if (flags != null) for(String s : flags) spawnProperty.creature().addFlag(s);
+                if(immuneTo != null) for(String s : immuneTo) spawnProperty.creature().addImmunity(s);
                 Codex.creatures.put(name.toLowerCase(), spawnProperty);
             }else Log.warn("Cannot add null creature into codex. [" + name + "]");
         }
@@ -84,7 +87,7 @@ public class CreatureLoader extends DataLoader{
         Log.debug("Loaded " + Codex.creatures.size() + " creatures.");
     }
 
-    private String[] parseFlags(String input){
+    private String[] parseStringArray(String input){
         String[] split = input.split(",");
         for(int i = 0; i < split.length; i++) split[i] = split[i].toLowerCase().trim();
         return split;

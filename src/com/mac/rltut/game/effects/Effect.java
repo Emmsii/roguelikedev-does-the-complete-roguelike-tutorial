@@ -15,7 +15,7 @@ public class Effect {
     protected float chance;
     protected boolean canUseWithItem;
 
-    public Effect(){}
+    protected Effect(){}
     
     public Effect(String name, String description, int duration, float chance, boolean canUseWithItem) {
         this.name = name;

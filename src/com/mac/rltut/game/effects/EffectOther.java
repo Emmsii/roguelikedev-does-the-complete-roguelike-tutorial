@@ -11,7 +11,7 @@ public class EffectOther extends Effect{
     
     private Effect effectWith;
 
-    public EffectOther(){}
+    protected EffectOther(){}
     
     public EffectOther(Effect effectWith){
         this.effectWith = effectWith;

@@ -15,8 +15,8 @@ public class PlayerStats {
     
     private HashMap<String, Integer> kills;
     private int tilesTraveled;
-    
-    public PlayerStats() {}
+
+    protected PlayerStats() {}
     
     public PlayerStats(Player player){
         this.player = player;

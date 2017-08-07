@@ -1,9 +1,11 @@
 package com.mac.rltut.game.entity.creature;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.StringUtil;
+import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.Entity;
@@ -39,6 +41,7 @@ public class Creature extends Entity {
          
     private List<Effect> effects;
     private Set<String> flags;
+    private Set<String> immuneTo;
     
     private int maxHp;
     private int hp;
@@ -68,8 +71,8 @@ public class Creature extends Entity {
     
     private Creature attackedBy;
     private int aggressionCooldown;
-    
-    public Creature() {}
+
+    protected Creature() {}
     
     public Creature(String name, String description, Sprite sprite, String aiType) {
         this(name, description, sprite, 1, aiType);
@@ -79,6 +82,7 @@ public class Creature extends Entity {
         super(name, description, sprite);
         this.size = size;
         this.flags = new HashSet<String>();
+        this.immuneTo = new HashSet<String>();
         this.level = 1;
         this.aiType = aiType;
     }
@@ -104,6 +108,9 @@ public class Creature extends Entity {
         this.equippedItems = new HashMap<EquipmentSlot, Equippable>();
         this.effects = new ArrayList<Effect>();
         this.inventory = new Inventory<Item>();
+        
+        if(hasFlag("prefer_night") && world.dayNightController().isDay()) addFlag("invisible"); 
+        if(hasFlag("prefer_day") && world.dayNightController().isNight()) addFlag("invisible"); 
     }
 
     @Override
@@ -111,8 +118,9 @@ public class Creature extends Entity {
         tick++;
         
         regenMana();
+        updateFlags();
         updateEffects();
-        ai.update();
+        if(!hasFlag("invisible")) ai.update();
         
         if(aggressionCooldown > 0) aggressionCooldown--; 
         else if(aggressionCooldown == 0) attackedBy = null;
@@ -123,6 +131,17 @@ public class Creature extends Entity {
     
     private void regenMana(){
         if(tick % manaRegenSpeed == 0) modifyMana(manaRegenAmount());
+    }
+    
+    private void updateFlags(){
+        if(hasFlag("prefer_night")){
+            if(world().dayNightController().isNight() && hasFlag("invisible") && !canSee(world.player())) removeFlag("invisible");
+            if(world().dayNightController().isDay() && !hasFlag("invisible") && !canSee(world.player())) addFlag("invisible");
+        }
+        if(hasFlag("prefer_day")){
+            if(world().dayNightController().isNight() && !hasFlag("invisible") && !canSee(world.player())) addFlag("invisible");
+            if(world().dayNightController().isDay() && hasFlag("invisible") && !canSee(world.player())) removeFlag("invisible");
+        }
     }
     
     private void updateEffects(){
@@ -284,6 +303,8 @@ public class Creature extends Entity {
         if(ai != null) ai.notify(message);
     }
 
+    //TODO: Merge doAction and announce methods
+    
     public void doAction(ColoredString message, Object ... params){
         for(Creature other : getCreaturesWhoSeeMe()){
             if(other == this) other.notify(new ColoredString("You " + message.text + ".", message.color), params);
@@ -291,10 +312,29 @@ public class Creature extends Entity {
         }
     }
     
+    public void announce(ColoredString message, Object ... params){
+        for(Creature other : getCreaturesWhoSeeMe()){
+            if(other == this) other.notify(new ColoredString(message.text, message.color), params);
+            else other.notify(new ColoredString(String.format("The %s %s", name, message.text), message.color), params);
+        }
+    }
+    
+    public void say(ColoredString message){
+//        for(Creature other : getCreaturesWhoSeeMe()) other.notify(new ColoredString(StringUtil.capitalizeEachWord(name) + "" + message.text, message.color));
+    }
+
+    public void shout(ColoredString message){
+        String[] verbs = { "shouts", "bellows", "yells" };
+        String text = "\"" + message.text + "\"" + (isPlayer() ? " you" : " the " + name) + " " + verbs[(int) (Math.random() * verbs.length)];
+        if(isPlayer()) text = text.substring(0, text.length() - 1);
+        for(Creature other : getCreaturesWhoSeeMe()) other.notify(new ColoredString(text + ".", message.color));
+    }
+    
     /* Util Methods */
     
     public List<Creature> getCreaturesWhoSeeMe(){
         List<Creature> others = new ArrayList<Creature>();
+        if(hasFlag("invisible")) return others;
         for(Creature c : world.creatures(z)) if(c.canSee(this)) others.add(c);
         return others;
     }
@@ -548,6 +588,10 @@ public class Creature extends Entity {
         return flags.contains(flag.toLowerCase().trim());
     }
     
+    public boolean immuneTo(String effectName){
+        return immuneTo.contains(effectName.toLowerCase().trim());
+    }
+    
     public boolean isPlayer(){
         return this instanceof Player;
     }
@@ -558,10 +602,22 @@ public class Creature extends Entity {
         this.ai = ai;
     }
     
+    public void addImmunity(String effectName){
+        immuneTo.add(effectName);
+    }
+    
+    public void removeImmunity(String effectName){
+        immuneTo.remove(effectName);
+    }
+    
     public void addFlag(String flag){
         flags.add(flag.toLowerCase().trim());
     }
     
+    public void removeFlag(String flag){
+        flags.remove(flag.toLowerCase().trim());
+    }
+        
     public void setHasUsedEquipment(boolean hasUsedEquipment){
         this.hasUsedEquipment = hasUsedEquipment;
     }

@@ -10,8 +10,8 @@ public class SessionTimer {
     private long start;
     private long end;
     private long offset;
-    
-    public SessionTimer(){}
+
+    protected SessionTimer(){}
     
     public SessionTimer(long start){
         this(start, 0);

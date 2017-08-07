@@ -17,8 +17,8 @@ public class Sprite extends Bitmap{
     public static final List<Sprite> fog = Sprite.loadFogSprites(Spritesheet.get("fog"), 4, 4, 8);
 
     protected String name;
-    
-    public Sprite() {}
+
+    protected Sprite() {}
     
     public Sprite(String name, int width, int height, int[] pixels){
         super(pixels, width, height);

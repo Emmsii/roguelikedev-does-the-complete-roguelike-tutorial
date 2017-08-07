@@ -12,7 +12,7 @@ public class Rage extends Effect{
     
     private int amount;
 
-    public Rage(){}
+    protected Rage(){}
     
     public Rage(int amount, int duration){
         super("rage", "sacrifice " + amount + " for " + (-amount) + " for " + duration + " turns", duration, 1f, true);
@@ -23,7 +23,7 @@ public class Rage extends Effect{
     public void start(Creature creature) {
         creature.modifyStrength(amount);
         creature.modifyDefense(-amount);
-        creature.doAction(new ColoredString("entered a fit of rage"));
+        creature.doAction(new ColoredString("enter a fit of rage"));
     }
 
     @Override

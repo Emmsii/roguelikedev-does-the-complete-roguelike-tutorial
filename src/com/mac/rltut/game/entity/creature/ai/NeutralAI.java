@@ -11,8 +11,8 @@ import com.mac.rltut.game.entity.util.CombatManager;
 public class NeutralAI extends CreatureAI {
     
     private Creature attackedBy;
-    
-    public NeutralAI(){}
+
+    protected NeutralAI(){}
     
     public NeutralAI(Creature creature){
         super(creature);
@@ -22,7 +22,8 @@ public class NeutralAI extends CreatureAI {
     public void update() {
         if(creature.hasFlag("slow") && Math.random() < 0.25) return;
         
-        if(creature.attackedBy() != null && creature.aggressionCooldown() > 0){
+        if(equipBestWeapon()) return;
+        else if(creature.attackedBy() != null && creature.aggressionCooldown() > 0){
             attackedBy = creature.attackedBy();
             if(canUseRanged(attackedBy)){
                 new CombatManager(creature, attackedBy).rangedAttack();

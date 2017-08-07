@@ -30,8 +30,8 @@ public class Level {
     private int exploredTiles;
     
     private byte[][] clearanceMap;
-    
-    public Level() {}
+
+    protected Level() {}
     
     public Level(String type, int width, int height, int z){
         this.type = type;

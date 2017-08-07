@@ -11,8 +11,8 @@ import com.mac.rltut.game.entity.creature.stats.PlayerStats;
 public class Player extends Creature{
     
     private PlayerStats stats;
-    
-    public Player() {}
+
+    protected Player() {}
     
     public Player(String name, Sprite sprite) {
         super(name, "its you", sprite, "player");

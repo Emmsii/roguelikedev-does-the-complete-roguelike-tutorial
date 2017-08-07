@@ -25,16 +25,16 @@ public class Game{
         
     private SessionTimer sessionTimer;
     private long gameStartTime;
-    
-    public Game(){}
+
+    public Game(){
+        
+    }
     
     public Game newGame(Player player, World world){
         this.player = player;
         this.world = world;
         this.log = new MessageLog();
         this.gameStartTime = System.currentTimeMillis();
-        
-       
         
         new PlayerAI(player, log);
         Point spawn = world.startPointAt(0);
@@ -46,6 +46,7 @@ public class Game{
         Date date = new Date(gameStartTime);
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd MMM yyyy");
         Log.debug("New game started " + dateFormat.format(date));
+        
         return this;
     }
     
@@ -66,8 +67,6 @@ public class Game{
         int min = z - 1 < 0 ? 0 : z - 1;
         int max = z + 1 >= world.depth() - 1 ? world.depth() - 1: z + 1;
         for(int level = min; level <= max; level++) world.update(level);
-
-        Log.debug("Time played: " + sessionTimer.prettyString());
     }
     
     public World world(){

@@ -119,6 +119,7 @@ public class FileHandler {
         kryo.register(Effect.class);
         kryo.register(EffectOther.class);
         kryo.register(Blind.class);
+        kryo.register(Freeze.class);
         kryo.register(Heal.class);
         kryo.register(HealthRegen.class);
         kryo.register(Leach.class);
@@ -268,9 +269,7 @@ public class FileHandler {
         Log.set(Log.LEVEL_DEBUG);
         Log.debug("Game loaded in " + ((System.nanoTime() - start) / 1000000) + "ms");
         
-//        AStar.instance().init(game.world());
         game.init();
-        
         return game;
     }
     

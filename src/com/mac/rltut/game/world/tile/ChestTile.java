@@ -11,8 +11,8 @@ public class ChestTile extends Tile{
     
     private Sprite openSprite;
     private Sprite closedSprite;
-    
-    public ChestTile() {}
+
+    protected ChestTile() {}
     
     public ChestTile(byte id, String name, String description, Sprite closedSprite, Sprite openSprite, String type, boolean solid, boolean canSee, boolean canFly) {
         super(id, name, description, closedSprite, type, solid, canSee, canFly);

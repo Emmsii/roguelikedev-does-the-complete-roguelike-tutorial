@@ -14,8 +14,8 @@ public class Consumable extends Item {
     
     private Effect effect;
     private String action;
-    
-    public Consumable() {}
+
+    protected Consumable() {}
     
     public Consumable(String name, String description, Sprite sprite, String action, Effect effect) {
         super(name, description, sprite);

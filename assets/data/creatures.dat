@@ -72,7 +72,8 @@ SPAWN_TYPES=dark, dense
 SPAWN_LEVELS=6-20
 SPAWN_CHANCE=85
 AI=neutral
-FLAGS=slow, no_blood
+FLAGS=slow, no_blood, prefer_day
+IMMUNE_TO=poison
 
 [CREATURE]
 NAME=bat
@@ -85,7 +86,7 @@ DEFENSE=2
 ACCURACY=2
 VISION=10
 AI=passive
-FLAGS=can_fly
+FLAGS=can_fly, prefer_night
 DROPS=meat chunk:1:40, gold:1-10:30
 
 [CREATURE]
@@ -220,7 +221,7 @@ VISION=12
 SPAWN_TYPES=!default, !dense, !lakes, !sparse
 SPAWN_LEVELS=6-20
 AI=neutral
-FLAGS=no_blood
+FLAGS=no_blood, prefer_night
 
 [CREATURE]
 NAME=cat

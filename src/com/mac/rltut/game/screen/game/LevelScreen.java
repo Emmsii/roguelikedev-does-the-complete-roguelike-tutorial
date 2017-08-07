@@ -91,7 +91,7 @@ public class LevelScreen extends Screen{
                 }
             }
             
-            if(inFov || !showFov) renderer.renderSprite(c.sprite(), xa, ya);
+            if(inFov || !showFov) if(!c.hasFlag("invisible")) renderer.renderSprite(c.sprite(), xa, ya);
         }
     }
     

@@ -9,8 +9,8 @@ import com.mac.rltut.game.entity.creature.Creature;
  * Created by Matt on 01/08/2017 at 10:07 AM.
  */
 public class Blind extends Effect{
-    
-    public Blind(){}
+
+    protected Blind(){}
     
     public Blind(int duration){
         super("blind", "loose vision for " + duration + " turns", duration, 1f, false);
@@ -19,7 +19,7 @@ public class Blind extends Effect{
     @Override
     public void start(Creature creature) {
         creature.modifyVision(-creature.vision() + 3);
-        creature.doAction(new ColoredString("loose eyesight"));
+        creature.announce(new ColoredString("is blinded"));
     }
 
     @Override

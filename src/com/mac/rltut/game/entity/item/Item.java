@@ -18,8 +18,8 @@ public class Item extends Entity {
     protected int intelligenceBonus;
     protected int manaRegenAmountBonus;
     protected int manaRegenSpeedBonus;
-    
-    public Item(){}
+
+    protected Item(){}
     
     public Item(String name, String description, Sprite sprite) {
         super(name, description, sprite);

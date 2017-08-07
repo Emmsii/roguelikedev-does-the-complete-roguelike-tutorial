@@ -21,8 +21,8 @@ public class FieldOfView {
 
     private World world;
     private Set<Point> inFov;
-    
-    public FieldOfView() {}
+
+    protected FieldOfView() {}
 
     public FieldOfView(World world){
         this.world = world;

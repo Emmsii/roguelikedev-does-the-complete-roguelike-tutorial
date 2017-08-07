@@ -11,8 +11,8 @@ public class ColoredString {
     
     public String text;
     public int color;
-    
-    public ColoredString(){}
+
+    protected ColoredString(){}
     
     public ColoredString(String text){
         this(text, Engine.instance().defaultFontColor());

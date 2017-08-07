@@ -11,8 +11,8 @@ import com.mac.rltut.game.entity.util.CombatManager;
 public class AggressiveAI extends CreatureAI {
     
     private Creature target;
-    
-    public AggressiveAI(){}
+
+    protected AggressiveAI(){}
     
     public AggressiveAI(Creature creature){
         super(creature);
@@ -23,7 +23,8 @@ public class AggressiveAI extends CreatureAI {
         if (creature.hasFlag("slow") && Math.random() < 0.25) return;
         target = creature.world().player();
         
-        if(canUseRanged(target)){
+        if(equipBestWeapon()) return;
+        else if(canUseRanged(target)){
             new CombatManager(creature, target).rangedAttack();
         }else if(canSee(target.x, target.y, target.z)){
             pathTo(target.x, target.y);

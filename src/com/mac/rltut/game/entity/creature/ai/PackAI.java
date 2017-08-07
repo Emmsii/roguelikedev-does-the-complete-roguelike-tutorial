@@ -19,7 +19,7 @@ public class PackAI {
     public Point packLastSeen;
     private int maxWanderDistance;
 
-    public PackAI() {}
+    protected PackAI() {}
     
     public PackAI(int maxWanderDistance){
         this.maxWanderDistance = maxWanderDistance;

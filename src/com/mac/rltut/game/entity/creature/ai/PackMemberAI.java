@@ -15,7 +15,7 @@ public class PackMemberAI extends CreatureAI{
     
     private PackAI pack;
 
-    public PackMemberAI() {}
+    protected PackMemberAI() {}
     
     public PackMemberAI(Creature creature, PackAI pack) {
         super(creature);
@@ -29,6 +29,8 @@ public class PackMemberAI extends CreatureAI{
             pack.packTarget = creature.world().player();
             pack.packLastSeen = new Point(pack.packTarget.x, pack.packTarget.y, pack.packTarget.z);
         }
+        
+        if(equipBestWeapon()) return;
         
         if(creature.hasFlag("smart")){
             if(pack.packLastSeen != null) {

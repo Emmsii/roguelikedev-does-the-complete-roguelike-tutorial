@@ -12,7 +12,7 @@ public class Heal extends Effect{
     
     private int amount;
 
-    public Heal(){}
+    protected Heal(){}
     
     public Heal(int amount){
         super("heal", "gain health", 1, 1f, true);

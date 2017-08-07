@@ -8,8 +8,8 @@ import com.mac.rltut.game.entity.creature.Creature;
  * Created by Matt on 04/08/2017 at 07:37 PM.
  */
 public class PassiveAI extends CreatureAI {
-    
-    public PassiveAI(){}
+
+    protected PassiveAI(){}
     
     public PassiveAI(Creature creature){
         super(creature);

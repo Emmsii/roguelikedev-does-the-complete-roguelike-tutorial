@@ -16,8 +16,8 @@ public class Spellbook extends Item{
     private Effect effect;
     private int manaCost;
     private EquipmentSlot[] slots;
-    
-    public Spellbook(){}
+
+    protected Spellbook(){}
     
     public Spellbook(String name, String description, Sprite sprite, EquipmentSlot[] slots) {
         super(name, description, sprite);

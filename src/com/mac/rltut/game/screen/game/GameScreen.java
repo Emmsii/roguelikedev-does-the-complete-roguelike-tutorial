@@ -5,6 +5,7 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.Game;
+import com.mac.rltut.game.effects.Rage;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
@@ -69,6 +70,7 @@ public class GameScreen extends Screen{
                 case KeyEvent.VK_NUMPAD3: shouldUpdate = player().moveBy(1, 1, 0); break;
 
                 case KeyEvent.VK_SPACE:
+                    player().addEffect(new Rage(3, 5));
                     Chest chest = player().tryOpen();
                     if(chest != null){
                         if(chest.inventory().isEmpty()) player().notify(new ColoredString("The chest is empty", Colors.ORANGE));

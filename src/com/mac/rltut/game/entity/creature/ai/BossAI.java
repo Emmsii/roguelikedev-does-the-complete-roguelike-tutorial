@@ -13,7 +13,7 @@ public class BossAI extends CreatureAI{
     private PackAI pack;
     private Creature target;
 
-    public BossAI() {}
+    protected BossAI() {}
     
     public BossAI(Creature creature) {
         super(creature);

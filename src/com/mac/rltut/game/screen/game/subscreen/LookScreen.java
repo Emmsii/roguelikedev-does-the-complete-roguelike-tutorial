@@ -69,7 +69,6 @@ public class LookScreen extends TargetBasedScreen{
     private String articleName(Entity entity){
         if(entity instanceof ItemStack) return "some ";
         String article = "aeiou".contains(entity.name().subSequence(0, 1)) ? "an " : "a ";
-        String name = StringUtil.capitalizeEachWord(StringUtil.clean(entity.name()));
-        return article + name;
+        return article + StringUtil.clean(entity.name());
     }
 }

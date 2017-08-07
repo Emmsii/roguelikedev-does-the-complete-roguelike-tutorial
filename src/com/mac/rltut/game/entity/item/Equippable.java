@@ -22,8 +22,8 @@ public class Equippable extends Item{
     private String rangedDamage;
     
     private Effect effect;
-    
-    public Equippable(){}
+
+    protected Equippable(){}
     
     public Equippable(String name, String description, Sprite sprite, EquipmentSlot slot) {
         super(name, description, sprite);

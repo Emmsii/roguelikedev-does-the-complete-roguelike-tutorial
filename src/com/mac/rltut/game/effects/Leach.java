@@ -1,6 +1,7 @@
 package com.mac.rltut.game.effects;
 
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -12,7 +13,7 @@ public class Leach extends Effect{
     
     private int amount;
 
-    public Leach(){}
+    protected Leach(){}
     
     public Leach(int amount, float chance){
         super("life leach", "steal " + amount + " health from another", 1, chance, true);
@@ -22,6 +23,7 @@ public class Leach extends Effect{
     @Override
     public void onUseOther(Creature other) {
         other.modifyHp(-amount, "life leach");
+        other.notify(new ColoredString("you feel drained of life", Colors.RED));
     }
 
     @Override

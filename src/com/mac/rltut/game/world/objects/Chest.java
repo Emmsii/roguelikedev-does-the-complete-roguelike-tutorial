@@ -15,8 +15,8 @@ public class Chest extends MapObject {
     private ChestTile tile;
     private Inventory<Item> inventory;
     private boolean open;
-    
-    public Chest(){}
+
+    protected Chest(){}
     
     public Chest(ChestTile tile) {
         super(tile.name(), tile.description(), tile.sprite());

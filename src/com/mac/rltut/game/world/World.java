@@ -40,8 +40,8 @@ public class World {
     private DayNightController dayNightController;
 
     private Player player;
-    
-    public World() {}
+
+    protected World() {}
     
     public World(int width, int height, int depth, long seed){
         this.width = width;
@@ -322,7 +322,9 @@ public class World {
     
     public Creature creature(int x, int y, int z){
         if(!inBounds(x, y, z)) return null;
-        return creatureArray[x][y][z];
+        Creature c = creatureArray[x][y][z];
+        if(c != null && c.hasFlag("invisible")) return null;
+        return c;
     }
     
     public List<Creature> creatures(int z){

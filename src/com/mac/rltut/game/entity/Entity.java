@@ -17,7 +17,7 @@ public abstract class Entity implements Cloneable{
     protected Sprite sprite;
     protected World world;
 
-    public Entity() {}
+    protected Entity() {}
     
     public Entity(String name, String description, Sprite sprite){
         this.name = name;

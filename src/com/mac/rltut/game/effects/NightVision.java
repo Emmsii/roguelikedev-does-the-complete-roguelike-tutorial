@@ -12,7 +12,7 @@ public class NightVision extends Effect{
     
     private int amount;
 
-    public NightVision(){}
+    protected NightVision(){}
     
     public NightVision(int amount, int duration){
         super("night vision", "increase vision by " + amount + " for " + duration + " turns", duration, 1f, true);
@@ -22,11 +22,12 @@ public class NightVision extends Effect{
     @Override
     public void start(Creature creature) {
         creature.modifyVisionBonus(amount);
-        creature.doAction(new ColoredString("look further into the forest"));
+        creature.announce(new ColoredString("can see further into the forest"));
     }
 
     @Override
     public void stop(Creature creature) {
         creature.modifyVisionBonus(-amount);
+        creature.notify(new ColoredString("your vision returns to normal"));
     }
 }

@@ -20,8 +20,8 @@ public class DayNightController {
     private int lightChangeEvery;
     
     public int tick;
-    
-    public DayNightController(){}
+
+    protected DayNightController(){}
     
     public DayNightController(int dayLength, int minLight, int maxLight, int lightChangeEvery){
         this.day = 1;

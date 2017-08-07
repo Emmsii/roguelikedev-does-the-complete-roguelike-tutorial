@@ -73,7 +73,7 @@ public class DropTable {
         public String amount;
         public int chance;
 
-        public Drop(){}
+        protected Drop(){}
         
         public Drop(Item item, String amount, int chance){
             this.item = item;

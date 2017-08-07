@@ -8,8 +8,8 @@ import com.mac.rltut.engine.graphics.Sprite;
  * Created by Matt on 14/07/2017 at 01:41 PM.
  */
 public class Boss extends Creature{
-    
-    public Boss(){}
+
+    protected Boss(){}
     
     public Boss(String name, String description, Sprite sprite) {
         this(name, description, sprite, 1);

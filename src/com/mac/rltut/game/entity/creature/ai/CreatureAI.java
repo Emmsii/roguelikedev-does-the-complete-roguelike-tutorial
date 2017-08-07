@@ -21,8 +21,8 @@ import com.mac.rltut.game.world.tile.Tile;
 public class CreatureAI {
     
     protected Creature creature;
-    
-    public CreatureAI() {}
+
+    protected CreatureAI() {}
 
     public CreatureAI(Creature creature){
         this.creature = creature;
@@ -70,7 +70,7 @@ public class CreatureAI {
         Equippable best = creature.getEquippedAt(EquipmentSlot.WEAPON);
         int bestScore = best != null ? best.score() : Integer.MIN_VALUE;
         boolean betterItemFound = false;
-        
+
         for(Item i : creature.inventory().items()){
             if(!(i instanceof Equippable)) continue;
             Equippable equippable = (Equippable) i;
@@ -82,11 +82,11 @@ public class CreatureAI {
         }
         
         if(betterItemFound){
-            Log.debug(creature.name() + " equips a " + best.name());
             creature.equip(best);
+            return true;
         }
         
-        return true;
+        return false;
     }
     
     public void onGainLevel(){

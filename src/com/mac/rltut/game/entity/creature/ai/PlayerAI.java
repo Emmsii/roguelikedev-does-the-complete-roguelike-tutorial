@@ -12,8 +12,8 @@ import com.mac.rltut.game.entity.creature.Creature;
 public class PlayerAI extends CreatureAI{
     
     private MessageLog log;
-    
-    public PlayerAI() {}
+
+    protected PlayerAI() {}
     
     public PlayerAI(Creature creature, MessageLog log) {
         super(creature);
