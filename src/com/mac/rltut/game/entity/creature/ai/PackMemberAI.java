@@ -1,6 +1,5 @@
 package com.mac.rltut.game.entity.creature.ai;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;

@@ -1,8 +1,8 @@
 package com.mac.rltut.game;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.SessionTimer;
 import com.mac.rltut.engine.FileHandler;
+import com.mac.rltut.engine.SessionTimer;
 import com.mac.rltut.engine.pathfinding.astar.AStar;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Player;

@@ -51,7 +51,7 @@ public class StartScreen extends Screen{
     public void render(Renderer renderer) {
         renderBorderFill(renderer);
         
-        renderer.writeCenter("Roguelikedev Tutorial Follow Along Week 7", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3, Colors.GRAY);
+        renderer.writeCenter("Roguelikedev Tutorial Follow Along Week 8", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3, Colors.GRAY);
         renderer.writeCenter(Engine.instance().version(), Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3 + 1, Colors.darken(Colors.GRAY, 0.8f));
         
         if(gameExists) {

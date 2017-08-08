@@ -1,5 +1,6 @@
 package com.mac.rltut.engine.window;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 
 import javax.swing.*;
@@ -32,6 +33,8 @@ public class Panel extends JPanel {
         this.setPreferredSize(new Dimension(widthInTiles * tileSize * windowScale, heightInTiles * tileSize * windowScale));
 
         if(windowScale == 0) throw new IllegalArgumentException("Panel scale must be greater than 0.");
+
+        Log.debug("New panel " + widthInTiles + "x" + heightInTiles + " Scale: " + windowScale + " Tile Size: " + tileSize);
     }
 
     @Override
@@ -39,7 +42,10 @@ public class Panel extends JPanel {
         if(renderer == null) return;
 
         for(int i = 0; i < pixels.length; i++) pixels[i] = renderer.pixels()[i];
-        g.drawImage(image, 0, 0, widthInPixels() * windowScale, heightInPixels() * windowScale, null);
+        
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.drawImage(image, (getWidth() - widthInPixels() * windowScale) / 2, (getHeight() - heightInPixels() * windowScale) / 2, widthInPixels() * windowScale, heightInPixels() * windowScale, null);
     }
 
     public void setRenderer(Renderer renderer){

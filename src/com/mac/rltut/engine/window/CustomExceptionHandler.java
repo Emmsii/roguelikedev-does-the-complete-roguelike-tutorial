@@ -40,10 +40,26 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
 
         PrintStream writer = null;
 
+        long megabytes = 1024 * 1024;
+        
         try {
             writer = new PrintStream(fileName, "UTF-8");
-            writer.println("version " + Engine.instance().version());
-            writer.println("Exception in thread \"" + t.getName() + "\" " + e.getClass() + ": " + e.getMessage());
+            writer.println("Java Vendor: " + System.getProperty("java.vendor"));
+            writer.println("Java Vendor URL: " + System.getProperty("java.vendor.url"));
+            writer.println("Java Version: " + System.getProperty("java.version"));
+            writer.println("OS Name: " + System.getProperty("os.name"));
+            writer.println("OS Architecture: " + System.getProperty("os.arch"));
+            writer.println("OS Version: " + System.getProperty("os.version"));
+            
+            writer.println("\nFree Memory (mb): " + Runtime.getRuntime().freeMemory() / (float) megabytes);
+            long maxMemory = Runtime.getRuntime().maxMemory();
+            writer.println("Max Memory (mb): " + (maxMemory == Long.MAX_VALUE ? "no limit" : maxMemory / (float) megabytes));
+            writer.println("Total Memory (mb): " + Runtime.getRuntime().totalMemory() / (float) megabytes);
+            writer.println("Used Memory (mb): " + ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (float) megabytes));
+            
+            writer.println("\nGame Version: " + Engine.instance().version());
+            writer.println("\n-------------------------------------------------------");
+            writer.println("\nException in thread \"" + t.getName() + "\" " + e.getClass() + ": " + e.getMessage());
             for(int i = 0; i < e.getStackTrace().length; i++){
                 writer.println(e.getStackTrace()[i].toString());
             }

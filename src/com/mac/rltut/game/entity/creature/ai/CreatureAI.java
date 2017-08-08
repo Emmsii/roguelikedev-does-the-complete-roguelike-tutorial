@@ -1,6 +1,5 @@
 package com.mac.rltut.game.entity.creature.ai;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.pathfinding.Path;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.maths.Line;

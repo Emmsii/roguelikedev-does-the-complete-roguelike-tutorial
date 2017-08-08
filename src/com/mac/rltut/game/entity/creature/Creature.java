@@ -1,11 +1,9 @@
 package com.mac.rltut.game.entity.creature;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.StringUtil;
-import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.Entity;

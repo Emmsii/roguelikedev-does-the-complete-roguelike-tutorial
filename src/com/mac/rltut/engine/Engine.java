@@ -13,6 +13,7 @@ import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.menu.StartScreen;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -28,6 +29,7 @@ public class Engine {
 
     private static Engine instance = null;
 
+    private boolean fullscreen;
     private int widthInTiles, heightInTiles;
     private int windowScale, tileSize;
     private String title;
@@ -63,15 +65,23 @@ public class Engine {
         }
     }
 
-    public void init(int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title, String version){
-        this.widthInTiles = widthInTiles;
-        this.heightInTiles = heightInTiles;
+    public void init(boolean fullscreen, int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title, String version){
+        this.fullscreen = fullscreen;
+        if(fullscreen){
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            Dimension screenSize = toolkit.getScreenSize();
+            this.widthInTiles = (int) Math.floor(screenSize.width / (tileSize * windowScale));
+            this.heightInTiles = (int) Math.floor(screenSize.height / (tileSize * windowScale));
+        }else{
+            this.widthInTiles = widthInTiles;
+            this.heightInTiles = heightInTiles;
+        }
         this.windowScale = windowScale;
         this.tileSize = tileSize;
         this.title = title;
         this.version = version;
 
-        this.terminal = new Terminal(widthInTiles, heightInTiles, windowScale, tileSize, title + " - " + version);
+        this.terminal = new Terminal(fullscreen, this.widthInTiles, this.heightInTiles, windowScale, tileSize, title + " - " + version);
         this.panel = terminal.panel();
         this.renderer = new Renderer(panel.widthInPixels(), panel.heightInPixels());
         this.input = new Input();
