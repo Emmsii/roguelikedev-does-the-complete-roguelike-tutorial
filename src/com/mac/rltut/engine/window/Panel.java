@@ -33,8 +33,6 @@ public class Panel extends JPanel {
         this.setPreferredSize(new Dimension(widthInTiles * tileSize * windowScale, heightInTiles * tileSize * windowScale));
 
         if(windowScale == 0) throw new IllegalArgumentException("Panel scale must be greater than 0.");
-
-        Log.debug("New panel " + widthInTiles + "x" + heightInTiles + " Scale: " + windowScale + " Tile Size: " + tileSize);
     }
 
     @Override

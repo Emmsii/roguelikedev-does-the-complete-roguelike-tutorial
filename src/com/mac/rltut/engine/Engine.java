@@ -13,6 +13,7 @@ import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.menu.StartScreen;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -67,15 +68,25 @@ public class Engine {
 
     public void init(boolean fullscreen, int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title, String version){
         this.fullscreen = fullscreen;
+        GraphicsDevice device = null;
         if(fullscreen){
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            Dimension screenSize = toolkit.getScreenSize();
-            this.widthInTiles = (int) Math.floor(screenSize.width / (tileSize * windowScale));
-            this.heightInTiles = (int) Math.floor(screenSize.height / (tileSize * windowScale));
+            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice[] devices = env.getScreenDevices();
+            if(Config.monitor >= devices.length){
+                Log.error("Invalid monitor id [" + Config.monitor + "]");
+                this.widthInTiles = widthInTiles;
+                this.heightInTiles = heightInTiles;
+            }else {
+                device = devices[Config.monitor];
+                Rectangle screenSize = device.getDefaultConfiguration().getBounds();
+                this.widthInTiles = (int) Math.floor(screenSize.getWidth() / (tileSize * windowScale));
+                this.heightInTiles = (int) Math.floor(screenSize.getHeight() / (tileSize * windowScale));
+            }
         }else{
             this.widthInTiles = widthInTiles;
             this.heightInTiles = heightInTiles;
         }
+        
         this.windowScale = windowScale;
         this.tileSize = tileSize;
         this.title = title;
@@ -85,6 +96,8 @@ public class Engine {
         this.panel = terminal.panel();
         this.renderer = new Renderer(panel.widthInPixels(), panel.heightInPixels());
         this.input = new Input();
+
+        if(fullscreen && device != null) device.setFullScreenWindow(terminal);
 
         panel.setRenderer(renderer);
         renderer.setDefaultFontColor(Colors.WHITE);

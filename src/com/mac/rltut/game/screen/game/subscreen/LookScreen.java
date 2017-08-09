@@ -4,6 +4,7 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.NPC;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
@@ -29,7 +30,7 @@ public class LookScreen extends TargetBasedScreen{
     public void render(Renderer renderer) {
         super.render(renderer);
         if(caption.length() > width - 6){
-            List<String> lines = StringUtil.lineWrap(caption.toString(), width - 6);
+            List<String> lines = StringUtil.lineWrap(caption.toString(), width - 6, false);
             renderBox(2, height - 4 - lines.size(), width - 4, 2 + lines.size(), true, renderer);
             for(int i = 0; i < lines.size(); i++) renderer.writeCenter(lines.get(i), width / 2, height - 3 - lines.size() + i);
         }else {
@@ -48,6 +49,7 @@ public class LookScreen extends TargetBasedScreen{
         
         if(creature != null){
             if(creature.isPlayer()) caption.append("You are standing on ");
+            else if(creature instanceof NPC) caption.append("The " + creature.name() + " standing on ");
             else caption.append(articleName(creature) + " (lvl " + creature.level() + ") standing on ");
         }
         

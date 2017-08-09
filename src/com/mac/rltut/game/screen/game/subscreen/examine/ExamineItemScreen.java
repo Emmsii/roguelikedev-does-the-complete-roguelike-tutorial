@@ -47,7 +47,7 @@ public class ExamineItemScreen extends Screen {
         renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(item.name())), xp + 3, yp++);
         yp+=2;
         
-        List<String> lines = StringUtil.lineWrap(item.description(), width - 4);
+        List<String> lines = StringUtil.lineWrap(item.description(), width - 4, false);
         renderBox(2, 5, width - 4, lines.size() + 2, false, renderer);
         
         for(String line : lines) renderer.writeCenter(line, this.x + width / 2, yp++);
@@ -67,7 +67,7 @@ public class ExamineItemScreen extends Screen {
                 Effect effect = e.effect();
                 renderer.write("Effect", xp, yp++);
                 renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(effect.name())) + " (" + effect.chancePercent() + " chance)", xp + 1, yp++);
-                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4);
+                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4, false);
                 for(String s : desc) renderer.write(s, xp + 1, yp++);
             }
             yp++;
@@ -80,7 +80,7 @@ public class ExamineItemScreen extends Screen {
                 Effect effect = consumable.effect();
                 renderer.write("Effect", xp, yp++);
                 renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(effect.name())), xp + 1, yp++);
-                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4);
+                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4, false);
                 for(String s : desc) renderer.write(s, xp + 1, yp++);
             }
         }
@@ -93,7 +93,7 @@ public class ExamineItemScreen extends Screen {
                 Effect effect = book.effect();
                 renderer.write("Effect", xp, yp++);
                 renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(effect.name())) + " (" + effect.chancePercent() + " chance)", xp + 1, yp++);
-                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4);
+                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4, false);
                 for(String s : desc) renderer.write(s, xp + 1, yp++);
             }
             yp++;

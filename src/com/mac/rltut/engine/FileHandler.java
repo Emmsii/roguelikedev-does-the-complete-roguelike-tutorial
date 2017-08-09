@@ -13,9 +13,7 @@ import com.mac.rltut.game.Game;
 import com.mac.rltut.game.MessageLog;
 import com.mac.rltut.game.effects.*;
 import com.mac.rltut.game.entity.Entity;
-import com.mac.rltut.game.entity.creature.Boss;
-import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.Player;
+import com.mac.rltut.game.entity.creature.*;
 import com.mac.rltut.game.entity.creature.ai.*;
 import com.mac.rltut.game.entity.creature.stats.PlayerStats;
 import com.mac.rltut.game.entity.item.*;
@@ -88,6 +86,8 @@ public class FileHandler {
         
         kryo.register(Entity.class);
         kryo.register(Creature.class);
+        kryo.register(NPC.class);
+        kryo.register(Wizard.class);
         kryo.register(Boss.class);
         kryo.register(CreatureAI.class);
         kryo.register(PlayerAI.class);
@@ -95,6 +95,7 @@ public class FileHandler {
         kryo.register(PackMemberAI.class);
         kryo.register(PackAI.class);
         kryo.register(PassiveAI.class);
+        kryo.register(NpcAI.class);
         kryo.register(NeutralAI.class);
         kryo.register(AggressiveAI.class);
         kryo.register(PlayerStats.class);

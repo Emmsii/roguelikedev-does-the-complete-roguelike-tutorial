@@ -42,7 +42,7 @@ public class StringUtil {
         else return text.substring(0, space) + "s" + text.substring(space);
     }
     
-    public static List<String> lineWrap(String input, int width){
+    public static List<String> lineWrap(String input, int width, boolean spaceWithNewLine){
         String[] words = input.trim().split(" ");
         StringBuilder currentLine = new StringBuilder();
         List<String> newLines = new ArrayList<String>();
@@ -57,6 +57,7 @@ public class StringUtil {
             if(currentLength + nextWordLength >= width - 2 || i + 1 >= words.length){
                 newLines.add(currentLine.toString());
                 currentLine = new StringBuilder();
+                if(spaceWithNewLine) currentLine.append(" ");
             }
         }
 

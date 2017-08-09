@@ -1,8 +1,5 @@
 package com.mac.rltut.engine;
 
-import com.mac.rltut.engine.util.StringUtil;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.io.*;
 import java.util.Properties;
 
@@ -16,9 +13,11 @@ public class Config {
     private static final String FILE_NAME = "properties.txt";
     
     public static boolean fullscreen;
+    public static int monitor;
     
     private static void loadDefaults(){
         fullscreen = false;
+        monitor = 0;
     }
     
     public static void load(){
@@ -35,6 +34,7 @@ public class Config {
             properties.load(inputStream);
             
             fullscreen = Boolean.parseBoolean((String) properties.get("fullscreen"));
+            monitor = Integer.parseInt((String) properties.get("monitor"));
             
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -49,6 +49,7 @@ public class Config {
         try {
             OutputStream outputStream = new FileOutputStream(FILE_NAME);
             properties.setProperty("fullscreen", String.valueOf(fullscreen));
+            properties.setProperty("monitor", String.valueOf(monitor));
             properties.store(outputStream, null);
             outputStream.flush();
             outputStream.close();

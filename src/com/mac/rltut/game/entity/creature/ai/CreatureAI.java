@@ -1,10 +1,12 @@
 package com.mac.rltut.game.entity.creature.ai;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.pathfinding.Path;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.maths.Line;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.NPC;
 import com.mac.rltut.game.entity.creature.stats.LevelUpController;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
@@ -115,12 +117,15 @@ public class CreatureAI {
     
     public boolean canSee(int xp, int yp, int zp){
         if(creature.z != zp) return false;
+        
+        if((creature.x - xp) * (creature.x - xp) + (creature.y - yp) * (creature.y - yp) > creature.vision() * creature.vision()) return false;
+                
         boolean sightBlocked = false;
         for(int ys = 0; ys < creature.size(); ys++){
             int ya = ys + yp;
             for(int xs = 0; xs < creature.size(); xs++){
                 int xa = xs + xp;
-                if((creature.x - xa) * (creature.x - xa) + (creature.y - ya) * (creature.y - ya) > creature.vision() * creature.vision()) return false;
+                
                 for(Point p : new Line(creature.x, creature.y, xa, ya)){
                     if(creature.world().tile(p.x, p.y, zp).canSee() || p.x == xa && p.y == ya) continue;
                     sightBlocked = true;

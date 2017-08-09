@@ -5,6 +5,7 @@ import com.mac.rltut.engine.util.maths.Dice;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.NPC;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
 
@@ -32,7 +33,7 @@ public class CombatManager {
     }
     
     public void meleeAttack(){
-        if(attacker.id == defender.id) return;
+        if(attacker.id == defender.id || defender instanceof NPC) return;
         int attackHitRoll = Dice.roll("1d" + attacker.accuracy()) + attacker.accuracyBonus();
         int defenderBlockRoll = Dice.roll("1d" + defender.defense()) + defender.defenseBonus();
         
@@ -47,7 +48,7 @@ public class CombatManager {
     }
     
     public void rangedAttack(){
-        if(attacker.id == defender.id) return;
+        if(attacker.id == defender.id || defender instanceof NPC) return;
         
         int distance = MathUtil.distance(attacker.x, attacker.y, defender.x, defender.y);
         

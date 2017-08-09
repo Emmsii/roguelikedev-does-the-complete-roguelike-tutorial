@@ -128,6 +128,7 @@ public class Creature extends Entity {
     }
     
     private void regenMana(){
+        if(manaRegenSpeed == 0) return;
         if(tick % manaRegenSpeed == 0) modifyMana(manaRegenAmount());
     }
     
@@ -318,12 +319,14 @@ public class Creature extends Entity {
     }
     
     public void say(ColoredString message){
-//        for(Creature other : getCreaturesWhoSeeMe()) other.notify(new ColoredString(StringUtil.capitalizeEachWord(name) + "" + message.text, message.color));
+        for(Creature other : getCreaturesWhoSeeMe()){
+            other.notify(new ColoredString(StringUtil.capitalizeEachWord(name) + ": " + message.text, message.color));
+        }
     }
 
     public void shout(ColoredString message){
         String[] verbs = { "shouts", "bellows", "yells" };
-        String text = "\"" + message.text + "\"" + (isPlayer() ? " you" : " the " + name) + " " + verbs[(int) (Math.random() * verbs.length)];
+        String text = "\'" + message.text + "\'" + (isPlayer() ? " you" : " the " + name) + " " + verbs[(int) (Math.random() * verbs.length)];
         if(isPlayer()) text = text.substring(0, text.length() - 1);
         for(Creature other : getCreaturesWhoSeeMe()) other.notify(new ColoredString(text + ".", message.color));
     }

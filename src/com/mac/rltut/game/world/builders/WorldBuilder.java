@@ -1,12 +1,16 @@
 package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.graphics.Sprite;
+import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Boss;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.NPC;
+import com.mac.rltut.game.entity.creature.Wizard;
 import com.mac.rltut.game.entity.creature.ai.*;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.item.util.Inventory;
@@ -201,8 +205,32 @@ public class WorldBuilder {
             creaturesSpawned += spawnedThisLevel;
 //            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] " + spawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
         }
+        
+        placeNPCs();        
+        
 //        Log.debug("Spawned " + creaturesSpawned + " creatures total.");
         Log.debug("Spawned creatures in " + ((System.nanoTime() - start) / 1000000) + "ms");
+        return this;
+    }
+    
+    private WorldBuilder placeNPCs(){
+        for(int z = 0; z < depth; z++){
+//            Point spawn = new Point();
+//            spawn.z = z;
+//            do{
+//                spawn.x = random.nextInt(width);
+//                spawn.y = random.nextInt(height);
+//            }while(world.tile(spawn.x, spawn.y, spawn.z).solid() || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
+            
+            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
+            
+            NPC npc = new Wizard("Wizard McGuffin", "An old man", Sprite.get("wizard"), "npc");
+            npc.setStats(100, 100, 0, 0, 1, 1, 1, 1, 16, null);
+            new NpcAI(npc);
+            Log.debug("New NPC at " + spawn);
+            world.add(spawn.x, spawn.y, spawn.z, npc);    
+        }
+        
         return this;
     }
     

@@ -70,7 +70,6 @@ public class GameScreen extends Screen{
                 case KeyEvent.VK_NUMPAD3: shouldUpdate = player().moveBy(1, 1, 0); break;
 
                 case KeyEvent.VK_SPACE:
-                    player().addEffect(new Rage(3, 5));
                     Chest chest = player().tryOpen();
                     if(chest != null){
                         if(chest.inventory().isEmpty()) player().notify(new ColoredString("The chest is empty", Colors.ORANGE));
@@ -78,17 +77,18 @@ public class GameScreen extends Screen{
                     }
                     else player().notify(new ColoredString("There is nothing there.", Colors.ORANGE));
                     break;
-                    
+                                    
                 case KeyEvent.VK_PAGE_DOWN: game.world().moveDown(player()); break;
                 case KeyEvent.VK_PAGE_UP: game.world().moveUp(player()); break;
 
                 case KeyEvent.VK_P: player().pickup(); break;
+                case KeyEvent.VK_K: game.player().tryTalk(); break; 
 
                 case KeyEvent.VK_Q: equipmentScreen = new EquipmentScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
                 case KeyEvent.VK_T: equipmentScreen = new EquipmentStatsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
 
                 case KeyEvent.VK_ESCAPE: subscreen = new GameEscapeMenu(Engine.instance().widthInTiles() / 2 - 10, Engine.instance().heightInTiles() / 2 - 4, 21, 8, game); break;
-                
+
                 case KeyEvent.VK_D: subscreen = new DropScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_R: subscreen = new ReadScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_C: subscreen = new ConsumeScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;

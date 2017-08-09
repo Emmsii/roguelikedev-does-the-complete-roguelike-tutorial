@@ -1,13 +1,17 @@
 package com.mac.rltut.game.screen.game;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
+import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.MessageLog;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: complete-rltut
@@ -17,6 +21,7 @@ import java.awt.event.KeyEvent;
 public class LogScreen extends Screen{
     
     private MessageLog log;
+    
     private int messageCount;
     
     private String defaultTitle;
@@ -38,11 +43,23 @@ public class LogScreen extends Screen{
         setTitle(defaultTitle + " (" + log.newEntries() + ")");
         renderBorder(renderer);
         
+        List<ColoredString> linesToRender = new ArrayList<ColoredString>();
+        int multiLineEntries = 0;
+        
         for(int i = 0; i < messageCount; i++){
             int index = log.getEntries().size() - i - 1;
             if(index < 0) continue;
             ColoredString entry = log.getEntries().get(index);
-            int color = i >= log.newEntries() && log.newEntries() != 0 ? Colors.darken(entry.color) : entry.color;
+            List<String> lines = StringUtil.lineWrap(entry.text, width - 2, true);
+            for(int j = lines.size() - 1; j >= 0; j--) linesToRender.add(new ColoredString(lines.get(j), entry.color));
+            if(lines.size() > 1 && i < log.newEntries()) multiLineEntries += lines.size() - 1;
+            if(linesToRender.size() >= messageCount) break; 
+        }
+                    
+        for(int i = 0; i < linesToRender.size(); i++){
+            ColoredString entry = linesToRender.get(i);
+            int color = i >= log.newEntries() + multiLineEntries && log.newEntries() != 0 ? Colors.darken(entry.color) : entry.color;
+            Log.debug("POS: " + i + " NEW: " + (log.newEntries() + multiLineEntries));
             renderer.write(entry.text, x + 1, y + height - 2 - i, color);
         }
         

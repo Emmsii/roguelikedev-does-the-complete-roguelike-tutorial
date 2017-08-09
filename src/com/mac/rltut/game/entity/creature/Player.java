@@ -1,7 +1,12 @@
 package com.mac.rltut.game.entity.creature;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
+import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
+import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.stats.PlayerStats;
+import com.mac.rltut.game.screen.Screen;
 
 /**
  * Project: complete-rltut
@@ -17,6 +22,19 @@ public class Player extends Creature{
     public Player(String name, Sprite sprite) {
         super(name, "its you", sprite, "player");
         this.stats = new PlayerStats(this);
+    }
+    
+    public void tryTalk(){
+        for(Point p : new Point(x, y, z).neighboursAll()){
+            Creature other = world.creature(p.x, p.y, p.z);
+            if(other instanceof NPC){
+                NPC npc = (NPC) other;
+                npc.onTalk(this);
+                return;
+            }
+        }
+        
+        notify(new ColoredString("There is no one there", Colors.RED));
     }
     
     public PlayerStats stats(){
