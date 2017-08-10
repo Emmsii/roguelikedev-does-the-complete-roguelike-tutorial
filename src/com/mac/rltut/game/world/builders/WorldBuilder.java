@@ -11,10 +11,12 @@ import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.NPC;
 import com.mac.rltut.game.entity.creature.Wizard;
 import com.mac.rltut.game.entity.creature.ai.*;
-import com.mac.rltut.game.entity.item.*;
+import com.mac.rltut.game.entity.item.EquipmentSlot;
+import com.mac.rltut.game.entity.item.Equippable;
+import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.ItemStack;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.util.JewelryGenerator;
-import com.mac.rltut.game.entity.item.util.PotionBuilder;
 import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
 import com.mac.rltut.game.entity.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
@@ -23,7 +25,6 @@ import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 import com.mac.rltut.game.world.objects.Chest;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -39,9 +40,8 @@ public class WorldBuilder {
 
     private World world;
 
-    private String creatureSpawnBaseCount = "12-20"; 
-    private String maxCreatureTypesPerLevel = "5-6";
-    private String itemsPerLevel = "4-8";
+    private final String creatureSpawnBaseCount = "12-20"; 
+    private final String maxCreatureTypesPerLevel = "5-6";
     
     private float[] creatureSpawnMultiplier;
 
@@ -66,28 +66,20 @@ public class WorldBuilder {
         levels.add(new LakeLevel(width, height, 3, 10, 50, 1.325f, 1.5f, 2, random));
         levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.5f, -2, random));
         levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.7f, -5, random));
-        levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 0f, 1.7f, 0, random));
-
-        //Temp code
-        //Deletes all images in image folder for level preview
-        File file = new File("images/");
-        File[] files = file.listFiles();
-        if(files != null) for(File f : files) f.delete();
-
+        levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 1.25f, 1.7f, 0, random));
+        
         for (int z = 0; z < depth; z++) {
             Pool<LevelBuilder> pool = new Pool<LevelBuilder>(random);
             for (LevelBuilder l : levels) {
                 int zChance = (int) ((z * l.zMultiplier()) * 3);
                 int chance = l.chance() + zChance;
-                if(chance < 2) chance = 2;
                 if (z >= l.minLevel() && z <= l.maxLevel()) pool.add(l, chance);
             }
 
-            LevelBuilder level = pool.get();// TODO: This might break
+            LevelBuilder level = pool.get();
 
             level.generate(z);
             creatureSpawnMultiplier[z] = level.creatureSpawnModifier();
-//            level.saveImage(z);
             world.setLevel(z, level.build());
         }
 
@@ -97,6 +89,8 @@ public class WorldBuilder {
 
     //Temp for debugging
     List<HashMap<String, Integer>> spawnCounts = new ArrayList<HashMap<String, Integer>>();
+    List<HashMap<String, Integer>> itemSpawnCounts = new ArrayList<HashMap<String, Integer>>();
+    List<HashMap<String, Integer>> chestItemSpawnCounts = new ArrayList<HashMap<String, Integer>>();
     
     public WorldBuilder populate(){
         double start = System.nanoTime();
@@ -178,7 +172,7 @@ public class WorldBuilder {
                 for (CreatureSpawnProperty c : canSpawn){
                     if(c instanceof BossSpawnProperty) continue;
                     if(!typesSpawned.contains(c.creature().name()) && typesSpawned.size() >= typesThisLevel) continue;
-                    pool.add(c, c.chance());
+                    pool.add(c, c.chanceAtDepth(z));
                 }
                 
                 CreatureSpawnProperty toSpawn = pool.get();
@@ -203,12 +197,12 @@ public class WorldBuilder {
                 }
             }
             creaturesSpawned += spawnedThisLevel;
-//            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] " + spawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
+            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] " + spawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
         }
         
         placeNPCs();        
         
-//        Log.debug("Spawned " + creaturesSpawned + " creatures total.");
+        Log.debug("Spawned " + creaturesSpawned + " creatures total.");
         Log.debug("Spawned creatures in " + ((System.nanoTime() - start) / 1000000) + "ms");
         return this;
     }
@@ -236,28 +230,35 @@ public class WorldBuilder {
     
     public WorldBuilder spawnItems(){
         double start = System.nanoTime();
-        Point spawn = null;
 
         int weaponCount = 2;
         int armorCount = 2;
         
         for(int z = 0; z < depth; z++){
+            int spawnedThisLevel = 0;
+            int chestSpawnedThisLevel = 0;
+            itemSpawnCounts.add(new HashMap<>());
+            chestItemSpawnCounts.add(new HashMap<>());
             
             for(int i = 0; i < weaponCount; i++){
                 spawnItem(getEquipmentFromSlot(z, true, EquipmentSlot.WEAPON), z);
+                spawnedThisLevel++;
             }
             
             for(int i = 0; i < armorCount; i++){
-                spawnItem(getEquipmentFromSlot(z, true, EquipmentSlot.ARMOR), z);    
+                spawnItem(getEquipmentFromSlot(z, true, EquipmentSlot.ARMOR), z);
+                spawnedThisLevel++;
             }
             
             if(random.nextFloat() < 0.1){
                 spawnItem(SpellbookGenerator.generate(z, random), z);
+                spawnedThisLevel++;
             }
             
             for(int i = 0; i < 3; i++){
                 if(random.nextFloat() >= 0.3) break;
                 spawnItem(JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), random), z);
+                spawnedThisLevel++;
             }
             
             for(Chest chest : world.level(z).chests()){
@@ -268,20 +269,33 @@ public class WorldBuilder {
                 for(int i = 0; i < random.nextInt(2); i++) {
                     Item item = JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), random);
                     inventory.add(item);
+                    chestSpawnedThisLevel++;
+                    if(!chestItemSpawnCounts.get(z).containsKey(item.name())) chestItemSpawnCounts.get(z).put(item.name(), 0);
+                    chestItemSpawnCounts.get(z).put(item.name(), chestItemSpawnCounts.get(z).get(item.name()) + 1);
                 }
 
                 for(int i = 0; i < 3; i++){
                     Item item = SpellbookGenerator.generate(z, random);
                     inventory.add(item);
+                    if(!chestItemSpawnCounts.get(z).containsKey(item.name())) chestItemSpawnCounts.get(z).put(item.name(), 0);
+                    chestItemSpawnCounts.get(z).put(item.name(), chestItemSpawnCounts.get(z).get(item.name()) + 1);
+                    chestSpawnedThisLevel++;
                     if(random.nextFloat() >= 0.1) break;
                 }
                 
-                for(int i = 0; i < random.nextInt(3); i++){
-                    Consumable potion = PotionBuilder.randomPotion(z, random);
-                    inventory.add(potion);
-                }
+                //TODO: remove potions for the time being
+//                for(int i = 0; i < random.nextInt(3); i++){
+//                    Consumable potion = PotionBuilder.randomPotion(z, random);
+//                    inventory.add(potion);
+//                    chestSpawnedThisLevel++;
+//                    if(!chestItemSpawnCounts.get(z).containsKey(potion.name())) chestItemSpawnCounts.get(z).put(potion.name(), 0);
+//                    chestItemSpawnCounts.get(z).put(potion.name(), chestItemSpawnCounts.get(z).get(potion.name()) + 1);
+//                }
             }
+            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Floor:  " + itemSpawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
+            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Chests: " + chestItemSpawnCounts.get(z) + " Total [" + chestSpawnedThisLevel + "]");
         }
+        
         Log.debug("Placed items in " + ((System.nanoTime() - start) / 1000000) + "ms");
         return this;
     }
@@ -294,12 +308,15 @@ public class WorldBuilder {
         }
         Point spawn = world.randomEmptyPoint(z);
         world.add(spawn.x, spawn.y, spawn.z, newItem);
+
+        if(!itemSpawnCounts.get(spawn.z).containsKey(newItem.name())) itemSpawnCounts.get(spawn.z).put(newItem.name(), 0);
+        itemSpawnCounts.get(spawn.z).put(newItem.name(), itemSpawnCounts.get(spawn.z).get(newItem.name()) + 1);
     }
 
     private Item getEquipmentFromSlot(int z, boolean useSpawnChance, EquipmentSlot ... slots){
         Pool<ItemSpawnProperty> pool = new Pool<ItemSpawnProperty>(random);
         for (ItemSpawnProperty spawnProperty : Codex.items.values()) {
-            if(spawnProperty.chance() == -1 || spawnProperty.chanceAtDepth(z) < 2) continue;
+            if(spawnProperty.chance() <= 0 || spawnProperty.chanceAtDepth(z) <= 0 || !spawnProperty.canSpawnAtDepth(z)) continue;
             if (spawnProperty.entity() instanceof Equippable) {
                 Equippable e = (Equippable) spawnProperty.entity();
                 for (EquipmentSlot s : slots) {

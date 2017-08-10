@@ -61,6 +61,6 @@ public class LogScreen extends Screen{
             renderer.write(entry.text, x + 1, y + height - 2 - i, color);
         }
         
-        log.resetNewEntryCount();
+//        log.resetNewEntryCount();
     }
 }

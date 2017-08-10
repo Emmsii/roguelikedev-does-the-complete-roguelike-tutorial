@@ -26,6 +26,7 @@ public class Spellbook extends Item{
 
     public void bless(Creature creature, Equippable equippable){
         if(creature.mana() < manaCost) return;
+        creature.modifyMana(-manaCost);
         
         creature.doAction(new ColoredString("enhance the %s", Colors.BLUE), equippable.name());
         equippable.setUnique(true);

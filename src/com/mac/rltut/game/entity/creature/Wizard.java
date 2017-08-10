@@ -29,7 +29,7 @@ public class Wizard extends NPC{
         super.update();
         
         if(playerSightTime == 0 && canSee(world.player())){
-            playerSightTime = 15;
+            playerSightTime = 20;
             say(new ColoredString(getAttentionGrabber()));
         }
         

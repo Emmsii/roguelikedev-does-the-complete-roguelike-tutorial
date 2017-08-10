@@ -5,8 +5,11 @@ import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
+import com.mac.rltut.game.effects.Heal;
+import com.mac.rltut.game.effects.Poison;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
+import com.mac.rltut.game.entity.item.Consumable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
@@ -194,7 +197,7 @@ public class World {
     
     public void addCorpse(Creature dead){
         if(!inBounds(dead.x, dead.y, dead.z) || tile(dead.x, dead.y, dead.z).isType("water")) return;
-        add(dead.x, dead.y, dead.z, (Item) new Item(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse")).newInstance());
+        add(dead.x, dead.y, dead.z, new Consumable(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse"), "eat", Math.random() < 0.45 ? new Poison(2, 7, 1) : new Heal(5)));
         if(!dead.hasFlag("no_blood")){
             for(int y = -1; y <= 1; y++){
                 int ya = y + dead.y;

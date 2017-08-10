@@ -29,12 +29,12 @@ public class PlayerSkillSelectScreen extends Screen{
     private Player player;
     
     public PlayerSkillSelectScreen(Player player){
-        this.startingPoints = 4;
+        this.startingPoints = 0;
         this.points = startingPoints;
-        this.strength = 1;
-        this.defence = 1;
-        this.accuracy = 1;
-        this.intelligence = 1;
+        this.strength = 2;
+        this.defence = 2;
+        this.accuracy = 2;
+        this.intelligence = 2;
         this.player = player;
     }
     
@@ -78,7 +78,7 @@ public class PlayerSkillSelectScreen extends Screen{
         
         if(e.getKeyCode() == KeyEvent.VK_ENTER){
             player.setStats(50, 50, 2, 20, strength, defence, accuracy, intelligence, 16, null);
-            player.setStats(1000, 50, 2, 20, 99, 99, 99, 99, 16, null);
+//            player.setStats(1000, 50, 2, 20, 99, 99, 99, 99, 16, null);
             return new LoadingScreen(player, new WorldBuilder(92, 92, 20, System.currentTimeMillis()));
         }
         

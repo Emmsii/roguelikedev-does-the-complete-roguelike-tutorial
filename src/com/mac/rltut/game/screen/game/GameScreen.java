@@ -50,6 +50,7 @@ public class GameScreen extends Screen{
         boolean shouldUpdate = false;
         player().setHasPerformedAction(false);
         
+        
         if(subscreen != null) subscreen = subscreen.input(key);
         else{
             switch (key.getKeyCode()){
@@ -111,6 +112,8 @@ public class GameScreen extends Screen{
             subscreen = new LevelUpScreen(Engine.instance().widthInTiles() / 2 - 20, Engine.instance().heightInTiles() / 2 - 6, 40, 11, player(), player().level() - level);
             return this;
         }
+        
+        if(shouldUpdate) game.log().resetNewEntryCount();
 
         if(subscreen == null && shouldUpdate || player().hasPerformedAction()) game.update();
         if(player().hp() < 1) return new LooseScreen(player());

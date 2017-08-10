@@ -20,7 +20,7 @@ public class Heal extends Effect{
     }
 
     @Override
-    public void onUseSelf(Creature creature) {
+    public void start(Creature creature) {
         creature.modifyHp(amount, "too much health");
         creature.doAction(new ColoredString("feel restored"));
     }

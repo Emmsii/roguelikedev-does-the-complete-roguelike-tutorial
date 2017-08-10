@@ -27,5 +27,21 @@ public enum EquipmentSlot {
         return slot == WEAPON;
     }
     
+    public static EquipmentSlot[] combine(EquipmentSlot[] ... toCombine){
+        int length = 0;
+        for(EquipmentSlot[] slots : toCombine) length += slots.length;
+        
+        EquipmentSlot[] result = new EquipmentSlot[length];
+        
+        int offset = 0;
+        for(EquipmentSlot[] slots : toCombine){
+            System.arraycopy(slots, 0, result, offset, slots.length);
+            offset += slots.length;
+        }
+        
+        return result;
+       
+    }
+    
     EquipmentSlot() {}
 }

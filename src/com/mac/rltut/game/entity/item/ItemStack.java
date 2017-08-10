@@ -1,6 +1,5 @@
 package com.mac.rltut.game.entity.item;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 
 /**
@@ -22,7 +21,6 @@ public class ItemStack extends Item{
     }
     
     public void modifyAmount(int amount){
-        Log.debug("AMOUNT: " + amount);
         this.amount += amount;
     }
     

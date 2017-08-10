@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args){
         Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler("logs/"));
         Config.load();
-        Engine.instance().init(Config.fullscreen, 80, 45, parseScale(args), 8, "RLTUT", "v0.8.2");
+        Engine.instance().init(Config.fullscreen, 80, 45, parseScale(args), 8, "RLTUT", "v0.8.3");
     }
     
     private static int parseScale(String[] args){

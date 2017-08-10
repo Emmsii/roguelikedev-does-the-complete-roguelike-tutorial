@@ -114,12 +114,10 @@ public class EntitySpawnProperty {
         return chance;
     }
     
-    public float depthMultiplier(){
-        return depthMultiplier;
-    }
-    
     public int chanceAtDepth(int z){
-        return (int) (chance + (z * depthMultiplier));
+        int result = (int) (chance + (z * depthMultiplier));
+//        Log.debug(entity.name() + " chance at " + z + " = " + result);
+        return result;
     }
     
     public Entity entity(){

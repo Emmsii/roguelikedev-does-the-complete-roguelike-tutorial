@@ -28,17 +28,26 @@ public class LevelUpScreen extends Screen{
     }
         
     @Override
-    public Screen input(KeyEvent e) {
+    public Screen input(KeyEvent key) {
         List<String> options = controller.levelUpOptions();
-        String chars = "";
+
+        char index = key.getKeyChar();
+
+        if(letters.indexOf(index) > -1 && options.size() > letters.indexOf(index)){
+            controller.levelUpOption(options.get(letters.indexOf(index))).invoke(player);
+            if(--picks < 1) return null;
+        }
         
-        for(int i = 0; i < options.size(); i++) chars = chars + Integer.toString(i + 1);
-        int i = chars.indexOf(e.getKeyChar());
-        if(i < 0) return this;
-        
-        controller.levelUpOption(options.get(i)).invoke(player);
-        if(--picks < 1) return null;
-        else return this;
+        return this;
+//        String chars = "";
+//        
+//        for(int i = 0; i < options.size(); i++) chars = chars + Integer.toString(i + 1);
+//        int i = chars.indexOf(e.getKeyChar());
+//        if(i < 0) return this;
+//        
+//        controller.levelUpOption(options.get(i)).invoke(player);
+//        if(--picks < 1) return null;
+//        else return this;
     }
 
     @Override
@@ -49,6 +58,6 @@ public class LevelUpScreen extends Screen{
         int xp = this.x + 3; 
         int yp = this.y + 3;
         
-        for(int i = 0; i < options.size(); i++) renderer.write(String.format("[%d] %s", i + 1, options.get(i)), xp, yp++);
+        for(int i = 0; i < options.size(); i++) renderer.write(String.format("[%s] %s", letters.charAt(i), options.get(i)), xp, yp++);
     }
 }

@@ -60,13 +60,13 @@ public class SpellbookGenerator {
                     book.setIntelligenceBonus(value);
                 }
             },
-            new BonusModifier("manaA", "mana", "mana regen", Sprite.get("spell_book_3"), 0.8f, EquipmentSlot.ARMOR){
+            new BonusModifier("manaA", "mana", "mana regen", Sprite.get("spell_book_3"), 0.8f, EquipmentSlot.combine(EquipmentSlot.ARMOR, EquipmentSlot.JEWELRY)){
                 @Override
                 public void apply(Spellbook book, int value) {
                     book.setManaRegenAmountBonus(value);
                 }
             },
-            new BonusModifier("manaS", "mana", "mana regen speed", Sprite.get("spell_book_3"), 0.675f, EquipmentSlot.ARMOR){
+            new BonusModifier("manaS", "mana", "mana regen speed", Sprite.get("spell_book_3"), 0.675f, EquipmentSlot.combine(EquipmentSlot.ARMOR, EquipmentSlot.JEWELRY)){
                 @Override
                 public void apply(Spellbook book, int value) {
                     book.setManaRegenSpeedBonus(-value);
@@ -108,7 +108,7 @@ public class SpellbookGenerator {
         manaCost += (book.manaRegenAmountBonus() / 2) + 1;
         manaCost += ((book.manaRegenSpeedBonus() * -1) / 2) + 1;
         
-        manaCost *= 5;
+        manaCost *= 5 + (z / 5);
         book.setManaCost(manaCost);
         
         String rarity = "";

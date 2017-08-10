@@ -43,7 +43,6 @@ public class DropTable {
             return null;
         }
         
-        Log.debug("Getting item!");
         Pool<Drop> pool = new Pool<Drop>();
         for(Drop d : drops) pool.add(d, d.chance);
         pool.add(new Drop(null, null, 100), 100);

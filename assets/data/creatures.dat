@@ -41,6 +41,7 @@ VISION=10
 SPAWN_TYPES=dark
 AI=aggressive
 FLAGS=smart
+DROPS=meat chunk:1-2:40, gold:10-30:35
 
 [CREATURE]
 NAME=zombie
@@ -55,7 +56,7 @@ VISION=10
 AI=aggressive
 FLAGS=slow
 DROPS=gold:2-12:45
-EQUIPMENT=sword:100
+EQUIPMENT=dagger:4
 
 [CREATURE]
 NAME=ent
@@ -118,6 +119,7 @@ VISION=15
 SPAWN_TYPES=lake, swamp
 SPAWN_NEAR=water
 AI=aggressive
+DROPS=meat chunk:1:50
 
 [CREATURE]
 NAME=green octopus
@@ -133,6 +135,7 @@ VISION=15
 SPAWN_TYPES=lake, swamp
 SPAWN_NEAR=water
 AI=aggressive
+DROPS=meat chunk:1:50
 
 [CREATURE]
 NAME=skeleton
@@ -148,7 +151,7 @@ SPAWN_LEVELS=2-10
 SPAWN_CHANCE=50
 AI=aggressive
 FLAGS=smart, no_blood
-EQUIPMENT=bow:100, SCIMITAR:5
+EQUIPMENT=bow:10, SCIMITAR:5
 
 [CREATURE]
 NAME=spectre
@@ -179,6 +182,7 @@ VISION=10
 SPAWN_LEVELS=3-20
 SPAWN_TYPES=!sparse
 AI=aggressive
+DROPS=meat chunk:1:30
 
 [CREATURE]
 NAME=green snake
@@ -193,6 +197,7 @@ VISION=10
 SPAWN_LEVELS=3-20
 SPAWN_TYPES=!sparse, !dark
 AI=aggressive
+DROPS=meat chunk:1:30
 
 [CREATURE]
 NAME=brown snake
@@ -207,6 +212,7 @@ VISION=10
 SPAWN_LEVELS=3-20
 SPAWN_TYPES=!sparse, !dark
 AI=aggressive
+DROPS=meat chunk:1:30
 
 [CREATURE]
 NAME=ghost
@@ -255,6 +261,7 @@ SPAWN_EVERY=3
 MINIONS=green octopus
 MINION_COUNT=7-10
 SIZE=2
+DROPS=meat chunk:2-4:100, gold:50-60:100
 
 [BOSS]
 NAME=blue octopus boss
@@ -272,6 +279,7 @@ SPAWN_TYPES=lake, swamp
 MINIONS=blue octopus
 MINION_COUNT=7-10
 SIZE=2
+DROPS=meat chunk:2-4:100, gold:50-60:100
 
 [BOSS]
 NAME=skeleton king
@@ -287,6 +295,7 @@ SPAWN_EVERY=3
 MINIONS=skeleton
 MINION_COUNT=8-10
 SIZE=2
+DROPS=gold:40-50:100
 
 [BOSS]
 NAME=grand ent
@@ -303,6 +312,8 @@ SPAWN_EVERY=3
 MINIONS=ent
 MINION_COUNT=5-8
 SIZE=2
+IMMUNE_TO=poison
+DROPS=gold:70-75:100
 
 [BOSS]
 NAME=spectre boss
@@ -319,6 +330,8 @@ SPAWN_EVERY=3
 MINIONS=spectre
 MINION_COUNT=4-7
 SIZE=2
+IMMUNE_TO=leech
+DROPS=gold:70-80:100
 
 [BOSS]
 NAME=giant snake
@@ -351,6 +364,8 @@ SPAWN_EVERY=3
 MINIONS=fire sprite
 MINION_COUNT=8-10
 SIZE=2
+IMMUNE_TO=burn
+DROPS=gold:80-100:100
 
 [BOSS]
 NAME=eye thing
@@ -367,6 +382,8 @@ SPAWN_LEVELS=1-19
 SPAWN_EVERY=5
 UNIQUE=1
 SIZE=2
+IMMUNE_TO=blind
+DROPS=gold:60-90:100
 
 [BOSS]
 NAME=golem
@@ -383,6 +400,7 @@ SPAWN_LEVELS=1-19
 SPAWN_EVERY=5
 UNIQUE=1
 SIZE=2
+DROPS=gold:80-100:100
 
 [BOSS]
 NAME=gargoyle
@@ -399,6 +417,8 @@ SPAWN_LEVELS=1-19
 SPAWN_EVERY=5
 UNIQUE=1
 SIZE=2
+IMMUNE_TO=burn, poison
+DROPS=gold:80-100:100
 
 # very temp
 [BOSS]

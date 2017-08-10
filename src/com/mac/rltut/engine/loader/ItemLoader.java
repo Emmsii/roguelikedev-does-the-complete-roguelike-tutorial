@@ -34,7 +34,7 @@ public class ItemLoader extends DataLoader {
             Sprite sprite = Sprite.get(obj.getString("sprite"));
             String spawnLevels = obj.hasToken("spawn_levels") ? obj.getString("spawn_levels") : "all";
             int spawnChance = obj.hasToken("spawn_chance") ? obj.getInt("spawn_chance") : -1;
-            float depthMultiplier = obj.hasToken("depth_multiplier") ? obj.getFloat("depth_multiplier") : 1f;
+            float depthMultiplier = obj.hasToken("depth_multiplier") ? obj.getFloat("depth_multiplier") : 0f;
             
             if(obj.isType("item")) item = new Item(name, description, sprite);
             else if(obj.isType("item_stack")){
@@ -43,7 +43,7 @@ public class ItemLoader extends DataLoader {
             }else if(obj.isType("consumable")){
                 Effect effect = null;
                 if(obj.hasToken("heal")) new Heal(obj.getInt("heal"));
-                String action = obj.hasToken("actions") ? obj.getString("actions") : "fumble";
+                String action = obj.hasToken("action") ? obj.getString("action") : "fumble";
                 item = new Consumable(name, description, sprite, action, effect);
             }else if(obj.isType("equippable")){
                 String slot = obj.getString("slot");
