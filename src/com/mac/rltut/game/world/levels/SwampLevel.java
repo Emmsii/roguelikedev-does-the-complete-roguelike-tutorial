@@ -12,8 +12,8 @@ import java.util.Random;
  */
 public class SwampLevel extends ForestLevelBuilder {
     
-    public SwampLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
-        super("Swamp", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, random);
+    public SwampLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, int visibilityModifier, Random random) {
+        super("Swamp", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, visibilityModifier, random);
     }
 
     @Override

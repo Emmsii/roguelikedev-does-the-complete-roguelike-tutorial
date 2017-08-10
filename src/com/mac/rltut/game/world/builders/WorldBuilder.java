@@ -2,7 +2,6 @@ package com.mac.rltut.game.world.builders;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
@@ -61,13 +60,13 @@ public class WorldBuilder {
         double start = System.nanoTime();
 
         List<LevelBuilder> levels = new ArrayList<LevelBuilder>();
-        levels.add(new DefaultLevel(width, height, 0, depth + 1, 70, -0.5f, 1.5f, random));
-        levels.add(new DenseLevel(width, height, 1, depth + 1, 55, 0.95f, 1.5f, random));
-        levels.add(new SparseLevel(width, height, 1, 8, 70, 0.9f, 1.5f, random));
-        levels.add(new LakeLevel(width, height, 3, 10, 50, 1.325f, 1.5f, random));
-        levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.5f, random));
-        levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.7f, random));
-        levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 0f, 1.7f, random));
+        levels.add(new DefaultLevel(width, height, 0, depth + 1, 70, -0.5f, 1.5f, 0, random));
+        levels.add(new DenseLevel(width, height, 1, depth + 1, 55, 0.95f, 1.5f, -4, random));
+        levels.add(new SparseLevel(width, height, 1, 8, 70, 0.9f, 1.5f, 3, random));
+        levels.add(new LakeLevel(width, height, 3, 10, 50, 1.325f, 1.5f, 2, random));
+        levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.5f, -2, random));
+        levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.7f, -5, random));
+        levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 0f, 1.7f, 0, random));
 
         //Temp code
         //Deletes all images in image folder for level preview
@@ -130,7 +129,8 @@ public class WorldBuilder {
                 Pool<BossSpawnProperty> pool = new Pool<BossSpawnProperty>(random);
                 for (CreatureSpawnProperty c : canSpawn){
                     if (c instanceof BossSpawnProperty){
-                        if(uniquesSpawned.contains(c.creature().name())) continue;
+                        if(uniquesSpawned.contains(c.creature().name()
+                        )) continue;
                         pool.add((BossSpawnProperty) c, c.chance());
                     }
                 } 
@@ -214,20 +214,20 @@ public class WorldBuilder {
     }
     
     private WorldBuilder placeNPCs(){
-        for(int z = 0; z < depth; z++){
-//            Point spawn = new Point();
-//            spawn.z = z;
-//            do{
-//                spawn.x = random.nextInt(width);
-//                spawn.y = random.nextInt(height);
-//            }while(world.tile(spawn.x, spawn.y, spawn.z).solid() || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
-            
-            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
+        for(int z = 0; z < depth -1 ; z++){
+            Point spawn = new Point();
+            spawn.z = z;
+            do{
+                spawn.x = random.nextInt(width);
+                spawn.y = random.nextInt(height);
+            }while(world.tile(spawn.x, spawn.y, spawn.z).solid() || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
+          
+            //Place wizard next to player for convenience
+//            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
             
             NPC npc = new Wizard("Wizard McGuffin", "An old man", Sprite.get("wizard"), "npc");
             npc.setStats(100, 100, 0, 0, 1, 1, 1, 1, 16, null);
             new NpcAI(npc);
-            Log.debug("New NPC at " + spawn);
             world.add(spawn.x, spawn.y, spawn.z, npc);    
         }
         
@@ -361,8 +361,9 @@ public class WorldBuilder {
         if(!spawnProperty.hasEquipment()) return;
         List<Equippable> items = spawnProperty.getEquipment(random);
         for(Equippable item : items) {
-            creature.inventory().add(item);
-            creature.equip(item);
+            Equippable equippable = (Equippable) item.newInstance();
+            creature.inventory().add(equippable);
+            creature.equip(equippable);
         }
     }
     

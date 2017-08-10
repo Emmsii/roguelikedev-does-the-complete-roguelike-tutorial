@@ -26,7 +26,6 @@ public class ItemLoader extends DataLoader {
     public void load() {
         Log.debug("Loading items...");
         for(DataObject obj : data){
-            
             Item item = null;
             ItemSpawnProperty spawnProperty = null;
             

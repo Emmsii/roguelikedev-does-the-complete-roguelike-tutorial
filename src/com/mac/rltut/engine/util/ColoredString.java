@@ -1,7 +1,5 @@
 package com.mac.rltut.engine.util;
 
-import com.mac.rltut.engine.Engine;
-
 /**
  * Project: complete-rltut
  * PC
@@ -15,7 +13,7 @@ public class ColoredString {
     protected ColoredString(){}
     
     public ColoredString(String text){
-        this(text, Engine.instance().defaultFontColor());
+        this(text, Colors.WHITE);
     }
     
     public ColoredString(String text, int color){

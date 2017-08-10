@@ -37,7 +37,7 @@ public class FireWeaponScreen extends TargetBasedScreen{
         if(other == null) player.notify(new ColoredString("There is no one to fire at."));
         else{
             new CombatManager(player, other).rangedAttack();
-            player.setHasUsedEquipment(true);
+            player.setHasPerformedAction(true);
         }
     }
 }

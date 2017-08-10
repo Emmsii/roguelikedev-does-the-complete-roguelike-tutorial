@@ -30,7 +30,7 @@ public class EquipmentScreen extends Screen {
 
     @Override
     public void render(Renderer renderer) {
-        renderBorder(renderer);
+        renderBorderFill(renderer);
         
         int xp = (width / 2);
 

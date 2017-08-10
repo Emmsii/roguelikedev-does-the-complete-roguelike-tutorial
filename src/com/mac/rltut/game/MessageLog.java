@@ -1,7 +1,6 @@
 package com.mac.rltut.game;
 
 import com.mac.rltut.engine.util.ColoredString;
-import com.mac.rltut.engine.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;

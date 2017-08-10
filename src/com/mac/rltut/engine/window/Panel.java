@@ -1,6 +1,5 @@
 package com.mac.rltut.engine.window;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 
 import javax.swing.*;

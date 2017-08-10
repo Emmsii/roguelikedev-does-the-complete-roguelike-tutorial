@@ -5,7 +5,6 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.Game;
-import com.mac.rltut.game.effects.Rage;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
@@ -49,7 +48,7 @@ public class GameScreen extends Screen{
     public Screen input(KeyEvent key){
         int level = player().level();
         boolean shouldUpdate = false;
-        player().setHasUsedEquipment(false);
+        player().setHasPerformedAction(false);
         
         if(subscreen != null) subscreen = subscreen.input(key);
         else{
@@ -113,7 +112,7 @@ public class GameScreen extends Screen{
             return this;
         }
 
-        if(subscreen == null && shouldUpdate || player().hasUsedEquipment()) game.update();
+        if(subscreen == null && shouldUpdate || player().hasPerformedAction()) game.update();
         if(player().hp() < 1) return new LooseScreen(player());
         
         return this;

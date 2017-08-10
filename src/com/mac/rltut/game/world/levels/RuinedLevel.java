@@ -12,8 +12,8 @@ import java.util.Random;
  */
 public class RuinedLevel extends ForestLevelBuilder {
 
-    public RuinedLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
-        super("Ruined", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, random);
+    public RuinedLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, int visibilityModifier, Random random) {
+        super("Ruined", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, visibilityModifier, random);
     }
 
     @Override

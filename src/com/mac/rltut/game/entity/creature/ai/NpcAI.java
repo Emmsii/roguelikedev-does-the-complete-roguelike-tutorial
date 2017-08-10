@@ -1,7 +1,6 @@
 package com.mac.rltut.game.entity.creature.ai;
 
 import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.NPC;
 
 /**
  * Project: complete-rltut

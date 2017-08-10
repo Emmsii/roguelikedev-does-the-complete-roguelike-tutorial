@@ -163,7 +163,6 @@ public class FileHandler {
         InflaterInputStream inflaterInputStream = null;
         Input input = null;
 
-        double start = System.nanoTime();
         try {
             fileInputStream = new FileInputStream(file);
             inflaterInputStream = new InflaterInputStream(fileInputStream);
@@ -180,7 +179,6 @@ public class FileHandler {
                 e.printStackTrace();
             }
         }
-        Log.debug("Loaded version in " + ((System.nanoTime() - start) / 1000000) + "ms");
         
         return version;
     }

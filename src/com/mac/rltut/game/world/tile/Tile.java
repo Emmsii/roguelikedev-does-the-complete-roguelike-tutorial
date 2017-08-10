@@ -70,7 +70,7 @@ public class Tile {
     
     public static void addTile(Tile tile){
         if(tile.id > tiles.length) throw new RuntimeException("Tile count reached [" + tiles.length + "]");
-        if(tiles[tile.id] != null) throw new RuntimeException("Duplicate tile id [" + tile.id + "]");
+        if(tiles[tile.id] != null) throw new RuntimeException("Duplicate tile id [" + tile.id + "] " + tile.name() + " [" + tiles[tile.id].name() + "]");
         tiles[tile.id] = tile;
         tileNames.put(tile.name, tile);
     }

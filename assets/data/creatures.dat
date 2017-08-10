@@ -1,4 +1,4 @@
-[CREATURE]
+# [CREATURE]
 NAME=wizard
 DESCRIPTION=A wizard
 SPRITE=wizard
@@ -13,7 +13,7 @@ SPAWN_LEVELS=3-20
 SPAWN_CHANCE=5
 AI=aggressive
 
-[CREATURE]
+# [CREATURE]
 NAME=undead wizard
 DESCRIPTION=An undead wizard
 SPRITE=wizard_undead
@@ -163,6 +163,7 @@ INTELLIGENCE=12
 VISION=15
 SPAWN_TYPES=dark, ruins
 SPAWN_LEVELS=8-20
+FLAGS=no_corpse
 AI=aggressive
 
 [CREATURE]
@@ -221,7 +222,7 @@ VISION=12
 SPAWN_TYPES=!default, !dense, !lakes, !sparse
 SPAWN_LEVELS=6-20
 AI=neutral
-FLAGS=no_blood, prefer_night
+FLAGS=no_blood, prefer_night, no_corpse
 
 [CREATURE]
 NAME=cat

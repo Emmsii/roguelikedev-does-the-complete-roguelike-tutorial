@@ -63,7 +63,7 @@ public class Creature extends Entity {
     
     private int timeStationary;
     private boolean hasMoved;
-    private boolean hasUsedEquipment;
+    private boolean hasPerformedAction;
     
     private int tick;
     
@@ -83,6 +83,8 @@ public class Creature extends Entity {
         this.immuneTo = new HashSet<String>();
         this.level = 1;
         this.aiType = aiType;
+        this.hasMoved = false;
+        this.hasPerformedAction = false;
     }
 
     public void setStats(int maxHp, int maxMana, int manaRegenAmount, int manaRegenSpeed, int strength, int defense, int accuracy, int intelligence, int vision, DropTable dropTable){
@@ -359,7 +361,7 @@ public class Creature extends Entity {
         else if(hp < 1){
             doAction(new ColoredString("die", Colors.RED));
             world.remove(this);
-            world.addCorpse(this);
+            if(!hasFlag("no_corpse")) world.addCorpse(this);
             dropFromDropTable();
             for(int i = inventory().count() - 1; i >= 0; i--) drop(inventory.get(i));
         }
@@ -400,8 +402,8 @@ public class Creature extends Entity {
         vision += amount;
     }
     
-    public void modifyVisionBonus(int amount){
-        visionBonus += amount;
+    public void setVisionBonus(int amount){
+        visionBonus = amount;
     }
     
     public void modifyXp(int amount){
@@ -480,7 +482,7 @@ public class Creature extends Entity {
     
     public int vision(){
         if(visionBonus > 0) return visionBonus;
-        return Math.min(vision, world.dayNightController().light());
+        return Math.min(vision + visionBonus, world.dayNightController().light() + world.level(z).visibilityModifier());
     }
 
     public int strengthBonus(){
@@ -581,8 +583,8 @@ public class Creature extends Entity {
         return timeStationary;
     }
 
-    public boolean hasUsedEquipment(){
-        return hasUsedEquipment;
+    public boolean hasPerformedAction(){
+        return hasPerformedAction;
     }
     
     public boolean hasFlag(String flag){
@@ -619,8 +621,8 @@ public class Creature extends Entity {
         flags.remove(flag.toLowerCase().trim());
     }
         
-    public void setHasUsedEquipment(boolean hasUsedEquipment){
-        this.hasUsedEquipment = hasUsedEquipment;
+    public void setHasPerformedAction(boolean hasPerformedAction){
+        this.hasPerformedAction = hasPerformedAction;
     }
     
     public void setEquippable(EquipmentSlot slot, Equippable equippable){

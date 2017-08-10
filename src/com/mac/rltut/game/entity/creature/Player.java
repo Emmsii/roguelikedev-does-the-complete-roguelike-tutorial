@@ -1,12 +1,10 @@
 package com.mac.rltut.game.entity.creature;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.stats.PlayerStats;
-import com.mac.rltut.game.screen.Screen;
 
 /**
  * Project: complete-rltut

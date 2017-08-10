@@ -64,7 +64,7 @@ public class CreatureSpawnProperty extends EntitySpawnProperty{
             return null;
         }
         Equippable item = pool.get();
-        if(item.name() != null) result.add((Equippable) item.newInstance());
+        if(item.name() != null) result.add(item);
         return result;
     }
     

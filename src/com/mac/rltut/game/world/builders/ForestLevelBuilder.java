@@ -25,8 +25,8 @@ public class ForestLevelBuilder extends LevelBuilder{
     private List<Rectangle> ruins;
     private int nextRegion;
     
-    public ForestLevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
-        super(type, width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, random);
+    public ForestLevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, int visibilityModifier, Random random) {
+        super(type, width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, visibilityModifier, random);
     }
 
     @Override

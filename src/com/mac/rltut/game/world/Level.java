@@ -16,6 +16,7 @@ import java.util.List;
 public class Level {
     
     private String type;
+    private int visibilityModifier;
     private int width, height;
     private int z;
     
@@ -33,8 +34,9 @@ public class Level {
 
     protected Level() {}
     
-    public Level(String type, int width, int height, int z){
+    public Level(String type, int width, int height, int z, int visibilityModifier){
         this.type = type;
+        this.visibilityModifier = visibilityModifier;
         this.width = width;
         this.height = height;
         this.z = z;
@@ -140,6 +142,10 @@ public class Level {
 
     public List<Chest> chests(){
         return chests;
+    }
+    
+    public int visibilityModifier(){
+        return visibilityModifier;
     }
 
     public boolean inBounds(int x, int y){

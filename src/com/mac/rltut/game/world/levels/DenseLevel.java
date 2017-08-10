@@ -12,8 +12,8 @@ import java.util.Random;
  */
 public class DenseLevel extends ForestLevelBuilder {
     
-    public DenseLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
-        super("Dense", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, random);
+    public DenseLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, int visibilityModifier, Random random) {
+        super("Dense", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, visibilityModifier, random);
     }
 
     @Override

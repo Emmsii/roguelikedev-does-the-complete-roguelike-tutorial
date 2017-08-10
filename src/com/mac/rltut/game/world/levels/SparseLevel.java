@@ -12,8 +12,8 @@ import java.util.Random;
  */
 public class SparseLevel extends ForestLevelBuilder {
     
-    public SparseLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
-        super("Sparse", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, random);
+    public SparseLevel(int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, int visibilityModifier, Random random) {
+        super("Sparse", width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, visibilityModifier, random);
     }
 
     @Override

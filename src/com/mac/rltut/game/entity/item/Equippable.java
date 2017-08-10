@@ -33,11 +33,8 @@ public class Equippable extends Item{
     
     public void equip(Creature creature){
         Equippable alreadyEquipped = creature.getEquippedAt(slot);
-        if(alreadyEquipped != null && alreadyEquipped != this) {
-            creature.unequip(creature.getEquippedAt(slot));
-            return;
-        }        
-
+        if(alreadyEquipped != null && alreadyEquipped != this) creature.unequip(creature.getEquippedAt(slot));
+                
         if(isEquipped()){
             unequip(creature);
             return;

@@ -31,6 +31,7 @@ public abstract class LevelBuilder {
     private final int chance;
     private final float zMultiplier;
     private final float creatureSpawnMultiplier;
+    private final int visibilityModifier;
     
     private Properties properties;
     private List<DecalTile> decalTiles;
@@ -48,7 +49,7 @@ public abstract class LevelBuilder {
     
     private Point start;
     
-    public LevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, Random random) {
+    public LevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, int visibilityModifier, Random random) {
         this.type = type;
         this.width = width;
         this.height = height;
@@ -57,6 +58,7 @@ public abstract class LevelBuilder {
         this.chance = chance;
         this.zMultiplier = zMultiplier;
         this.creatureSpawnMultiplier = creatureSpawnMultiplier;
+        this.visibilityModifier = visibilityModifier;
         this.random = random;
         
         this.properties = new Properties();
@@ -74,7 +76,7 @@ public abstract class LevelBuilder {
         this.mapObjects = new MapObject[width][height];
         this.chests = new ArrayList<Chest>();
         this.clearanceMap = new byte[width][height];
-        this.level = new Level(type, width, height, z);
+        this.level = new Level(type, width, height, z, visibilityModifier);
         for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) setTile(x, y, Tile.getTile("empty"));
         this.random.setSeed(random.nextLong());
     }

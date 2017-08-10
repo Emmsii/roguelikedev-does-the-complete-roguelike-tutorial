@@ -27,7 +27,7 @@ public class EquipmentStatsScreen extends Screen {
 
     @Override
     public void render(Renderer renderer) {
-        renderBorder(renderer);
+        renderBorderFill(renderer);
 
         int xp = this.x + 2;
         int yp = this.y + 3;

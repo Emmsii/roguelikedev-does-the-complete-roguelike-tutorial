@@ -1,6 +1,5 @@
 package com.mac.rltut.game.screen.game;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.ColoredString;
@@ -59,7 +58,6 @@ public class LogScreen extends Screen{
         for(int i = 0; i < linesToRender.size(); i++){
             ColoredString entry = linesToRender.get(i);
             int color = i >= log.newEntries() + multiLineEntries && log.newEntries() != 0 ? Colors.darken(entry.color) : entry.color;
-            Log.debug("POS: " + i + " NEW: " + (log.newEntries() + multiLineEntries));
             renderer.write(entry.text, x + 1, y + height - 2 - i, color);
         }
         
