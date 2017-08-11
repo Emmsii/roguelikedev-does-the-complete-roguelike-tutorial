@@ -11,12 +11,10 @@ import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.NPC;
 import com.mac.rltut.game.entity.creature.Wizard;
 import com.mac.rltut.game.entity.creature.ai.*;
-import com.mac.rltut.game.entity.item.EquipmentSlot;
-import com.mac.rltut.game.entity.item.Equippable;
-import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.entity.item.ItemStack;
+import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.item.util.JewelryGenerator;
+import com.mac.rltut.game.entity.item.util.PotionBuilder;
 import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
 import com.mac.rltut.game.entity.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
@@ -261,39 +259,55 @@ public class WorldBuilder {
                 spawnedThisLevel++;
             }
             
+            //TODO: Too many items in chests
+//            Log.debug("Chests on level " + z + ": " + world.level(z).chests().size());
             for(Chest chest : world.level(z).chests()){
-                if(random.nextFloat() >= 0.75) continue;
-                
                 Inventory<Item> inventory = chest.inventory();
 
-                for(int i = 0; i < random.nextInt(2); i++) {
-                    Item item = JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), random);
-                    inventory.add(item);
-                    chestSpawnedThisLevel++;
-                    if(!chestItemSpawnCounts.get(z).containsKey(item.name())) chestItemSpawnCounts.get(z).put(item.name(), 0);
-                    chestItemSpawnCounts.get(z).put(item.name(), chestItemSpawnCounts.get(z).get(item.name()) + 1);
-                }
+                if(random.nextFloat() <= 0.5f) {
+                    for (int i = 0; i < 2; i++) {
+                        Item item = JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), random);
+                        inventory.add(item);
 
-                for(int i = 0; i < 3; i++){
-                    Item item = SpellbookGenerator.generate(z, random);
-                    inventory.add(item);
-                    if(!chestItemSpawnCounts.get(z).containsKey(item.name())) chestItemSpawnCounts.get(z).put(item.name(), 0);
-                    chestItemSpawnCounts.get(z).put(item.name(), chestItemSpawnCounts.get(z).get(item.name()) + 1);
-                    chestSpawnedThisLevel++;
-                    if(random.nextFloat() >= 0.1) break;
+                        if (!chestItemSpawnCounts.get(z).containsKey(item.name())) chestItemSpawnCounts.get(z).put(item.name(), 0);
+                        chestItemSpawnCounts.get(z).put(item.name(), chestItemSpawnCounts.get(z).get(item.name()) + 1);
+                        chestSpawnedThisLevel++;
+                        if (random.nextFloat() >= 0.2f + ((float) z / (float) world.depth()) * 0.1f) break;
+                    }
                 }
                 
-                //TODO: remove potions for the time being
-//                for(int i = 0; i < random.nextInt(3); i++){
-//                    Consumable potion = PotionBuilder.randomPotion(z, random);
-//                    inventory.add(potion);
-//                    chestSpawnedThisLevel++;
-//                    if(!chestItemSpawnCounts.get(z).containsKey(potion.name())) chestItemSpawnCounts.get(z).put(potion.name(), 0);
-//                    chestItemSpawnCounts.get(z).put(potion.name(), chestItemSpawnCounts.get(z).get(potion.name()) + 1);
-//                }
+                if(random.nextFloat() <= 0.385f) {
+                    for (int i = 0; i < 3; i++) {
+                        Item item = SpellbookGenerator.generate(z, random);
+                        inventory.add(item);
+                        if (!chestItemSpawnCounts.get(z).containsKey(item.name())) chestItemSpawnCounts.get(z).put(item.name(), 0);
+                        chestItemSpawnCounts.get(z).put(item.name(), chestItemSpawnCounts.get(z).get(item.name()) + 1);
+                        chestSpawnedThisLevel++;
+                        if (random.nextFloat() >= 0.1f + ((float) z / (float) world.depth()) * 0.1f) break;
+                    }
+                }
+                
+                if(random.nextFloat() <= 0.6f) {
+                    for (int i = 0; i < 3; i++) {
+                        Consumable potion = PotionBuilder.randomPotion(z, random);
+                        inventory.add(potion);
+                        if (!chestItemSpawnCounts.get(z).containsKey(potion.name())) chestItemSpawnCounts.get(z).put(potion.name(), 0);
+                        chestItemSpawnCounts.get(z).put(potion.name(), chestItemSpawnCounts.get(z).get(potion.name()) + 1);
+                        chestSpawnedThisLevel++;
+                        if (random.nextFloat() >= 0.35f + ((float) z / (float) world.depth()) * 0.1f) break;
+                    }
+                }
+                
+                if(random.nextFloat() < 0.85f){
+                    inventory.add(new ItemStack("gold", "a stack of gold", Sprite.get("gold"), "WHAT???", (int) (MathUtil.randomIntFromString("20-30", random) * ((z + 1) * 0.4f))));
+                    if (!chestItemSpawnCounts.get(z).containsKey("gold")) chestItemSpawnCounts.get(z).put("gold", 0);
+                    chestItemSpawnCounts.get(z).put("gold", chestItemSpawnCounts.get(z).get("gold") + 1);
+                }
+                
+                Log.debug("Chest contains " + inventory.count() + " items");
             }
-            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Floor:  " + itemSpawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
-            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Chests: " + chestItemSpawnCounts.get(z) + " Total [" + chestSpawnedThisLevel + "]");
+//            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Floor:  " + itemSpawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
+            if(world.level(z).chests().size() > 0) Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Chests: " + chestItemSpawnCounts.get(z) + " Total [" + chestSpawnedThisLevel + "]");
         }
         
         Log.debug("Placed items in " + ((System.nanoTime() - start) / 1000000) + "ms");

@@ -34,12 +34,12 @@ public class Spellbook extends Item{
         if(effect == null) equippable.setName("Enhanced " + equippable.name());
         else equippable.setName("Magical " + equippable.name());
         
-        equippable.setStrengthBonus(strengthBonus);
-        equippable.setDefenseBonus(defenseBonus);
-        equippable.setAccuracyBonus(accuracyBonus);
-        equippable.setIntelligenceBonus(intelligenceBonus);
-        equippable.setManaRegenAmountBonus(manaRegenAmountBonus);
-        equippable.setManaRegenSpeedBonus(manaRegenSpeedBonus);
+        if(strengthBonus != 0) equippable.setStrengthBonus(equippable.strengthBonus() + strengthBonus);
+        if(defenseBonus != 0) equippable.setDefenseBonus(equippable.defenseBonus() + defenseBonus);
+        if(accuracyBonus != 0) equippable.setAccuracyBonus(equippable.accuracyBonus() + accuracyBonus);
+        if(intelligenceBonus != 0) equippable.setIntelligenceBonus(equippable.intelligenceBonus() + intelligenceBonus);
+        if(manaRegenAmountBonus != 0) equippable.setManaRegenAmountBonus(equippable.manaRegenAmountBonus() + manaRegenAmountBonus);
+        if(manaRegenSpeedBonus != 0) equippable.setManaRegenSpeedBonus(equippable.manaRegenSpeedBonus() + manaRegenSpeedBonus);
         
         if(effect != null) equippable.setEffect(effect);
         

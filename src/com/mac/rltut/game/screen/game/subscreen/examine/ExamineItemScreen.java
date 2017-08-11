@@ -55,8 +55,8 @@ public class ExamineItemScreen extends Screen {
         
         if(item instanceof Equippable){
             Equippable e = (Equippable) item;
-            renderer.write("Damage", xp, yp++);
             
+            if(e.damage() != null || e.rangedDamage() != null) renderer.write("Damage", xp, yp++);
             if(e.damage() != null && !e.damage().equals("0")) renderer.write("Melee    " + e.damage(), xp + 1, yp++);
             if(e.rangedDamage() != null && !e.rangedDamage().equals("0")) renderer.write("Ranged   " + e.rangedDamage(), xp + 1, yp++);
             yp++;

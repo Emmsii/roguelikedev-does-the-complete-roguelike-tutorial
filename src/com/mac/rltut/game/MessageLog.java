@@ -25,8 +25,10 @@ public class MessageLog {
     }
     
     public void add(ColoredString string){
-        if(!checkForRepeat(string.text, string.color)) entries.add(string);
-        newEntries++;
+        if(!checkForRepeat(string.text, string.color)){
+            entries.add(string);
+            newEntries++;
+        }
     }
     
     private boolean checkForRepeat(String text, int color){

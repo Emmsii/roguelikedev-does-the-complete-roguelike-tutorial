@@ -3,6 +3,7 @@ package com.mac.rltut.game.world;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.FieldOfView;
+import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.effects.Heal;
@@ -11,6 +12,7 @@ import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Consumable;
 import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.ItemStack;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
@@ -197,15 +199,14 @@ public class World {
     
     public void addCorpse(Creature dead){
         if(!inBounds(dead.x, dead.y, dead.z) || tile(dead.x, dead.y, dead.z).isType("water")) return;
-        add(dead.x, dead.y, dead.z, new Consumable(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse"), "eat", Math.random() < 0.45 ? new Poison(2, 7, 1) : new Heal(5)));
-        if(!dead.hasFlag("no_blood")){
-            for(int y = -1; y <= 1; y++){
-                int ya = y + dead.y;
-                for(int x = -1; x <= 1; x++){
-                    int xa = x + dead.x;
-                    if(solid(xa, ya, dead.z)) continue;
-                    if(Math.random() < 0.275) level(dead.z).setBlood(xa, ya, true);
-                }
+        addAtEmptyPoint(dead.x, dead.y, dead.z, new Consumable(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse"), "eat", Math.random() < 0.45 ? new Poison(2, 7, 1) : new Heal(5)));
+        if(dead.hasFlag("no_blood")) return;
+        for(int y = -1; y <= 1; y++){
+            int ya = y + dead.y;
+            for(int x = -1; x <= 1; x++){
+                int xa = x + dead.x;
+                if(solid(xa, ya, dead.z)) continue;
+                if(Math.random() < 0.275) level(dead.z).setBlood(xa, ya, true);
             }
         }
     }
@@ -250,7 +251,10 @@ public class World {
             if(item(p.x, p.y, p.z) == null){
                 add(p.x, p.y, p.z, item);
                 Creature c = creature(p.x, p.y, p.z);
-                if(c != null) c.notify(new ColoredString("A %s lands at your feet."), item.name());
+                if(c != null){
+                    if(item instanceof ItemStack) c.notify(new ColoredString("%s lands at your feet."), StringUtil.capitalizeFirst(item.name()));
+                    else c.notify(new ColoredString("A %s lands at your feet."), item.name());
+                }
                 return true;
             }else{
                 List<Point> neighbours = p.neighboursCardinal();

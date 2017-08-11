@@ -14,11 +14,11 @@ import java.awt.event.KeyEvent;
  * PC
  * Created by Matt on 18/07/2017 at 04:47 PM.
  */
-public class EquipmentScreen extends Screen {
+public class EquipmentSlotsScreen extends Screen {
     
     private Creature player;
     
-    public EquipmentScreen(int x, int y, int width, int height, String title, Creature player){
+    public EquipmentSlotsScreen(int x, int y, int width, int height, String title, Creature player){
         super(x, y, width, height, title);
         this.player = player;
     }

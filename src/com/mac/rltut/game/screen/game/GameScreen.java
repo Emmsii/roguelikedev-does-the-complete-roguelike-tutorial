@@ -40,7 +40,7 @@ public class GameScreen extends Screen{
     private void initScreens(){
         logScreen = new LogScreen(Engine.instance().widthInTiles(), game.log(), 9, "Log");
         infoScreen = new InfoScreen(Engine.instance().widthInTiles() - 29, 0, 29, logScreen.height(), game.player().name(), game.player());
-        equipmentScreen = new EquipmentScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player());
+        equipmentScreen = new EquipmentSlotsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player());
         levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles() - infoScreen.width(), Engine.instance().heightInTiles() - logScreen.height(), "", game.world(), game.player());
     }
 
@@ -49,8 +49,7 @@ public class GameScreen extends Screen{
         int level = player().level();
         boolean shouldUpdate = false;
         player().setHasPerformedAction(false);
-        
-        
+                
         if(subscreen != null) subscreen = subscreen.input(key);
         else{
             switch (key.getKeyCode()){
@@ -73,7 +72,7 @@ public class GameScreen extends Screen{
                     Chest chest = player().tryOpen();
                     if(chest != null){
                         if(chest.inventory().isEmpty()) player().notify(new ColoredString("The chest is empty", Colors.ORANGE));
-                        else subscreen = new ChestScreen(levelScreen.width() / 2 - 20, Engine.instance().heightInTiles() / 2  - 20, 40, 30, "Chest", chest, player());
+                        else subscreen = new ChestScreen(levelScreen.width() / 2 - 22, Engine.instance().heightInTiles() / 2  - 20, 44, 30, "Chest", chest, player());
                     }
                     else player().notify(new ColoredString("There is nothing there.", Colors.ORANGE));
                     break;
@@ -84,7 +83,7 @@ public class GameScreen extends Screen{
                 case KeyEvent.VK_P: player().pickup(); break;
                 case KeyEvent.VK_K: game.player().tryTalk(); break; 
 
-                case KeyEvent.VK_Q: equipmentScreen = new EquipmentScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
+                case KeyEvent.VK_Q: equipmentScreen = new EquipmentSlotsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
                 case KeyEvent.VK_T: equipmentScreen = new EquipmentStatsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
 
                 case KeyEvent.VK_ESCAPE: subscreen = new GameEscapeMenu(Engine.instance().widthInTiles() / 2 - 10, Engine.instance().heightInTiles() / 2 - 4, 21, 8, game); break;
@@ -93,7 +92,7 @@ public class GameScreen extends Screen{
                 case KeyEvent.VK_R: subscreen = new ReadScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_C: subscreen = new ConsumeScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_X: subscreen = new ExamineScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
-                case KeyEvent.VK_E: subscreen = new EquipScreen(levelScreen.width() / 2 - (39 / 2), Engine.instance().heightInTiles() / 2  - 20, 39, 30, null, player().inventory(), player()); break;
+                case KeyEvent.VK_E: subscreen = new EquipScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_L: subscreen = new LookScreen(0, 0, levelScreen.width(), levelScreen.height(), player(), player().x - levelScreen.getScrollX() + 1, player().y - levelScreen.getScrollY() + 1); break;
                 case KeyEvent.VK_F:
                     Equippable weapon = player().getEquippedAt(EquipmentSlot.WEAPON);

@@ -15,7 +15,7 @@ public class Poison extends Effect{
     protected Poison(){}
     
     public Poison(int amount, int duration, float chance){
-        super("poison", "loose " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, false);
+        super("poison", "poison", "loose " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, false);
         this.amount = amount;
     }
 

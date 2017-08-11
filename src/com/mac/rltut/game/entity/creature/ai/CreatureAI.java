@@ -113,6 +113,8 @@ public class CreatureAI {
         return true;
     }
     
+    
+    //TODO: BROKEN
     public boolean canSee(int xp, int yp, int zp){
         if(creature.z != zp) return false;
         

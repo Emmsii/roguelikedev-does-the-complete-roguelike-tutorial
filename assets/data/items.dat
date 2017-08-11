@@ -158,7 +158,7 @@ SPAWN_CHANCE=1
 SPAWN_LEVELS=5-20
 
 [EQUIPPABLE]
-NAME=gauntlets
+NAME=pair of gauntlets
 SLOT=hands
 DESCRIPTION=Some gloves
 SPRITE=glove_silver

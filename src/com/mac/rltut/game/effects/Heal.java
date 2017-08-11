@@ -15,7 +15,7 @@ public class Heal extends Effect{
     protected Heal(){}
     
     public Heal(int amount){
-        super("heal", "gain health", 1, 1f, true);
+        super("heal", "healing", "gain health", 1, 1f, true);
         this.amount = amount;
     }
 

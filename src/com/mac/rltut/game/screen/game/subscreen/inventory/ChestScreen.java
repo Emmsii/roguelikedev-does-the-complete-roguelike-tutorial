@@ -4,6 +4,7 @@ import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.ItemStack;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.world.objects.Chest;
 
@@ -36,7 +37,16 @@ public class ChestScreen extends InventoryBasedScreen{
         }else{
             inventory.remove(item);
             player.inventory().add(item);
-            player.doAction(new ColoredString("take the %s"), item.name());
+            
+            if(item instanceof ItemStack){
+                ItemStack stack = (ItemStack) item;
+                if(stack.name().equalsIgnoreCase("gold")) player.modifyGold(stack.amount());
+                player.doAction(new ColoredString("take %d %s"), stack.amount(), item.name());
+            }else{
+                player.doAction(new ColoredString("take the %s"), item.name());    
+            }
+            
+            
         }
         
         if(inventory.isEmpty()){

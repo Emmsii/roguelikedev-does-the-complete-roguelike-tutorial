@@ -45,10 +45,9 @@ public class Wizard extends NPC{
             if(other.z == 0){
                 say(new ColoredString("I can transport you to the next part of the forest. Though I can only take you one way, forwards not back."));
                 say(new ColoredString("Talk to me again when you are ready to move on."));
-            }else{
-                say(new ColoredString(getReadyQuestion()));
-            }
+            }else say(new ColoredString(getReadyQuestion()));
             
+            other.setHasPerformedAction(true);
             readyToTeleport = true;
         }else{
             if(Math.random() < 0.1){

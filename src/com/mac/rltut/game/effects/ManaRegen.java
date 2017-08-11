@@ -15,7 +15,7 @@ public class ManaRegen extends Effect{
     protected ManaRegen(){}
     
     public ManaRegen(int amount, int duration){
-        super("regen mana", "regenerate " + amount + " mana per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, 1f, true);
+        super("regen mana", "mana regen", "regenerate " + amount + " mana per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, 1f, true);
         this.amount = amount;
     }
 

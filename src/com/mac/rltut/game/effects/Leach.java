@@ -16,7 +16,7 @@ public class Leach extends Effect{
     protected Leach(){}
     
     public Leach(int amount, float chance){
-        super("life leach", "steal " + amount + " health from another", 1, chance, true);
+        super("life leach", "leach", "steal " + amount + " health from another", 1, chance, true);
         this.amount = amount;
     }
 

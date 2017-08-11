@@ -1,7 +1,10 @@
 package com.mac.rltut.game.screen.game.subscreen;
 
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.item.EquipmentSlot;
+import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;
@@ -37,44 +40,29 @@ public class EquipmentStatsScreen extends Screen {
         String acc = "ACC";
         String intel = "INT";
 
-//        String manaRegAmount = String.format("+%d mana per %d %s", player.manaRegenAmount(), player.getManaRegenSpeed(), player.getManaRegenSpeed() > 1 ? "turns" : "turn");
-        String manaRegAmount = String.format("+%d mana per ", player.manaRegenAmount()) + (player.getManaRegenSpeed() > 1 ? player.getManaRegenSpeed() + " turns" : "turn");
+        String manaRegAmount = String.format("+%d mana every ", player.manaRegenAmount()) + (player.getManaRegenSpeed() > 1 ? player.getManaRegenSpeed() + " turns" : "turn");
         
-        if(player.strengthBonus() != 0) str += (player.strengthBonus() > 0 ? " +" + player.strengthBonus() : " " + player.strengthBonus());
-        if(player.defenseBonus() != 0) def += (player.defenseBonus() > 0 ? " +" + player.defenseBonus() : " " + player.defenseBonus());
-        if(player.accuracyBonus() != 0) acc += (player.accuracyBonus() > 0 ? " +" + player.accuracyBonus() : " " + player.accuracyBonus());
-        if(player.intelligenceBonus() != 0) intel += (player.intelligenceBonus() > 0 ? " +" + player.intelligenceBonus() : " " + player.intelligenceBonus());
+        str += (player.strengthBonus() > 0 ? " +" + player.strengthBonus() : " +" + player.strengthBonus());
+        def += (player.defenseBonus() > 0 ? " +" + player.defenseBonus() : " +" + player.defenseBonus());
+        acc += (player.accuracyBonus() > 0 ? " +" + player.accuracyBonus() : " +" + player.accuracyBonus());
+        intel += (player.intelligenceBonus() > 0 ? " +" + player.intelligenceBonus() : " +" + player.intelligenceBonus());
+
+        renderer.writeCenter(str, this.x + (width / 4) + 1, yp++);
+        renderer.writeCenter(def, this.x + (width / 4) + 1, yp++);
+        yp = this.y + 3;
         
-        renderer.write(str, xp, yp++);
-        renderer.write(def, xp, yp++);
-        renderer.write(acc, xp, yp++);
-        renderer.write(intel, xp, yp++);
+        renderer.writeCenter(acc, this.x + ((width / 4) * 3) - 1, yp++);
+        renderer.writeCenter(intel, this.x + ((width / 4) * 3) - 1, yp++);
         yp++;
         
-        if(player.manaRegenAmount() != 0) renderer.write(manaRegAmount, xp, yp++);
+        if(player.manaRegenAmount() != 0) renderer.writeCenter(manaRegAmount, this.x + (width / 2), yp++);
+        yp++;
         
-//        renderer.write("Head", xp, yp++);
-//        renderer.write("nothing", xp, yp++, 0x8C8C8C);
-//        yp++;
-//
-//        renderer.write("Chest", xp, yp++);
-//        renderer.write("nothing", xp, yp++, 0x8C8C8C);
-//        yp++;
-//
-//        renderer.write("Weapon", xp, yp++);
-//        if(player.weapon() != null) renderer.write(player.weapon().name(), xp, yp++);
-//        else renderer.write("nothing", xp, yp++, 0x8C8C8C);
-//        yp++;
-//
-//        renderer.write("Shield", xp, yp++);
-//        renderer.write("nothing", xp, yp++, 0x8C8C8C);
-//        yp++;
-//
-//        renderer.write("Legs", xp, yp++);
-//        renderer.write("nothing", xp, yp++, 0x8C8C8C);
-//        yp++;
-//
-//        renderer.write("Feet", xp, yp++);
-//        renderer.write("nothing", xp, yp++, 0x8C8C8C);
+        Equippable weapon = player.getEquippedAt(EquipmentSlot.WEAPON); 
+        if(weapon != null){
+            renderer.write(StringUtil.capitalizeEachWord(weapon.name()), xp, yp++);
+            if(weapon.damage() != null) renderer.write("Melee: " + weapon.damage(), xp + 1, yp++);
+            if(weapon.rangedDamage() != null) renderer.write("Ranged: " + weapon.rangedDamage(), xp + 1, yp++);
+        }
     }
 }

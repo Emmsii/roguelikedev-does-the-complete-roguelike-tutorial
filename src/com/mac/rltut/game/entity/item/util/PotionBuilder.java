@@ -26,6 +26,6 @@ public class PotionBuilder {
         potions.add((Consumable) Codex.items.get("yellow potion").entity());
         
         Consumable potion = potions.get(random.nextInt(potions.size()));
-        return new Consumable(potion.name(), potion.description(), potion.sprite(), potion.action(), potionEffect);
+        return new Consumable(potionEffect.adjective() + " potion", potion.description(), potion.sprite(), potion.action(), potionEffect);
     }
 }

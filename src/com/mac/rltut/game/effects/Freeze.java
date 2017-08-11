@@ -13,7 +13,7 @@ public class Freeze extends Effect{
     protected Freeze(){}
     
     public Freeze(int duration){
-        super("freeze", "freeze another creature for " + duration + " turns", duration, 1f, false);
+        super("freeze", "freezing", "freeze another creature for " + duration + " turns", duration, 1f, false);
     }
 
     @Override

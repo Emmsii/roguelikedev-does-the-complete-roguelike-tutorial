@@ -24,7 +24,7 @@ public class EffectBuilder {
     public static Effect randomPotionEffect(int z, Random random){
         Pool<Effect> pool = new Pool<Effect>(random);
         
-        pool.add(new Heal(10 + (z / 2) * 2), 100);
+        pool.add(new Heal(10 + (z / 2) * 2), 95);
         pool.add(new HealthRegen(2 + (z / 3) + 1, 5 + (z / 3) + 1), 100);
         pool.add(new ManaRegen(2 + z, 10 + (z / 3) + 1), 80);
         pool.add(new Rage(3 + z, 15 + (z / 5) * 5), 25);

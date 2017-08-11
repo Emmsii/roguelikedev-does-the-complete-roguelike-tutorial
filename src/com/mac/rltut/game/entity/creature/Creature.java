@@ -238,7 +238,7 @@ public class Creature extends Entity {
         if(inventory.isFull()) notify(new ColoredString("You are carrying too much.", Colors.ORANGE));
         else{
             String str = "pickup a %s";
-            if(item instanceof ItemStack) str += " x" + ((ItemStack) item).amount() + "";
+            if(item instanceof ItemStack) str = "pickup " + ((ItemStack) item).amount() + " %s";
             doAction(new ColoredString(str), item.name());
             world.remove(item);
             

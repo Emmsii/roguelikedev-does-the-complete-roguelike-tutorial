@@ -1,6 +1,5 @@
 package com.mac.rltut;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Config;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.window.CustomExceptionHandler;
@@ -17,19 +16,6 @@ public class Main {
     public static void main(String[] args){
         Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler("logs/"));
         Config.load();
-        Engine.instance().init(Config.fullscreen, 80, 45, parseScale(args), 8, "RLTUT", "v0.8.3");
-    }
-    
-    private static int parseScale(String[] args){
-        int scale = args.length < 1 ? DEFAULT_SCALE : Integer.parseInt(args[0]);
-        if(scale > 4){
-            scale = 4;
-            Log.warn("Window scale cannot be larger than 4.");
-        }
-        if(scale < 1){
-            scale = 1;
-            Log.warn("Window scale cannot be less than 1.");
-        }
-        return scale;
+        Engine.instance().init(Config.fullscreen, 80, 45, DEFAULT_SCALE, 8, "RLTUT", "v0.8.4");
     }
 }
