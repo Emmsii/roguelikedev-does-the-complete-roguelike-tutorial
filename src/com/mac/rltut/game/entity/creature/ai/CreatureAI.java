@@ -1,5 +1,6 @@
 package com.mac.rltut.game.entity.creature.ai;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.pathfinding.Path;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.maths.Line;
@@ -113,28 +114,26 @@ public class CreatureAI {
         return true;
     }
     
-    
-    //TODO: BROKEN
     public boolean canSee(int xp, int yp, int zp){
         if(creature.z != zp) return false;
-        
         if((creature.x - xp) * (creature.x - xp) + (creature.y - yp) * (creature.y - yp) > creature.vision() * creature.vision()) return false;
+        
+        boolean blocked = false;
                 
-        boolean sightBlocked = false;
         for(int ys = 0; ys < creature.size(); ys++){
             int ya = ys + yp;
             for(int xs = 0; xs < creature.size(); xs++){
                 int xa = xs + xp;
-                
                 for(Point p : new Line(creature.x, creature.y, xa, ya)){
                     if(creature.world().tile(p.x, p.y, zp).canSee() || p.x == xa && p.y == ya) continue;
-                    sightBlocked = true;
+                    blocked = true;
                     break;
                 }
-                if(!sightBlocked) return true;
+                if(!blocked) return true;
             }
-        }        
-        return sightBlocked;
+        }
+        
+        return false;
     }
     
     public void notify(ColoredString message){

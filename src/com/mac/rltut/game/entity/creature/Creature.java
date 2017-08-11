@@ -347,7 +347,8 @@ public class Creature extends Entity {
     }
     
     public boolean canSee(int xp, int yp, int zp) {
-        return ai != null && ai.canSee(xp, yp, zp);
+        if(ai == null) return false;
+        return ai.canSee(xp, yp, zp);
     }
     
     /* Modifier Methods */

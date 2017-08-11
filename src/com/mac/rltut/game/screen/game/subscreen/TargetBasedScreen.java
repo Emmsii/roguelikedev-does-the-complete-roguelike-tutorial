@@ -49,9 +49,17 @@ public abstract class TargetBasedScreen extends Screen {
         int py = yp;
         
         switch (e.getKeyCode()){
+            case KeyEvent.VK_NUMPAD7: yp--; xp--; break;
+            case KeyEvent.VK_NUMPAD9: yp--; xp++; break;
+            case KeyEvent.VK_NUMPAD1: yp++; xp--; break;
+            case KeyEvent.VK_NUMPAD3: yp++; xp++; break;
+            case KeyEvent.VK_NUMPAD8:
             case KeyEvent.VK_UP: yp--; break;
+            case KeyEvent.VK_NUMPAD2:
             case KeyEvent.VK_DOWN: yp++; break;
+            case KeyEvent.VK_NUMPAD4:
             case KeyEvent.VK_LEFT: xp--; break;
+            case KeyEvent.VK_NUMPAD6:
             case KeyEvent.VK_RIGHT: xp++; break;
             case KeyEvent.VK_ENTER: selectWorldCoordinate(player.x + xp, player.y + yp, sx + xp, sy + yp); break;
             case KeyEvent.VK_ESCAPE: return null;
