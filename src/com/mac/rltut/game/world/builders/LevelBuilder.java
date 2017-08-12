@@ -173,8 +173,8 @@ public abstract class LevelBuilder {
            if(!blocked) break;
         }while(!valid);
 
-        Tile tile = getRandomTile("wall");
-        if(tile != null) placeRoom(new Rectangle(xp, yp, size + 2, size + 2), 1f);
+//        Tile tile = getRandomTile("wall");
+//        if(tile != null) placeRoom(new Rectangle(xp, yp, size + 2, size + 2), 1f);
 
     }
 
