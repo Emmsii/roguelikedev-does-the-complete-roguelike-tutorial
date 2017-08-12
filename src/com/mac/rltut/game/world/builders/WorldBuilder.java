@@ -23,6 +23,7 @@ import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 import com.mac.rltut.game.world.objects.Chest;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -65,6 +66,10 @@ public class WorldBuilder {
         levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.5f, -2, random));
         levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.7f, -5, random));
         levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 1.25f, 1.7f, 0, random));
+
+        File file = new File("images/");
+        File[] files = file.listFiles();
+        if(files != null) for(File f : files) f.delete();
         
         for (int z = 0; z < depth; z++) {
             Pool<LevelBuilder> pool = new Pool<LevelBuilder>(random);
@@ -77,8 +82,12 @@ public class WorldBuilder {
             LevelBuilder level = pool.get();
 
             level.generate(z);
+//            level.buildShop();
+            
+            
             creatureSpawnMultiplier[z] = level.creatureSpawnModifier();
             world.setLevel(z, level.build());
+            level.saveImage(z);
         }
 
         Log.debug("Generated world in " + ((System.nanoTime() - start) / 1000000) + "ms");

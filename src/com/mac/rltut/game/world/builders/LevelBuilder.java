@@ -41,7 +41,7 @@ public abstract class LevelBuilder {
     
     private byte[][] tiles;
     private MapObject[][] mapObjects;
-    private List<Chest> chests;
+    protected List<Chest> chests;
     
     private byte[][] clearanceMap;
     
@@ -148,17 +148,56 @@ public abstract class LevelBuilder {
                 clearanceMap[x][y] = value;
             }
         }
-
-//        for(int y = 0; y < height; y++) {
-//            for (int x = 0; x < width; x++) {
-//                byte v = clearanceMap[x][y];
-//                if(v == -1) System.out.print("XX ");
-//                else if(v < 10) System.out.print("0" + v + " ");
-//                else System.out.print(v + " ");
-//            }
-//            System.out.println();
-//        }
     }    
+    
+    public void buildShop(){
+        int xp, yp;
+        int size = 3;
+        
+        boolean valid = false;
+        do{
+            xp = random.nextInt(width);
+            yp = random.nextInt(height);
+            
+            if(solid(xp, yp)) continue;
+            
+            boolean blocked = false;
+            for(int ya = yp; ya < yp + size + 2; ya++){
+                for(int xa = xp; xa < xp + size + 2; xa++){
+                    if(solid(xa, ya)){
+                        blocked = true;
+                        break;
+                    }
+                }
+            }
+           if(!blocked) break;
+        }while(!valid);
+
+        Tile tile = getRandomTile("wall");
+        if(tile != null) placeRoom(new Rectangle(xp, yp, size + 2, size + 2), 1f);
+
+    }
+
+    protected void placeRoom(Rectangle room, float wallFrequency){
+        Tile wall = getRandomTile("wall");
+
+        int xp = room.x;
+        int yp = room.y;
+        int w = room.width;
+        int h = room.height;
+
+        for(int y = 0; y < h; y++){
+            int ya = y + yp;
+            for(int x = 0; x < w; x++){
+                int xa = x + xp;
+
+                if(x == 0 || y == 0 || x == w - 1 || y == h - 1){
+                    if(random.nextFloat() <= wallFrequency) setTile(xa, ya, wall);
+                }
+            }
+        }
+    }
+    
     protected void addTileType(Tile tile, int chance){
         String type = tile.type();
         if(!tileTypes.containsKey(type)) tileTypes.put(type, new ArrayList<Tile>());
@@ -205,7 +244,10 @@ public abstract class LevelBuilder {
     }
     
     protected Tile getRandomTile(String type){
-        if(!tileTypes.containsKey(type)) Log.warn("Unknown tile type [" + type + "] in level type " + this.type + ".");
+        if(!tileTypes.containsKey(type)){
+            Log.warn("Unknown tile type [" + type + "] in level type " + this.type + ".");
+            return null;
+        }
         List<Tile> tiles = tileTypes.get(type);
         HashMap<Tile, Integer> chances = tileTypeChances.get(type);
         Pool<Tile> pool = new Pool<Tile>(random);
@@ -285,30 +327,32 @@ public abstract class LevelBuilder {
     }
     
     public void saveImage(int z){
+        File file = new File("images/");
+        if(!file.exists()) file.mkdirs();
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
                 int id = tile(x, y).id;
                 if(id == Tile.getTile("empty").id) image.setRGB(x, y, Color.BLACK.getRGB());
-//                else if(id == Tile.wallTopRed.id) image.setRGB(x, y, 0xBD5757);
-//                else if(id == Tile.wallTopBlue.id) image.setRGB(x, y, 0xBD5757);
-//                else if(id == Tile.stairDown.id) image.setRGB(x, y, 0xffffff);
-//                else if(id == Tile.stairUp.id) image.setRGB(x, y, 0xffffff);
-//                else if(id == Tile.treeConifer.id) image.setRGB(x, y, 0x3C7A50);
-//                else if(id == Tile.treeDeciduous.id) image.setRGB(x, y, 0x5DAD37);
-//                else if(id == Tile.grassGreen.id) image.setRGB(x, y, 0xABE617);
-//                else if(id == Tile.waterBlue.id) image.setRGB(x, y, 0x56A6E8);
-//                else if(id == Tile.waterDirty.id) image.setRGB(x, y, 0xAB8652);
-//                else if(id == Tile.waterBonesDirty1.id) image.setRGB(x, y, 0xD0D1A5);
-//                else if(id == Tile.waterBonesDirty2.id) image.setRGB(x, y, 0xD0D1A5);
-//                else if(id == Tile.waterBonesFoul1.id) image.setRGB(x, y, 0xD0D1A5);
-//                else if(id == Tile.waterBonesFoul2.id) image.setRGB(x, y, 0xD0D1A5);
-//                else if(id == Tile.waterFoul.id) image.setRGB(x, y, 0x228A6C);
-//                else if(id == Tile.waterLilypad.id) image.setRGB(x, y, 0x36BAB1);
-//                else if(id == Tile.mushroom.id) image.setRGB(x, y, 0xBF4545);
-//                else if(id == Tile.chestGold.id) image.setRGB(x, y, 0xFF8000);
-//                else if(id == Tile.chestSilver.id) image.setRGB(x, y, 0xFF8000);
+                else if(id == Tile.getTile("wallTopRed").id) image.setRGB(x, y, 0xBD5757);
+                else if(id == Tile.getTile("wallTopBlue").id) image.setRGB(x, y, 0xBD5757);
+                else if(id == Tile.getTile("treeConifer").id) image.setRGB(x, y, 0x3C7A50);
+                else if(id == Tile.getTile("treeDeciduous").id) image.setRGB(x, y, 0x5DAD37);
+//                else if(id == Tile.getTile("grassGreen").id) image.setRGB(x, y, 0xABE617);
+                else if(id == Tile.getTile("waterBlue").id) image.setRGB(x, y, 0x56A6E8);
+                else if(id == Tile.getTile("waterDirty").id) image.setRGB(x, y, 0xAB8652);
+                else if(id == Tile.getTile("waterBonesDirty1").id) image.setRGB(x, y, 0xD0D1A5);
+                else if(id == Tile.getTile("waterBonesDirty2").id) image.setRGB(x, y, 0xD0D1A5);
+                else if(id == Tile.getTile("waterBonesFoul1").id) image.setRGB(x, y, 0xD0D1A5);
+                else if(id == Tile.getTile("waterBonesFoul2").id) image.setRGB(x, y, 0xD0D1A5);
+                else if(id == Tile.getTile("waterFoul").id) image.setRGB(x, y, 0x228A6C);
+                else if(id == Tile.getTile("waterLilypad").id) image.setRGB(x, y, 0x36BAB1);
+                else if(id == Tile.getTile("mushroom").id) image.setRGB(x, y, 0xBF4545);
+//                else if(id == Tile.getTile("chestGold").id) image.setRGB(x, y, 0xFF8000);
+//                else if(id == Tile.getTile("chestSilver").id) image.setRGB(x, y, 0xFF8000);
+                
+                if(mapObjects[x][y] instanceof Chest) image.setRGB(x, y, 0xFF8000);
             }
         }
 

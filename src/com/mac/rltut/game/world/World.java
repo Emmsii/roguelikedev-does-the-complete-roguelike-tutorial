@@ -3,16 +3,18 @@ package com.mac.rltut.game.world;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.FieldOfView;
+import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
-import com.mac.rltut.game.effects.Heal;
-import com.mac.rltut.game.effects.Poison;
+import com.mac.rltut.game.codex.Codex;
+import com.mac.rltut.game.effects.*;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Consumable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
+import com.mac.rltut.game.screen.game.subscreen.inventory.ConsumeScreen;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
@@ -384,6 +386,19 @@ public class World {
     public Point startPointAt(int z){
         if(!inBounds(0, 0, z)) return null;
         return levels[z].startPoint();
+    }
+    
+    public Consumable pickMushroom(int x, int y, int z){
+        if(!tile(x, y, z).name().equalsIgnoreCase("mushroom")) return null;
+        level(z).setTile(x, y, Tile.getTile("grassSmallGreen").id);
+        Consumable mushroom = (Consumable) Codex.items.get("mushroom").entity().newInstance();
+        Pool<Effect> pool = new Pool<Effect>();
+        pool.add(new Heal(10), 100);
+        pool.add(new Poison(2, 5, 1f), 20);
+        pool.add(new Blind(10), 5);
+        pool.add(new Rage(4, 20), 1);
+        mushroom.setEffect(pool.get());
+        return mushroom;
     }
         
     /* Misc Methods */

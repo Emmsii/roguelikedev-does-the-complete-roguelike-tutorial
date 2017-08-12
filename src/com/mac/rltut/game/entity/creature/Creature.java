@@ -18,6 +18,7 @@ import com.mac.rltut.game.entity.util.CombatManager;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
+import com.mac.rltut.game.world.tile.Tile;
 
 import java.util.*;
 
@@ -228,7 +229,8 @@ public class Creature extends Entity {
     }
     
     public void pickup(){
-        Item item = world.item(x, y, z);
+        Item item = world.pickMushroom(x, y, z);
+        if(world.item(x, y, z) != null) item = world.item(x, y, z);
         
         if(item == null){
             doAction(new ColoredString("grab at nothing"));
@@ -238,16 +240,17 @@ public class Creature extends Entity {
         if(inventory.isFull()) notify(new ColoredString("You are carrying too much.", Colors.ORANGE));
         else{
             String str = "pickup a %s";
-            if(item instanceof ItemStack) str = "pickup " + ((ItemStack) item).amount() + " %s";
+
+            if (item instanceof ItemStack) str = "pickup " + ((ItemStack) item).amount() + " %s";
             doAction(new ColoredString(str), item.name());
             world.remove(item);
-            
-            if(item instanceof ItemStack && item.name().equalsIgnoreCase("gold")) gold += ((ItemStack) item).amount();
+
+            if (item instanceof ItemStack && item.name().equalsIgnoreCase("gold")) gold += ((ItemStack) item).amount();
             else inventory.add(item);
-            
-            if(item instanceof Equippable){
+
+            if (item instanceof Equippable) {
                 Equippable e = (Equippable) item;
-                if(getEquippedAt(e.slot()) == null) e.equip(this);
+                if (getEquippedAt(e.slot()) == null) e.equip(this);
             }
         }
     }

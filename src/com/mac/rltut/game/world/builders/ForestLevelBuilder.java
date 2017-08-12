@@ -104,6 +104,8 @@ public class ForestLevelBuilder extends LevelBuilder{
 
             addChests(chestFrequency);
             
+//            buildShop();
+            
             addGrass();
             
         }while(!isValid((int) ((width * height) * 0.3)));
@@ -254,7 +256,7 @@ public class ForestLevelBuilder extends LevelBuilder{
             if(ruinOverlaps(newRuin)) continue;
 
             ruins.add(newRuin);
-            placeRuin(newRuin);
+            placeRoom(newRuin, 0.4f);
         }
         
         for(int y = 0; y < height; y++){
@@ -284,27 +286,7 @@ public class ForestLevelBuilder extends LevelBuilder{
         for(Rectangle r : ruins) if(r.intersects(newRuin)) return true;
         return false;
     }
-    
-    private void placeRuin(Rectangle ruin){
-        Tile wall = getRandomTile("wall");
-
-        int xp = ruin.x;
-        int yp = ruin.y;
-        int w = ruin.width;
-        int h = ruin.height;
         
-        for(int y = 0; y < h; y++){
-            int ya = y + yp;
-            for(int x = 0; x < w; x++){
-                int xa = x + xp;
-                
-                if(x == 0 || y == 0 || x == w - 1 || y == h - 1){
-                    if(random.nextFloat() < 0.4f) setTile(xa, ya, wall);
-                }
-            }
-        }
-    }
-    
     private void addChests(float chestFrequency){
         Log.trace("Adding chests...");
         for(Rectangle r : ruins){
@@ -313,12 +295,29 @@ public class ForestLevelBuilder extends LevelBuilder{
                 int x, y;
                 int tries = 0;
                 do {
-                    x = MathUtil.range(r.x + 1, r.x + r.width, random);
-                    y = MathUtil.range(r.y + 1, r.y + r.height, random);
+                    x = MathUtil.range(r.x + 1, r.x + r.width - 2, random);
+                    y = MathUtil.range(r.y + 1, r.y + r.height - 2, random);
                 }while(solid(x, y) && tries++ < (r.width * r.height));
-                addChest(x, y, chestTile);
+                if(!solid(x, y)) addChest(x, y, chestTile);
             }
         }
+        
+        List<Chest> toRemove = new ArrayList<Chest>();
+        for(Chest chest : chests){
+            boolean blocked = true;
+            for(Point p : new Point(chest.x, chest.y, chest.z).neighboursAll()){
+                if(tile(p.x, p.y).solid()){
+                    blocked = true;
+                    break;
+                }
+            }
+            
+            if(blocked){
+                setTile(chest.x, chest.y, getRandomTile("tree"));
+                toRemove.remove(chest);
+            }
+        }
+        chests.removeAll(toRemove);
     }
     
     private void addChest(int x, int y, ChestTile tile){

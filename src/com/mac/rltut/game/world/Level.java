@@ -95,6 +95,11 @@ public class Level {
         return exploredTiles;
     }
     
+    public void setTile(int x, int y, byte id){
+        if(!inBounds(x, y)) return;
+        tiles[x][y] = id;
+    }
+    
     public void setTiles(byte[][] tiles){
         this.tiles = tiles;
     }

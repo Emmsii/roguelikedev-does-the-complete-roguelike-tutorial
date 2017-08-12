@@ -29,6 +29,10 @@ public class Consumable extends Item {
         creature.inventory().remove(this);
     }
     
+    public void setEffect(Effect effect){
+        this.effect = effect;
+    }
+    
     public Effect effect(){
         return effect;
     }
