@@ -207,7 +207,7 @@ public class World {
             int ya = y + dead.y;
             for(int x = -1; x <= 1; x++){
                 int xa = x + dead.x;
-                if(solid(xa, ya, dead.z)) continue;
+                if(solid(xa, ya, dead.z) || mapObject(xa, ya, dead.z) != null) continue;
                 if(Math.random() < 0.275) level(dead.z).setBlood(xa, ya, true);
             }
         }

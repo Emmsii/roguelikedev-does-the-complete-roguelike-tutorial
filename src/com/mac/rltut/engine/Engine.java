@@ -70,7 +70,7 @@ public class Engine {
         if(fullscreen){
             GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice[] devices = env.getScreenDevices();
-            if(Config.monitor >= devices.length){
+            if(Config.monitor >= devices.length || Config.monitor < 0){
                 Log.error("Invalid monitor id [" + Config.monitor + "]");
                 this.widthInTiles = widthInTiles;
                 this.heightInTiles = heightInTiles;

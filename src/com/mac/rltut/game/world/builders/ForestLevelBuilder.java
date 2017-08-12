@@ -103,9 +103,7 @@ public class ForestLevelBuilder extends LevelBuilder{
             cleanupRegions(minRegionSize);
 
             addChests(chestFrequency);
-            
-//            buildShop();
-            
+
             addGrass();
             
         }while(!isValid((int) ((width * height) * 0.3)));

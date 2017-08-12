@@ -418,7 +418,7 @@ public class Creature extends Entity {
         while(xp > (int) (Math.pow(level, 1.75) * 25)){
             level++;
             doAction(new ColoredString("advance to level %d", Colors.GREEN), level);
-            ai.onGainLevel();
+            if(ai != null) ai.onGainLevel();
         }
     }
     

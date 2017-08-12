@@ -116,11 +116,11 @@ public abstract class LevelBuilder {
         level.setStart(new Point(x, y, z));
     }
     
-    public void generateClearanceMap(){
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++){
+    public void generateClearanceMap() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
 
-                if(tile(x, y).solid()){
+                if (tile(x, y).solid()) {
                     clearanceMap[x][y] = -1;
                     continue;
                 }
@@ -128,19 +128,19 @@ public abstract class LevelBuilder {
                 byte value = 0;
                 int size = 1;
                 boolean hitSolid = false;
-                while(!hitSolid) {
-                    for (int ya = 0; ya < size; ya++){
+                while (!hitSolid) {
+                    for (int ya = 0; ya < size; ya++) {
                         int yp = y + ya;
-                        for(int xa = 0; xa < size; xa++){
+                        for (int xa = 0; xa < size; xa++) {
                             int xp = x + xa;
-                            if(tile(xp, yp).solid()){
+                            if (tile(xp, yp).solid()) {
                                 hitSolid = true;
                                 break;
                             }
                         }
                     }
 
-                    if(hitSolid) break;
+                    if (hitSolid) break;
                     size++;
                     value++;
                 }
@@ -148,34 +148,6 @@ public abstract class LevelBuilder {
                 clearanceMap[x][y] = value;
             }
         }
-    }    
-    
-    public void buildShop(){
-        int xp, yp;
-        int size = 3;
-        
-        boolean valid = false;
-        do{
-            xp = random.nextInt(width);
-            yp = random.nextInt(height);
-            
-            if(solid(xp, yp)) continue;
-            
-            boolean blocked = false;
-            for(int ya = yp; ya < yp + size + 2; ya++){
-                for(int xa = xp; xa < xp + size + 2; xa++){
-                    if(solid(xa, ya)){
-                        blocked = true;
-                        break;
-                    }
-                }
-            }
-           if(!blocked) break;
-        }while(!valid);
-
-//        Tile tile = getRandomTile("wall");
-//        if(tile != null) placeRoom(new Rectangle(xp, yp, size + 2, size + 2), 1f);
-
     }
 
     protected void placeRoom(Rectangle room, float wallFrequency){

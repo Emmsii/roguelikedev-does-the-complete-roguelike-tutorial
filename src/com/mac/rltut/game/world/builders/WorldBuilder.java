@@ -387,8 +387,7 @@ public class WorldBuilder {
 
     private Creature newCreature(Point spawn, Creature creature, CreatureSpawnProperty spawnProperty){
         world.add(spawn.x, spawn.y, spawn.z, creature);
-        //modifyStats(creature, spawn.z);
-        
+
         if(!spawnCounts.get(spawn.z).containsKey(creature.name())) spawnCounts.get(spawn.z).put(creature.name(), 0);
         spawnCounts.get(spawn.z).put(creature.name(), spawnCounts.get(spawn.z).get(creature.name()) + 1);
         
@@ -408,30 +407,26 @@ public class WorldBuilder {
     }
     
     private void modifyStats(Creature creature, int z){
-//        creature.modifyMaxHp((z / 4) * 5);
-//        creature.modifyMaxMana((z / 4) * 10);
-//        creature.modifyStrength(z / 4);
-//        creature.modifyDefense(z / 4);
-//        creature.modifyAccuracy(z / 4);
-//        creature.modifyIntelligence(z / 4);
-//        creature.modifyHp(creature.maxHp(), "");
-//        creature.modifyMana(creature.maxMana()); 
-        int xp = (int) (Math.pow(1.295, z + 3) * 10);
-        creature.modifyXp(xp);
-        
-        int totalLevel = creature.totalLevel() - 4;
 
-//        xp += amount;
+//        creature.modifyMaxHp((z / 3) * 10);
+//        creature.modifyMaxMana((z / 3) * 10);
+//        creature.modifyStrength(z / 3);
+//        creature.modifyDefense(z / 3);
+//        creature.modifyAccuracy(z / 3);
+//        creature.modifyIntelligence(z / 3);
+//        creature.modifyHp(creature.maxHp(), "");
+//        creature.modifyMana(creature.maxMana());
 //
-//        notify(new ColoredString("You %s %d xp.", amount < 0 ? Color.red.getRGB() : Color.green.getRGB()), amount < 0 ? "lose" : "gain", amount);
+//        int level = (creature.strength() + creature.defense() + creature.accuracy() + creature.defense()) - 4;
 //
-//        while(xp > (int) (Math.pow(level, 1.75) * 25)){
-//            level++;
-//            doAction(new ColoredString("advance to level %d", Color.GREEN.getRGB()), level);
-//            ai.onGainLevel();
-//        }
-        
+//
+//        creature.modifyXp((int) (Math.pow(level, 1.75) * 25));
+
+
+
+
 //        Log.debug("Stats for " + creature.name() + " on level " + z);
+//        Log.debug("LEVEL: " + creature.level());
 //        Log.debug("HP: " + creature.maxHp());
 //        Log.debug("MAN: " + creature.maxMana());
 //        Log.debug("STR: " + creature.strength());
