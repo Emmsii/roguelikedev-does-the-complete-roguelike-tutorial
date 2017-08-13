@@ -27,4 +27,9 @@ hs_err_pid*
 
 .idea
 *.iml
+*.db
 
+images/
+logs/
+save/
+out/
