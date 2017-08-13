@@ -1,8 +1,6 @@
 package com.mac.rltut.game;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.ColoredString;
-import sun.plugin2.message.Message;
 
 import java.util.ArrayList;
 import java.util.List;

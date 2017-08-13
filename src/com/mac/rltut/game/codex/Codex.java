@@ -1,5 +1,6 @@
 package com.mac.rltut.game.codex;
 
+import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 
@@ -14,4 +15,6 @@ public class Codex {
     
     public static HashMap<String, CreatureSpawnProperty> creatures = new HashMap<String, CreatureSpawnProperty>();
     public static HashMap<String, ItemSpawnProperty> items = new HashMap<String, ItemSpawnProperty>();
+    public static HashMap<String, Spell> spells = new HashMap<String, Spell>();
+    
 }

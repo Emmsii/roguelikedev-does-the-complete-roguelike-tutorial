@@ -221,16 +221,18 @@ NAME=skeleton king
 DESCRIPTION=A skeleton king
 SPRITE=skeleton_boss
 HP=60
+MANA=100
 STRENGTH=5
 DEFENSE=5
 ACCURACY=5
-INTELLIGENCE=0
+INTELLIGENCE=1
 VISION=10
 SPAWN_EVERY=3
 MINIONS=skeleton
 MINION_COUNT=8-10
 SIZE=2
 DROPS=gold:40-50:100
+SPELLS=fireball
 
 [BOSS]
 NAME=eye thing
@@ -249,6 +251,7 @@ UNIQUE=1
 SIZE=2
 IMMUNE_TO=blind
 DROPS=gold:60-90:100
+SPELLS=fireball
 
 [BOSS]
 NAME=fire demon
@@ -267,6 +270,7 @@ MINION_COUNT=8-10
 SIZE=2
 IMMUNE_TO=burn
 DROPS=gold:80-100:100
+SPELLS=fireball
 
 [BOSS]
 NAME=gargoyle
@@ -285,6 +289,7 @@ UNIQUE=1
 SIZE=2
 IMMUNE_TO=burn, poison
 DROPS=gold:80-100:100
+SPELLS=fireball
 
 [BOSS]
 NAME=giant snake
@@ -301,6 +306,7 @@ SPAWN_EVERY=3
 MINIONS=brown snake, blue snake, green snake
 MINION_COUNT=7-10
 SIZE=2
+SPELLS=fireball
 
 [BOSS]
 NAME=green octopus boss
@@ -355,6 +361,7 @@ MINION_COUNT=5-8
 SIZE=2
 IMMUNE_TO=poison
 DROPS=gold:70-75:100
+kryo.register(Blind.class);
 
 [BOSS]
 NAME=golem

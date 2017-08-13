@@ -8,6 +8,7 @@ import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.engine.util.maths.Line;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.effects.Effect;
+import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
 import com.mac.rltut.game.entity.item.*;
@@ -17,7 +18,6 @@ import com.mac.rltut.game.entity.util.CombatManager;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
-import com.mac.rltut.game.world.tile.Tile;
 
 import java.util.*;
 
@@ -37,6 +37,7 @@ public class Creature extends Entity {
     private Inventory<Item> inventory;
     private HashMap<EquipmentSlot, Equippable> equippedItems;
          
+    private List<Spell> knownSpells;
     private List<Effect> effects;
     private Set<String> flags;
     private Set<String> immuneTo;
@@ -81,6 +82,7 @@ public class Creature extends Entity {
         this.size = size;
         this.flags = new HashSet<String>();
         this.immuneTo = new HashSet<String>();
+        this.knownSpells = new ArrayList<Spell>();
         this.level = 1;
         this.aiType = aiType;
         this.hasMoved = false;
@@ -210,6 +212,26 @@ public class Creature extends Entity {
 
     public void damage(int amount, String causeOfDeath){
         modifyHp(-amount, causeOfDeath);
+    }
+    
+    public void castSpell(Spell spell, int xp, int yp){
+        if(spell == null) return;
+        
+        if(mana < spell.manaCost()){
+            notify(new ColoredString("You don't have enough mana to cast %s [%d]", Colors.RED), spell.name(), spell.manaCost());
+            return;
+        }
+        
+        Creature other = world.creature(xp, yp, z);
+        if(spell.effectOther() != null){
+            if(other != null){
+                doAction(new ColoredString("cast %s"), spell.name());
+                other.addEffect(spell.effectOther());
+            }else doAction(new ColoredString("miss"));
+        }
+        if(spell.effectSelf() != null) addEffect(spell.effectSelf());
+        
+        modifyMana(-spell.manaCost());
     }
     
     public void gainXp(Creature other){
@@ -448,6 +470,7 @@ public class Creature extends Entity {
     
     public void addEffect(Effect effect){
         if(effect == null) return;
+        if(isPlayer()) Log.debug("new effect " + effect.name());
         effect.start(this);
         effects.add(effect);
     }
@@ -593,6 +616,20 @@ public class Creature extends Entity {
         return equippedItems.get(slot);
     }
     
+    public List<Spell> knownSpells(){
+        return knownSpells;
+    }
+    
+    public List<Spell> availableSpells(){
+        List<Spell> available = new ArrayList<Spell>();
+        for(Spell s : knownSpells) if(mana >= s.manaCost()) available.add(s);
+        return available;
+    }
+    
+    public Spell getRandomSpell(){
+        return knownSpells.get((int) (Math.random() * knownSpells.size()));
+    }
+    
     public String aiType(){
         return aiType;
     }
@@ -633,6 +670,10 @@ public class Creature extends Entity {
     
     public void removeImmunity(String effectName){
         immuneTo.remove(effectName);
+    }
+    
+    public void addKnownSpell(Spell spell){
+        knownSpells.add(spell);
     }
     
     public void addFlag(String flag){

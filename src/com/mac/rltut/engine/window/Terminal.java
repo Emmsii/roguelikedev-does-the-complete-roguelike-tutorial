@@ -1,11 +1,7 @@
 package com.mac.rltut.engine.window;
 
 
-import com.esotericsoftware.minlog.Log;
-
 import javax.swing.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 /**
  * Project: complete-rltut

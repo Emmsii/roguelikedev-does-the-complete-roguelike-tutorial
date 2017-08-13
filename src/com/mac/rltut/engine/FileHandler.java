@@ -13,6 +13,7 @@ import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.Game;
 import com.mac.rltut.game.MessageLog;
 import com.mac.rltut.game.effects.*;
+import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.*;
 import com.mac.rltut.game.entity.creature.ai.*;
@@ -116,10 +117,11 @@ public class FileHandler {
         kryo.register(Chest.class);
         
         kryo.register(ChestTile.class);
-        
+
+        kryo.register(Spell.class);
         kryo.register(Effect.class);
-        kryo.register(EffectOther.class);
         kryo.register(Blind.class);
+        kryo.register(Burn.class);
         kryo.register(Freeze.class);
         kryo.register(Heal.class);
         kryo.register(HealthRegen.class);

@@ -1,7 +1,10 @@
 package com.mac.rltut.game.entity.creature.ai;
 
+import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.util.CombatManager;
+
+import java.util.List;
 
 /**
  * Project: complete-rltut
@@ -27,8 +30,12 @@ public class BossAI extends CreatureAI{
         if(canSee(target.x, target.y, target.z)) creature.setAttackedBy(target);
                 
         if(creature.attackedBy() != null && creature.aggressionCooldown() > 0){
-            if(canUseRanged(target)) new CombatManager(creature, target).rangedAttack();
-            else pathTo(target.x, target.y);
+            if(canUseSpell(target)) {
+                List<Spell> spells = creature.availableSpells();
+                creature.castSpell(spells.get((int) (Math.random() * spells.size())), target.x, target.y);
+            }else if(canUseRanged(target)){
+                new CombatManager(creature, target).rangedAttack();
+            } else pathTo(target.x, target.y);
         }else wander(0.5f);
         
     }

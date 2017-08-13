@@ -12,8 +12,8 @@ public class Freeze extends Effect{
 
     protected Freeze(){}
     
-    public Freeze(int duration){
-        super("freeze", "freezing", "freeze another creature for " + duration + " turns", duration, 1f, false);
+    public Freeze(int duration, float chance){
+        super("freeze", "freezing", "freeze another creature for " + duration + " turns", duration, chance, false);
     }
 
     @Override

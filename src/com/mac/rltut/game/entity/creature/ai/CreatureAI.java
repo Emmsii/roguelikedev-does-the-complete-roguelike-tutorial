@@ -1,6 +1,5 @@
 package com.mac.rltut.game.entity.creature.ai;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.pathfinding.Path;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.maths.Line;
@@ -63,6 +62,11 @@ public class CreatureAI {
         Equippable weapon = creature.getEquippedAt(EquipmentSlot.WEAPON);
         if(weapon == null) return false;
         return weapon.rangedDamage() != null && creature.canSee(other);
+    }
+    
+    protected boolean canUseSpell(Creature other){
+        if(creature.knownSpells().isEmpty() ) return false;
+        return !creature.availableSpells().isEmpty() && creature.canSee(other);
     }
     
     protected boolean equipBestWeapon(){

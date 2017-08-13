@@ -11,9 +11,9 @@ import com.mac.rltut.game.entity.creature.Creature;
 public class Blind extends Effect{
 
     protected Blind(){}
-    
-    public Blind(int duration){
-        super("blind", "blinding", "loose vision for " + duration + " turns", duration, 1f, false);
+
+    public Blind(int duration, float chance){
+        super("blind", "blinding", "loose vision for " + duration + " turns", duration, chance, false);
     }
 
     @Override

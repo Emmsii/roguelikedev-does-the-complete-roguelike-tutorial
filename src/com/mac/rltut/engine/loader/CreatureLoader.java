@@ -4,6 +4,7 @@ import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.game.codex.Codex;
+import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.creature.Boss;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.util.DropTable;
@@ -11,6 +12,8 @@ import com.mac.rltut.game.entity.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: complete-rltut
@@ -67,9 +70,10 @@ public class CreatureLoader extends DataLoader{
                 String minions = obj.hasToken("minions") ? obj.getString("minions") : "none";
                 String minionCount = obj.hasToken("minion_count") ? obj.getString("minion_count") : "0";
                 boolean unique = obj.hasToken("unique") && obj.getInt("unique") == 1;
+                List<Spell> spells = obj.hasToken("spells") ? parseSpells(obj.getString("spells")) : new ArrayList<>();
                 
                 Boss boss = new Boss(name, description, sprite, size);
-
+                for(Spell spell : spells) boss.addKnownSpell(spell);
                 spawnProperty = new BossSpawnProperty(boss, spawnLevels, spawnEvery, spawnTypes, spawnNear, spawnChance, minions, minionCount, unique);
             }else{
                 Log.error("Unknown object type [" + obj.type() + "]");
@@ -93,6 +97,13 @@ public class CreatureLoader extends DataLoader{
         Log.debug("Loaded " + Codex.creatures.size() + " creatures.");
     }
 
+    private List<Spell> parseSpells(String input){
+        String[] split = parseStringArray(input);
+        List<Spell> spells = new ArrayList<Spell>();
+        for(String s : split) spells.add(Codex.spells.get(s));
+        return spells;
+    }
+    
     private String[] parseStringArray(String input){
         String[] split = input.split(",");
         for(int i = 0; i < split.length; i++) split[i] = split[i].toLowerCase().trim();

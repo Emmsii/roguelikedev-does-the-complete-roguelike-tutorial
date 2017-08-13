@@ -2,15 +2,11 @@ package com.mac.rltut.game;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.FileHandler;
-import com.mac.rltut.engine.util.SessionTimer;
-import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.pathfinding.astar.AStar;
+import com.mac.rltut.engine.util.SessionTimer;
 import com.mac.rltut.engine.util.maths.Point;
-import com.mac.rltut.game.effects.NightVision;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
-import com.mac.rltut.game.entity.item.Consumable;
-import com.mac.rltut.game.entity.item.Potion;
 import com.mac.rltut.game.world.World;
 
 import java.text.SimpleDateFormat;
@@ -43,9 +39,6 @@ public class Game{
         new PlayerAI(player, log);
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
-        
-        for(int i = 0; i < 3; i++)
-            player.inventory().add(new Potion("Night Vision", "", Sprite.get("gold"), new NightVision(7, 20)));
 
         init();
         FileHandler.saveGame(this);

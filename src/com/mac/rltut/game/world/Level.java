@@ -1,6 +1,5 @@
 package com.mac.rltut.game.world;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;

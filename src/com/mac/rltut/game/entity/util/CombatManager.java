@@ -5,7 +5,6 @@ import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.maths.Dice;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.game.effects.Effect;
-import com.mac.rltut.game.effects.EffectOther;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.NPC;
 import com.mac.rltut.game.entity.item.*;
@@ -76,7 +75,8 @@ public class CombatManager {
         if(item instanceof Potion){
             Effect effect = ((Consumable) item).effect();
             if(effect != null && Math.random() <= effect.chance()){
-                new EffectOther(effect).onUseOther(defender);
+//                new EffectOther(effect).onUseOther(defender);
+                defender.addEffect(effect.newInstance());
             }else{
                 attacker.notify(new ColoredString("the potion shatters on impact but has no effect on the " + defender.name()));
             }

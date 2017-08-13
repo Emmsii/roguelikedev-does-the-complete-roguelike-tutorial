@@ -14,7 +14,6 @@ import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Consumable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
-import com.mac.rltut.game.screen.game.subscreen.inventory.ConsumeScreen;
 import com.mac.rltut.game.world.objects.MapObject;
 import com.mac.rltut.game.world.tile.Tile;
 
@@ -201,7 +200,7 @@ public class World {
     
     public void addCorpse(Creature dead){
         if(!inBounds(dead.x, dead.y, dead.z) || tile(dead.x, dead.y, dead.z).isType("water")) return;
-        addAtEmptyPoint(dead.x, dead.y, dead.z, new Consumable(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse"), "eat", Math.random() < 0.45 ? new Poison(2, 7, 1) : new Heal(5)));
+        addAtEmptyPoint(dead.x, dead.y, dead.z, new Consumable(dead.name() + " corpse", String.format("The corpse of a %s", dead.name().toLowerCase()), Sprite.get("corpse"), "eat", Math.random() < 0.45 ? new Poison(2, 7, 1f) : new Heal(5, 1f)));
         if(dead.hasFlag("no_blood")) return;
         for(int y = -1; y <= 1; y++){
             int ya = y + dead.y;
@@ -393,10 +392,10 @@ public class World {
         level(z).setTile(x, y, Tile.getTile("grassSmallGreen").id);
         Consumable mushroom = (Consumable) Codex.items.get("mushroom").entity().newInstance();
         Pool<Effect> pool = new Pool<Effect>();
-        pool.add(new Heal(10), 100);
+        pool.add(new Heal(10, 1f), 100);
         pool.add(new Poison(2, 5, 1f), 20);
-        pool.add(new Blind(10), 5);
-        pool.add(new Rage(4, 20), 1);
+        pool.add(new Blind(10, 1f), 5);
+        pool.add(new Rage(4, 20, 1f), 1);
         mushroom.setEffect(pool.get());
         return mushroom;
     }

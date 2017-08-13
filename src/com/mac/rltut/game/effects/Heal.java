@@ -14,8 +14,8 @@ public class Heal extends Effect{
 
     protected Heal(){}
     
-    public Heal(int amount){
-        super("heal", "healing", "gain health", 1, 1f, true);
+    public Heal(int amount, float chance){
+        super("heal", "healing", "gain health", 1, chance, true);
         this.amount = amount;
     }
 

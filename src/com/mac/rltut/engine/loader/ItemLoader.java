@@ -42,7 +42,7 @@ public class ItemLoader extends DataLoader {
                 item = new ItemStack(name, description, sprite, amount, 1);
             } else if (obj.isType("consumable")) {
                 Effect effect = null;
-                if(obj.hasToken("heal")) effect = new Heal(obj.getInt("heal"));
+                if(obj.hasToken("heal")) effect = new Heal(obj.getInt("heal"), 1f);
                 String action = obj.hasToken("action") ? obj.getString("action") : "fumble";
                 item = new Consumable(name, description, sprite, action, effect);
             }else if(obj.isType("potion")){

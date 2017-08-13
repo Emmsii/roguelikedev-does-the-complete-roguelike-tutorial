@@ -3,7 +3,6 @@ package com.mac.rltut.game.entity.item.util;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.effects.EffectBuilder;
-import com.mac.rltut.game.entity.item.Consumable;
 import com.mac.rltut.game.entity.item.Potion;
 
 import java.util.ArrayList;

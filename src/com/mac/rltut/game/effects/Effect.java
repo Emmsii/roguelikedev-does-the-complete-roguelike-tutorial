@@ -7,7 +7,7 @@ import com.mac.rltut.game.entity.creature.Creature;
  * PC
  * Created by Matt on 22/07/2017 at 09:15 AM.
  */
-public class Effect {
+public class Effect implements Cloneable{
     
     protected String name;
     protected String adjective;
@@ -82,6 +82,15 @@ public class Effect {
     
     public boolean canUseWithItem() {
         return canUseWithItem;
+    }
+    
+    public Effect newInstance(){
+        try {
+            return (Effect) this.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

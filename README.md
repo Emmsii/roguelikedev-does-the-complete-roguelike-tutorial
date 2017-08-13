@@ -10,7 +10,7 @@ At [r/roguelikedev](https://www.reddit.com/r/roguelikedev/) we're doing a dev-al
 - The game engine is based off the [Ascii Panel Tutorial](https://trystans.blogspot.co.uk/2016/01/roguelike-tutorial-00-table-of-contents.html), I've build upon it fo suit my needs.
 - The tileset I'm using can be found [here](https://forums.tigsource.com/index.php?topic=14166.0) and is licensed under CC BY-SA. I've made a few additions and changes.
 - Play the latest release [here](https://github.com/Emmsii/roguelikedev-does-the-complete-roguelike-tutorial/releases). Note it won't be stable and will likely crash.
-- The game has been tested and runs on both Windows and Linux. Fullscreen mode does not work 100% on Linux.
+- The game has been tested and runs on Windows, Mac and Linux.
 
 #### Libraries
 

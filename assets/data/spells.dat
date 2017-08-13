@@ -1,0 +1,9 @@
+[SPELL]
+NAME=fireball
+COST=20
+EFFECT_OTHER=burn:1:10:0.5
+
+[SPELL]
+NAME=heal
+COST=25
+EFFECT_SELF=heal:10

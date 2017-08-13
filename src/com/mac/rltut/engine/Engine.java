@@ -13,7 +13,6 @@ import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.menu.StartScreen;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -49,15 +48,18 @@ public class Engine {
     
     private void loadData(){
         Log.debug("Loading data...");
+        double start = System.nanoTime();
         try {
             new SpritesheetLoader("data/sheets.dat").load();
             new SpriteLoader("data/sprites.dat").load();
             new TileLoader("data/tiles.dat").load();
+            new SpellLoader("data/spells.dat").load();
             new ItemLoader("data/items.dat").load();
             new CreatureLoader("data/creatures.dat").load();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.debug("Loaded data in " + ((System.nanoTime() - start) / 1000000) + "ms");
     }
 
     public void init(boolean fullscreen, int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title, String version){

@@ -116,6 +116,6 @@ public class FieldOfView {
     }
 
     public void clearFov(){
-        inFov.clear();
+        inFov = new HashSet<>();
     }
 }

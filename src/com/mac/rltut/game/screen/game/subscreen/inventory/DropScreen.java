@@ -1,11 +1,9 @@
 package com.mac.rltut.game.screen.game.subscreen.inventory;
 
-import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
-import javafx.print.PageLayout;
 
 /**
  * Project: complete-rltut
