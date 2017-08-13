@@ -21,7 +21,7 @@ public class LookScreen extends TargetBasedScreen{
     private StringBuilder caption;
         
     public LookScreen(int x, int y, int w, int h, Player player, int sx, int sy) {
-        super(x, y, w, h, player, sx, sy);
+        super(x, y, w, h, player, sx, sy, false);
         this.caption = new StringBuilder();
         enterWorldCoordinate(player.x, player.y, sx, sy);
     }
@@ -50,7 +50,7 @@ public class LookScreen extends TargetBasedScreen{
         if(creature != null){
             if(creature.isPlayer()) caption.append("You are standing on ");
             else if(creature instanceof NPC) caption.append("The " + creature.name() + " standing on ");
-            else caption.append(articleName(creature) + " (lvl " + creature.level() + ") standing on ");
+            else caption.append(articleName(creature) + " (c lvl " + creature.combatLevel() + ") standing on ");
         }
         
         if(item != null) caption.append(articleName(item) + " lying on ");

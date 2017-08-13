@@ -16,7 +16,7 @@ import com.mac.rltut.game.entity.util.CombatManager;
 public class FireWeaponScreen extends TargetBasedScreen{
        
     public FireWeaponScreen(int x, int y, int w, int h, Player player, int sx, int sy) {
-        super(x, y, w, h, player, sx, sy);
+        super(x, y, w, h, player, sx, sy, false);
     }
 
     @Override

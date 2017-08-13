@@ -19,12 +19,14 @@ public abstract class TargetBasedScreen extends Screen {
     protected Player player;
     protected int sx, sy;
     protected int xp, yp;
+    protected boolean closeOnSelect;
     
-    public TargetBasedScreen(int x, int y, int w, int h, Player player, int sx, int sy){
+    public TargetBasedScreen(int x, int y, int w, int h, Player player, int sx, int sy, boolean closeOnSelect){
         super(x, y, w, h, "");
         this.player = player;
         this.sx = sx;
         this.sy = sy;
+        this.closeOnSelect = closeOnSelect;
     }
 
     @Override
@@ -61,7 +63,10 @@ public abstract class TargetBasedScreen extends Screen {
             case KeyEvent.VK_LEFT: xp--; break;
             case KeyEvent.VK_NUMPAD6:
             case KeyEvent.VK_RIGHT: xp++; break;
-            case KeyEvent.VK_ENTER: selectWorldCoordinate(player.x + xp, player.y + yp, sx + xp, sy + yp); break;
+            case KeyEvent.VK_ENTER:
+                selectWorldCoordinate(player.x + xp, player.y + yp, sx + xp, sy + yp);
+                if(closeOnSelect) return null;
+                break;
             case KeyEvent.VK_ESCAPE: return null;
         }
         

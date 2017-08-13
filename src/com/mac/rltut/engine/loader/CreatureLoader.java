@@ -81,6 +81,12 @@ public class CreatureLoader extends DataLoader{
                 if (flags != null) for(String s : flags) spawnProperty.creature().addFlag(s);
                 if(immuneTo != null) for(String s : immuneTo) spawnProperty.creature().addImmunity(s);
                 Codex.creatures.put(name.toLowerCase(), spawnProperty);
+                
+//                Log.debug("Loaded " + name.toUpperCase() + " LVL: [" + spawnProperty.creature().combatLevel() + "] (" +
+//                                spawnProperty.creature().strength() + "," +
+//                                spawnProperty.creature().defense() + "," +
+//                                spawnProperty.creature().accuracy() + ") HP: " + spawnProperty.creature().maxHp());
+                
             }else Log.warn("Cannot add null creature into codex. [" + name + "]");
         }
         

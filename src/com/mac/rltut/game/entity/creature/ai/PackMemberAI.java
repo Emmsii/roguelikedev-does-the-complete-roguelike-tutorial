@@ -1,5 +1,6 @@
 package com.mac.rltut.game.entity.creature.ai;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Creature;
@@ -39,7 +40,7 @@ public class PackMemberAI extends CreatureAI{
                     if (length == 1) {
                         pack.packTarget = null;
                         pack.packLastSeen = null;
-                    } else packWander();
+                    }
                 }
             }else packWander();
         }else{

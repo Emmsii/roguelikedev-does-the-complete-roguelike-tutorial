@@ -1,6 +1,7 @@
 package com.mac.rltut.game.screen.game.subscreen.inventory;
 
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Consumable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.util.Inventory;
@@ -13,7 +14,7 @@ import com.mac.rltut.game.screen.Screen;
  */
 public class ConsumeScreen extends InventoryBasedScreen{
     
-    public ConsumeScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player) {
+    public ConsumeScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Player player) {
         super(x, y, w, h, title, inventory, player, null);
     }
 

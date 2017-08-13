@@ -1,17 +1,16 @@
 package com.mac.rltut.game.entity.creature;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.StringUtil;
+import com.mac.rltut.engine.util.maths.Line;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.ai.CreatureAI;
-import com.mac.rltut.game.entity.item.EquipmentSlot;
-import com.mac.rltut.game.entity.item.Equippable;
-import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.entity.item.ItemStack;
+import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.item.util.DropTable;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.entity.util.CombatManager;
@@ -131,8 +130,9 @@ public class Creature extends Entity {
     }
     
     private void regenMana(){
-        if(manaRegenSpeed == 0) return;
-        if(tick % manaRegenSpeed == 0) modifyMana(manaRegenAmount());
+        int speed = manaRegenSpeed + manaRegenSpeedBonus();
+        if(speed == 0) return;
+        if(tick % speed == 0) modifyMana(manaRegenAmount() + manaRegenAmountBonus());
     }
     
     private void updateFlags(){
@@ -222,12 +222,30 @@ public class Creature extends Entity {
         if(amount > 0) modifyXp(amount);
     }
     
-    /* Item Methods */
-    
-    public void addItem(Item item){
+    public void throwItem(Item item, int xp, int yp, int zp){
+        Point end = new Point(x, y, 0);
         
+        for(Point p : new Line(x, y, xp, yp)){
+            if(world.tile(p.x, p.y, z).solid()) break;
+            end = p;
+        }
+        
+        xp = end.x;
+        yp = end.y;
+        
+        Creature other = world.creature(xp, yp, zp);
+        if(other != null) new CombatManager(this, other).thrownAttack(item);
+        else doAction(new ColoredString("throw a %s"), item.name());
+        
+        if(item instanceof Equippable) unequip(item);
+        inventory().remove(item);
+        if(item instanceof Potion) return;
+        Point spawn = world.getEmptyItemDropPoint(xp, yp, zp);
+        world.add(spawn.x, spawn.y, spawn.z, item);
     }
     
+    /* Item Methods */
+
     public void pickup(){
         Item item = world.pickMushroom(x, y, z);
         if(world.item(x, y, z) != null) item = world.item(x, y, z);
@@ -417,6 +435,7 @@ public class Creature extends Entity {
         
         while(xp > (int) (Math.pow(level, 1.75) * 25)){
             level++;
+            modifyMaxHp(10);
             doAction(new ColoredString("advance to level %d", Colors.GREEN), level);
             if(ai != null) ai.onGainLevel();
         }
@@ -435,8 +454,8 @@ public class Creature extends Entity {
 
     /* Getter Methods */
     
-    public int totalLevel(){
-        int total = strength + defense + accuracy + intelligence;
+    public int combatLevel(){
+        int total = strength + defense + accuracy;
         return total; 
     }
     
@@ -485,8 +504,7 @@ public class Creature extends Entity {
     }
     
     public int vision(){
-        if(visionBonus > 0) return visionBonus;
-        return Math.min(vision + visionBonus, world.dayNightController().light() + world.level(z).visibilityModifier());
+        return Math.min(vision + visionBonus + world.level(z).visibilityModifier(), world.dayNightController().light() + visionBonus + world.level(z).visibilityModifier());
     }
 
     public int strengthBonus(){

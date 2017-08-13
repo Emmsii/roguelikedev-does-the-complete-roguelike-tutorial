@@ -25,26 +25,28 @@ public class ItemLoader extends DataLoader {
     @Override
     public void load() {
         Log.debug("Loading items...");
-        for(DataObject obj : data){
+        for(DataObject obj : data) {
             Item item = null;
             ItemSpawnProperty spawnProperty = null;
-            
+
             String name = obj.getString("name");
             String description = obj.getString("description");
             Sprite sprite = Sprite.get(obj.getString("sprite"));
             String spawnLevels = obj.hasToken("spawn_levels") ? obj.getString("spawn_levels") : "all";
             int spawnChance = obj.hasToken("spawn_chance") ? obj.getInt("spawn_chance") : -1;
             float depthMultiplier = obj.hasToken("depth_multiplier") ? obj.getFloat("depth_multiplier") : 0f;
-            
-            if(obj.isType("item")) item = new Item(name, description, sprite);
-            else if(obj.isType("item_stack")){
+
+            if (obj.isType("item")) item = new Item(name, description, sprite);
+            else if (obj.isType("item_stack")) {
                 String amount = obj.getString("amount");
                 item = new ItemStack(name, description, sprite, amount, 1);
-            }else if(obj.isType("consumable")){
+            } else if (obj.isType("consumable")) {
                 Effect effect = null;
-                if(obj.hasToken("heal")) new Heal(obj.getInt("heal"));
+                if(obj.hasToken("heal")) effect = new Heal(obj.getInt("heal"));
                 String action = obj.hasToken("action") ? obj.getString("action") : "fumble";
                 item = new Consumable(name, description, sprite, action, effect);
+            }else if(obj.isType("potion")){
+                item = new Potion(name, description, sprite, null);
             }else if(obj.isType("equippable")){
                 String slot = obj.getString("slot");
                 Equippable e = new Equippable(name, description, sprite, getSlot(slot));

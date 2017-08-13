@@ -5,10 +5,10 @@ import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.maths.Dice;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.game.effects.Effect;
+import com.mac.rltut.game.effects.EffectOther;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.NPC;
-import com.mac.rltut.game.entity.item.EquipmentSlot;
-import com.mac.rltut.game.entity.item.Equippable;
+import com.mac.rltut.game.entity.item.*;
 
 /**
  * Project: complete-rltut
@@ -30,6 +30,7 @@ public class CombatManager {
         defender.damage(damage, causeOfDeath);
         doEffect(weapon, attacker, defender);
         if(defender.hp() < 1) attacker.gainXp(defender);
+        attacker.setHasPerformedAction(true);
     }
     
     public void meleeAttack(){
@@ -62,11 +63,24 @@ public class CombatManager {
         if(attackerHitRoll > defenderBlockRoll || attackerHitRoll == defenderBlockRoll && Math.random() <= 0.5){
             Equippable weapon = attacker.getEquippedAt(EquipmentSlot.WEAPON);
             int damage = getDamage("ranged");
-            commonAttack(weapon, damage, "killed by a " + attacker.name() + (weapon != null ? weapon.name() : ""), new ColoredString("fire a %s at " + (!defender.isPlayer() ? "the " : "") + " %s for %d damage"), weapon.name(), defender.name(), damage);
+            commonAttack(weapon, damage, "killed by a " + attacker.name() + (weapon != null ? weapon.name() : ""), new ColoredString("fire a %s at " + (!defender.isPlayer() ? "the " : "") + "%s for %d damage"), weapon.name(), defender.name(), damage);
         }else{
-            defender.doAction(new ColoredString("block the attack"));
+            defender.doAction(new ColoredString("block the arrow"));
         }
         defender.setAttackedBy(attacker);
+    }
+    
+    public void thrownAttack(Item item){
+        commonAttack(null, 1, "thrown " + item.name(), new ColoredString("throw a %s at the %s for %d damage"), item.name(), defender.name(), 1);
+
+        if(item instanceof Potion){
+            Effect effect = ((Consumable) item).effect();
+            if(effect != null && Math.random() <= effect.chance()){
+                new EffectOther(effect).onUseOther(defender);
+            }else{
+                attacker.notify(new ColoredString("the potion shatters on impact but has no effect on the " + defender.name()));
+            }
+        }
     }
     
     private int getDamage(String type){

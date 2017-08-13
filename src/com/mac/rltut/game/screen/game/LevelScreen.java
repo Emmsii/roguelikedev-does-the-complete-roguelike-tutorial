@@ -107,7 +107,7 @@ public class LevelScreen extends Screen{
                     Sprite fog = Sprite.getFogSprite(fogBit[xa][ya]);
                     renderer.renderSprite(fog, xa, ya);
                 }else if(!world.inFov(xp, yp, player.z) && world.creature(xp, yp, player.z) != null && world.creature(xp, yp, player.z).size() == 1){
-                    if(world.creature(xp, yp, player.z) != null) renderer.renderSprite(world.tile(xp, yp, player.z).sprite(), xa, ya);
+                    if(world.creature(xp, yp, player.z) != null) renderer.renderSprite(spriteAt(xp, yp, player.z), xa, ya);
                     renderer.darkenSprite(xa, ya);
                 }else if(!world.inFov(xp, yp, player.z)) renderer.darkenSprite(xa, ya);
                 
@@ -115,7 +115,6 @@ public class LevelScreen extends Screen{
                     renderer.colorizeSprite(xa, ya, darkenAmount);
                     renderer.darkenSprite(xa, ya, 1f - (darkenAmount * 0.75f));
                 }
-                
             }
         }
     }
@@ -124,11 +123,11 @@ public class LevelScreen extends Screen{
         Item i = world.item(xp, yp, zp);
         if(i != null) return i.sprite();
         
-        if(world.level(zp).blood(xp, yp)) return Sprite.get("blood");
-
         MapObject obj = world.mapObject(xp, yp, zp);
         if(obj != null) return obj.sprite();
-                
+
+        if(world.level(zp).blood(xp, yp)) return Sprite.get("blood");
+        
         return world.tile(xp, yp, zp).sprite();
     }
 

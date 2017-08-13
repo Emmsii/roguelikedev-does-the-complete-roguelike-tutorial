@@ -3,6 +3,7 @@ package com.mac.rltut.game.screen.game.subscreen.inventory;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
@@ -21,10 +22,10 @@ import java.util.List;
 public abstract class InventoryBasedScreen extends Screen{
     
     protected Inventory<Item> inventory;
-    protected Creature player;
+    protected Player player;
     protected Screen lastScreen;
     
-    public InventoryBasedScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player, Screen lastScreen){
+    public InventoryBasedScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Player player, Screen lastScreen){
         super(x, y, w, h, title);
         this.inventory = inventory;
         this.player = player;

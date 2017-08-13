@@ -22,7 +22,7 @@ public class NightVision extends Effect{
     @Override
     public void start(Creature creature) {
         creature.setVisionBonus(amount);
-        creature.announce(new ColoredString("can see further into the forest"));
+        creature.doAction(new ColoredString("see further into the forest"));
     }
 
     @Override

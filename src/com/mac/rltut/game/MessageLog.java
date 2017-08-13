@@ -1,6 +1,8 @@
 package com.mac.rltut.game;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.ColoredString;
+import sun.plugin2.message.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,7 @@ public class MessageLog {
     
     private List<ColoredString> entries;
     private int newEntries;
-    
+
     public MessageLog(){
         this.entries = new ArrayList<ColoredString>();
         this.newEntries = 0;

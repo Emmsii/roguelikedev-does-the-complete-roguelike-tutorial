@@ -1,6 +1,7 @@
 package com.mac.rltut.game.screen.game.subscreen.inventory;
 
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.Spellbook;
@@ -16,7 +17,7 @@ public class ApplySpellbookScreen extends InventoryBasedScreen{
     
     private Spellbook spellbook;
     
-    public ApplySpellbookScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Creature player, Spellbook spellbook, Screen lastScreen) {
+    public ApplySpellbookScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Player player, Spellbook spellbook, Screen lastScreen) {
         super(x, y, w, h, title, inventory, player, lastScreen);
         this.spellbook = spellbook;
         this.lastScreen = lastScreen;

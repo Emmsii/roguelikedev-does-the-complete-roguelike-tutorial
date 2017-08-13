@@ -1,5 +1,6 @@
 package com.mac.rltut.game.screen.game;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.ColoredString;
@@ -32,6 +33,8 @@ public class GameScreen extends Screen{
     private Screen equipmentScreen;
     private Screen subscreen;
     
+    private boolean shouldUpdate;
+    
     public GameScreen(Game game){
         this.game = game;
         initScreens();
@@ -47,7 +50,9 @@ public class GameScreen extends Screen{
     @Override
     public Screen input(KeyEvent key){
         int level = player().level();
-        boolean shouldUpdate = false;
+        
+        game.log().resetNewEntryCount();
+        shouldUpdate = false;
         player().setHasPerformedAction(false);
                 
         if(subscreen != null) subscreen = subscreen.input(key);
@@ -88,6 +93,7 @@ public class GameScreen extends Screen{
 
                 case KeyEvent.VK_ESCAPE: subscreen = new GameEscapeMenu(Engine.instance().widthInTiles() / 2 - 10, Engine.instance().heightInTiles() / 2 - 4, 21, 8, game); break;
 
+                case KeyEvent.VK_W: subscreen = new ThrowItemScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, player().x - levelScreen.getScrollX() + 1, player().y - levelScreen.getScrollY() + 1, levelScreen.width(), levelScreen.height(), player().inventory(), player()); break;
                 case KeyEvent.VK_D: subscreen = new DropScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_R: subscreen = new ReadScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_C: subscreen = new ConsumeScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
@@ -96,7 +102,7 @@ public class GameScreen extends Screen{
                 case KeyEvent.VK_L: subscreen = new LookScreen(0, 0, levelScreen.width(), levelScreen.height(), player(), player().x - levelScreen.getScrollX() + 1, player().y - levelScreen.getScrollY() + 1); break;
                 case KeyEvent.VK_F:
                     Equippable weapon = player().getEquippedAt(EquipmentSlot.WEAPON);
-                    if(weapon != null && (weapon.rangedDamage() != null || weapon.rangedDamage().equals("0"))){
+                    if(weapon != null && (weapon.rangedDamage() != null && !weapon.rangedDamage().equals("0"))){
                         subscreen = new FireWeaponScreen(0, 0, levelScreen.width(), levelScreen.height(), player(), player().x - levelScreen.getScrollX() + 1, player().y - levelScreen.getScrollY() + 1);
                     }else player().notify(new ColoredString("You don't have a ranged weapon equipped.", Colors.ORANGE));
                     break;
@@ -112,11 +118,9 @@ public class GameScreen extends Screen{
             return this;
         }
         
-        if(shouldUpdate) game.log().resetNewEntryCount();
-
         if(subscreen == null && shouldUpdate || player().hasPerformedAction()) game.update();
         if(player().hp() < 1) return new LooseScreen(player());
-        
+
         return this;
     }
 

@@ -3,6 +3,7 @@ package com.mac.rltut.game.screen.game.subscreen.inventory;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
 import com.mac.rltut.game.screen.Screen;
@@ -15,7 +16,7 @@ import com.mac.rltut.game.world.objects.Chest;
  */
 public class ChestScreen extends InventoryBasedScreen{
     
-    public ChestScreen(int x, int y, int w, int h, String title, Chest chest, Creature player) {
+    public ChestScreen(int x, int y, int w, int h, String title, Chest chest, Player player) {
         super(x, y, w, h, title, chest.inventory(), player, null);
     }
 
@@ -31,22 +32,25 @@ public class ChestScreen extends InventoryBasedScreen{
 
     @Override
     protected Screen use(Item item) {
-        if(player.inventory().isFull()){
+        if(player.inventory().isFull() && !item.name().equalsIgnoreCase("gold")){
             player.notify(new ColoredString("You are carrying too much.", Colors.ORANGE));
             return this;
         }else{
             inventory.remove(item);
-            player.inventory().add(item);
             
             if(item instanceof ItemStack){
                 ItemStack stack = (ItemStack) item;
-                if(stack.name().equalsIgnoreCase("gold")) player.modifyGold(stack.amount());
                 player.doAction(new ColoredString("take %d %s"), stack.amount(), item.name());
-            }else{
-                player.doAction(new ColoredString("take the %s"), item.name());    
-            }
-            
-            
+                if(stack.name().equalsIgnoreCase("gold")){
+                    player.modifyGold(stack.amount());
+                    if(inventory.isEmpty()){
+                        player.notify(new ColoredString("The chest is empty.", Colors.ORANGE));
+                        return null;
+                    }
+                    return this;
+                }
+            }else player.doAction(new ColoredString("take the %s"), item.name());
+            player.inventory().add(item);
         }
         
         if(inventory.isEmpty()){

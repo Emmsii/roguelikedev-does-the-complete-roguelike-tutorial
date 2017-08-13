@@ -35,15 +35,16 @@ public class HelpScreen extends Screen{
         renderer.write("Movement:     Arrow Keys / Numpad", xp, yp++);
         renderer.write("Wait:         Comma / Numpad 5", xp, yp++);
         renderer.write("Open Chest:   Space", xp, yp++);
-        renderer.write("Pickup:       P", xp, yp++);
-        renderer.write("Drop:         D", xp, yp++);
-        renderer.write("Read:         R", xp, yp++);
-        renderer.write("Consume:      C", xp, yp++);
-        renderer.write("Equip:        E", xp, yp++);
-        renderer.write("Examine:      X", xp, yp++);
-        renderer.write("Look:         L", xp, yp++);
+        renderer.write("Pickup:       p", xp, yp++);
+        renderer.write("Drop:         d", xp, yp++);
+        renderer.write("Read:         r", xp, yp++);
+        renderer.write("Consume:      c", xp, yp++);
+        renderer.write("Equip:        e", xp, yp++);
+        renderer.write("Examine:      x", xp, yp++);
+        renderer.write("Look:         l", xp, yp++);
+        renderer.write("Talk:         k", xp, yp++);
         yp++;
-        renderer.write("Equipment/Stats Panel: Q / T", xp, yp++);
+        renderer.write("Equipment/Stats Panel: q / y", xp, yp++);
         yp++;
         
         renderer.write("Debug", xp - 1, yp++, Colors.GRAY);

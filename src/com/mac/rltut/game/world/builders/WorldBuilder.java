@@ -60,12 +60,12 @@ public class WorldBuilder {
 
         List<LevelBuilder> levels = new ArrayList<LevelBuilder>();
         levels.add(new DefaultLevel(width, height, 0, depth + 1, 70, -0.5f, 1.5f, 0, random));
-        levels.add(new DenseLevel(width, height, 1, depth + 1, 55, 0.95f, 1.5f, -4, random));
+        levels.add(new DenseLevel(width, height, 1, depth + 1, 55, 0.95f, 1.5f, -2, random));
         levels.add(new SparseLevel(width, height, 1, 8, 70, 0.9f, 1.5f, 3, random));
         levels.add(new LakeLevel(width, height, 3, 10, 50, 1.325f, 1.5f, 2, random));
-        levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.5f, -2, random));
-        levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.7f, -5, random));
-        levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 1.25f, 1.7f, 0, random));
+        levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.5f, -1, random));
+        levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.7f, -2, random));
+        levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 1.25f, 1.7f, 2, random));
 
         File file = new File("images/");
         File[] files = file.listFiles();
@@ -80,14 +80,11 @@ public class WorldBuilder {
             }
 
             LevelBuilder level = pool.get();
-
             level.generate(z);
-//            level.buildShop();
-            
+            level.saveImage(z);
             
             creatureSpawnMultiplier[z] = level.creatureSpawnModifier();
             world.setLevel(z, level.build());
-            level.saveImage(z);
         }
 
         Log.debug("Generated world in " + ((System.nanoTime() - start) / 1000000) + "ms");
@@ -264,28 +261,28 @@ public class WorldBuilder {
             
             for(int i = 0; i < 3; i++){
                 if(random.nextFloat() >= 0.3) break;
-                spawnItem(JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), random), z);
+                spawnItem(JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), z, random), z);
                 spawnedThisLevel++;
             }
             
-            //TODO: Too many items in chests
 //            Log.debug("Chests on level " + z + ": " + world.level(z).chests().size());
             for(Chest chest : world.level(z).chests()){
+                if(random.nextFloat() <= 0.3f) continue;
                 Inventory<Item> inventory = chest.inventory();
-
-                if(random.nextFloat() <= 0.5f) {
+                
+                if(random.nextFloat() <= 0.4f) {
                     for (int i = 0; i < 2; i++) {
-                        Item item = JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), random);
+                        Item item = JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), z, random);
                         inventory.add(item);
 
                         if (!chestItemSpawnCounts.get(z).containsKey(item.name())) chestItemSpawnCounts.get(z).put(item.name(), 0);
                         chestItemSpawnCounts.get(z).put(item.name(), chestItemSpawnCounts.get(z).get(item.name()) + 1);
                         chestSpawnedThisLevel++;
-                        if (random.nextFloat() >= 0.2f + ((float) z / (float) world.depth()) * 0.1f) break;
+                        if (random.nextFloat() >= 0.175f + ((float) z / (float) world.depth()) * 0.1f) break;
                     }
                 }
                 
-                if(random.nextFloat() <= 0.385f) {
+                if(random.nextFloat() <= 0.285f) {
                     for (int i = 0; i < 3; i++) {
                         Item item = SpellbookGenerator.generate(z, random);
                         inventory.add(item);
@@ -296,14 +293,14 @@ public class WorldBuilder {
                     }
                 }
                 
-                if(random.nextFloat() <= 0.6f) {
+                if(random.nextFloat() <= 0.5f) {
                     for (int i = 0; i < 3; i++) {
                         Consumable potion = PotionBuilder.randomPotion(z, random);
                         inventory.add(potion);
                         if (!chestItemSpawnCounts.get(z).containsKey(potion.name())) chestItemSpawnCounts.get(z).put(potion.name(), 0);
                         chestItemSpawnCounts.get(z).put(potion.name(), chestItemSpawnCounts.get(z).get(potion.name()) + 1);
                         chestSpawnedThisLevel++;
-                        if (random.nextFloat() >= 0.35f + ((float) z / (float) world.depth()) * 0.1f) break;
+                        if (random.nextFloat() >= 0.3f + ((float) z / (float) world.depth()) * 0.1f) break;
                     }
                 }
                 

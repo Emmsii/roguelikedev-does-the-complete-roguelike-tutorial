@@ -21,35 +21,30 @@ SPRITE=mushroom
 HEAL=5
 ACTION=eat
 
-[CONSUMABLE]
+[POTION]
 NAME=red potion
 DESCRIPTION=I wonder what this does?
 SPRITE=potion_red
-ACTION=drink
 
-[CONSUMABLE]
+[POTION]
 NAME=blue potion
 DESCRIPTION=I wonder what this does?
 SPRITE=potion_blue
-ACTION=drink
 
-[CONSUMABLE]
+[POTION]
 NAME=purple potion
 DESCRIPTION=I wonder what this does?
 SPRITE=potion_purple
-ACTION=drink
 
-[CONSUMABLE]
+[POTION]
 NAME=green potion
 DESCRIPTION=I wonder what this does?
 SPRITE=potion_green
-ACTION=drink
 
-[CONSUMABLE]
+[POTION]
 NAME=yellow potion
 DESCRIPTION=I wonder what this does?
 SPRITE=potion_yellow
-ACTION=drink
 
 # --------- Equipment
 

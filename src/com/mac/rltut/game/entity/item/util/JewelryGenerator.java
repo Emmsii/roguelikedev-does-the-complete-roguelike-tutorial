@@ -14,11 +14,7 @@ import java.util.Random;
  */
 public class JewelryGenerator {
     
-    public static Equippable generate(int z){
-        return null;
-    }
-    
-    public static Equippable generate(Equippable equippable, Random random){
+    public static Equippable generate(Equippable equippable, int z, Random random){
 
         List<String> bonuses = new ArrayList<String>();
         bonuses.add("str");
@@ -27,10 +23,15 @@ public class JewelryGenerator {
         bonuses.add("intel");
 
         Collections.shuffle(bonuses);
+        int bonusCount = 0;
         
-        for(String s : bonuses){
-            addBonus(s, random.nextInt(3) + 1, equippable);
-            if(random.nextFloat() >= 0.2) break;
+        if(random.nextFloat() >= 0.75f) {
+            for (String s : bonuses) {
+                addBonus(s, random.nextInt(2) + 1 + (z / 2), equippable);
+                bonusCount++;
+                if (random.nextFloat() >= 0.15) break;
+            }
+            if(bonusCount >= 1) equippable.setName("Enhanced " + equippable.name());
         }
         
         return equippable;

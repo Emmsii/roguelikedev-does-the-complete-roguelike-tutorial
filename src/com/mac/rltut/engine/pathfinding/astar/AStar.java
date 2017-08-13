@@ -63,16 +63,13 @@ public class AStar {
                 if(!neighbour.pos.equals(endNode.pos) && world.level(neighbour.pos.z).clearance(neighbour.pos.x, neighbour.pos.y) < creaturePathing.size()) continue;
                 
                 Creature creature = world.creature(neighbour.pos.x, neighbour.pos.y, neighbour.pos.z);
-                if(creature != null && creature.id != creaturePathing.id){
-                    //If neighbour tile has creature, and the creature is NOT the same as the creature pathing and the tile is NOT EQUAL to the end, ignore
-                    if(!neighbour.pos.equals(endNode.pos)) continue;
-                }
+                if(creature != null && creature.id != creaturePathing.id) if(!neighbour.pos.equals(endNode.pos)) continue;                
                 
                 int newCostToNeighbour = node.gCost + distance(node, neighbour);
 
                 Creature c = world.creature(neighbour.pos.x, neighbour.pos.y, neighbour.pos.z);
-                if(c != null && c.id != creature.id) if(!c.isPlayer()) newCostToNeighbour += (c.timeStationary() * 2) + 1;
-                
+                if(c != null && c.id != creature.id && c.timeStationary() != 0) newCostToNeighbour *= c.timeStationary();
+                                
                 if(newCostToNeighbour < neighbour.gCost || !openSet.contains(neighbour)){
                     neighbour.gCost = newCostToNeighbour;
                     neighbour.hCost = distance(neighbour, endNode);
