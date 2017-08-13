@@ -1,7 +1,11 @@
 package com.mac.rltut.engine.window;
 
 
+import com.esotericsoftware.minlog.Log;
+
 import javax.swing.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /**
  * Project: complete-rltut
@@ -9,6 +13,8 @@ import javax.swing.*;
  * Created by Matt on 25/06/2017 at 10:54 AM.
  */
 public class Terminal extends JFrame {
+
+    private final String OS = System.getProperty("os.name");
 
     private Panel panel;
     
@@ -22,7 +28,8 @@ public class Terminal extends JFrame {
             this.setUndecorated(true);
         }
         this.getContentPane().add(panel);
-        this.setResizable(false);
+        if(isLinux() && fullscreen) this.setResizable(true);
+        else this.setResizable(false);
         this.pack();
         this.setLocationRelativeTo(null);        
         this.setVisible(true);
@@ -30,5 +37,17 @@ public class Terminal extends JFrame {
 
     public Panel panel(){
         return panel;
+    }
+
+    private boolean isWindows(){
+        return OS.indexOf("win") >= 0;
+    }
+
+    private boolean isMac(){
+        return OS.indexOf("mac") >= 0;
+    }
+
+    private boolean isLinux(){
+        return OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") >= 0;
     }
 }
