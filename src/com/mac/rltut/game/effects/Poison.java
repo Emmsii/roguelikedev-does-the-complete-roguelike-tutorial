@@ -15,12 +15,12 @@ public class Poison extends Effect{
     protected Poison(){}
     
     public Poison(int amount, int duration, float chance){
-        super("poison", "poison", "loose " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, false);
+        super("poison", "poison", "loose " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance);
         this.amount = amount;
     }
 
     @Override
-    public void start(Creature creature) {
+    public void start(Creature creature){
         creature.doAction(new ColoredString("feel poisoned"));
     }
 
@@ -29,4 +29,5 @@ public class Poison extends Effect{
         super.update(creature);
         creature.modifyHp(-amount, "poison");
     }
+
 }

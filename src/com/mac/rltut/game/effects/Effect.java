@@ -14,17 +14,15 @@ public class Effect implements Cloneable{
     protected String description;
     protected int duration;
     protected float chance;
-    protected boolean canUseWithItem;
 
     protected Effect(){}
     
-    public Effect(String name, String adjective, String description, int duration, float chance, boolean canUseWithItem) {
+    public Effect(String name, String adjective, String description, int duration, float chance) {
         this.name = name;
         this.adjective = adjective;
         this.description = description;
         this.duration = duration;
         this.chance = chance;
-        this.canUseWithItem = canUseWithItem;
     }
 
     public Effect(Effect other) {
@@ -33,19 +31,10 @@ public class Effect implements Cloneable{
         this.description = other.description;
         this.duration = other.duration;
         this.chance = other.chance;
-        this.canUseWithItem = other.canUseWithItem;
     }
 
     public void update(Creature creature) {
         duration--;
-    }
-
-    public void onUseSelf(Creature creature) {
-
-    }
-
-    public void onUseOther(Creature other) {
-
     }
 
     public void start(Creature creature) {
@@ -79,11 +68,7 @@ public class Effect implements Cloneable{
     public String chancePercent(){
         return (Math.round(chance * 100)) + "%";
     }
-    
-    public boolean canUseWithItem() {
-        return canUseWithItem;
-    }
-    
+
     public Effect newInstance(){
         try {
             return (Effect) this.clone();

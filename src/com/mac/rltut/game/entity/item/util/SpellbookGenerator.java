@@ -116,8 +116,15 @@ public class SpellbookGenerator {
         else if(bonusCount <= 3) rarity = "uncommon";
         else if(bonusCount <= 5) rarity = "rare";
 
-        if(bonusCount > 3 && random.nextFloat() <= 0.75) book.setEffect(EffectBuilder.randomItemEffect(z, random));
-                
+//        if(bonusCount > 3 && random.nextFloat() <= 0.75)
+        for(EquipmentSlot slots : chosenSkill.slots){
+            if(slots == EquipmentSlot.WEAPON){
+
+                book.setEffect(EffectBuilder.randomWeaponEffect(z, random));
+                break;
+            }
+        }
+                        
         book.setName(rarity + " spellbook of " + chosenSkill.bookName);
         book.setDescription(generateDescription(chosenSkill, rarity, chosen));
         return book;

@@ -1,6 +1,5 @@
 package com.mac.rltut.game.effects;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.entity.creature.Creature;
 
@@ -16,9 +15,8 @@ public class Burn extends Effect{
     public Burn(){}
 
     public Burn(int amount, int duration, float chance){
-        super("burn", "burn",  "rake " + amount + " damage for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, true);
+        super("burn", "burn",  "rake " + amount + " damage for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance);
         this.amount = amount;
-        Log.debug("New burn");
     }
 
     @Override

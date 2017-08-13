@@ -232,7 +232,6 @@ MINIONS=skeleton
 MINION_COUNT=8-10
 SIZE=2
 DROPS=gold:40-50:100
-SPELLS=fireball
 
 [BOSS]
 NAME=eye thing
@@ -251,7 +250,6 @@ UNIQUE=1
 SIZE=2
 IMMUNE_TO=blind
 DROPS=gold:60-90:100
-SPELLS=fireball
 
 [BOSS]
 NAME=fire demon
@@ -289,7 +287,6 @@ UNIQUE=1
 SIZE=2
 IMMUNE_TO=burn, poison
 DROPS=gold:80-100:100
-SPELLS=fireball
 
 [BOSS]
 NAME=giant snake
@@ -306,7 +303,7 @@ SPAWN_EVERY=3
 MINIONS=brown snake, blue snake, green snake
 MINION_COUNT=7-10
 SIZE=2
-SPELLS=fireball
+SPELLS=life_drain
 
 [BOSS]
 NAME=green octopus boss
@@ -325,6 +322,7 @@ MINIONS=green octopus
 MINION_COUNT=7-10
 SIZE=2
 DROPS=meat chunk:2-4:100, gold:50-60:100
+SPELLS=life_drain
 
 [BOSS]
 NAME=blue octopus boss
@@ -343,6 +341,7 @@ MINIONS=blue octopus
 MINION_COUNT=7-10
 SIZE=2
 DROPS=meat chunk:2-4:100, gold:50-60:100
+SPELLS=life_drain
 
 [BOSS]
 NAME=grand ent
@@ -361,7 +360,6 @@ MINION_COUNT=5-8
 SIZE=2
 IMMUNE_TO=poison
 DROPS=gold:70-75:100
-kryo.register(Blind.class);
 
 [BOSS]
 NAME=golem
@@ -379,6 +377,7 @@ SPAWN_EVERY=5
 UNIQUE=1
 SIZE=2
 DROPS=gold:80-100:100
+SPELLS=freeze
 
 [BOSS]
 NAME=spectre boss
@@ -395,10 +394,8 @@ SPAWN_EVERY=3
 MINIONS=spectre
 MINION_COUNT=4-7
 SIZE=2
-IMMUNE_TO=leach
 DROPS=gold:70-80:100
-
-
+SPELLS=life_drain, freeze
 
 # very temp
 [BOSS]

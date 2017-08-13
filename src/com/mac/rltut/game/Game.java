@@ -5,12 +5,16 @@ import com.mac.rltut.engine.FileHandler;
 import com.mac.rltut.engine.pathfinding.astar.AStar;
 import com.mac.rltut.engine.util.SessionTimer;
 import com.mac.rltut.engine.util.maths.Point;
+import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
+import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
 import com.mac.rltut.game.world.World;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Project: complete-rltut
@@ -40,6 +44,11 @@ public class Game{
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
 
+        player.inventory().add((Item) Codex.items.get("sword").entity());
+        for(int i = 0; i < 10; i++){
+            player.inventory().add(SpellbookGenerator.generate(20, new Random()));
+        }
+        
         init();
         FileHandler.saveGame(this);
 

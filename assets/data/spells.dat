@@ -4,6 +4,16 @@ COST=20
 EFFECT_OTHER=burn:1:10:0.5
 
 [SPELL]
+NAME=life_drain
+COST=20
+EFFECT_OTHER=poison:1:10:0.75
+
+[SPELL]
+NAME=freeze
+COST=15
+EFFECT_OTHER=freeze:0:5:0.8
+
+[SPELL]
 NAME=heal
 COST=25
 EFFECT_SELF=heal:10

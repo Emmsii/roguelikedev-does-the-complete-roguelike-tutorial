@@ -125,7 +125,6 @@ public class FileHandler {
         kryo.register(Freeze.class);
         kryo.register(Heal.class);
         kryo.register(HealthRegen.class);
-        kryo.register(Leach.class);
         kryo.register(ManaRegen.class);
         kryo.register(NightVision.class);
         kryo.register(Poison.class);

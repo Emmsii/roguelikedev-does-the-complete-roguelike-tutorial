@@ -15,7 +15,7 @@ public class Rage extends Effect{
     protected Rage(){}
     
     public Rage(int amount, int duration, float chance){
-        super("rage", "rage", "sacrifice " + amount + " for " + (-amount) + " for " + duration + " turns", duration, chance, true);
+        super("rage", "rage", "sacrifice " + amount + " for " + (-amount) + " for " + duration + " turns", duration, chance);
         this.amount = amount;
     }
 

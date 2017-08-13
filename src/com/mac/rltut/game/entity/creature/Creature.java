@@ -1,6 +1,5 @@
 package com.mac.rltut.game.entity.creature;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
@@ -359,7 +358,7 @@ public class Creature extends Entity {
     public void announce(ColoredString message, Object ... params){
         for(Creature other : getCreaturesWhoSeeMe()){
             if(other == this) other.notify(new ColoredString(message.text, message.color), params);
-            else other.notify(new ColoredString(String.format("The %s %s", name, message.text), message.color), params);
+            else other.notify(new ColoredString(String.format("The %s %s.", name, message.text), message.color), params);
         }
     }
     
@@ -470,7 +469,10 @@ public class Creature extends Entity {
     
     public void addEffect(Effect effect){
         if(effect == null) return;
-        if(isPlayer()) Log.debug("new effect " + effect.name());
+        if(immuneTo(effect.name().toLowerCase())){
+            announce(new ColoredString("immune to %s"), effect.adjective());
+            return;
+        }
         effect.start(this);
         effects.add(effect);
     }

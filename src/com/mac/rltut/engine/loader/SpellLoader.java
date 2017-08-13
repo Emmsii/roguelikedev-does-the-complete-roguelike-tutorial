@@ -56,7 +56,6 @@ public class SpellLoader extends DataLoader{
             case "freeze": return new Freeze(duration, chance);
             case "heal": return new Heal(amount, chance);
             case "health_regen": return new HealthRegen(amount, duration, chance);
-            case "leach": return new Leach(amount, chance);
             case "mana_regen": return new ManaRegen(amount, duration, chance);
             case "night_vision": return new NightVision(amount, duration, chance);
             case "poison": return new Poison(amount, duration, chance);

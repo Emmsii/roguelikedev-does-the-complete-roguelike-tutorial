@@ -31,8 +31,8 @@ public class Spellbook extends Item{
         creature.doAction(new ColoredString("enhance the %s", Colors.BLUE), equippable.name());
         equippable.setUnique(true);
 
-        if(effect == null) equippable.setName("Enhanced " + equippable.name());
-        else equippable.setName("Magical " + equippable.name());
+        if(effect != null) equippable.setName(equippable.name() + " of " + effect().adjective());
+        else equippable.setName("Enhanced " + equippable.name());
         
         if(strengthBonus != 0) equippable.setStrengthBonus(equippable.strengthBonus() + strengthBonus);
         if(defenseBonus != 0) equippable.setDefenseBonus(equippable.defenseBonus() + defenseBonus);
@@ -64,6 +64,10 @@ public class Spellbook extends Item{
         return manaCost;
     }
     
+    public EquipmentSlot[] slots(){
+        return slots;   
+    }
+        
     public boolean validSlot(EquipmentSlot slot){
         for(EquipmentSlot s : slots) if(s == slot) return true;
         return false;

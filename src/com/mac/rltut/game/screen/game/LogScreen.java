@@ -40,7 +40,7 @@ public class LogScreen extends Screen{
     @Override
     public void render(Renderer renderer) {
         setTitle(defaultTitle + " (" + log.newEntries() + ")");
-        renderBorder(renderer);
+        renderBorderFill(renderer);
         
         List<ColoredString> linesToRender = new ArrayList<ColoredString>();
         int multiLineEntries = 0;

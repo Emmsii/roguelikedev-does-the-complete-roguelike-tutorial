@@ -13,7 +13,7 @@ public class Blind extends Effect{
     protected Blind(){}
 
     public Blind(int duration, float chance){
-        super("blind", "blinding", "loose vision for " + duration + " turns", duration, chance, false);
+        super("blind", "blinding", "loose vision for " + duration + " turns", duration, chance);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class LooseScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-        renderBorder(renderer);
+        renderBorderFill(renderer);
         
         renderer.writeCenter("You died!", Engine.instance().widthInTiles() / 2, (int) (Engine.instance().heightInTiles() * 0.15f), Colors.RED);
         renderer.write("Kills", 10, 10);

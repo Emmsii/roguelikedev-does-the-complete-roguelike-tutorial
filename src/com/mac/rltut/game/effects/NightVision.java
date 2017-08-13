@@ -15,7 +15,7 @@ public class NightVision extends Effect{
     protected NightVision(){}
     
     public NightVision(int amount, int duration, float chance){
-        super("night vision", "night vision", "increase vision by " + amount + " for " + duration + " turns", duration, chance, true);
+        super("night vision", "night vision", "increase vision by " + amount + " for " + duration + " turns", duration, chance);
         this.amount = amount;
     }
 

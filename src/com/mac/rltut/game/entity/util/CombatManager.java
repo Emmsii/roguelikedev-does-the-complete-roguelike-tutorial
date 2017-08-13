@@ -27,7 +27,7 @@ public class CombatManager {
     private void commonAttack(Equippable weapon, int damage, String causeOfDeath, ColoredString action, Object ... params){
         attacker.doAction(action, params);
         defender.damage(damage, causeOfDeath);
-        doEffect(weapon, attacker, defender);
+        doEffect(weapon, defender);
         if(defender.hp() < 1) attacker.gainXp(defender);
         attacker.setHasPerformedAction(true);
     }
@@ -94,12 +94,14 @@ public class CombatManager {
         return damage;
     }
    
-    private static void doEffect(Equippable equippable, Creature attacker, Creature defender){
-        if(equippable == null || equippable.effect() == null || !equippable.effect().canUseWithItem() || defender.hp() < 1) return;
+    private static void doEffect(Equippable equippable, Creature defender){
+        if(equippable == null || equippable.effect() == null || defender.hp() < 1) return;
         Effect effect = equippable.effect();
-        if(Math.random() > effect.chance()) return;
-        effect.onUseSelf(attacker);
-        effect.onUseOther(defender);
+        Log.debug("DOING EFFECT [" + equippable.effect().name() + "] " + effect.chance());
+        if(Math.random() <= effect.chance()) {
+            Log.debug("HERE!");
+            defender.addEffect(equippable.effect().newInstance());
+        }
     }
     
 }

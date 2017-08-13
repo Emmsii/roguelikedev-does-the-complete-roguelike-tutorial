@@ -15,7 +15,7 @@ public class HealthRegen extends Effect{
     public HealthRegen(){}
     
     public HealthRegen(int amount, int duration, float chance){
-        super("regen health", "health regen",  "regenerate " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, true);
+        super("regen health", "health regen",  "regenerate " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance);
         this.amount = amount;
     }
 
