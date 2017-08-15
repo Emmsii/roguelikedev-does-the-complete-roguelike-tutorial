@@ -54,7 +54,6 @@ public class CombatManager {
         
         int distancePenalty = (int) Math.round(((Math.pow(1.3, distance - (attacker.accuracy() / 2))) - (attacker.accuracy() / 2)) * 0.25);//TODO: TEMP MAYBE
         if(distancePenalty < 0) distancePenalty = 0;
-        Log.debug("Dist Pen: " + distancePenalty);
         
         int attackerHitRoll = Dice.roll("1d" + attacker.accuracy() + attacker.accuracyBonus()) - distancePenalty;
         int defenderBlockRoll = Dice.roll("1d" + defender.defense() + defender.defenseBonus());

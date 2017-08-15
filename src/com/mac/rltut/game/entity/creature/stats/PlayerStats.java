@@ -15,6 +15,12 @@ public class PlayerStats {
     
     private HashMap<String, Integer> kills;
     private int tilesTraveled;
+    private int damageReceived;
+    private int damageTaken;
+    
+    private int attackAttempts;
+    private int hits;
+    private int misses;
 
     protected PlayerStats() {}
     

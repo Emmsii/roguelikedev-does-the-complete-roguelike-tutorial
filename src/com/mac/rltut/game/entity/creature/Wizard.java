@@ -15,6 +15,7 @@ public class Wizard extends NPC{
     private int playerSightTime;
     
     private boolean readyToTeleport;
+    private boolean readyToEnd;
     
     protected Wizard(){}
     
@@ -22,6 +23,7 @@ public class Wizard extends NPC{
         super(name, description, sprite, aiType);
         playerSightTime = 0;
         readyToTeleport = false;
+        readyToEnd = false;
     }
 
     @Override
@@ -39,24 +41,34 @@ public class Wizard extends NPC{
     @Override
     public void onTalk(Creature other) {
         
-        //TODO: This will be hard coded for now, eventually I'll come up with a better system for dialogue.
-        if(!readyToTeleport) {
-            say(new ColoredString("Good, you made it."));
-            if(other.z == 0){
-                say(new ColoredString("I can transport you to the next part of the forest. Though I can only take you one way, forwards not back."));
-                say(new ColoredString("Talk to me again when you are ready to move on."));
-            }else say(new ColoredString(getReadyQuestion()));
-            
-            other.setHasPerformedAction(true);
-            readyToTeleport = true;
-        }else{
-            if(Math.random() < 0.1){
-                String hint = getLevelHint(other.world(), other.z + 1);
-                if(hint != null) say(new ColoredString(hint));
-            } 
-            say(new ColoredString(getTransportSaying()));
-            world.moveDown(other);
-            other.notify(new ColoredString("You feel tingly as you are magically transported to another part of the forest.", Colors.BLUE));
+        if(z == world.depth()){
+            if(!readyToEnd){
+                say(new ColoredString("Congratulations! You made it!"));
+                say(new ColoredString("I should probably ask you to kill the boss on this level, but I can't tell if you have or not!"));
+                readyToEnd = true;
+            }else{
+                other.setHasWon(true);
+            }
+        }else {
+            //TODO: This will be hard coded for now, eventually I'll come up with a better system for dialogue.
+            if (!readyToTeleport) {
+                say(new ColoredString("Good, you made it."));
+                if (other.z == 0) {
+                    say(new ColoredString("I can transport you to the next part of the forest. Though I can only take you one way, forwards not back."));
+                    say(new ColoredString("Talk to me again when you are ready to move on."));
+                } else say(new ColoredString(getReadyQuestion()));
+
+                other.setHasPerformedAction(true);
+                readyToTeleport = true;
+            } else {
+                if (Math.random() < 0.1) {
+                    String hint = getLevelHint(other.world(), other.z + 1);
+                    if (hint != null) say(new ColoredString(hint));
+                }
+                say(new ColoredString(getTransportSaying()));
+                world.moveDown(other);
+                other.notify(new ColoredString("You feel tingly as you are magically transported to another part of the forest.", Colors.BLUE));
+            }
         }
     }
     

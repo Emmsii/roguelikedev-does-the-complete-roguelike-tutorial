@@ -39,8 +39,8 @@ public class WorldBuilder {
 
     private World world;
 
-    private final String creatureSpawnBaseCount = "12-20"; 
-    private final String maxCreatureTypesPerLevel = "5-6";
+    private final String creatureSpawnBaseCount = "10-25"; 
+    private final String maxCreatureTypesPerLevel = "4-5";
     
     private float[] creatureSpawnMultiplier;
 
@@ -127,8 +127,7 @@ public class WorldBuilder {
                 Pool<BossSpawnProperty> pool = new Pool<BossSpawnProperty>(random);
                 for (CreatureSpawnProperty c : canSpawn){
                     if (c instanceof BossSpawnProperty){
-                        if(uniquesSpawned.contains(c.creature().name()
-                        )) continue;
+                        if(uniquesSpawned.contains(c.creature().name())) continue;
                         pool.add((BossSpawnProperty) c, c.chance());
                     }
                 } 

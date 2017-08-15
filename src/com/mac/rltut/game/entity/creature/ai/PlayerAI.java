@@ -3,6 +3,7 @@ package com.mac.rltut.game.entity.creature.ai;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.MessageLog;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.Player;
 
 /**
  * Project: complete-rltut
@@ -23,6 +24,13 @@ public class PlayerAI extends CreatureAI{
     @Override
     public void notify(ColoredString message) {
         log.add(message);
+    }
+
+    @Override
+    public boolean onMove(int xp, int yp, int zp) {
+        boolean moved = super.onMove(xp, yp, zp);
+        if(moved) ((Player) creature).stats().addTileTraveled();
+        return moved;
     }
 
     @Override

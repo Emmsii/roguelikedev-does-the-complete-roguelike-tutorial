@@ -43,11 +43,6 @@ public class Game{
         new PlayerAI(player, log);
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
-
-        player.inventory().add((Item) Codex.items.get("sword").entity());
-        for(int i = 0; i < 10; i++){
-            player.inventory().add(SpellbookGenerator.generate(20, new Random()));
-        }
         
         init();
         FileHandler.saveGame(this);

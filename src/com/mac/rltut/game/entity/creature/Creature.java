@@ -60,6 +60,7 @@ public class Creature extends Entity {
     private int gold;
     
     private String causeOfDeath;
+    private boolean hasWon;
     
     private int timeStationary;
     private boolean hasMoved;
@@ -86,6 +87,7 @@ public class Creature extends Entity {
         this.aiType = aiType;
         this.hasMoved = false;
         this.hasPerformedAction = false;
+        this.hasWon = false;
     }
 
     public void setStats(int maxHp, int maxMana, int manaRegenAmount, int manaRegenSpeed, int strength, int defense, int accuracy, int intelligence, int vision, DropTable dropTable){
@@ -299,7 +301,8 @@ public class Creature extends Entity {
                 
         if(itemSpawn != null) {
             if(item instanceof Equippable) ((Equippable) item).unequip(this);
-            doAction(new ColoredString("drop a %s"), item.name());
+            if(item instanceof ItemStack) doAction(new ColoredString("drop %s"), item.name());
+            else doAction(new ColoredString("drop a %s"), item.name());
             inventory().remove(item);
             world.add(itemSpawn.x, itemSpawn.y, itemSpawn.z, item);
             if(itemSpawn.x == x && itemSpawn.y == y && itemSpawn.z == z) notify(new ColoredString("A %s lands at your feet."), item.name());
@@ -456,7 +459,7 @@ public class Creature extends Entity {
         
         while(xp > (int) (Math.pow(level, 1.75) * 25)){
             level++;
-            modifyMaxHp(10);
+            modifyMaxHp(5);
             doAction(new ColoredString("advance to level %d", Colors.GREEN), level);
             if(ai != null) ai.onGainLevel();
         }
@@ -660,6 +663,10 @@ public class Creature extends Entity {
         return this instanceof Player;
     }
         
+    public boolean hasWon(){
+        return hasWon;
+    }
+    
     /* Setter Methods */
     
     public void setAi(CreatureAI ai){
@@ -698,6 +705,10 @@ public class Creature extends Entity {
         this.attackedBy = attackedBy;
         if(aggressionCooldown == 0 && hp > 0 && !isPlayer() && aiType.equalsIgnoreCase("neutral")) doAction(new ColoredString("get angry", Colors.RED));
         aggressionCooldown = 10;
+    }
+    
+    public void setHasWon(boolean hasWon){
+        this.hasWon = hasWon;
     }
     
     @Override
