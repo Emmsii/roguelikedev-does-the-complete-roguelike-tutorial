@@ -1,5 +1,6 @@
 package com.mac.rltut.game.world;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.FieldOfView;
@@ -410,6 +411,12 @@ public class World {
         
     public int exploredPercent(int z){
         return (int) (((float) level(z).exploredTiles() / (float) totalExplorableTiles[z]) * 100);
+    }
+    
+    public float totalExploredPercent(){
+        int total = 0;
+        for(int z = 0; z < depth; z++) total += exploredPercent(z);
+        return (float) total / (float) (depth * 100);
     }
 
     public DayNightController dayNightController(){

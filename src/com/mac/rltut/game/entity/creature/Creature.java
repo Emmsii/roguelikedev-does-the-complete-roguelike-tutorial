@@ -659,6 +659,10 @@ public class Creature extends Entity {
         return immuneTo.contains(effectName.toLowerCase().trim());
     }
     
+    public String causeOfDeath(){
+        return causeOfDeath;
+    }
+    
     public boolean isPlayer(){
         return this instanceof Player;
     }

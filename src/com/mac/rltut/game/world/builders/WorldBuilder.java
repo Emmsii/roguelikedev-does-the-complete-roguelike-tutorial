@@ -55,7 +55,7 @@ public class WorldBuilder {
     }
     
     public WorldBuilder generate(){
-        Log.debug("Generating " + width + "x" + height + "x" + depth + " world [" + seed + "]");
+        Log.info("Generating " + width + "x" + height + "x" + depth + " world [" + seed + "]");
         double start = System.nanoTime();
 
         List<LevelBuilder> levels = new ArrayList<LevelBuilder>();
@@ -81,13 +81,13 @@ public class WorldBuilder {
 
             LevelBuilder level = pool.get();
             level.generate(z);
-            level.saveImage(z);
+//            level.saveImage(z);
             
             creatureSpawnMultiplier[z] = level.creatureSpawnModifier();
             world.setLevel(z, level.build());
         }
 
-        Log.debug("Generated world in " + ((System.nanoTime() - start) / 1000000) + "ms");
+        Log.info("Generated world in " + ((System.nanoTime() - start) / 1000000) + "ms");
         return this;
     }
 
@@ -206,7 +206,7 @@ public class WorldBuilder {
         placeNPCs();        
         
         Log.debug("Spawned " + creaturesSpawned + " creatures total.");
-        Log.debug("Spawned creatures in " + ((System.nanoTime() - start) / 1000000) + "ms");
+        Log.info("Spawned creatures in " + ((System.nanoTime() - start) / 1000000) + "ms");
         return this;
     }
     
@@ -315,7 +315,7 @@ public class WorldBuilder {
             if(world.level(z).chests().size() > 0) Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Chests: " + chestItemSpawnCounts.get(z) + " Total [" + chestSpawnedThisLevel + "]");
         }
         
-        Log.debug("Placed items in " + ((System.nanoTime() - start) / 1000000) + "ms");
+        Log.info("Placed items in " + ((System.nanoTime() - start) / 1000000) + "ms");
         return this;
     }
     

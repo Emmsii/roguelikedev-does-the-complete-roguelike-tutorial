@@ -73,6 +73,10 @@ public class Game{
         for(int level = min; level <= max; level++) world.update(level);
     }
     
+    public SessionTimer sessionTimer(){
+        return sessionTimer;
+    }
+    
     public World world(){
         return world;
     }

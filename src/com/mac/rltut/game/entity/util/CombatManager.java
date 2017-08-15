@@ -7,6 +7,7 @@ import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.NPC;
+import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.*;
 
 /**
@@ -25,6 +26,10 @@ public class CombatManager {
     }
     
     private void commonAttack(Equippable weapon, int damage, String causeOfDeath, ColoredString action, Object ... params){
+        
+        if(attacker instanceof Player) ((Player) attacker).stats().addDamageDealt(damage);
+        if(defender instanceof Player) ((Player) defender).stats().addDamageReceived(damage);
+        
         attacker.doAction(action, params);
         defender.damage(damage, causeOfDeath);
         doEffect(weapon, defender);
@@ -34,14 +39,20 @@ public class CombatManager {
     
     public void meleeAttack(){
         if(attacker.id == defender.id || defender instanceof NPC) return;
+        if(attacker instanceof Player) ((Player) attacker).stats().addAttackAttempt();
+        
         int attackHitRoll = Dice.roll("1d" + attacker.accuracy() + attacker.accuracyBonus());
         int defenderBlockRoll = Dice.roll("1d" + defender.defense() + defender.defenseBonus());
         
         if(attackHitRoll > defenderBlockRoll || attackHitRoll == defenderBlockRoll && Math.random() <= 0.5){
+            if(attacker instanceof Player) ((Player) attacker).stats().addHit();
+            
             Equippable weapon = attacker.getEquippedAt(EquipmentSlot.WEAPON);
             int damage = getDamage("melee");
             commonAttack(weapon, damage, "killed by a " + attacker.name() + (weapon != null ? weapon.name() : ""), new ColoredString("attack" + (!defender.isPlayer() ? " the " : "") + " %s for %d damage"), defender.name(), damage);
         }else{
+            if(attacker instanceof Player) ((Player) attacker).stats().addMiss();
+            if(defender instanceof Player) ((Player) defender).stats().addBlock();
             defender.doAction(new ColoredString("block the attack"));
         }
         defender.setAttackedBy(attacker);
@@ -49,6 +60,7 @@ public class CombatManager {
     
     public void rangedAttack(){
         if(attacker.id == defender.id || defender instanceof NPC) return;
+        if(attacker instanceof Player) ((Player) attacker).stats().addAttackAttempt();
         
         int distance = MathUtil.distance(attacker.x, attacker.y, defender.x, defender.y);
         
@@ -59,10 +71,13 @@ public class CombatManager {
         int defenderBlockRoll = Dice.roll("1d" + defender.defense() + defender.defenseBonus());
         
         if(attackerHitRoll > defenderBlockRoll || attackerHitRoll == defenderBlockRoll && Math.random() <= 0.5){
+            if(attacker instanceof Player) ((Player) attacker).stats().addHit();
             Equippable weapon = attacker.getEquippedAt(EquipmentSlot.WEAPON);
             int damage = getDamage("ranged");
             commonAttack(weapon, damage, "killed by a " + attacker.name() + (weapon != null ? weapon.name() : ""), new ColoredString("fire a %s at " + (!defender.isPlayer() ? "the " : "") + "%s for %d damage"), weapon.name(), defender.name(), damage);
         }else{
+            if(attacker instanceof Player) ((Player) attacker).stats().addMiss();
+            if(defender instanceof Player) ((Player) defender).stats().addBlock();
             defender.doAction(new ColoredString("block the arrow"));
         }
         defender.setAttackedBy(attacker);

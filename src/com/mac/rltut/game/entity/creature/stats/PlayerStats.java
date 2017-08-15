@@ -16,17 +16,46 @@ public class PlayerStats {
     private HashMap<String, Integer> kills;
     private int tilesTraveled;
     private int damageReceived;
-    private int damageTaken;
+    private int damageDealt;
     
     private int attackAttempts;
     private int hits;
     private int misses;
+    private int blocks;
 
     protected PlayerStats() {}
     
     public PlayerStats(Player player){
         this.player = player;
         this.kills = new HashMap<String, Integer>();
+    }
+    
+    public int tilesTraveled(){
+        return tilesTraveled;
+    }
+    
+    public int damageReceived(){
+        return damageReceived;
+    }
+    
+    public int damageDealt(){
+        return damageDealt;
+    }
+    
+    public int attackAttempts(){
+        return attackAttempts;
+    }
+    
+    public int hits(){
+        return hits;
+    }
+    
+    public int misses(){
+        return misses;
+    }
+    
+    public int blocks(){
+        return blocks;
     }
     
     public void addKill(String name){
@@ -36,6 +65,30 @@ public class PlayerStats {
     
     public void addTileTraveled(){
         tilesTraveled++;
+    }
+    
+    public void addDamageReceived(int amount){
+        damageReceived += amount;
+    }
+    
+    public void addDamageDealt(int amount){
+        damageDealt += amount;
+    }
+    
+    public void addAttackAttempt(){
+        attackAttempts++;
+    }
+    
+    public void addHit(){
+        hits++;
+    }
+    
+    public void addMiss(){
+        misses++;
+    }
+    
+    public void addBlock(){
+        blocks++;
     }
     
     public HashMap<String, Integer> kills(){

@@ -3,13 +3,16 @@ package com.mac.rltut.engine;
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Font;
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.graphics.Spritesheet;
 import com.mac.rltut.engine.input.Input;
 import com.mac.rltut.engine.loader.*;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
+import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.screen.Screen;
+import com.mac.rltut.game.screen.menu.LooseScreen;
 import com.mac.rltut.game.screen.menu.StartScreen;
 
 import javax.imageio.ImageIO;
@@ -63,7 +66,7 @@ public class Engine {
     }
 
     public void init(boolean fullscreen, int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title, String version){
-        Log.set(Log.LEVEL_DEBUG);
+        Log.set(Log.LEVEL_INFO);
         FileHandler.init();
         loadData();
         setFont("cheepicus");
@@ -103,8 +106,9 @@ public class Engine {
         panel.setRenderer(renderer);
         renderer.setDefaultFontColor(Colors.WHITE);
         terminal.addKeyListener(input);
+        
         screen = new StartScreen();
-
+        
         render();
     }
 

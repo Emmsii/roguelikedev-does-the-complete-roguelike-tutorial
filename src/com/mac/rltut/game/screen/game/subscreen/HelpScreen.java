@@ -43,8 +43,10 @@ public class HelpScreen extends Screen{
         renderer.write("Examine:      x", xp, yp++);
         renderer.write("Look:         l", xp, yp++);
         renderer.write("Talk:         k", xp, yp++);
+        renderer.write("Throw:        w", xp, yp++);
         yp++;
-        renderer.write("Equipment/Stats Panel: q / y", xp, yp++);
+        renderer.write("Equipment/Stats Panel: q / t", xp, yp++);
+        renderer.write("Menu:         Escape", xp, yp++);
         yp++;
         
         renderer.write("Debug", xp - 1, yp++, Colors.GRAY);

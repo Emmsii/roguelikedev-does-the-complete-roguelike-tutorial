@@ -118,7 +118,7 @@ public class GameScreen extends Screen{
         }
         
         if(subscreen == null && shouldUpdate || player().hasPerformedAction()) game.update();
-        if(player().hp() < 1) return new LooseScreen(player());
+        if(player().hp() < 1) return new LooseScreen(game);
 
         return this;
     }
