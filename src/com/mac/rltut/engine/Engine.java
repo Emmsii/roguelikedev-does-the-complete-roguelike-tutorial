@@ -3,11 +3,11 @@ package com.mac.rltut.engine;
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.file.Config;
 import com.mac.rltut.engine.file.FileHandler;
+import com.mac.rltut.engine.file.loaders.*;
 import com.mac.rltut.engine.graphics.Font;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Spritesheet;
 import com.mac.rltut.engine.input.Input;
-import com.mac.rltut.engine.file.loaders.*;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.window.Panel;
 import com.mac.rltut.engine.window.Terminal;
@@ -112,7 +112,7 @@ public class Engine {
     }
 
     public void input(KeyEvent e){
-        if(e != null && e.getKeyCode() == KeyEvent.VK_F7) saveScreenshot(renderer.pixels(), widthInTiles * 8, heightInTiles * 8);
+        if(e != null && e.getKeyCode() == KeyEvent.VK_F7) saveScreenshot("screenshot_" + System.currentTimeMillis());
         if(screen != null) screen = screen.input(e);
         render();
     }
@@ -123,13 +123,12 @@ public class Engine {
         terminal.repaint();
     }
     
-    private void saveScreenshot(int[] pixels, int w, int h){
-        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        
-        img.setRGB(0, 0, w, h, pixels, 0, w);
+    public void saveScreenshot(String name){
+        BufferedImage img = new BufferedImage(widthInTiles * 8, heightInTiles * 8, BufferedImage.TYPE_INT_RGB);
+        img.setRGB(0, 0, widthInTiles * 8, heightInTiles * 8, renderer.pixels(), 0, widthInTiles * 8);
 
         try {
-            ImageIO.write(img, "png", new File("shot_" + (System.currentTimeMillis() / 1000) + ".png"));
+            ImageIO.write(img, "png", new File(name + ".png"));
             Log.debug("Screenshot saved");
         } catch (IOException e) {
             e.printStackTrace();

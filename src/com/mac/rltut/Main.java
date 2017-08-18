@@ -1,7 +1,7 @@
 package com.mac.rltut;
 
-import com.mac.rltut.engine.file.Config;
 import com.mac.rltut.engine.Engine;
+import com.mac.rltut.engine.file.Config;
 import com.mac.rltut.engine.window.CustomExceptionHandler;
 
 /**

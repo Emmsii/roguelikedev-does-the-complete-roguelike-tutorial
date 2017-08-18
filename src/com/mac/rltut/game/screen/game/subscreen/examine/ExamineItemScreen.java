@@ -1,6 +1,5 @@
 package com.mac.rltut.game.screen.game.subscreen.examine;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.effects.Effect;

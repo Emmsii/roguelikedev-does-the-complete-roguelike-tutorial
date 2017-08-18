@@ -1,10 +1,8 @@
 package com.mac.rltut.game.entity.creature.stats;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.game.entity.creature.Player;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * Project: complete-rltut

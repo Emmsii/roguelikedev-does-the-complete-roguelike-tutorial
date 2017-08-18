@@ -26,9 +26,8 @@ public class CombatManager {
     }
     
     private void commonAttack(Equippable weapon, int damage, String causeOfDeath, ColoredString action, Object ... params){
-        
-        if(attacker instanceof Player) ((Player) attacker).stats().incrementValue("damage_dealt", damage);
-        if(defender instanceof Player) ((Player) defender).stats().incrementValue("damage_received", damage);
+        attacker.incrementStat("damage_dealt", damage);
+        defender.incrementStat("damage_received", damage);
         
         attacker.doAction(action, params);
         defender.damage(damage, causeOfDeath);
@@ -41,18 +40,21 @@ public class CombatManager {
         if(attacker.id == defender.id || defender instanceof NPC) return;
         if(attacker instanceof Player) ((Player) attacker).stats().incrementValue("attack_attempt");
         
-        int attackHitRoll = Dice.roll("1d" + attacker.accuracy() + attacker.accuracyBonus());
-        int defenderBlockRoll = Dice.roll("1d" + defender.defense() + defender.defenseBonus());
+        int maxAttackerRoll = attacker.accuracy() + attacker.accuracyBonus();
+        int maxDefenderRoll = defender.defense() + defender.defenseBonus();
         
+        int attackHitRoll = Dice.roll("1d" + maxAttackerRoll);
+        int defenderBlockRoll = Dice.roll("1d" + maxDefenderRoll);
+
         if(attackHitRoll > defenderBlockRoll || attackHitRoll == defenderBlockRoll && Math.random() <= 0.5){
-            if(attacker instanceof Player) ((Player) attacker).stats().incrementValue("hits");
+            attacker.incrementStat("hits", 1);
             
             Equippable weapon = attacker.getEquippedAt(EquipmentSlot.WEAPON);
             int damage = getDamage("melee");
             commonAttack(weapon, damage, "killed by a " + attacker.name() + (weapon != null ? weapon.name() : ""), new ColoredString("attack" + (!defender.isPlayer() ? " the " : "") + " %s for %d damage"), defender.name(), damage);
         }else{
-            if(attacker instanceof Player) ((Player) attacker).stats().incrementValue("misses");
-            if(defender instanceof Player) ((Player) defender).stats().incrementValue("blocks");
+            attacker.incrementStat("misses", 1);
+            defender.incrementStat("blocks", 1);
             defender.doAction(new ColoredString("block the attack"));
         }
         defender.setAttackedBy(attacker);
@@ -67,17 +69,19 @@ public class CombatManager {
         int distancePenalty = (int) Math.round(((Math.pow(1.3, distance - (attacker.accuracy() / 2))) - (attacker.accuracy() / 2)) * 0.25);//TODO: TEMP MAYBE
         if(distancePenalty < 0) distancePenalty = 0;
         
-        int attackerHitRoll = Dice.roll("1d" + attacker.accuracy() + attacker.accuracyBonus()) - distancePenalty;
-        int defenderBlockRoll = Dice.roll("1d" + defender.defense() + defender.defenseBonus());
+        int attackerHitRoll = Dice.roll("1d" + (attacker.accuracy() + attacker.accuracyBonus())) - distancePenalty;
+        int defenderBlockRoll = Dice.roll("1d" + (defender.defense() + defender.defenseBonus()));
         
         if(attackerHitRoll > defenderBlockRoll || attackerHitRoll == defenderBlockRoll && Math.random() <= 0.5){
-            if(attacker instanceof Player) ((Player) attacker).stats().incrementValue("hits");
+            attacker.incrementStat("hits", 1);
+            
             Equippable weapon = attacker.getEquippedAt(EquipmentSlot.WEAPON);
             int damage = getDamage("ranged");
             commonAttack(weapon, damage, "killed by a " + attacker.name() + (weapon != null ? weapon.name() : ""), new ColoredString("fire a %s at " + (!defender.isPlayer() ? "the " : "") + "%s for %d damage"), weapon.name(), defender.name(), damage);
         }else{
-            if(attacker instanceof Player) ((Player) attacker).stats().incrementValue("miss");
-            if(defender instanceof Player) ((Player) defender).stats().incrementValue("blocks");
+            attacker.incrementStat("misses", 1);
+            defender.incrementStat("blocks", 1);
+            
             defender.doAction(new ColoredString("block the arrow"));
         }
         defender.setAttackedBy(attacker);
@@ -89,7 +93,6 @@ public class CombatManager {
         if(item instanceof Potion){
             Effect effect = ((Consumable) item).effect();
             if(effect != null && Math.random() <= effect.chance()){
-//                new EffectOther(effect).onUseOther(defender);
                 defender.addEffect(effect.newInstance());
             }else{
                 attacker.notify(new ColoredString("the potion shatters on impact but has no effect on the " + defender.name()));
@@ -111,11 +114,7 @@ public class CombatManager {
     private static void doEffect(Equippable equippable, Creature defender){
         if(equippable == null || equippable.effect() == null || defender.hp() < 1) return;
         Effect effect = equippable.effect();
-        Log.debug("DOING EFFECT [" + equippable.effect().name() + "] " + effect.chance());
-        if(Math.random() <= effect.chance()) {
-            Log.debug("HERE!");
-            defender.addEffect(equippable.effect().newInstance());
-        }
+        if(Math.random() <= effect.chance()) defender.addEffect(equippable.effect().newInstance());
     }
     
 }

@@ -1,7 +1,6 @@
 package com.mac.rltut.game.screen.game;
 
 import com.mac.rltut.engine.Engine;
-import com.mac.rltut.engine.file.MorgueFile;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
@@ -110,15 +109,6 @@ public class GameScreen extends Screen{
                     break;
 
                 case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
-                case KeyEvent.VK_F2:
-                    try {
-                        new MorgueFile(game).save();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    break;
             }
 
             if(key.getKeyChar() == '?') subscreen = new HelpScreen();
