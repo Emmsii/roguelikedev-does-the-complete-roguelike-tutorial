@@ -4,7 +4,7 @@ import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.maths.Point;
-import com.mac.rltut.game.entity.creature.stats.PlayerStats;
+import com.mac.rltut.game.entity.creature.stats.Stats;
 
 /**
  * Project: complete-rltut
@@ -13,13 +13,13 @@ import com.mac.rltut.game.entity.creature.stats.PlayerStats;
  */
 public class Player extends Creature{
     
-    private PlayerStats stats;
+    private Stats stats;
 
     protected Player() {}
     
     public Player(String name, Sprite sprite) {
         super(name, "its you", sprite, "player");
-        this.stats = new PlayerStats(this);
+        this.stats = new Stats();
     }
     
     public void tryTalk(){
@@ -34,8 +34,18 @@ public class Player extends Creature{
         
         notify(new ColoredString("There is no one there", Colors.RED));
     }
-    
-    public PlayerStats stats(){
+
+    @Override
+    public void addKill(String name) {
+        stats.addKill(name);
+    }
+
+    @Override
+    public void incrementStat(String key, int amount) {
+        stats.incrementValue(key, amount);
+    }
+
+    public Stats stats(){
         return stats;
     }
     

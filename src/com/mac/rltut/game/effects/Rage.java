@@ -1,6 +1,7 @@
 package com.mac.rltut.game.effects;
 
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -15,7 +16,7 @@ public class Rage extends Effect{
     protected Rage(){}
     
     public Rage(int amount, int duration, float chance){
-        super("rage", "rage", "sacrifice " + amount + " for " + (-amount) + " for " + duration + " turns", duration, chance);
+        super("rage", "rage", new ColoredString("enraged", Colors.RED), "sacrifice " + amount + " for " + (-amount) + " for " + duration + " turns", duration, chance);
         this.amount = amount;
     }
 

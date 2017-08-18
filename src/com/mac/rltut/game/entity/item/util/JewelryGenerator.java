@@ -33,7 +33,7 @@ public class JewelryGenerator {
             }
             if(bonusCount >= 1) equippable.setName("Enhanced " + equippable.name());
         }
-        
+        equippable.setUnique(true);
         return equippable;
     }
     

@@ -38,7 +38,6 @@ public class Creature extends Entity {
          
     private List<Spell> knownSpells;
     private List<Effect> effects;
-    private Set<String> flags;
     private Set<String> immuneTo;
     
     private int maxHp;
@@ -80,7 +79,6 @@ public class Creature extends Entity {
     public Creature(String name, String description, Sprite sprite, int size, String aiType) {
         super(name, description, sprite);
         this.size = size;
-        this.flags = new HashSet<String>();
         this.immuneTo = new HashSet<String>();
         this.knownSpells = new ArrayList<Spell>();
         this.level = 1;
@@ -219,14 +217,14 @@ public class Creature extends Entity {
         if(spell == null) return;
         
         if(mana < spell.manaCost()){
-            notify(new ColoredString("You don't have enough mana to cast %s [%d]", Colors.RED), spell.name(), spell.manaCost());
+            notify(new ColoredString("You don't have enough mana to cast %s [%d]", Colors.RED), StringUtil.capitalizeEachWord(spell.name()), spell.manaCost());
             return;
         }
         
         Creature other = world.creature(xp, yp, z);
         if(spell.effectOther() != null){
             if(other != null){
-                doAction(new ColoredString("cast %s"), spell.name());
+                doAction(new ColoredString("cast %s"), StringUtil.capitalizeEachWord(spell.name()));
                 other.addEffect(spell.effectOther());
             }else doAction(new ColoredString("miss"));
         }
@@ -236,11 +234,11 @@ public class Creature extends Entity {
     }
     
     public void gainXp(Creature other){
-        if(isPlayer()){
-            Player player = (Player) this;
-            player.stats().addKill(other.name);
-        }
-        
+//        if(isPlayer()){
+//            Player player = (Player) this;
+//            player.stats().addKill(other.name);
+//        }
+        addKill(other.name);
         int amount = other.maxHp + other.strength + other.defense - level;
         if(amount > 0) modifyXp(amount);
     }
@@ -360,7 +358,7 @@ public class Creature extends Entity {
     
     public void announce(ColoredString message, Object ... params){
         for(Creature other : getCreaturesWhoSeeMe()){
-            if(other == this) other.notify(new ColoredString(message.text, message.color), params);
+            if(other == this) other.notify(new ColoredString("You " + message.text + ".", message.color), params);
             else other.notify(new ColoredString(String.format("The %s %s.", name, message.text), message.color), params);
         }
     }
@@ -394,6 +392,14 @@ public class Creature extends Entity {
     public boolean canSee(int xp, int yp, int zp) {
         if(ai == null) return false;
         return ai.canSee(xp, yp, zp);
+    }
+    
+    public void addKill(String name){
+        
+    }
+    
+    public void incrementStat(String key, int amount){
+        
     }
     
     /* Modifier Methods */
@@ -473,9 +479,12 @@ public class Creature extends Entity {
     public void addEffect(Effect effect){
         if(effect == null) return;
         if(immuneTo(effect.name().toLowerCase())){
-            announce(new ColoredString("immune to %s"), effect.adjective());
+            announce(new ColoredString("is immune to %s"), effect.adjective());
             return;
         }
+        
+        //Cannot have duplicate effects.
+        if(isEffectedBy(effect)) return;
         effect.start(this);
         effects.add(effect);
     }
@@ -613,6 +622,10 @@ public class Creature extends Entity {
         return inventory;
     }
     
+    public List<Effect> effects(){
+        return effects;
+    }
+    
     public HashMap<EquipmentSlot, Equippable> equippedItems(){
         return equippedItems;
     }
@@ -635,6 +648,11 @@ public class Creature extends Entity {
         return knownSpells.get((int) (Math.random() * knownSpells.size()));
     }
     
+    public boolean isEffectedBy(Effect effect){
+        for(Effect e : effects) if(e.name().equalsIgnoreCase(effect.name())) return true;
+        return false;
+    }
+    
     public String aiType(){
         return aiType;
     }
@@ -650,11 +668,7 @@ public class Creature extends Entity {
     public boolean hasPerformedAction(){
         return hasPerformedAction;
     }
-    
-    public boolean hasFlag(String flag){
-        return flags.contains(flag.toLowerCase().trim());
-    }
-    
+        
     public boolean immuneTo(String effectName){
         return immuneTo.contains(effectName.toLowerCase().trim());
     }
@@ -688,15 +702,7 @@ public class Creature extends Entity {
     public void addKnownSpell(Spell spell){
         knownSpells.add(spell);
     }
-    
-    public void addFlag(String flag){
-        flags.add(flag.toLowerCase().trim());
-    }
-    
-    public void removeFlag(String flag){
-        flags.remove(flag.toLowerCase().trim());
-    }
-        
+         
     public void setHasPerformedAction(boolean hasPerformedAction){
         this.hasPerformedAction = hasPerformedAction;
     }

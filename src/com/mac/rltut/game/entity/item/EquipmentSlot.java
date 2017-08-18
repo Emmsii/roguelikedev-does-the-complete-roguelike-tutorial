@@ -12,6 +12,7 @@ public enum EquipmentSlot {
     public static final EquipmentSlot[] JEWELRY = { NECKLACE, RING };
     public static final EquipmentSlot[] ARMOR = { HEAD, CHEST, HANDS, SHIELD, LEGS, FEET };
     public static final EquipmentSlot[] ALL = { WEAPON, HEAD, CHEST, HANDS, SHIELD, LEGS, FEET, NECKLACE, RING };
+    public static final EquipmentSlot[] ALL_BUT_JEWELRY = { WEAPON, HEAD, CHEST, HANDS, SHIELD, LEGS, FEET };
     
     public static boolean isArmor(EquipmentSlot slot){
          for(EquipmentSlot s : ARMOR) if(s == slot) return true;

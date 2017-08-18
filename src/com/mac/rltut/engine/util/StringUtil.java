@@ -21,11 +21,12 @@ public class StringUtil {
     
     public static String capitalizeFirst(String text){
         if(text == null || text.length() == 0) return text;
-        return text.substring(0, 1).toUpperCase() + text.substring(1, text.length());
+        return clean(text).substring(0, 1).toUpperCase() + text.substring(1, text.length());
     }
     
     public static String capitalizeEachWord(String text){
         if(text == null || text.length() == 0) return text;
+        text = clean(text);
         String[] split = text.split(" ");
         StringBuilder result = new StringBuilder();
         for(String s : split){

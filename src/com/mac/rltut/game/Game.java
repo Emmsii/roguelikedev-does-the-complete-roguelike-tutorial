@@ -1,20 +1,23 @@
 package com.mac.rltut.game;
 
 import com.esotericsoftware.minlog.Log;
-import com.mac.rltut.engine.FileHandler;
+import com.mac.rltut.engine.file.FileHandler;
 import com.mac.rltut.engine.pathfinding.astar.AStar;
+import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.SessionTimer;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
+import com.mac.rltut.game.entity.item.EquipmentSlot;
+import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
+import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 import com.mac.rltut.game.world.World;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
+import java.util.HashMap;
 
 /**
  * Project: complete-rltut
@@ -43,6 +46,29 @@ public class Game{
         new PlayerAI(player, log);
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
+
+        player.inventory().add((Item) Codex.items.get("dagger").entity().newInstance());
+        player.inventory().add((Item) Codex.items.get("dagger").entity().newInstance());
+
+        HashMap<String, Integer> debug = new HashMap<>();
+        int total = 0;
+        for(int i = 0; i < 10000; i++){
+            for(int z = 0; z < world.depth(); z++){
+                Item item = getEquipmentFromSlot(z, true, EquipmentSlot.ALL_BUT_JEWELRY);
+                if(!debug.containsKey(item.name())) debug.put(item.name(), 0);
+                debug.put(item.name(), debug.get(item.name()) + 1);
+                if(item != null && debug.containsKey(item.name())) total++;
+            }
+        }
+        
+        Log.debug("========================================================================");
+        Log.debug("TOTAL: " + total);
+        for(String s : debug.keySet()){
+            int value = debug.get(s);
+            float percent = ((float) value / (float) total) * 100f;
+            Log.debug(s + ": " + value + " (" + String.format("%.2f", percent) + "%)");
+        }
+        Log.debug("========================================================================");
         
         init();
         FileHandler.saveGame(this);
@@ -52,6 +78,29 @@ public class Game{
         Log.debug("New game started " + dateFormat.format(date));
         
         return this;
+    }
+
+    private Item getEquipmentFromSlot(int z, boolean useSpawnChance, EquipmentSlot... slots){
+        Pool<ItemSpawnProperty> pool = new Pool<ItemSpawnProperty>();
+        for (ItemSpawnProperty spawnProperty : Codex.items.values()) {
+            if(spawnProperty.chance() <= 0 || spawnProperty.chanceAtDepth(z) <= 0 || !spawnProperty.canSpawnAtDepth(z)) continue;
+            if (spawnProperty.entity() instanceof Equippable) {
+                Equippable e = (Equippable) spawnProperty.entity();
+                for (EquipmentSlot s : slots) {
+                    if (e.slot() == s) {
+                        pool.add(spawnProperty, useSpawnChance ? spawnProperty.chanceAtDepth(z) : 100);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(pool.isEmpty()) {
+            Log.warn("No equipment spawned on level " + z);
+            return null;
+        }
+
+        return (Item) pool.get().entity().newInstance();
     }
     
     public void init(){

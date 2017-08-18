@@ -1,4 +1,4 @@
-package com.mac.rltut.engine.loader;
+package com.mac.rltut.engine.file.loaders;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
@@ -82,7 +82,7 @@ public class CreatureLoader extends DataLoader{
 
             if(spawnProperty != null) {
                 spawnProperty.creature().setStats(hp, mana, manaRegenAmount, manaRegenSpeed, strength, defense, accuracy, intelligence, vision, drops);
-                if (flags != null) for(String s : flags) spawnProperty.creature().addFlag(s);
+                if(flags != null) for(String s : flags) spawnProperty.creature().addFlag(s);
                 if(immuneTo != null) for(String s : immuneTo) spawnProperty.creature().addImmunity(s);
                 Codex.creatures.put(name.toLowerCase(), spawnProperty);
                 
@@ -102,12 +102,6 @@ public class CreatureLoader extends DataLoader{
         List<Spell> spells = new ArrayList<Spell>();
         for(String s : split) spells.add(Codex.spells.get(s));
         return spells;
-    }
-    
-    private String[] parseStringArray(String input){
-        String[] split = input.split(",");
-        for(int i = 0; i < split.length; i++) split[i] = split[i].toLowerCase().trim();
-        return split;
     }
     
     private DropTable parseDropTable(String input){

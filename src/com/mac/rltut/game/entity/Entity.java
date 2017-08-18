@@ -3,6 +3,9 @@ package com.mac.rltut.game.entity;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.world.World;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Project: complete-rltut
  * PC
@@ -17,12 +20,16 @@ public abstract class Entity implements Cloneable{
     protected Sprite sprite;
     protected World world;
 
+    protected Set<String> flags;
+
     protected Entity() {}
     
     public Entity(String name, String description, Sprite sprite){
         this.name = name;
         this.description = description;
         this.sprite = sprite;
+        this.flags = new HashSet<String>();
+
     }
     
     public void init(int id, World world){
@@ -54,6 +61,18 @@ public abstract class Entity implements Cloneable{
     
     public World world(){
         return world;
+    }
+
+    public boolean hasFlag(String flag){
+        return flags.contains(flag.toLowerCase().trim());
+    }
+
+    public void addFlag(String flag){
+        flags.add(flag.toLowerCase().trim());
+    }
+
+    public void removeFlag(String flag){
+        flags.remove(flag.toLowerCase().trim());
     }
     
     public Entity newInstance(){

@@ -30,7 +30,7 @@ public class BossAI extends CreatureAI{
         if(canSee(target.x, target.y, target.z)) creature.setAttackedBy(target);
                 
         if(creature.attackedBy() != null && creature.aggressionCooldown() > 0){
-            if(canUseSpell(target)) {
+            if(canUseSpell(target) && Math.random() <= 0.6) {
                 List<Spell> spells = creature.availableSpells();
                 creature.castSpell(spells.get((int) (Math.random() * spells.size())), target.x, target.y);
             }else if(canUseRanged(target)){

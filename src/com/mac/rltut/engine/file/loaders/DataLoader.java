@@ -1,4 +1,4 @@
-package com.mac.rltut.engine.loader;
+package com.mac.rltut.engine.file.loaders;
 
 import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.engine.parser.DataParser;
@@ -33,6 +33,12 @@ public abstract class DataLoader {
     private void parse() throws IOException {
         DataParser parser = new DataParser(fileName).parse(new BufferedReader(new InputStreamReader(in)));
         data = parser.dataObjects();
+    }
+
+    protected String[] parseStringArray(String input){
+        String[] split = input.split(",");
+        for(int i = 0; i < split.length; i++) split[i] = split[i].toLowerCase().trim();
+        return split;
     }
     
     protected void loadDefaults(){

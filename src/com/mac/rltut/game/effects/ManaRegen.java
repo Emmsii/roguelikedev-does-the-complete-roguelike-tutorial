@@ -1,6 +1,7 @@
 package com.mac.rltut.game.effects;
 
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -15,7 +16,7 @@ public class ManaRegen extends Effect{
     protected ManaRegen(){}
     
     public ManaRegen(int amount, int duration, float chance){
-        super("regen mana", "mana regen", "regenerate " + amount + " mana per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance);
+        super("regen mana", "mana regen", new ColoredString("regen", Colors.BLUE), "regenerate " + amount + " mana per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance);
         this.amount = amount;
     }
 

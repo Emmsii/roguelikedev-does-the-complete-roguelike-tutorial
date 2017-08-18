@@ -4,6 +4,7 @@ import com.mac.rltut.engine.pathfinding.Path;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.maths.Line;
 import com.mac.rltut.engine.util.maths.Point;
+import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.stats.LevelUpController;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
@@ -65,8 +66,21 @@ public class CreatureAI {
     }
     
     protected boolean canUseSpell(Creature other){
-        if(creature.knownSpells().isEmpty() ) return false;
-        return !creature.availableSpells().isEmpty() && creature.canSee(other);
+        if(creature.knownSpells().isEmpty() || creature.availableSpells().isEmpty() || !creature.canSee(other)) return false;
+        
+        int minMannaRequired = Integer.MAX_VALUE;
+        for(Spell spell : creature.availableSpells()) if(spell.manaCost() < minMannaRequired) minMannaRequired = spell.manaCost();
+        if(creature.mana() < minMannaRequired) return false;
+        
+        boolean canUseSpell = false;
+        for(Spell spell : creature.availableSpells()){
+            if(!other.isEffectedBy(spell.effectOther())){
+                canUseSpell = true;
+                break;
+            }
+        }
+        
+        return canUseSpell;
     }
     
     protected boolean equipBestWeapon(){

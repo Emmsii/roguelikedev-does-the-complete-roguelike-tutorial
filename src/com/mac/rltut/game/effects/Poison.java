@@ -1,6 +1,7 @@
 package com.mac.rltut.game.effects;
 
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -15,7 +16,7 @@ public class Poison extends Effect{
     protected Poison(){}
     
     public Poison(int amount, int duration, float chance){
-        super("poison", "poison", "loose " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance);
+        super("poison", "poison", new ColoredString("poisoned", Colors.GREEN), "loose " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance);
         this.amount = amount;
     }
 

@@ -37,9 +37,9 @@ public class SessionTimer {
         int hours = (int) ((durationMilliseconds() / (1000 * 60 * 60)) % 24);
         String result = "";
         if(hours > 0) result += hours + " hour" + (hours > 1 ? "s" : "") + ",";
-        if(minutes > 0) result += minutes + " minutes and";
-        if(seconds > 0) result += seconds + " seconds";
-        return result;
+        if(minutes > 0) result += " " + minutes + " minutes and";
+        if(seconds > 0) result += " " + seconds + " seconds";
+        return result.trim();
     }
     
     public long start(){

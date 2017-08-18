@@ -2,6 +2,7 @@ package com.mac.rltut.game.screen.game.subscreen;
 
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
+import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
@@ -39,8 +40,6 @@ public class EquipmentStatsScreen extends Screen {
         String def = "DEF";
         String acc = "ACC";
         String intel = "INT";
-
-        String manaRegAmount = String.format("+%d mana every ", player.manaRegenAmount()) + (player.getManaRegenSpeed() > 1 ? player.getManaRegenSpeed() + " turns" : "turn");
         
         str += (player.strengthBonus() > 0 ? " +" + player.strengthBonus() : " +" + player.strengthBonus());
         def += (player.defenseBonus() > 0 ? " +" + player.defenseBonus() : " +" + player.defenseBonus());
@@ -54,8 +53,13 @@ public class EquipmentStatsScreen extends Screen {
         renderer.writeCenter(acc, this.x + ((width / 4) * 3) - 1, yp++);
         renderer.writeCenter(intel, this.x + ((width / 4) * 3) - 1, yp++);
         yp++;
+
+        int manaRegenAmount = player.manaRegenAmount() + player.manaRegenAmountBonus();
+        int manaRegenSpeed = player.getManaRegenSpeed() - player.manaRegenSpeedBonus();
+        if(manaRegenSpeed < 1) manaRegenSpeed = 1;
         
-        if(player.manaRegenAmount() != 0) renderer.writeCenter(manaRegAmount, this.x + (width / 2), yp++);
+        String manaRegAmountStr = String.format("+%d mana every ", manaRegenAmount) + (manaRegenSpeed > 1 ? manaRegenSpeed + " turns" : "turn");
+        if(manaRegenAmount != 0) renderer.writeCenter(manaRegAmountStr, this.x + (width / 2), yp++);
         yp++;
         
         Equippable weapon = player.getEquippedAt(EquipmentSlot.WEAPON); 
@@ -63,6 +67,17 @@ public class EquipmentStatsScreen extends Screen {
             renderer.write(StringUtil.capitalizeEachWord(weapon.name()), xp, yp++);
             if(weapon.damage() != null) renderer.write("Melee: " + weapon.damage(), xp + 1, yp++);
             if(weapon.rangedDamage() != null) renderer.write("Ranged: " + weapon.rangedDamage(), xp + 1, yp++);
+        }
+        yp++;
+        
+        for(Effect effect : player.effects()){
+            String text = effect.statusName().text.toUpperCase();
+            renderer.write(text, xp, yp, effect.statusName().color);
+            xp += text.length() + 1;
+            if(xp > this.x + width - 4){
+                xp = this.x + 2;
+                yp++;
+            }
         }
     }
 }

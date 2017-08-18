@@ -1,5 +1,6 @@
 package com.mac.rltut.game.effects;
 
+import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -11,15 +12,17 @@ public class Effect implements Cloneable{
     
     protected String name;
     protected String adjective;
+    protected ColoredString statusName;
     protected String description;
     protected int duration;
     protected float chance;
 
     protected Effect(){}
     
-    public Effect(String name, String adjective, String description, int duration, float chance) {
+    public Effect(String name, String adjective, ColoredString statusName, String description, int duration, float chance) {
         this.name = name;
         this.adjective = adjective;
+        this.statusName = statusName;
         this.description = description;
         this.duration = duration;
         this.chance = chance;
@@ -55,6 +58,10 @@ public class Effect implements Cloneable{
 
     public String adjective(){
         return adjective;
+    }
+    
+    public ColoredString statusName(){
+        return statusName;
     }
     
     public String description(){

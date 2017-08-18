@@ -416,7 +416,7 @@ public class World {
     public float totalExploredPercent(){
         int total = 0;
         for(int z = 0; z < depth; z++) total += exploredPercent(z);
-        return (float) total / (float) (depth * 100);
+        return ((float) total / (float) (depth * 100)) * 100f;
     }
 
     public DayNightController dayNightController(){

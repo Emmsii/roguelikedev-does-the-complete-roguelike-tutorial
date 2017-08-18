@@ -29,7 +29,7 @@ public class PlayerAI extends CreatureAI{
     @Override
     public boolean onMove(int xp, int yp, int zp) {
         boolean moved = super.onMove(xp, yp, zp);
-        if(moved) ((Player) creature).stats().addTileTraveled();
+        if(moved) ((Player) creature).stats().incrementValue("tiles_traveled");
         return moved;
     }
 

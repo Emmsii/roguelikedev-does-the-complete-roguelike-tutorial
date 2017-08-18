@@ -1,6 +1,7 @@
 package com.mac.rltut.game.effects;
 
 import com.mac.rltut.engine.util.ColoredString;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -13,18 +14,18 @@ public class Freeze extends Effect{
     protected Freeze(){}
     
     public Freeze(int duration, float chance){
-        super("freeze", "freezing", "freeze another creature for " + duration + " turns", duration, chance);
+        super("freeze", "freezing", new ColoredString("frozen", Colors.CYAN), "freeze another creature for " + duration + " turns", duration, chance);
     }
 
     @Override
     public void start(Creature creature) {
         creature.addFlag("frozen");
-        creature.announce(new ColoredString("is frozen"));
+        creature.doAction(new ColoredString("become frozen"));
     }
 
     @Override
     public void stop(Creature creature) {
         creature.removeFlag("frozen");
-        creature.announce(new ColoredString("is no longer frozen"));
+        creature.doAction(new ColoredString("become unfrozen"));
     }
 }

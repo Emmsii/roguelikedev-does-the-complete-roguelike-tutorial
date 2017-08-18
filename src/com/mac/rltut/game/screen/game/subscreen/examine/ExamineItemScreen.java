@@ -1,5 +1,6 @@
 package com.mac.rltut.game.screen.game.subscreen.examine;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.effects.Effect;
@@ -53,7 +54,7 @@ public class ExamineItemScreen extends Screen {
         if(item instanceof Equippable){
             Equippable e = (Equippable) item;
             
-            if(e.damage() != null || e.rangedDamage() != null) renderer.write("Damage", xp, yp++);
+            if(e.damage() != null && !e.damage().equals("0") || e.rangedDamage() != null && e.rangedDamage().equals("0")) renderer.write("Damage", xp, yp++);
             if(e.damage() != null && !e.damage().equals("0")) renderer.write("Melee    " + e.damage(), xp + 1, yp++);
             if(e.rangedDamage() != null && !e.rangedDamage().equals("0")) renderer.write("Ranged   " + e.rangedDamage(), xp + 1, yp++);
             yp++;
@@ -61,7 +62,7 @@ public class ExamineItemScreen extends Screen {
             renderer.write("Slot: " + StringUtil.capitalizeFirst(e.slot().toString().toLowerCase()), xp, yp++);
             yp++;
             
-            if(e.effect() != null){
+            if(e.effect() != null && !e.hasFlag("hide_effects")){
                 Effect effect = e.effect();
                 renderer.write("Effect", xp, yp++);
                 renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(effect.name())) + " (" + effect.chancePercent() + " chance)", xp + 1, yp++);
@@ -69,12 +70,11 @@ public class ExamineItemScreen extends Screen {
                 for(String s : desc) renderer.write(s, xp + 1, yp++);
                 yp++;
             }
-            
         }
         
         if(item instanceof Consumable){
             Consumable consumable = (Consumable) item;
-            if(consumable.effect() != null){
+            if(consumable.effect() != null && !consumable.hasFlag("hide_effects")){
                 yp++;
                 Effect effect = consumable.effect();
                 renderer.write("Effect", xp, yp++);

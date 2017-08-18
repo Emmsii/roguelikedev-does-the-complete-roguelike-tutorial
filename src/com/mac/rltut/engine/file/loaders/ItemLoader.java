@@ -1,4 +1,4 @@
-package com.mac.rltut.engine.loader;
+package com.mac.rltut.engine.file.loaders;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
@@ -36,6 +36,8 @@ public class ItemLoader extends DataLoader {
             int spawnChance = obj.hasToken("spawn_chance") ? obj.getInt("spawn_chance") : -1;
             float depthMultiplier = obj.hasToken("depth_multiplier") ? obj.getFloat("depth_multiplier") : 0f;
 
+            String[] flags = obj.hasToken("flags") ? parseStringArray(obj.getString("flags")) : null;
+            
             if (obj.isType("item")) item = new Item(name, description, sprite);
             else if (obj.isType("item_stack")) {
                 String amount = obj.getString("amount");
@@ -64,9 +66,9 @@ public class ItemLoader extends DataLoader {
                 Log.error("Unknown object type [" + obj.type() + "]");
                 continue;
             }
-
-            spawnProperty = new ItemSpawnProperty(item, spawnLevels, "all", spawnChance, depthMultiplier);
             
+            spawnProperty = new ItemSpawnProperty(item, spawnLevels, "all", spawnChance, depthMultiplier);
+            if(flags != null) for(String s : flags) spawnProperty.entity().addFlag(s);
             if(item != null) Codex.items.put(name, spawnProperty);
             else Log.warn("Cannot add null item into codex. [" + name + "]");
         }

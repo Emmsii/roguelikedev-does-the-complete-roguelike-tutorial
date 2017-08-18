@@ -62,6 +62,7 @@ public class Equippable extends Item{
     }
     
     public void unequip(Creature creature){
+        if(!equipped) return;
         Equippable alreadyEquipped = creature.getEquippedAt(slot);
         if(alreadyEquipped != null) creature.doAction(new ColoredString("unequip a %s"), name);
         creature.setEquippable(slot, null);

@@ -39,6 +39,7 @@ public class WorldBuilder {
 
     private World world;
 
+    private final int minBossSpawnLevel = 5;
     private final String creatureSpawnBaseCount = "10-25"; 
     private final String maxCreatureTypesPerLevel = "4-5";
     
@@ -111,7 +112,10 @@ public class WorldBuilder {
             List<CreatureSpawnProperty> canSpawn = new ArrayList<CreatureSpawnProperty>();
             for(CreatureSpawnProperty c : creatures){
                 if(c.canSpawnOnType(world.level(z).type()) && c.canSpawnAtDepth(z + 1)){
-                    if(c.creature() instanceof Boss) canSpawnBoss = true;
+                    if(c.creature() instanceof Boss){
+                        if(z < minBossSpawnLevel) continue;
+                        canSpawnBoss = true;
+                    }
                     canSpawn.add(c);
                 }
             }
@@ -309,10 +313,10 @@ public class WorldBuilder {
                     chestItemSpawnCounts.get(z).put("gold", chestItemSpawnCounts.get(z).get("gold") + 1);
                 }
                 
-                Log.debug("Chest contains " + inventory.count() + " items");
+//                Log.debug("Chest contains " + inventory.count() + " items");
             }
-//            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Floor:  " + itemSpawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
-            if(world.level(z).chests().size() > 0) Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Chests: " + chestItemSpawnCounts.get(z) + " Total [" + chestSpawnedThisLevel + "]");
+            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Floor:  " + itemSpawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
+//            if(world.level(z).chests().size() > 0) Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Chests: " + chestItemSpawnCounts.get(z) + " Total [" + chestSpawnedThisLevel + "]");
         }
         
         Log.info("Placed items in " + ((System.nanoTime() - start) / 1000000) + "ms");

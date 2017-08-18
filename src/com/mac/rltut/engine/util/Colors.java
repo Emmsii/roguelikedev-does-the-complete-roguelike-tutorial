@@ -16,6 +16,7 @@ public class Colors {
     public static final int ORANGE = 0xF2764D;
     public static final int YELLOW = 0xFFE066;
     public static final int BLUE = 0x247BA0;
+    public static final int CYAN = 0x41AFB5;
     public static final int PURPLE = 0x8724A0;
     public static final int GREEN = 0x7EC15E;
     

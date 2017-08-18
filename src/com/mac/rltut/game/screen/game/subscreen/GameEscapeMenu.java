@@ -1,6 +1,6 @@
 package com.mac.rltut.game.screen.game.subscreen;
 
-import com.mac.rltut.engine.FileHandler;
+import com.mac.rltut.engine.file.FileHandler;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.Game;

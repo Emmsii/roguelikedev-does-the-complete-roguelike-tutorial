@@ -1,10 +1,11 @@
-package com.mac.rltut.engine;
+package com.mac.rltut.engine.file;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.FieldOfView;
@@ -17,7 +18,7 @@ import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.*;
 import com.mac.rltut.game.entity.creature.ai.*;
-import com.mac.rltut.game.entity.creature.stats.PlayerStats;
+import com.mac.rltut.game.entity.creature.stats.Stats;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.item.util.DropTable;
 import com.mac.rltut.game.entity.item.util.Inventory;
@@ -100,7 +101,7 @@ public class FileHandler {
         kryo.register(NpcAI.class);
         kryo.register(NeutralAI.class);
         kryo.register(AggressiveAI.class);
-        kryo.register(PlayerStats.class);
+        kryo.register(Stats.class);
 
         kryo.register(Item.class);
         kryo.register(ItemStack.class);
@@ -272,7 +273,7 @@ public class FileHandler {
         game.init();
         return game;
     }
-    
+
     public static String getFileSize(File file){
         double bytes = file.length();
         double kilobytes = bytes / 1024;

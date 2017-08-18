@@ -1,14 +1,12 @@
 package com.mac.rltut.game.screen.menu;
 
 import com.mac.rltut.engine.Engine;
-import com.mac.rltut.engine.FileHandler;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
-import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;
@@ -41,13 +39,16 @@ public class KillsScreen extends Screen{
     @Override
     public void render(Renderer renderer) {
         renderBorderFill(renderer);
+        
+        int totalKills = 0;
         int xp = 2;
-        int yp = 4;
+        int yp = 8;
 
         List<Creature> creaturesKilled = new ArrayList<Creature>();
 
         for(String kill : player.stats().kills().keySet()) creaturesKilled.add(Codex.creatures.get(kill.toLowerCase()).creature());
-
+//        for(CreatureSpawnProperty spawnProperty : Codex.creatures.values()) creaturesKilled.add(spawnProperty.creature());
+        
         Collections.sort(creaturesKilled, new Comparator<Creature>() {
             @Override
             public int compare(Creature o1, Creature o2) {
@@ -60,16 +61,20 @@ public class KillsScreen extends Screen{
         for(Creature c : creaturesKilled){
             renderer.renderSprite(c.sprite(), xp + (c.size() == 1 ? 1 : 0), yp);
             renderer.write(StringUtil.capitalizeEachWord(c.name()), xp + 3, yp);
-            renderer.write("x" + player.stats().kills().get(c.name()), xp + 3, yp + 1);
+            int kills = player.stats().kills().get(c.name());
+            totalKills += kills;
+            renderer.write("x" + kills, xp + 3, yp + 1);
             
             if(c.size() == 1) yp += 3;
             else yp += 3;
 
-            if(yp >= height - 3){
-                yp = 4;
+            if(yp >= height - 8){
+                yp = 8;
                 xp += 20;
             }
         }
+
+        renderer.write("Total Kills: " + totalKills, 4, 4);
         
         renderer.writeCenter("Press [ESCAPE] to return.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 4, Colors.GRAY);
     }

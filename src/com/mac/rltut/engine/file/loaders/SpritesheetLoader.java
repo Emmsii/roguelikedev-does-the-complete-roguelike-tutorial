@@ -1,4 +1,4 @@
-package com.mac.rltut.engine.loader;
+package com.mac.rltut.engine.file.loaders;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Font;
