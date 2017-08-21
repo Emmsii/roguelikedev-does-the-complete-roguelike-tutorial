@@ -64,6 +64,7 @@ public class FileHandler {
         kryo.register(boolean[].class);
         kryo.register(byte[][].class);
         kryo.register(byte[].class);
+        kryo.register(String[].class);
         
         kryo.register(Creature[][][].class);
         kryo.register(Creature[][].class);
@@ -92,6 +93,8 @@ public class FileHandler {
         kryo.register(NPC.class);
         kryo.register(Wizard.class);
         kryo.register(Boss.class);
+        kryo.register(EvilWizard.class);
+        kryo.register(EvilNpcAi.class);
         kryo.register(CreatureAI.class);
         kryo.register(PlayerAI.class);
         kryo.register(BossAI.class);

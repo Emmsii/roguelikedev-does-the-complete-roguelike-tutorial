@@ -14,6 +14,7 @@ import com.mac.rltut.game.entity.creature.stats.Stats;
 public class Player extends Creature{
     
     private Stats stats;
+    private boolean hasWon;
 
     protected Player() {}
     
@@ -48,5 +49,13 @@ public class Player extends Creature{
     public Stats stats(){
         return stats;
     }
-    
+
+    public void setHasWon(boolean hasWon){
+        this.hasWon = hasWon;
+    }
+
+    public boolean hasWon(){
+        return hasWon;
+    }
+
 }

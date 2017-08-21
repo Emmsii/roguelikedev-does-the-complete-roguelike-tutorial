@@ -9,13 +9,24 @@ import com.mac.rltut.engine.graphics.Sprite;
  */
 public class NPC extends Creature{
 
+    protected boolean canAttack;
+
     protected NPC(){}
     
     public NPC(String name, String description, Sprite sprite, String aiType) {
         super(name, description, sprite, aiType);
+        canAttack = false;
     }
     
     public void onTalk(Creature other){
         
+    }
+
+    public void setCanAttack(boolean canAttack){
+        this.canAttack = canAttack;
+    }
+
+    public boolean canAttack(){
+        return canAttack;
     }
 }

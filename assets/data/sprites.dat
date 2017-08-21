@@ -255,6 +255,11 @@ X=11
 Y=5
 
 [SPRITE]
+NAME=duck
+X=15
+Y=5
+
+[SPRITE]
 NAME=werewolf
 X=0
 Y=6

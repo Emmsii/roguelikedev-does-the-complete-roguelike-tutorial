@@ -6,22 +6,18 @@ import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.codex.Codex;
-import com.mac.rltut.game.entity.creature.Boss;
-import com.mac.rltut.game.entity.creature.Creature;
-import com.mac.rltut.game.entity.creature.NPC;
-import com.mac.rltut.game.entity.creature.Wizard;
+import com.mac.rltut.game.effects.spells.Spell;
+import com.mac.rltut.game.entity.creature.*;
 import com.mac.rltut.game.entity.creature.ai.*;
 import com.mac.rltut.game.entity.item.*;
-import com.mac.rltut.game.entity.item.util.Inventory;
-import com.mac.rltut.game.entity.item.util.JewelryGenerator;
-import com.mac.rltut.game.entity.item.util.PotionBuilder;
-import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
+import com.mac.rltut.game.entity.item.util.*;
 import com.mac.rltut.game.entity.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 import com.mac.rltut.game.world.objects.Chest;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import java.io.File;
 import java.util.*;
@@ -215,23 +211,42 @@ public class WorldBuilder {
     }
     
     private WorldBuilder placeNPCs(){
-        for(int z = 0; z < depth -1 ; z++){
-            Point spawn = new Point();
-            spawn.z = z;
-            do{
-                spawn.x = random.nextInt(width);
-                spawn.y = random.nextInt(height);
-            }while(world.tile(spawn.x, spawn.y, spawn.z).solid() || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
+        for(int z = 0; z < depth; z++){
+//            Point spawn = new Point();
+//            spawn.z = z;
+//            do{
+//                spawn.x = random.nextInt(width);
+//                spawn.y = random.nextInt(height);
+//            }while(world.tile(spawn.x, spawn.y, spawn.z).solid() || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
           
             //Place wizard next to player for convenience
-//            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
-            
-            NPC npc = new Wizard("Wizard McGuffin", "An old man", Sprite.get("wizard"), "npc");
-            npc.setStats(100, 100, 0, 0, 1, 1, 1, 1, 16, null);
-            new NpcAI(npc);
-            world.add(spawn.x, spawn.y, spawn.z, npc);    
+            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
+
+            if(z == depth - 1){
+                NPC npc = new EvilWizard("Evil Wizard McGuffin", "An evil old man", Sprite.get("wizard"), "npc");
+
+                List<Spell> spells = new ArrayList<Spell>();
+                spells.add(Codex.spells.get("fireball"));
+                spells.add(Codex.spells.get("freeze"));
+
+                npc.setStats(50, 200, 1, 1, 3, 7, 7, 20, 15, new DropTable());
+                new EvilNpcAi(npc);
+                world.add(spawn.x, spawn.y, spawn.z, npc);
+                Log.debug("evil wizard at " + spawn);
+
+                Point second = world.randomEmptyPointInRadius(spawn, 3);
+                NPC king = new NPC("Duck", "An odd looking duck", Sprite.get("duck"), "npc");
+                new NpcAI(king);
+                world.add(second.x, second.y, second.z, king);
+                Log.debug("king at " + second);
+            }else {
+                NPC npc = new Wizard("Wizard McGuffin", "An old man", Sprite.get("wizard"), "npc");
+                npc.setStats(100, 100, 0, 0, 1, 1, 1, 1, 16, null);
+                new NpcAI(npc);
+                world.add(spawn.x, spawn.y, spawn.z, npc);
+            }
         }
-        
+
         return this;
     }
     

@@ -416,6 +416,7 @@ public class Creature extends Entity {
             if(!hasFlag("no_corpse")) world.addCorpse(this);
             dropFromDropTable();
             for(int i = inventory().count() - 1; i >= 0; i--) drop(inventory.get(i));
+            if(this instanceof EvilWizard) world.player().setHasWon(true);
         }
     }
     

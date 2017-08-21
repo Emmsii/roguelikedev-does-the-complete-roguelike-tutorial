@@ -13,6 +13,7 @@ import com.mac.rltut.game.screen.game.subscreen.*;
 import com.mac.rltut.game.screen.game.subscreen.examine.ExamineScreen;
 import com.mac.rltut.game.screen.game.subscreen.inventory.*;
 import com.mac.rltut.game.screen.menu.LooseScreen;
+import com.mac.rltut.game.screen.menu.WinScreen;
 import com.mac.rltut.game.world.objects.Chest;
 
 import java.awt.event.KeyEvent;
@@ -114,13 +115,15 @@ public class GameScreen extends Screen{
             if(key.getKeyChar() == '?') subscreen = new HelpScreen();
         }
         
-        if(player().level() > level){
+        if(player().level() > level && !player().hasWon()){
             subscreen = new LevelUpScreen(Engine.instance().widthInTiles() / 2 - 20, Engine.instance().heightInTiles() / 2 - 6, 40, 11, player(), player().level() - level);
             return this;
         }
         
         if(subscreen == null && shouldUpdate || player().hasPerformedAction()) game.update();
+
         if(player().hp() < 1) return new LooseScreen(game);
+        if(player().hasWon()) return new WinScreen(game);
 
         return this;
     }

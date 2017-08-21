@@ -160,7 +160,8 @@ public class World {
             if(tries++ > width * half) return null;
             x = MathUtil.range(point.x - half, point.x + half, new Random());
             y = MathUtil.range(point.y - half, point.y + half, new Random());
-            
+
+            if(x == point.x && y == point.y) continue;
         }while (solid(x, y, point.z) || creature(x, y, point.z) != null || MathUtil.distance(x, y, point.x, point.y) > half);
         
         return new Point(x, y, point.z);

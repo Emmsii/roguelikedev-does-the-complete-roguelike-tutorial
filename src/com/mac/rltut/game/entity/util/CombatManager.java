@@ -37,7 +37,8 @@ public class CombatManager {
     }
     
     public void meleeAttack(){
-        if(attacker.id == defender.id || defender instanceof NPC) return;
+        if(attacker.id == defender.id) return;
+        if(defender instanceof NPC && !((NPC) defender).canAttack()) return;
         if(attacker instanceof Player) ((Player) attacker).stats().incrementValue("attack_attempt");
         
         int maxAttackerRoll = attacker.accuracy() + attacker.accuracyBonus();
@@ -61,7 +62,8 @@ public class CombatManager {
     }
     
     public void rangedAttack(){
-        if(attacker.id == defender.id || defender instanceof NPC) return;
+        if(attacker.id == defender.id) return;
+        if(defender instanceof NPC && !((NPC) defender).canAttack()) return;
         if(attacker instanceof Player) ((Player) attacker).stats().incrementValue("attack_attempt");
         
         int distance = MathUtil.distance(attacker.x, attacker.y, defender.x, defender.y);

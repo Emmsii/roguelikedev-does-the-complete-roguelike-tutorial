@@ -78,8 +78,8 @@ public class PlayerSkillSelectScreen extends Screen{
         
         if(e.getKeyCode() == KeyEvent.VK_ENTER){
 //            player.setStats(30, 100, 2, 20, 1, 1, 1, 1, 16, null);
-            player.setStats(50, 100, 2, 20, strength, defence, accuracy, intelligence, 16, null);
-//            player.setStats(1000, 1000, 2, 20, 99, 99, 99, 99, 16, null);
+//            player.setStats(50, 100, 2, 20, strength, defence, accuracy, intelligence, 16, null);
+            player.setStats(1000, 1000, 2, 20, 99, 99, 99, 99, 16, null);
             return new LoadingScreen(player, new WorldBuilder(92, 92, 20, System.currentTimeMillis()));
         }
         

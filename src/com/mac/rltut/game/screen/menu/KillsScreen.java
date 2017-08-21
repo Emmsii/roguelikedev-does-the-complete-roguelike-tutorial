@@ -46,7 +46,10 @@ public class KillsScreen extends Screen{
 
         List<Creature> creaturesKilled = new ArrayList<Creature>();
 
-        for(String kill : player.stats().kills().keySet()) creaturesKilled.add(Codex.creatures.get(kill.toLowerCase()).creature());
+        for(String kill : player.stats().kills().keySet()){
+            if(!Codex.creatures.containsKey(kill)) continue;
+            creaturesKilled.add(Codex.creatures.get(kill.toLowerCase()).creature());
+        }
 //        for(CreatureSpawnProperty spawnProperty : Codex.creatures.values()) creaturesKilled.add(spawnProperty.creature());
         
         Collections.sort(creaturesKilled, new Comparator<Creature>() {
