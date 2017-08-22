@@ -200,7 +200,7 @@ public class WorldBuilder {
                 }
             }
             creaturesSpawned += spawnedThisLevel;
-            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] " + spawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
+//            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] " + spawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
         }
         
         placeNPCs();        
@@ -212,15 +212,15 @@ public class WorldBuilder {
     
     private WorldBuilder placeNPCs(){
         for(int z = 0; z < depth; z++){
-//            Point spawn = new Point();
-//            spawn.z = z;
-//            do{
-//                spawn.x = random.nextInt(width);
-//                spawn.y = random.nextInt(height);
-//            }while(world.tile(spawn.x, spawn.y, spawn.z).solid() || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
+            Point spawn = new Point();
+            spawn.z = z;
+            do{
+                spawn.x = random.nextInt(width);
+                spawn.y = random.nextInt(height);
+            }while(world.tile(spawn.x, spawn.y, spawn.z).solid() || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
           
             //Place wizard next to player for convenience
-            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
+//            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
 
             if(z == depth - 1){
                 NPC npc = new EvilWizard("Evil Wizard McGuffin", "An evil old man", Sprite.get("wizard"), "npc");
@@ -232,13 +232,11 @@ public class WorldBuilder {
                 npc.setStats(50, 200, 1, 1, 3, 7, 7, 20, 15, new DropTable());
                 new EvilNpcAi(npc);
                 world.add(spawn.x, spawn.y, spawn.z, npc);
-                Log.debug("evil wizard at " + spawn);
 
                 Point second = world.randomEmptyPointInRadius(spawn, 3);
                 NPC king = new NPC("Duck", "An odd looking duck", Sprite.get("duck"), "npc");
                 new NpcAI(king);
                 world.add(second.x, second.y, second.z, king);
-                Log.debug("king at " + second);
             }else {
                 NPC npc = new Wizard("Wizard McGuffin", "An old man", Sprite.get("wizard"), "npc");
                 npc.setStats(100, 100, 0, 0, 1, 1, 1, 1, 16, null);
@@ -330,7 +328,7 @@ public class WorldBuilder {
                 
 //                Log.debug("Chest contains " + inventory.count() + " items");
             }
-            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Floor:  " + itemSpawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
+//            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Floor:  " + itemSpawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
 //            if(world.level(z).chests().size() > 0) Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Chests: " + chestItemSpawnCounts.get(z) + " Total [" + chestSpawnedThisLevel + "]");
         }
         

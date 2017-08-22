@@ -50,26 +50,26 @@ public class Game{
         player.inventory().add((Item) Codex.items.get("dagger").entity().newInstance());
         player.inventory().add((Item) Codex.items.get("dagger").entity().newInstance());
 
-        HashMap<String, Integer> debug = new HashMap<>();
-        int total = 0;
-        for(int i = 0; i < 10000; i++){
-            for(int z = 0; z < world.depth(); z++){
-                Item item = getEquipmentFromSlot(z, true, EquipmentSlot.ALL_BUT_JEWELRY);
-                if(!debug.containsKey(item.name())) debug.put(item.name(), 0);
-                debug.put(item.name(), debug.get(item.name()) + 1);
-                if(item != null && debug.containsKey(item.name())) total++;
-            }
-        }
-        
-        Log.debug("========================================================================");
-        Log.debug("TOTAL: " + total);
-        for(String s : debug.keySet()){
-            int value = debug.get(s);
-            float percent = ((float) value / (float) total) * 100f;
-            Log.debug(s + ": " + value + " (" + String.format("%.2f", percent) + "%)");
-        }
-        Log.debug("========================================================================");
-        
+//        HashMap<String, Integer> debug = new HashMap<>();
+//        int total = 0;
+//        for(int i = 0; i < 10000; i++){
+//            for(int z = 0; z < world.depth(); z++){
+//                Item item = getEquipmentFromSlot(z, true, EquipmentSlot.ALL_BUT_JEWELRY);
+//                if(!debug.containsKey(item.name())) debug.put(item.name(), 0);
+//                debug.put(item.name(), debug.get(item.name()) + 1);
+//                if(item != null && debug.containsKey(item.name())) total++;
+//            }
+//        }
+//        
+//        Log.debug("========================================================================");
+//        Log.debug("TOTAL: " + total);
+//        for(String s : debug.keySet()){
+//            int value = debug.get(s);
+//            float percent = ((float) value / (float) total) * 100f;
+//            Log.debug(s + ": " + value + " (" + String.format("%.2f", percent) + "%)");
+//        }
+//        Log.debug("========================================================================");
+//        
         init();
         FileHandler.saveGame(this);
 
