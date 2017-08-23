@@ -24,7 +24,7 @@ public class WinScreen extends EndScreen{
         xp = Engine.instance().widthInTiles() / 2;
         yp = (int) (Engine.instance().heightInTiles() * 0.12f);
 
-        renderer.renderSprite(Sprite.get("corpse"), xp, yp - 2);
+        renderer.renderSprite(Sprite.get("duck"), xp, yp - 2);
         
         renderer.writeCenter("You won!", xp, yp++);
         yp++;

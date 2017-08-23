@@ -7,6 +7,7 @@ import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.SessionTimer;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.codex.Codex;
+import com.mac.rltut.game.effects.Poison;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
@@ -47,29 +48,11 @@ public class Game{
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
 
-        player.inventory().add((Item) Codex.items.get("dagger").entity().newInstance());
-        player.inventory().add((Item) Codex.items.get("dagger").entity().newInstance());
-
-//        HashMap<String, Integer> debug = new HashMap<>();
-//        int total = 0;
-//        for(int i = 0; i < 10000; i++){
-//            for(int z = 0; z < world.depth(); z++){
-//                Item item = getEquipmentFromSlot(z, true, EquipmentSlot.ALL_BUT_JEWELRY);
-//                if(!debug.containsKey(item.name())) debug.put(item.name(), 0);
-//                debug.put(item.name(), debug.get(item.name()) + 1);
-//                if(item != null && debug.containsKey(item.name())) total++;
-//            }
-//        }
-//        
-//        Log.debug("========================================================================");
-//        Log.debug("TOTAL: " + total);
-//        for(String s : debug.keySet()){
-//            int value = debug.get(s);
-//            float percent = ((float) value / (float) total) * 100f;
-//            Log.debug(s + ": " + value + " (" + String.format("%.2f", percent) + "%)");
-//        }
-//        Log.debug("========================================================================");
-//        
+        player.inventory().add((Item) Codex.items.get("meat chunk").entity().newInstance());
+        player.addEffect(new Poison(10, 10, 1f));
+        
+        log.add("You've drawn the short straw I'm afraid. You need to travel through the forest to rescue the king!");
+        
         init();
         FileHandler.saveGame(this);
 

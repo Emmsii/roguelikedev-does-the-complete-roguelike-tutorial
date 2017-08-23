@@ -6,6 +6,7 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.game.GameScreen;
+import com.mac.rltut.game.world.tile.Tile;
 
 import java.awt.event.KeyEvent;
 
@@ -36,10 +37,12 @@ public class StartScreen extends Screen{
                     return super.onYes();
                 }
             };
-            else if(e.getKeyCode() == KeyEvent.VK_C) System.exit(0);
+            else if(e.getKeyCode() == KeyEvent.VK_C) return new AboutScreen();
+            else if(e.getKeyCode() == KeyEvent.VK_D) System.exit(0);
         }else{
             if(e.getKeyCode() == KeyEvent.VK_A) return new PlayerNameScreen(12);
-            else if(e.getKeyCode() == KeyEvent.VK_B) System.exit(0);
+            else if(e.getKeyCode() == KeyEvent.VK_B) return new AboutScreen();
+            else if(e.getKeyCode() == KeyEvent.VK_C) System.exit(0);
         }
 
         gameExists = FileHandler.gameSaveExists();
@@ -50,17 +53,19 @@ public class StartScreen extends Screen{
     @Override
     public void render(Renderer renderer) {
         renderBorderFill(renderer);
-        
-        renderer.writeCenter("Roguelikedev Tutorial Follow Along Week 9", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3, Colors.GRAY);
-        renderer.writeCenter(Engine.instance().version(), Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3 + 1, Colors.darken(Colors.GRAY, 0.8f));
+
+        renderer.writeCenter(Engine.instance().title(), Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3, Colors.WHITE);
+        renderer.write(Engine.instance().version(), 1, Engine.instance().heightInTiles() - 2, Colors.darken(Colors.GRAY, 0.8f));
         
         if(gameExists) {
             renderer.write("[a] Continue", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2);
             renderer.write("[b] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 2);
-            renderer.write("[c] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 3);
+            renderer.write("[c] About", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 4);
+            renderer.write("[d] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 5);
         }else{
             renderer.write("[a] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2);
-            renderer.write("[b] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 1);
+            renderer.write("[b] About", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 2);
+            renderer.write("[c] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 3);
         }
         
         if(!Engine.instance().version().equals(saveVersion) && saveVersion != null){

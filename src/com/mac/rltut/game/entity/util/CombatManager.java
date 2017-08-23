@@ -52,7 +52,7 @@ public class CombatManager {
             
             Equippable weapon = attacker.getEquippedAt(EquipmentSlot.WEAPON);
             int damage = getDamage("melee");
-            commonAttack(weapon, damage, "killed by a " + attacker.name() + (weapon != null ? weapon.name() : ""), new ColoredString("attack" + (!defender.isPlayer() ? " the " : "") + " %s for %d damage"), defender.name(), damage);
+            commonAttack(weapon, damage, "a " + attacker.name() + (weapon != null ? weapon.name() : ""), new ColoredString("attack" + (!defender.isPlayer() ? " the" : "") + " %s for %d damage"), defender.name(), damage);
         }else{
             attacker.incrementStat("misses", 1);
             defender.incrementStat("blocks", 1);
@@ -79,7 +79,7 @@ public class CombatManager {
             
             Equippable weapon = attacker.getEquippedAt(EquipmentSlot.WEAPON);
             int damage = getDamage("ranged");
-            commonAttack(weapon, damage, "killed by a " + attacker.name() + (weapon != null ? weapon.name() : ""), new ColoredString("fire a %s at " + (!defender.isPlayer() ? "the " : "") + "%s for %d damage"), weapon.name(), defender.name(), damage);
+            commonAttack(weapon, damage, "a " + attacker.name() + (weapon != null ? weapon.name() : ""), new ColoredString("fire a %s at " + (!defender.isPlayer() ? "the " : "") + "%s for %d damage"), weapon.name(), defender.name(), damage);
         }else{
             attacker.incrementStat("misses", 1);
             defender.incrementStat("blocks", 1);

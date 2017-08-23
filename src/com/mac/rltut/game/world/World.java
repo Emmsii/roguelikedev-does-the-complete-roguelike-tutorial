@@ -225,7 +225,7 @@ public class World {
             Point p = points.remove(0);
             checked.add(p);
 
-            if(solid(p.x, p.y, p.z)) continue;
+            if(solid(p.x, p.y, p.z) || mapObject(p.x, p.y, p.z) != null) continue;
             if(item(p.x, p.y, p.z) == null) return p;
             else{
                 List<Point> neighbours = p.neighboursCardinal();

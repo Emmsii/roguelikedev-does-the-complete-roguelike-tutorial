@@ -49,10 +49,6 @@ public class HelpScreen extends Screen{
         renderer.write("Menu:         Escape", xp, yp++);
         yp++;
         
-        renderer.write("Debug", xp - 1, yp++, Colors.GRAY);
-        yp++;
-        renderer.write("Move Up/Down Levels: Page Up / Down", xp, yp++);
-        renderer.write("Toggle FOV: F1", xp, yp++);
         
     }
 }

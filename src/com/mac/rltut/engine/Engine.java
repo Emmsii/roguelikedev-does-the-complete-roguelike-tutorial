@@ -15,6 +15,7 @@ import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.menu.StartScreen;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -102,6 +103,8 @@ public class Engine {
 
         if(fullscreen && device != null) device.setFullScreenWindow(terminal);
 
+        terminal.setIcon(new ImageIcon(Engine.class.getClassLoader().getResource("textures/icon.png")));
+        
         panel.setRenderer(renderer);
         renderer.setDefaultFontColor(Colors.WHITE);
         terminal.addKeyListener(input);

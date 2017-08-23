@@ -36,6 +36,7 @@ public class Config {
             fullscreen = Boolean.parseBoolean((String) properties.get("fullscreen"));
             monitor = Integer.parseInt((String) properties.get("monitor"));
             
+            inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

@@ -34,18 +34,18 @@ public class Equippable extends Item{
     public void equip(Creature creature){
         Equippable alreadyEquipped = creature.getEquippedAt(slot);
         if(alreadyEquipped != null && alreadyEquipped != this) creature.unequip(creature.getEquippedAt(slot));
-                
-        if(isEquipped()){
-            unequip(creature);
-            return;
-        }
-        
+
         if(blockedSlot != null){
             Equippable blocked = creature.getEquippedAt(blockedSlot);
             if(blocked != null){
                 creature.notify(new ColoredString("You cannot equip a %s with a %s equipped.", Colors.ORANGE), StringUtil.capitalizeEachWord(name), StringUtil.capitalizeEachWord(blocked.name()));
                 return;
             }
+        }
+
+        if(isEquipped()){
+            unequip(creature);
+            return;
         }
         
         for (Equippable equipped : creature.equippedItems().values()) {

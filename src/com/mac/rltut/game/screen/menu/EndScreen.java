@@ -6,6 +6,8 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.Game;
+import com.mac.rltut.game.codex.Codex;
+import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.stats.Stats;
 import com.mac.rltut.game.screen.Screen;
@@ -64,6 +66,9 @@ public abstract class EndScreen extends Screen{
         renderer.writeCenter("You survived for " + days + " day" + (days > 1 ? "s" : "") + " (" + game.world().dayNightController().tick + " turns).", xp, yp++);
         yp++;
 
+        renderer.writeCenter("Final Score: " + calculateScore(), xp, yp++);
+        yp++;
+        
         Date startDate = new Date(game.sessionTimer().start());
         Date endDate = new Date(game.sessionTimer().end());
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd MMM yyyy");
@@ -89,5 +94,20 @@ public abstract class EndScreen extends Screen{
             Engine.instance().saveScreenshot("morgue/" + player.name() + "_" + dateFormat.format(System.currentTimeMillis()));
             screenshotSaved = true;
         }
+    }
+    
+    private int calculateScore(){
+        int score = 0;
+        
+        score += player.gold() * 2.5;
+        score += Math.pow(player.stats().getValue("tiles_traveled"), 0.9) / 2;
+        
+        for(String name : player.stats().kills().keySet()){
+            Creature kill = Codex.creatures.get(name).creature();
+            int total = kill.strength() + kill.defense() + kill.accuracy() + (kill.maxHp() / 2) * 5;
+            score += total; 
+        }
+        
+        return score;
     }
 }

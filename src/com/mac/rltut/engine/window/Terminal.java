@@ -34,6 +34,10 @@ public class Terminal extends JFrame {
     public Panel panel(){
         return panel;
     }
+    
+    public void setIcon(ImageIcon icon){
+        this.setIconImage(icon.getImage());
+    }
 
     private boolean isWindows(){
         return OS.indexOf("win") >= 0;

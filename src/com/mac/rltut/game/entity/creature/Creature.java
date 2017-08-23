@@ -406,7 +406,7 @@ public class Creature extends Entity {
     
     public void modifyHp(int amount, String causeOfDeath){
         if(hp < 1) return;
-        this.causeOfDeath = causeOfDeath;
+        this.causeOfDeath = "killed by " + causeOfDeath;
         hp += amount;
                 
         if(hp > maxHp) hp = maxHp;
