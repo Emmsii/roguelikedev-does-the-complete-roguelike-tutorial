@@ -14,7 +14,6 @@ import com.mac.rltut.engine.window.CustomExceptionHandler;
 public class Main {
 
     public static final String TITLE = "Forest Roguelike";
-    public static final String VERSION = "v1.0.0";
     public static final int WIDTH = 80;
     public static final int HEIGHT = 45;
     public static final int TILE_SIZE = 8;
@@ -24,8 +23,15 @@ public class Main {
     public static void main(String[] args){
         Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler("logs/"));
         Config.load();
-        String saveVersion = FileHandler.gameVersion();
-        if(saveVersion == null || saveVersion.equals(VERSION)) Config.save();
+        
+        String gameVersion = FileHandler.gameVersion();
+        String saveVersion = FileHandler.saveGameVersion();
+        if(gameVersion == null){
+            Log.error("Missing version.txt file.");
+            System.exit(-1);
+        }
+                
+        if(saveVersion == null || saveVersion.equals(gameVersion)) Config.save();
         
         int scale = Config.scale;
         if(scale < 0){
@@ -38,6 +44,6 @@ public class Main {
             scale = 16;
         }
         
-        Engine.instance().init(Config.fullscreen, WIDTH, HEIGHT, scale, TILE_SIZE, TITLE, VERSION);
+        Engine.instance().init(Config.fullscreen, WIDTH, HEIGHT, scale, TILE_SIZE, TITLE, gameVersion);
     }
 }

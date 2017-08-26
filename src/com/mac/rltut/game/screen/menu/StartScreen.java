@@ -21,7 +21,7 @@ public class StartScreen extends Screen{
     
     public StartScreen(){
         gameExists = FileHandler.gameSaveExists();
-        saveVersion = FileHandler.gameVersion();
+        saveVersion = FileHandler.saveGameVersion();
     }
     
     @Override
@@ -45,7 +45,7 @@ public class StartScreen extends Screen{
         }
 
         gameExists = FileHandler.gameSaveExists();
-        saveVersion = FileHandler.gameVersion();
+        saveVersion = FileHandler.saveGameVersion();
         return this;
     }
 

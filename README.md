@@ -4,7 +4,7 @@
 
 At [r/roguelikedev](https://www.reddit.com/r/roguelikedev/) we're doing a dev-along following [The Complete Roguelike Tutorial](http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python%2Blibtcod).
 
-**The dev-along is over! You can find my final write up and screenshots [here](https://www.reddit.com/r/roguelikedev/comments/6v8kp5/roguelikedev_does_the_complete_python_tutorial/dlyzb7p/?utm_content=permalink&utm_medium=front&utm_source=reddit&utm_name=roguelikedev).**
+**The dev-along is over! [Download v1.0.0 on itch.io](https://emmsii.itch.io/forest-roguelike). You can find my final write up and screenshots [here](https://www.reddit.com/r/roguelikedev/comments/6v8kp5/roguelikedev_does_the_complete_python_tutorial/dlyzb7p/?utm_content=permalink&utm_medium=front&utm_source=reddit&utm_name=roguelikedev).**
 
 I will be posting the final release to itch.io soon.
 

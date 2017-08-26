@@ -52,8 +52,6 @@ public class FileHandler {
     private static boolean initialized = false;
     
     public static void init(){
-        Log.info("USER: " + USER_FOLDER);
-        
         kryo = new Kryo();
         kryo.setRegistrationRequired(true);
         kryo.setDefaultSerializer(CompatibleFieldSerializer.class);
@@ -163,7 +161,7 @@ public class FileHandler {
         if(!file.exists()) file.mkdirs();
     }
         
-    public static String gameVersion(){
+    public static String saveGameVersion(){
         if(!gameSaveExists()) return null;
         String version = null;
         
@@ -189,6 +187,27 @@ public class FileHandler {
             }
         }
         
+        return version;
+    }
+    
+    public static String gameVersion(){
+        File file = new File("version.txt");
+        if(!file.exists()) return null;
+
+        String version = null;
+        
+        try {
+            FileReader fileReader = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fileReader);
+            version = reader.readLine();
+            fileReader.close();
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return version;
     }
     
