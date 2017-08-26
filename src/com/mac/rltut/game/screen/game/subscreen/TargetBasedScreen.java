@@ -31,7 +31,6 @@ public abstract class TargetBasedScreen extends Screen {
 
     @Override
     public void render(Renderer renderer) {
-        
         for(Point p : new Line(sx, sy, sx + xp, sy + yp)){
             if(p.x < 0 || p.y < 0 || p.x >= width - 1 || p.y >= height - 1) continue;
             if(p.x != sx || p.y != sy) {

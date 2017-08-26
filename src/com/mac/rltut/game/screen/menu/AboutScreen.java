@@ -4,7 +4,6 @@ import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.screen.Screen;
-import sun.security.krb5.internal.crypto.Des;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

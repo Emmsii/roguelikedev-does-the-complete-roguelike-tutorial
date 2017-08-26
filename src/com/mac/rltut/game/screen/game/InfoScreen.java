@@ -37,7 +37,7 @@ public class InfoScreen extends Screen{
         String acc = String.format("ACC: %d", player.accuracy());
         String intel = String.format("INT: %d", player.intelligence());
         String level = String.format("Level: %d", player.level());
-        String exp = String.format("XP: %d/%d", player.xp(), (int) (Math.pow(player.level(), 1.75) * 25));
+        String exp = String.format("XP: %d/%d", player.xp(), (int) (Math.pow(player.level(), 1.75) * 35));
         String time = String.format("Day: %d (%d)", player.world().dayNightController().day(), player.world().dayNightController().tick);
  
         int xp = this.x + 2;

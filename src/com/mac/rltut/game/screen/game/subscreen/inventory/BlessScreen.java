@@ -12,11 +12,11 @@ import com.mac.rltut.game.screen.Screen;
  * PC
  * Created by Matt on 25/07/2017 at 11:15 AM.
  */
-public class ApplySpellbookScreen extends InventoryBasedScreen{
+public class BlessScreen extends InventoryBasedScreen{
     
     private Spellbook spellbook;
     
-    public ApplySpellbookScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Player player, Spellbook spellbook, Screen lastScreen) {
+    public BlessScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Player player, Spellbook spellbook, Screen lastScreen) {
         super(x, y, w, h, title, inventory, player, lastScreen);
         this.spellbook = spellbook;
         this.lastScreen = lastScreen;

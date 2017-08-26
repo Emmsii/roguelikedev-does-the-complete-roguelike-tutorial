@@ -51,7 +51,7 @@ public class LogScreen extends Screen{
             ColoredString entry = log.getEntries().get(index);
             List<String> lines = StringUtil.lineWrap(entry.text, width - 2, true);
             for(int j = lines.size() - 1; j >= 0; j--) linesToRender.add(new ColoredString(lines.get(j), entry.color));
-            if(lines.size() > 1 && i < log.newEntries()) multiLineEntries += lines.size() - 1;
+            if(lines.size() > 1 && i < log.newEntries()) multiLineEntries += lines.size() + 1;
             if(linesToRender.size() >= messageCount) break; 
         }
                     
@@ -61,6 +61,6 @@ public class LogScreen extends Screen{
             renderer.write(entry.text, x + 1, y + height - 2 - i, color);
         }
         
-//        log.resetNewEntryCount();
+        renderBorder(renderer); //Temp fix for multi line entries rendering over border
     }
 }

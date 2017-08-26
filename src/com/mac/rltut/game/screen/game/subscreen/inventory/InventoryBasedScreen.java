@@ -1,6 +1,7 @@
 package com.mac.rltut.game.screen.game.subscreen.inventory;
 
 import com.mac.rltut.engine.graphics.Renderer;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Equippable;
@@ -67,7 +68,10 @@ public abstract class InventoryBasedScreen extends Screen{
         String name = StringUtil.capitalizeEachWord(StringUtil.clean(item.name()));
         if(item instanceof Equippable){
             Equippable e = (Equippable) item;
-            if(e.isEquipped()) renderer.write("[EQUIPPED]", this.x + this.width - 12, yp);
+            if(e.isEquipped()){
+                String str = name.length() > 25 ? "EQPT" : "EQUIPPED";
+                renderer.write("[" + str + "]", this.x + this.width - (str.length() + 4), yp, Colors.GRAY);
+            }
         }
         if(item instanceof ItemStack){
             ItemStack stack = (ItemStack) item;

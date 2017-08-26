@@ -31,9 +31,11 @@ public class JewelryGenerator {
                 bonusCount++;
                 if (random.nextFloat() >= 0.15) break;
             }
-            if(bonusCount >= 1) equippable.setName("Enhanced " + equippable.name());
+            if(bonusCount >= 1){
+                equippable.setName("Blessed " + equippable.name());
+                equippable.setUnique(true);
+            }
         }
-        equippable.setUnique(true);
         return equippable;
     }
     

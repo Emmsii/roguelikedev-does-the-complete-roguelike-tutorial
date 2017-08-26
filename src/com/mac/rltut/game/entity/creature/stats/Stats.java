@@ -31,7 +31,7 @@ public class Stats {
     public int getValue(String key){
         if(!values.containsKey(key)){
             Log.warn("Stats do not contain the key [" + key + "]");
-            return -1;
+            return 0;
         }
         return values.get(key);
     }

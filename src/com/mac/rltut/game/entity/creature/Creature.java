@@ -1,5 +1,6 @@
 package com.mac.rltut.game.entity.creature;
 
+import com.mac.rltut.engine.file.Config;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
@@ -131,7 +132,7 @@ public class Creature extends Entity {
     }
     
     private void regenMana(){
-        int speed = manaRegenSpeed + manaRegenSpeedBonus();
+        int speed = manaRegenSpeed - manaRegenSpeedBonus();
         if(speed == 0) return;
         if(tick % speed == 0) modifyMana(manaRegenAmount() + manaRegenAmountBonus());
     }
@@ -234,12 +235,9 @@ public class Creature extends Entity {
     }
     
     public void gainXp(Creature other){
-//        if(isPlayer()){
-//            Player player = (Player) this;
-//            player.stats().addKill(other.name);
-//        }
         addKill(other.name);
         int amount = other.maxHp + other.strength + other.defense - level;
+        if(other instanceof Boss) amount *= 5;
         if(amount > 0) modifyXp(amount);
     }
     
@@ -289,7 +287,7 @@ public class Creature extends Entity {
 
             if (item instanceof Equippable) {
                 Equippable e = (Equippable) item;
-                if (getEquippedAt(e.slot()) == null) e.equip(this);
+                if (getEquippedAt(e.slot()) == null && Config.autoEquip) e.equip(this);
             }
         }
     }
@@ -464,9 +462,10 @@ public class Creature extends Entity {
         
         notify(new ColoredString("You %s %d xp.", amount < 0 ? Colors.RED : Colors.GREEN), amount < 0 ? "lose" : "gain", amount);
         
-        while(xp > (int) (Math.pow(level, 1.75) * 25)){
+        while(xp > (int) (Math.pow(level, 1.75) * 35)){
             level++;
             modifyMaxHp(5);
+            modifyHp((int) (maxHp * 0.2), "too much health");
             doAction(new ColoredString("advance to level %d", Colors.GREEN), level);
             if(ai != null) ai.onGainLevel();
         }

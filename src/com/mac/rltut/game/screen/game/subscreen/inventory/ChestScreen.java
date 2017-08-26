@@ -1,8 +1,10 @@
 package com.mac.rltut.game.screen.game.subscreen.inventory;
 
+import com.mac.rltut.engine.file.Config;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Player;
+import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
 import com.mac.rltut.game.screen.Screen;
@@ -48,8 +50,14 @@ public class ChestScreen extends InventoryBasedScreen{
                     }
                     return this;
                 }
-            }else player.doAction(new ColoredString("take the %s"), item.name());
-            player.inventory().add(item);
+            }else {
+                player.doAction(new ColoredString("take the %s"), item.name());
+                player.inventory().add(item);
+                if (item instanceof Equippable) {
+                    Equippable e = (Equippable) item;
+                    if (player.getEquippedAt(e.slot()) == null && Config.autoEquip) e.equip(player);
+                }
+            }
         }
         
         if(inventory.isEmpty()){

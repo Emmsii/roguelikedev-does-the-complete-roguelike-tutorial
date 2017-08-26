@@ -22,8 +22,6 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
     
     public CustomExceptionHandler(String logFolder){
         this.logFolder = logFolder;
-        File file = new File(logFolder);
-        if(!file.exists()) file.mkdirs();
     }
     
     @Override
@@ -33,7 +31,7 @@ public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy_HHmmss");
 
-        File file = new File("logs/");
+        File file = new File(logFolder);
         if(!file.exists()) file.mkdirs();
 
         String fileName = "logs/" + sdf.format(cal.getTime()) + ".txt";

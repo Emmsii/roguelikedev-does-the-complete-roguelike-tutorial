@@ -37,6 +37,6 @@ public class ReadScreen extends InventoryBasedScreen{
             return null;
         }
         
-        return new ApplySpellbookScreen(x, y, width, height, null, inventory, player, (Spellbook) item, this);
+        return new BlessScreen(x, y, width, height, null, inventory, player, (Spellbook) item, this);
     }
 }

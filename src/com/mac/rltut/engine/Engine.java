@@ -66,7 +66,7 @@ public class Engine {
     }
 
     public void init(boolean fullscreen, int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title, String version){
-        Log.set(Log.LEVEL_DEBUG);
+        Log.set(Log.LEVEL_INFO);
         FileHandler.init();
         loadData();
         setFont("cheepicus");

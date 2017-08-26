@@ -108,7 +108,7 @@ public class SpellbookGenerator {
         manaCost += (book.manaRegenAmountBonus() / 2) + 1;
         manaCost += ((book.manaRegenSpeedBonus() * -1) / 2) + 1;
         
-        manaCost *= 5 + (z / 5);
+        manaCost *= 10 + (z / 5);
         book.setManaCost(manaCost);
         
         String rarity = "";
@@ -116,12 +116,12 @@ public class SpellbookGenerator {
         else if(bonusCount <= 3) rarity = "uncommon";
         else if(bonusCount <= 5) rarity = "rare";
 
-//        if(bonusCount > 3 && random.nextFloat() <= 0.75)
-        for(EquipmentSlot slots : chosenSkill.slots){
-            if(slots == EquipmentSlot.WEAPON){
-
-                book.setEffect(EffectBuilder.randomWeaponEffect(z, random));
-                break;
+        if(bonusCount > 3 && random.nextFloat() <= 0.75) {
+            for (EquipmentSlot slots : chosenSkill.slots) {
+                if (slots == EquipmentSlot.WEAPON) {
+                    book.setEffect(EffectBuilder.randomWeaponEffect(z, random));
+                    break;
+                }
             }
         }
                         
@@ -147,19 +147,6 @@ public class SpellbookGenerator {
         }
         
         return builder.toString().trim();
-    }
-    
-    private static Spellbook applyBonusModifier(Spellbook book, String name, int value){
-        switch (name.trim()){
-            case "str": book.setStrengthBonus(value); break;
-            case "def": book.setDefenseBonus(value); break;
-            case "acc": book.setAccuracyBonus(value); break;
-            case "int": book.setIntelligenceBonus(value); break;
-            case "manaA": book.setManaRegenAmountBonus(value); break;
-            case "manaS": book.setManaRegenSpeedBonus(value); break;
-            default: break;
-        }
-        return book;
     }
 
 }

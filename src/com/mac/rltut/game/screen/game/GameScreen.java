@@ -17,8 +17,6 @@ import com.mac.rltut.game.screen.menu.WinScreen;
 import com.mac.rltut.game.world.objects.Chest;
 
 import java.awt.event.KeyEvent;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Project: complete-rltut
@@ -84,8 +82,8 @@ public class GameScreen extends Screen{
                     else player().notify(new ColoredString("There is nothing there.", Colors.ORANGE));
                     break;
                                     
-                case KeyEvent.VK_PAGE_DOWN: game.world().moveDown(player()); break;
-                case KeyEvent.VK_PAGE_UP: game.world().moveUp(player()); break;
+//                case KeyEvent.VK_PAGE_DOWN: game.world().moveDown(player()); break;
+//                case KeyEvent.VK_PAGE_UP: game.world().moveUp(player()); break;
 
                 case KeyEvent.VK_P: player().pickup(); break;
                 case KeyEvent.VK_K: game.player().tryTalk(); break; 
@@ -109,7 +107,7 @@ public class GameScreen extends Screen{
                     }else player().notify(new ColoredString("You don't have a ranged weapon equipped.", Colors.ORANGE));
                     break;
 
-                case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
+//                case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
             }
 
             if(key.getKeyChar() == '?') subscreen = new HelpScreen();

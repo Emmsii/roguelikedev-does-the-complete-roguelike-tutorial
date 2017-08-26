@@ -1,7 +1,5 @@
 package com.mac.rltut.game.screen.game.subscreen;
 
-import com.mac.rltut.engine.util.maths.Line;
-import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
 
@@ -21,8 +19,8 @@ public class ThrowTargetScreen extends TargetBasedScreen{
 
     @Override
     public boolean isAcceptable(int xa, int ya) {
-        if(!player.world().inFov(xa, ya, player.z)) return false;
-        for(Point p : new Line(player.x, player.y, xa, ya)) if(!player.world().tile(p.x, p.y, player.z).canSee()) return false;
+        if(!player.world().inFov(xa, ya, player.z) || player.world().tile(xa, ya, player.z).solid()) return false;
+//        for(Point p : new Line(player.x, player.y, xa, ya)) if(!player.world().tile(p.x, p.y, player.z).canSee()) return false;
         return true;
     }
 

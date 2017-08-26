@@ -1,6 +1,5 @@
 package com.mac.rltut.game.entity.util;
 
-import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.maths.Dice;
 import com.mac.rltut.engine.util.maths.MathUtil;
@@ -46,7 +45,7 @@ public class CombatManager {
         
         int attackHitRoll = Dice.roll("1d" + maxAttackerRoll);
         int defenderBlockRoll = Dice.roll("1d" + maxDefenderRoll);
-
+        
         if(attackHitRoll > defenderBlockRoll || attackHitRoll == defenderBlockRoll && Math.random() <= 0.5){
             attacker.incrementStat("hits", 1);
             
@@ -68,7 +67,7 @@ public class CombatManager {
         
         int distance = MathUtil.distance(attacker.x, attacker.y, defender.x, defender.y);
         
-        int distancePenalty = (int) Math.round(((Math.pow(1.3, distance - (attacker.accuracy() / 2))) - (attacker.accuracy() / 2)) * 0.25);//TODO: TEMP MAYBE
+        int distancePenalty = (int) Math.round(((Math.pow(1.3, distance - (attacker.accuracy() / 2))) - (attacker.accuracy() / 2)) * 0.255);
         if(distancePenalty < 0) distancePenalty = 0;
         
         int attackerHitRoll = Dice.roll("1d" + (attacker.accuracy() + attacker.accuracyBonus())) - distancePenalty;

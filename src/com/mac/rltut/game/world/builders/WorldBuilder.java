@@ -17,7 +17,6 @@ import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.levels.*;
 import com.mac.rltut.game.world.objects.Chest;
-import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import java.io.File;
 import java.util.*;
@@ -205,7 +204,7 @@ public class WorldBuilder {
         
         placeNPCs();        
         
-        Log.debug("Spawned " + creaturesSpawned + " creatures total.");
+//        Log.debug("Spawned " + creaturesSpawned + " creatures total.");
         Log.info("Spawned creatures in " + ((System.nanoTime() - start) / 1000000) + "ms");
         return this;
     }
@@ -228,8 +227,9 @@ public class WorldBuilder {
                 List<Spell> spells = new ArrayList<Spell>();
                 spells.add(Codex.spells.get("fireball"));
                 spells.add(Codex.spells.get("freeze"));
+                spells.add(Codex.spells.get("blind"));
 
-                npc.setStats(50, 200, 1, 1, 3, 7, 7, 20, 15, new DropTable());
+                npc.setStats(75, 300, 2, 10, 10, 10, 10, 10, 15, new DropTable());
                 new EvilNpcAi(npc);
                 world.add(spawn.x, spawn.y, spawn.z, npc);
 
@@ -421,14 +421,14 @@ public class WorldBuilder {
     
     private void modifyStats(Creature creature, int z){
 
-//        creature.modifyMaxHp((z / 3) * 10);
-//        creature.modifyMaxMana((z / 3) * 10);
-//        creature.modifyStrength(z / 3);
-//        creature.modifyDefense(z / 3);
-//        creature.modifyAccuracy(z / 3);
-//        creature.modifyIntelligence(z / 3);
-//        creature.modifyHp(creature.maxHp(), "");
-//        creature.modifyMana(creature.maxMana());
+        creature.modifyMaxHp((z / 2) * 5);
+        creature.modifyMaxMana((z / 2) * 10);
+        creature.modifyStrength(z / 3);
+        creature.modifyDefense(z / 3);
+        creature.modifyAccuracy(z / 3);
+        creature.modifyIntelligence(z / 3);
+        creature.modifyHp(creature.maxHp(), "");
+        creature.modifyMana(creature.maxMana());
 //
 //        int level = (creature.strength() + creature.defense() + creature.accuracy() + creature.defense()) - 4;
 //

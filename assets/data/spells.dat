@@ -1,11 +1,13 @@
+# 'name':'amount':'duration':'chance
+
 [SPELL]
 NAME=fireball
-COST=20
+COST=15
 EFFECT_OTHER=burn:1:10:0.5
 
 [SPELL]
 NAME=life_drain
-COST=20
+COST=30
 EFFECT_OTHER=poison:1:10:0.75
 
 [SPELL]
@@ -17,3 +19,8 @@ EFFECT_OTHER=freeze:0:5:0.8
 NAME=heal
 COST=25
 EFFECT_SELF=heal:10
+
+[SPELL]
+NAME=blind
+COST=30
+EFFECT_OTHER=blind:0:10:1

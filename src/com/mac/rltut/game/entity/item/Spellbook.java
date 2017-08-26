@@ -28,11 +28,11 @@ public class Spellbook extends Item{
         if(creature.mana() < manaCost) return;
         creature.modifyMana(-manaCost);
         
-        creature.doAction(new ColoredString("enhance the %s", Colors.BLUE), equippable.name());
+        creature.doAction(new ColoredString("bless the %s", Colors.BLUE), equippable.name());
         equippable.setUnique(true);
 
         if(effect != null) equippable.setName(equippable.name() + " of " + effect().adjective());
-        else equippable.setName("Enhanced " + equippable.name());
+        else equippable.setName("Blessed " + equippable.name());
         
         if(strengthBonus != 0) equippable.setStrengthBonus(equippable.strengthBonus() + strengthBonus);
         if(defenseBonus != 0) equippable.setDefenseBonus(equippable.defenseBonus() + defenseBonus);

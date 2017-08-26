@@ -49,19 +49,7 @@ public abstract class EndScreen extends Screen{
     @Override
     public void render(Renderer renderer) {
         Stats stats = player.stats();
-//
-//        int xp = Engine.instance().widthInTiles() / 2;
-//        int yp = (int) (Engine.instance().heightInTiles() * 0.12f);
-
-//        renderer.writeCenter("You died!", xp, yp++, Colors.RED);
-//        yp++;
-//
-//        renderer.writeCenter("RIP " + player.name() + ", who was killed on level " + (player.z + 1) + ".", xp, yp++, Colors.RED);
-//        yp++;
-//
-//        renderer.writeCenter(StringUtil.capitalizeFirst(player.causeOfDeath()), xp, yp++, Colors.darken(Colors.RED, 0.75f));
-//        yp += 3;
-
+        
         int days = game.world().dayNightController().day();
         renderer.writeCenter("You survived for " + days + " day" + (days > 1 ? "s" : "") + " (" + game.world().dayNightController().tick + " turns).", xp, yp++);
         yp++;
@@ -77,14 +65,22 @@ public abstract class EndScreen extends Screen{
         yp++;
 
         renderer.writeCenter("You dealt " + stats.getValue("damage_dealt") + " damage while taking " + stats.getValue("damage_received") + ".", xp, yp++);
-        renderer.writeCenter("During combat you had " + stats.getValue("hits") + " hits, made " + stats.getValue("blocks") + " blocks and " + stats.getValue("misses") + " misses.", xp, yp++);
+        renderer.writeCenter("During combat you had " + stats.getValue("hits") + " hits, " + stats.getValue("misses") + " misses and made " + stats.getValue("blocks") + " blocks", xp, yp++);
         yp++;
 
         renderer.writeCenter("Press [k] to see your kills.", xp, yp++, Colors.GRAY);
         yp++;
 
         renderer.writeCenter("You traveled " + stats.getValue("tiles_traveled") + " tiles exploring " + String.format("%.2f", game.world().totalExploredPercent()) + "% of the forest.", xp, yp++);
-
+        yp++;
+        
+        renderer.writeCenter("Final Stats", xp, yp++);
+        yp++;
+        renderer.writeCenter("Level " + player.level() + " (" + player.xp() + "xp)", xp, yp++);
+        renderer.writeCenter(String.format("HP: %-4d MANA: %-4d", player.maxHp(), player.maxMana()), xp, yp++);
+        renderer.writeCenter(String.format("STR: %-4d DEF: %-4d", player.strength(), player.defense()), xp, yp++);
+        renderer.writeCenter(String.format("ACC: %-4d INT: %-4d", player.accuracy(), player.intelligence()), xp, yp++);
+        
         renderer.writeCenter("Press [ESCAPE] to continue.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 4, Colors.GRAY);
 
         if(!screenshotSaved){

@@ -43,15 +43,17 @@ import java.util.zip.InflaterInputStream;
  */
 public class FileHandler {
 
-
-    private static final String SAVE_FOLDER = "save/";
+    private static final String USER_FOLDER = System.getProperty("user.home");
+    private static final String GAME_FOLDER = USER_FOLDER + "/Forest RL/save/";
     private static final String SAVE_NAME = "game.dat";
-    private static final String SAVE_LOCATION = SAVE_FOLDER + SAVE_NAME;
+    private static final String SAVE_LOCATION = GAME_FOLDER + SAVE_NAME;
     
     private static Kryo kryo;
     private static boolean initialized = false;
     
     public static void init(){
+        Log.info("USER: " + USER_FOLDER);
+        
         kryo = new Kryo();
         kryo.setRegistrationRequired(true);
         kryo.setDefaultSerializer(CompatibleFieldSerializer.class);
@@ -157,7 +159,7 @@ public class FileHandler {
     
     public static void createSaveFolder(){
         if(gameSaveExists()) return;
-        File file = new File(SAVE_FOLDER);
+        File file = new File(GAME_FOLDER);
         if(!file.exists()) file.mkdirs();
     }
         

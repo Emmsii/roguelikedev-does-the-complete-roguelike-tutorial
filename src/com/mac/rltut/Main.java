@@ -1,7 +1,9 @@
 package com.mac.rltut;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.file.Config;
+import com.mac.rltut.engine.file.FileHandler;
 import com.mac.rltut.engine.window.CustomExceptionHandler;
 
 /**
@@ -11,11 +13,31 @@ import com.mac.rltut.engine.window.CustomExceptionHandler;
  */
 public class Main {
 
+    public static final String TITLE = "Forest Roguelike";
+    public static final String VERSION = "v1.0.0";
+    public static final int WIDTH = 80;
+    public static final int HEIGHT = 45;
+    public static final int TILE_SIZE = 8;
+
     public static final int DEFAULT_SCALE = 2;
     
     public static void main(String[] args){
         Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler("logs/"));
         Config.load();
-        Engine.instance().init(Config.fullscreen, 80, 45, DEFAULT_SCALE, 8, "Forest Roguelike", "v0.9.4");
+        String saveVersion = FileHandler.gameVersion();
+        if(saveVersion == null || saveVersion.equals(VERSION)) Config.save();
+        
+        int scale = Config.scale;
+        if(scale < 0){
+            Log.warn("Scale cannot be below 0");
+            scale = 1;
+        }
+        
+        if(scale > 16){
+            Log.warn("Scale cannot be above 16.");
+            scale = 16;
+        }
+        
+        Engine.instance().init(Config.fullscreen, WIDTH, HEIGHT, scale, TILE_SIZE, TITLE, VERSION);
     }
 }

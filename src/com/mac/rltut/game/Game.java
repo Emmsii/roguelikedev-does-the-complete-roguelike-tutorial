@@ -7,7 +7,6 @@ import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.SessionTimer;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.codex.Codex;
-import com.mac.rltut.game.effects.Poison;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
@@ -18,7 +17,6 @@ import com.mac.rltut.game.world.World;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  * Project: complete-rltut
@@ -47,9 +45,6 @@ public class Game{
         new PlayerAI(player, log);
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
-
-        player.inventory().add((Item) Codex.items.get("meat chunk").entity().newInstance());
-        player.addEffect(new Poison(10, 10, 1f));
         
         log.add("You've drawn the short straw I'm afraid. You need to travel through the forest to rescue the king!");
         

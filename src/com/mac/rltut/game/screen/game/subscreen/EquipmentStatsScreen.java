@@ -55,7 +55,7 @@ public class EquipmentStatsScreen extends Screen {
         yp++;
 
         int manaRegenAmount = player.manaRegenAmount() + player.manaRegenAmountBonus();
-        int manaRegenSpeed = player.getManaRegenSpeed() - player.manaRegenSpeedBonus();
+        int manaRegenSpeed = player.getManaRegenSpeed() + player.manaRegenSpeedBonus();
         if(manaRegenSpeed < 1) manaRegenSpeed = 1;
         
         String manaRegAmountStr = String.format("+%d mana every ", manaRegenAmount) + (manaRegenSpeed > 1 ? manaRegenSpeed + " turns" : "turn");
