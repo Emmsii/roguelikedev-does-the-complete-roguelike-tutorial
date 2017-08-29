@@ -20,12 +20,14 @@ public class Config {
     public static int scale;
     public static int monitor;
     public static boolean autoEquip;
+    public static boolean blood;
     
     private static void loadDefaults(){
         fullscreen = false;
         scale = Main.DEFAULT_SCALE;
         monitor = 0;
         autoEquip = true;
+        blood = true;
     }
     
     public static void load(){
@@ -45,6 +47,7 @@ public class Config {
             scale = properties.containsKey("scale") ? Integer.parseInt((String) properties.get("scale")) : Main.DEFAULT_SCALE;
             monitor = properties.containsKey("monitor") ? Integer.parseInt((String) properties.get("monitor")) : 0;
             autoEquip = properties.containsKey("auto_equip") ? Boolean.parseBoolean((String) properties.get("auto_equip")) : true;
+            blood = properties.containsKey("blood") ? Boolean.parseBoolean((String) properties.get("blood")) : true;
             
             inputStream.close();
         } catch (FileNotFoundException e) {
@@ -66,6 +69,7 @@ public class Config {
             properties.setProperty("scale", String.valueOf(scale));
             properties.setProperty("monitor", String.valueOf(monitor));
             properties.setProperty("auto_equip", String.valueOf(autoEquip));
+            properties.setProperty("blood", String.valueOf(blood));
             properties.store(outputStream, null);
             outputStream.flush();
             outputStream.close();

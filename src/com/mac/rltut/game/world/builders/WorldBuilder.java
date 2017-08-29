@@ -216,7 +216,7 @@ public class WorldBuilder {
             do{
                 spawn.x = random.nextInt(width);
                 spawn.y = random.nextInt(height);
-            }while(world.tile(spawn.x, spawn.y, spawn.z).solid() || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
+            }while(world.tile(spawn.x, spawn.y, spawn.z).solid() || world.creature(spawn.x, spawn.y, spawn.z) != null || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
           
             //Place wizard next to player for convenience
 //            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);

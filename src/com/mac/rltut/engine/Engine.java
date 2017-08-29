@@ -74,8 +74,7 @@ public class Engine {
         this.fullscreen = fullscreen;
         GraphicsDevice device = null;
         if(fullscreen){
-            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice[] devices = env.getScreenDevices();
+            GraphicsDevice[] devices = getMonitorDevices();
             if(Config.monitor >= devices.length || Config.monitor < 0){
                 Log.error("Invalid monitor id [" + Config.monitor + "]");
                 this.widthInTiles = widthInTiles;
@@ -136,6 +135,13 @@ public class Engine {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public GraphicsDevice[] getMonitorDevices(){
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] result = env.getScreenDevices();
+        if(env == null || result == null) return null;
+        return result;
     }
     
     public void setFont(String name){

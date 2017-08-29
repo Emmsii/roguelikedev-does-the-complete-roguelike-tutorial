@@ -190,27 +190,6 @@ public class FileHandler {
         return version;
     }
     
-    public static String gameVersion(){
-        File file = new File("version.txt");
-        if(!file.exists()) return null;
-
-        String version = null;
-        
-        try {
-            FileReader fileReader = new FileReader(file);
-            BufferedReader reader = new BufferedReader(fileReader);
-            version = reader.readLine();
-            fileReader.close();
-            reader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return version;
-    }
-    
     public static void saveGame(Game game){
         if(!initialized){
             Log.error("File Handler not initialized. Cannot save game.");

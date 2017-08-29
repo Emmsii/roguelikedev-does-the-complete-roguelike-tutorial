@@ -37,11 +37,13 @@ public class StartScreen extends Screen{
                 }
             };
             else if(e.getKeyCode() == KeyEvent.VK_C) return new AboutScreen();
-            else if(e.getKeyCode() == KeyEvent.VK_D) System.exit(0);
+            else if(e.getKeyCode() == KeyEvent.VK_D) return new OptionsScreen();
+            else if(e.getKeyCode() == KeyEvent.VK_E) System.exit(0);
         }else{
             if(e.getKeyCode() == KeyEvent.VK_A) return new PlayerNameScreen(12);
             else if(e.getKeyCode() == KeyEvent.VK_B) return new AboutScreen();
-            else if(e.getKeyCode() == KeyEvent.VK_C) System.exit(0);
+            else if(e.getKeyCode() == KeyEvent.VK_C) return new OptionsScreen();
+            else if(e.getKeyCode() == KeyEvent.VK_D) System.exit(0);
         }
 
         gameExists = FileHandler.gameSaveExists();
@@ -58,18 +60,20 @@ public class StartScreen extends Screen{
         
         if(gameExists) {
             renderer.write("[a] Continue", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2);
-            renderer.write("[b] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 2);
-            renderer.write("[c] About", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 4);
-            renderer.write("[d] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 5);
+            renderer.write("[b] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 1);
+            renderer.write("[c] About", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 3);
+            renderer.write("[d] Options", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 4);
+            renderer.write("[e] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 5);
         }else{
             renderer.write("[a] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2);
             renderer.write("[b] About", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 2);
-            renderer.write("[c] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 3);
+            renderer.write("[c] Options", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 3);
+            renderer.write("[d] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 4);
         }
         
         if(!Engine.instance().version().equals(saveVersion) && saveVersion != null){
             renderer.writeCenter("Game version doesn't match save file version (" + saveVersion + ")", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 3, Colors.GRAY);
-            renderer.writeCenter("Loaded game might not be stable.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 2, Colors.GRAY);
+            renderer.writeCenter("Loaded game might not be stable. Check changelog.txt for details.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 2, Colors.GRAY);
         }
     }
 }

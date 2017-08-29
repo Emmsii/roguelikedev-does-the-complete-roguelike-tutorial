@@ -178,15 +178,17 @@ public class Creature extends Entity {
             for(int xa = 0; xa < size; xa++){
                 int xb = x + xp + xa;
                 Creature other =  world.creature(xb, yb, z + zp);
-                if(other != null && other.id != id) others.add(other);
+                if(other != null && other.id != id && !others.contains(other)) others.add(other);
             }
         }
         
         if(others.isEmpty()) hasMoved = ai.onMove(x + xp, y + yp, z + zp);
         
         for(Creature other : others) {
-            if(!isPlayer() && other.isPlayer() || isPlayer()) new CombatManager(this, other).meleeAttack();
-            hasMoved = true;
+            if(!isPlayer() && other.isPlayer() || isPlayer()) {
+                new CombatManager(this, other).meleeAttack();
+                hasMoved = true;
+            }
         }
         
         return hasMoved;

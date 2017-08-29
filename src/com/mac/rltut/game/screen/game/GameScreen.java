@@ -91,7 +91,7 @@ public class GameScreen extends Screen{
                 case KeyEvent.VK_Q: equipmentScreen = new EquipmentSlotsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
                 case KeyEvent.VK_T: equipmentScreen = new EquipmentStatsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
 
-                case KeyEvent.VK_ESCAPE: subscreen = new GameEscapeMenu(Engine.instance().widthInTiles() / 2 - 10, Engine.instance().heightInTiles() / 2 - 4, 21, 8, game); break;
+                case KeyEvent.VK_ESCAPE: subscreen = new GameEscapeMenu(Engine.instance().widthInTiles() / 2 - 10, Engine.instance().heightInTiles() / 2 - 5, 21, 9, game); break;
 
                 case KeyEvent.VK_W: subscreen = new ThrowItemScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, player().x - levelScreen.getScrollX() + 1, player().y - levelScreen.getScrollY() + 1, levelScreen.width(), levelScreen.height(), player().inventory(), player()); break;
                 case KeyEvent.VK_D: subscreen = new DropScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;

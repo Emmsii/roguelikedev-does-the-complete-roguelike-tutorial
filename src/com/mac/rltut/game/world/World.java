@@ -87,7 +87,11 @@ public class World {
     
     public void update(int z){
         List<Creature> toUpdate = new ArrayList<Creature>(creatureList.get(z));
-        for (Creature c : toUpdate) c.update();
+        for(Creature c : toUpdate) c.update();
+        
+        for(Creature c : creatures(z)){
+            if(creature(c.x, c.y, c.y) == null) creatureArray[c.x][c.y][c.z] = c;
+        }
     }
     
     /* FOV Methods */

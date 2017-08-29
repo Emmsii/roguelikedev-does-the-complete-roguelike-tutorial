@@ -1,5 +1,6 @@
 package com.mac.rltut.game.screen.game;
 
+import com.mac.rltut.engine.file.Config;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.FieldOfView;
@@ -126,7 +127,7 @@ public class LevelScreen extends Screen{
         MapObject obj = world.mapObject(xp, yp, zp);
         if(obj != null) return obj.sprite();
 
-        if(world.level(zp).blood(xp, yp)) return Sprite.get("blood");
+        if(world.level(zp).blood(xp, yp) && Config.blood) return Sprite.get("blood");
         
         return world.tile(xp, yp, zp).sprite();
     }
