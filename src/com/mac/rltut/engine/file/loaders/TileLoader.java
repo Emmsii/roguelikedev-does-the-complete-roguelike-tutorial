@@ -3,7 +3,6 @@ package com.mac.rltut.engine.file.loaders;
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.parser.DataObject;
-import com.mac.rltut.game.world.tile.ChestTile;
 import com.mac.rltut.game.world.tile.Tile;
 
 import java.io.IOException;
@@ -43,16 +42,16 @@ public class TileLoader extends DataLoader{
                 Tile newTile = new Tile((byte) id, name, description, sprite, typeName, type.solid, type.canSee, type.canFly);
                 Tile.addTile(newTile);
             }else if(obj.type().equalsIgnoreCase("chest")){
-                int id = obj.getInt("id");
-                String name = obj.getString("name");
-                String description = obj.getString("description");
-                Sprite closedSprite = Sprite.get(obj.getString("sprite_closed"));
-                Sprite openSprite = Sprite.get(obj.getString("sprite_open"));
-                TileType type = tileTypes.get(obj.getString("type"));
-                String typeName = obj.hasToken("type_name") ? obj.getString("type_name") : type.name;
-
-                ChestTile chestTile = new ChestTile((byte) id, name, description, closedSprite, openSprite, typeName, type.solid, type.canSee, type.canFly);
-                Tile.addTile(chestTile);
+//                int id = obj.getInt("id");
+//                String name = obj.getString("name");
+//                String description = obj.getString("description");
+//                Sprite closedSprite = Sprite.get(obj.getString("sprite_closed"));
+//                Sprite openSprite = Sprite.get(obj.getString("sprite_open"));
+//                TileType type = tileTypes.get(obj.getString("type"));
+//                String typeName = obj.hasToken("type_name") ? obj.getString("type_name") : type.name;
+//
+//                ChestTile chestTile = new ChestTile((byte) id, name, description, closedSprite, openSprite, typeName, type.solid, type.canSee, type.canFly);
+//                Tile.addTile(chestTile);
             }
         }
         

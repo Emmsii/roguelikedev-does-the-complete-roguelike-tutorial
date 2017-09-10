@@ -4,6 +4,8 @@ import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
+import com.mac.rltut.game.world.objects.MapObject;
+import com.mac.rltut.game.world.objects.Shrine;
 
 /**
  * Project: complete-rltut

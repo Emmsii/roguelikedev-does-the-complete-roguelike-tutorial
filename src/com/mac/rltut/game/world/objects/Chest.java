@@ -1,9 +1,8 @@
 package com.mac.rltut.game.world.objects;
 
-import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.util.Inventory;
-import com.mac.rltut.game.world.tile.ChestTile;
+import com.mac.rltut.game.world.tile.Tile;
 
 /**
  * Project: complete-rltut
@@ -12,15 +11,12 @@ import com.mac.rltut.game.world.tile.ChestTile;
  */
 public class Chest extends MapObject {
     
-    private ChestTile tile;
     private Inventory<Item> inventory;
-    private boolean open;
 
     protected Chest(){}
     
-    public Chest(ChestTile tile) {
-        super(tile.name(), tile.description(), tile.sprite());
-        this.tile = tile;
+    public Chest(Tile tile) {
+        super(tile.name(), tile.description(), tile);
         this.inventory = new Inventory<Item>(6);
     }
 
@@ -31,19 +27,6 @@ public class Chest extends MapObject {
     
     public Inventory<Item> inventory(){
         return inventory;
-    }
-
-    public void setOpen(boolean value){
-        open = value;
-    }
-    
-    public boolean isOpen(){
-        return open;
-    }
-    
-    @Override
-    public Sprite sprite() {
-        return open ? tile.openSprite() : tile.closedSprite();
     }
     
 }

@@ -1,5 +1,8 @@
 package com.mac.rltut.engine.util;
 
+import com.mac.rltut.game.entity.Entity;
+import com.mac.rltut.game.entity.item.ItemStack;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +37,12 @@ public class StringUtil {
             else result.append(s.substring(0, 1).toUpperCase()).append(s.substring(1, s.length())).append(" ");
         }
         return result.toString().trim();
+    }
+
+    public static String articleName(Entity entity){
+        if(entity instanceof ItemStack) return "some ";
+        String article = "aeiou".contains(entity.name().subSequence(0, 1)) ? "an " : "a ";
+        return article + StringUtil.clean(entity.name());
     }
     
     public static String makeSecondPerson(String text){

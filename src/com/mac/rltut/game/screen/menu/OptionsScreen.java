@@ -30,6 +30,7 @@ public class OptionsScreen extends Screen{
             if(Config.monitor >= maxMonitors) Config.monitor = 0;
         }else if(key.getKeyCode() == KeyEvent.VK_C) Config.autoEquip = !Config.autoEquip;
         else if(key.getKeyCode() == KeyEvent.VK_D) Config.blood = !Config.blood;
+        else if(key.getKeyCode() == KeyEvent.VK_E) Config.autoPostScore = !Config.autoPostScore;
         else if(key.getKeyCode() == KeyEvent.VK_ESCAPE){
             Config.save();
             return new StartScreen();
@@ -61,6 +62,10 @@ public class OptionsScreen extends Screen{
             
         renderer.write("[d] Blood: " + Config.blood, xp, yp++);
         renderer.write("Toggle rendering blood.", xp, yp++, Colors.GRAY);
+        yp++;
+        
+        renderer.write("[e] Auto Post Score: " + Config.autoPostScore, xp, yp++);
+        renderer.write("Toggle automatically posting score to online leader board.", xp, yp++, Colors.GRAY);
         
         renderer.writeCenter("Press [ENTER] to save and return.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 4, Colors.GRAY);
     }

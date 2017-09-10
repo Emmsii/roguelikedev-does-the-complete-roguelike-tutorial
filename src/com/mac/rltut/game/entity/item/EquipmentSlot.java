@@ -7,7 +7,7 @@ package com.mac.rltut.game.entity.item;
  */
 public enum EquipmentSlot {
         
-    WEAPON, HEAD, CHEST, HANDS, SHIELD, LEGS, FEET, NECKLACE, RING;
+    AMMO, WEAPON, HEAD, CHEST, HANDS, SHIELD, LEGS, FEET, NECKLACE, RING;
     
     public static final EquipmentSlot[] JEWELRY = { NECKLACE, RING };
     public static final EquipmentSlot[] ARMOR = { HEAD, CHEST, HANDS, SHIELD, LEGS, FEET };

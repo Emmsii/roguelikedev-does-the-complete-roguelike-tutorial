@@ -26,7 +26,7 @@ public abstract class LevelBuilder {
 
     protected Random random;
     private final String type;
-    protected final int width, height;
+    protected int width, height;
     private final int minLevel, maxLevel;
     private final int chance;
     private final float zMultiplier;
@@ -49,29 +49,25 @@ public abstract class LevelBuilder {
     
     private Point start;
     
-    public LevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, int visibilityModifier, Random random) {
+    public LevelBuilder(String type, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, int visibilityModifier) {
         this.type = type;
-        this.width = width;
-        this.height = height;
         this.minLevel = minLevel;
         this.maxLevel = maxLevel;
         this.chance = chance;
         this.zMultiplier = zMultiplier;
         this.creatureSpawnMultiplier = creatureSpawnMultiplier;
         this.visibilityModifier = visibilityModifier;
-        this.random = random;
         
         this.properties = new Properties();
         this.decalTiles = new ArrayList<>();
         this.tileTypes = new HashMap<>();
         this.tileTypeChances = new HashMap<>();
-        
-        setTileTypes();
-        setProperties();
     }
     
-    public void init(int z){
+    public void init(int width, int height, int z){
         Log.trace("Init " + type + " level at " + z + "...");
+        this.width = width;
+        this.height = height;
         this.tiles = new byte[width][height];
         this.mapObjects = new MapObject[width][height];
         this.chests = new ArrayList<Chest>();
@@ -80,12 +76,10 @@ public abstract class LevelBuilder {
         for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) setTile(x, y, Tile.getTile("empty"));
         this.random.setSeed(random.nextLong());
     }
-    
-    protected abstract void setTileTypes();
-    protected abstract void setProperties();
-    public abstract LevelBuilder generate(int z);
 
-    protected void addDecalTiles(){
+    public abstract LevelBuilder generate(int width, int height, int z, Random random);
+
+    public void addDecalTiles(){
         Log.trace("Adding objects tiles...");
         Pool<Tile> pool = new Pool<Tile>(random);
         Tile currentTile = null;
@@ -105,8 +99,8 @@ public abstract class LevelBuilder {
             }
         }
     }
-    
-    protected void addStart(int z){
+
+    public void addStart(int z){
         Log.trace("Adding start...");
         int x, y;
         do{
@@ -120,7 +114,7 @@ public abstract class LevelBuilder {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
 
-                if (tile(x, y).solid()) {
+                if (tile(x, y).solid() || mapObject(x, y) != null && mapObject(x, y).tile().solid()) {
                     clearanceMap[x][y] = -1;
                     continue;
                 }
@@ -133,7 +127,7 @@ public abstract class LevelBuilder {
                         int yp = y + ya;
                         for (int xa = 0; xa < size; xa++) {
                             int xp = x + xa;
-                            if (tile(xp, yp).solid()) {
+                            if (tile(xp, yp).solid() || (mapObject(xp, yp) != null && mapObject(xp, yp).tile().solid())) {
                                 hitSolid = true;
                                 break;
                             }
@@ -170,7 +164,7 @@ public abstract class LevelBuilder {
         }
     }
     
-    protected void addTileType(Tile tile, int chance){
+    public void addTileType(Tile tile, int chance){
         String type = tile.type();
         if(!tileTypes.containsKey(type)) tileTypes.put(type, new ArrayList<Tile>());
         tileTypes.get(type).add(tile);
@@ -178,15 +172,15 @@ public abstract class LevelBuilder {
         tileTypeChances.get(type).put(tile, chance);
     }
         
-    protected void addDecalTile(Tile decal, int chance, Tile ... canPlaceOn){
+    public void addDecalTile(Tile decal, int chance, Tile ... canPlaceOn){
         if(canPlaceOn == null || canPlaceOn.length < 1){
-            Log.error("MapObject tile must have a tile if can place on.");
+            Log.error("Decal tile must have a tile if can place on.");
             return;
         }
         decalTiles.add(new DecalTile(decal, chance, canPlaceOn));
     }
     
-    protected void setProperty(String key, String value){
+    public void setProperty(String key, String value){
         properties.setProperty(key, value);
     }
         
@@ -232,8 +226,14 @@ public abstract class LevelBuilder {
         return Tile.getTile(tiles[x][y]);
     }
     
+    protected MapObject mapObject(int x, int y){
+        if(!inBounds(x, y)) return null;
+        return mapObjects[x][y];
+    }
+    
     protected boolean solid(int x, int y){
         if(!level.inBounds(x, y)) return true;
+        if(mapObject(x, y) != null) return mapObject(x, y).tile().solid();
         return tile(x, y).solid();
     }
     
@@ -321,8 +321,15 @@ public abstract class LevelBuilder {
                 else if(id == Tile.getTile("waterFoul").id) image.setRGB(x, y, 0x228A6C);
                 else if(id == Tile.getTile("waterLilypad").id) image.setRGB(x, y, 0x36BAB1);
                 else if(id == Tile.getTile("mushroom").id) image.setRGB(x, y, 0xBF4545);
-//                else if(id == Tile.getTile("chestGold").id) image.setRGB(x, y, 0xFF8000);
-//                else if(id == Tile.getTile("chestSilver").id) image.setRGB(x, y, 0xFF8000);
+                else if(id == Tile.getTile("cobblestone1").id) image.setRGB(x, y, 0x8c9177);
+                else if(id == Tile.getTile("cobblestone2").id) image.setRGB(x, y, 0x8c9177);
+                else if(id == Tile.getTile("cobblestone3").id) image.setRGB(x, y, 0x8c9177);
+                else if(id == Tile.getTile("cobblestone4").id) image.setRGB(x, y, 0x8c9177);
+                else if(id == Tile.getTile("pillar_short").id) image.setRGB(x, y, 0x8c9177);
+                else if(id == Tile.getTile("pillar_medium").id) image.setRGB(x, y, 0x8c9177);
+                else if(id == Tile.getTile("pillar_tall").id) image.setRGB(x, y, 0x8c9177);
+//                else if(id == Tile.getTile("chestGold).id) image.setRGB(x, y, 0xFF8000);
+//                else if(id == Tile.getTile("chest_silver").id) image.setRGB(x, y, 0xFF8000);
                 
                 if(mapObjects[x][y] instanceof Chest) image.setRGB(x, y, 0xFF8000);
             }

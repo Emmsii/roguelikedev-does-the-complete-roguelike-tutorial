@@ -14,7 +14,7 @@ import com.mac.rltut.engine.window.CustomExceptionHandler;
 public class Main {
 
     public static final String TITLE = "Forest Roguelike";
-    public static final String VERSION = "1.0.2";
+    public static final String VERSION = "1.1.1";
     public static final int WIDTH = 80;
     public static final int HEIGHT = 45;
     public static final int TILE_SIZE = 8;
@@ -39,7 +39,7 @@ public class Main {
             Log.warn("Scale cannot be above 16.");
             scale = 16;
         }
-        
+
         Engine.instance().init(Config.fullscreen, WIDTH, HEIGHT, scale, TILE_SIZE, TITLE, VERSION);
     }
 }

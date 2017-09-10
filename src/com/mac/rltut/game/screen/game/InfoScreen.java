@@ -28,7 +28,7 @@ public class InfoScreen extends Screen{
 
     @Override
     public void render(Renderer renderer) {
-        renderBorder(renderer);
+        renderBorderFill(renderer);
         
         String hp = String.format("HP: %d/%d", player.hp(), player.maxHp());
         String mana = String.format("MANA: %d/%d", player.mana(), player.maxMana());
@@ -36,36 +36,53 @@ public class InfoScreen extends Screen{
         String def = String.format("DEF: %d", player.defense());
         String acc = String.format("ACC: %d", player.accuracy());
         String intel = String.format("INT: %d", player.intelligence());
-        String level = String.format("Level: %d", player.level());
+        String level = String.format("LVL: %d", player.level());
         String exp = String.format("XP: %d/%d", player.xp(), (int) (Math.pow(player.level(), 1.75) * 35));
-        String time = String.format("Day: %d (%d)", player.world().dayNightController().day(), player.world().dayNightController().tick);
- 
-        int xp = this.x + 2;
-        int yp = this.y + 2;
+        String day = String.format("Day: %d", player.world().dayNightController().day());
+        String turn = String.format("Turn: %d", player.world().dayNightController().tick);
         
+        int xp = 1;
+        int yp = 1;
+                
         renderer.write(hp, xp, yp++);
+        renderer.write(mana, xp, yp--);
+        xp += 15;
+        
+        renderer.renderSprite(Sprite.get("ui_border_ver"), xp - 1, yp);
+        renderer.renderSprite(Sprite.get("ui_border_ver"), xp - 1, yp + 1);
+        xp++;
+
         renderer.write(str, xp, yp++);
-        renderer.write(acc, xp, yp++);
-        
-        yp++;
-        renderer.write(level, xp, yp++);
+        renderer.write(acc, xp, yp--);
+        xp+= 8;
 
-        yp++;
-        renderer.write(time, xp, yp++);
-        
-        xp = this.x + (width / 2);
-        yp = this.y + 2;
-
-        renderer.write(mana, xp, yp++);
         renderer.write(def, xp, yp++);
-        renderer.write(intel, xp, yp++);
+        renderer.write(intel, xp, yp--);
+        xp+= 9;
 
-        yp++;
-        renderer.write(exp, xp, yp++);
+        renderer.renderSprite(Sprite.get("ui_border_ver"), xp - 1, yp);
+        renderer.renderSprite(Sprite.get("ui_border_ver"), xp - 1, yp + 1);
+        xp++;
+        
+        renderer.write(level, xp, yp++);
+        renderer.write(exp, xp, yp--);
+        xp+= 15;
 
-        yp++;
-        String gold = player.gold() + "";
-        renderer.write(gold, xp - gold.length() + 11, yp);
-        renderer.renderSprite(Sprite.get("gold"), xp + 12, yp);
+        renderer.renderSprite(Sprite.get("ui_border_ver"), xp - 1, yp);
+        renderer.renderSprite(Sprite.get("ui_border_ver"), xp - 1, yp + 1);
+        xp++;
+        
+        renderer.write(day, xp, yp++);
+        renderer.write(turn, xp, yp--);
+        xp+= 18;
+
+        renderer.renderSprite(Sprite.get("ui_border_ver"), xp - 1, yp);
+        renderer.renderSprite(Sprite.get("ui_border_ver"), xp - 1, yp + 1);
+        xp++;
+        
+        renderer.renderSprite(Sprite.get("gold"), xp, yp);
+        renderer.write(player.gold() + "", xp + 1, yp++);
+//        renderer.renderSprite(Sprite.get("diamond"), xp, yp);
+//        renderer.write(player.diamonds() + "", xp + 1, yp++);
     }
 }

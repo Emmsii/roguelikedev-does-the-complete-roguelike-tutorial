@@ -47,6 +47,10 @@ public abstract class Entity implements Cloneable{
         this.description = description;
     }
     
+    public void setSprite(Sprite sprite){
+        this.sprite = sprite;
+    }
+    
     public String name(){
         return name;
     }

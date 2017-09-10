@@ -83,9 +83,15 @@ public class CombatManager {
             attacker.incrementStat("misses", 1);
             defender.incrementStat("blocks", 1);
             
-            defender.doAction(new ColoredString("block the arrow"));
+            defender.doAction(new ColoredString("block the " + attacker.ammo().name()));
         }
         defender.setAttackedBy(attacker);
+        
+        attacker.ammo().modifyAmount(-1);
+        if(attacker.ammo().amount() == 0){
+            attacker.setAmmo(null);
+            attacker.inventory().remove(attacker.ammo());
+        }
     }
     
     public void thrownAttack(Item item){

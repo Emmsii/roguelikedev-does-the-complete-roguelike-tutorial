@@ -10,12 +10,14 @@ import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.creature.*;
 import com.mac.rltut.game.entity.creature.ai.*;
 import com.mac.rltut.game.entity.item.*;
-import com.mac.rltut.game.entity.item.util.*;
+import com.mac.rltut.game.entity.item.util.DropTable;
+import com.mac.rltut.game.entity.item.util.Inventory;
+import com.mac.rltut.game.entity.item.util.JewelryGenerator;
+import com.mac.rltut.game.entity.item.util.PotionGenerator;
 import com.mac.rltut.game.entity.util.BossSpawnProperty;
 import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 import com.mac.rltut.game.world.World;
-import com.mac.rltut.game.world.levels.*;
 import com.mac.rltut.game.world.objects.Chest;
 
 import java.io.File;
@@ -54,30 +56,22 @@ public class WorldBuilder {
         Log.info("Generating " + width + "x" + height + "x" + depth + " world [" + seed + "]");
         double start = System.nanoTime();
 
-        List<LevelBuilder> levels = new ArrayList<LevelBuilder>();
-        levels.add(new DefaultLevel(width, height, 0, depth + 1, 70, -0.5f, 1.5f, 0, random));
-        levels.add(new DenseLevel(width, height, 1, depth + 1, 55, 0.95f, 1.5f, -2, random));
-        levels.add(new SparseLevel(width, height, 1, 8, 70, 0.9f, 1.5f, 3, random));
-        levels.add(new LakeLevel(width, height, 3, 10, 50, 1.325f, 1.5f, 2, random));
-        levels.add(new SwampLevel(width, height, 6, depth + 1, 40, 1.5f, 1.5f, -1, random));
-        levels.add(new DarkLevel(width, height, 10, depth + 1, 20, 1.85f, 1.7f, -2, random));
-        levels.add(new RuinedLevel(width, height, 3, depth + 1, 8, 1.25f, 1.7f, 2, random));
-
         File file = new File("images/");
         File[] files = file.listFiles();
         if(files != null) for(File f : files) f.delete();
         
         for (int z = 0; z < depth; z++) {
             Pool<LevelBuilder> pool = new Pool<LevelBuilder>(random);
-            for (LevelBuilder l : levels) {
+            for (LevelBuilder l : Codex.levelBuilders.values()) {
                 int zChance = (int) ((z * l.zMultiplier()) * 3);
                 int chance = l.chance() + zChance;
-                if (z >= l.minLevel() && z <= l.maxLevel()) pool.add(l, chance);
+                int max = l.maxLevel() == -1 ? depth + 1 : l.maxLevel();
+                if (z >= l.minLevel() - 1 && z <= max) pool.add(l, chance);
             }
 
             LevelBuilder level = pool.get();
-            level.generate(z);
-//            level.saveImage(z);
+            level.generate(width, height, z, random);
+            level.saveImage(z);
             
             creatureSpawnMultiplier[z] = level.creatureSpawnModifier();
             world.setLevel(z, level.build());
@@ -211,15 +205,15 @@ public class WorldBuilder {
     
     private WorldBuilder placeNPCs(){
         for(int z = 0; z < depth; z++){
-            Point spawn = new Point();
-            spawn.z = z;
-            do{
-                spawn.x = random.nextInt(width);
-                spawn.y = random.nextInt(height);
-            }while(world.tile(spawn.x, spawn.y, spawn.z).solid() || world.creature(spawn.x, spawn.y, spawn.z) != null || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
+//            Point spawn = new Point();
+//            spawn.z = z;
+//            do{
+//                spawn.x = random.nextInt(width);
+//                spawn.y = random.nextInt(height);
+//            }while(world.solid(spawn.x, spawn.y, spawn.z) || world.creature(spawn.x, spawn.y, spawn.z) != null || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
           
-            //Place wizard next to player for convenience
-//            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
+//            Place wizard next to player for convenience
+            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
 
             if(z == depth - 1){
                 NPC npc = new EvilWizard("Evil Wizard McGuffin", "An evil old man", Sprite.get("wizard"), "npc");
@@ -261,7 +255,14 @@ public class WorldBuilder {
             chestItemSpawnCounts.add(new HashMap<>());
             
             for(int i = 0; i < weaponCount; i++){
-                spawnItem(getEquipmentFromSlot(z, true, EquipmentSlot.WEAPON), z);
+                Equippable newItem = (Equippable) getEquipmentFromSlot(z, true, EquipmentSlot.WEAPON);
+                spawnItem(newItem, z);
+                if(newItem.ammoType() != null && random.nextFloat() <= 0.4f){
+                    Ammo ammo = (Ammo) Codex.items.get(newItem.ammoType()).entity().newInstance();
+                    ammo.setAmount(MathUtil.randomIntFromString(ammo.spawnAmount(), random));
+                    spawnItem(ammo, z);
+                    spawnedThisLevel++;
+                }
                 spawnedThisLevel++;
             }
             
@@ -271,8 +272,8 @@ public class WorldBuilder {
             }
             
             if(random.nextFloat() < 0.1){
-                spawnItem(SpellbookGenerator.generate(z, random), z);
-                spawnedThisLevel++;
+//                spawnItem(ShrineGenerator.generate(z, random), z);
+//                spawnedThisLevel++;
             }
             
             for(int i = 0; i < 3; i++){
@@ -286,11 +287,16 @@ public class WorldBuilder {
                 if(random.nextFloat() <= 0.3f) continue;
                 Inventory<Item> inventory = chest.inventory();
                 
+                if(random.nextFloat() <= 0.3f){
+                    Ammo ammo = getRandomAmmo();
+                    ammo.setAmount(MathUtil.randomIntFromString(ammo.spawnAmount(), random));
+                    inventory.add(ammo);
+                }
+                
                 if(random.nextFloat() <= 0.4f) {
                     for (int i = 0; i < 2; i++) {
                         Item item = JewelryGenerator.generate((Equippable) getEquipmentFromSlot(z, false, EquipmentSlot.JEWELRY), z, random);
                         inventory.add(item);
-
                         if (!chestItemSpawnCounts.get(z).containsKey(item.name())) chestItemSpawnCounts.get(z).put(item.name(), 0);
                         chestItemSpawnCounts.get(z).put(item.name(), chestItemSpawnCounts.get(z).get(item.name()) + 1);
                         chestSpawnedThisLevel++;
@@ -300,18 +306,18 @@ public class WorldBuilder {
                 
                 if(random.nextFloat() <= 0.285f) {
                     for (int i = 0; i < 3; i++) {
-                        Item item = SpellbookGenerator.generate(z, random);
-                        inventory.add(item);
-                        if (!chestItemSpawnCounts.get(z).containsKey(item.name())) chestItemSpawnCounts.get(z).put(item.name(), 0);
-                        chestItemSpawnCounts.get(z).put(item.name(), chestItemSpawnCounts.get(z).get(item.name()) + 1);
-                        chestSpawnedThisLevel++;
-                        if (random.nextFloat() >= 0.1f + ((float) z / (float) world.depth()) * 0.1f) break;
+//                        Item item = ShrineGenerator.generate(z, random);
+//                        inventory.add(item);
+//                        if (!chestItemSpawnCounts.get(z).containsKey(item.name())) chestItemSpawnCounts.get(z).put(item.name(), 0);
+//                        chestItemSpawnCounts.get(z).put(item.name(), chestItemSpawnCounts.get(z).get(item.name()) + 1);
+//                        chestSpawnedThisLevel++;
+//                        if (random.nextFloat() >= 0.1f + ((float) z / (float) world.depth()) * 0.1f) break;
                     }
                 }
                 
                 if(random.nextFloat() <= 0.5f) {
                     for (int i = 0; i < 3; i++) {
-                        Consumable potion = PotionBuilder.randomPotion(z, random);
+                        Consumable potion = PotionGenerator.randomPotion(z, random);
                         inventory.add(potion);
                         if (!chestItemSpawnCounts.get(z).containsKey(potion.name())) chestItemSpawnCounts.get(z).put(potion.name(), 0);
                         chestItemSpawnCounts.get(z).put(potion.name(), chestItemSpawnCounts.get(z).get(potion.name()) + 1);
@@ -321,11 +327,16 @@ public class WorldBuilder {
                 }
                 
                 if(random.nextFloat() < 0.85f){
-                    inventory.add(new ItemStack("gold", "a stack of gold", Sprite.get("gold"), "WHAT???", (int) (MathUtil.randomIntFromString("20-30", random) * ((z + 1) * 0.4f))));
-                    if (!chestItemSpawnCounts.get(z).containsKey("gold")) chestItemSpawnCounts.get(z).put("gold", 0);
+                    inventory.add(new ItemStack("gold", "a stack of gold", Sprite.get("gold"), null, (int) (MathUtil.randomIntFromString("20-30", random) * ((z + 1) * 0.4f))));
+                    if(!chestItemSpawnCounts.get(z).containsKey("gold")) chestItemSpawnCounts.get(z).put("gold", 0);
                     chestItemSpawnCounts.get(z).put("gold", chestItemSpawnCounts.get(z).get("gold") + 1);
                 }
                 
+                if(random.nextFloat() < 0.05){
+                    inventory.add(new ItemStack("diamond", "a shiney rock", Sprite.get("diamond"), null, MathUtil.range(1, 2, random)));
+                    if(!chestItemSpawnCounts.get(z).containsKey("diamond")) chestItemSpawnCounts.get(z).put("diamond", 0);
+                    chestItemSpawnCounts.get(z).put("diamond", chestItemSpawnCounts.get(z).get("diamond") + 1);
+                }
 //                Log.debug("Chest contains " + inventory.count() + " items");
             }
 //            Log.debug("Level [" + z + "] [" + world.level(z).type() +"] Floor:  " + itemSpawnCounts.get(z) + " Total [" + spawnedThisLevel + "]");
@@ -334,6 +345,14 @@ public class WorldBuilder {
         
         Log.info("Placed items in " + ((System.nanoTime() - start) / 1000000) + "ms");
         return this;
+    }
+    
+    private Ammo getRandomAmmo() {
+        List<Ammo> ammos = new ArrayList<Ammo>();
+        for (ItemSpawnProperty spawnProperty : Codex.items.values()) {
+            if (spawnProperty.entity() instanceof Ammo) ammos.add((Ammo) spawnProperty.entity());
+        }
+        return (Ammo) ammos.get(random.nextInt(ammos.size())).newInstance();
     }
     
     private void spawnItem(Item newItem, int z){

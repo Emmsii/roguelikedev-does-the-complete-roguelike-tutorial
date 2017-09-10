@@ -22,6 +22,13 @@ HEAL=5
 ACTION=eat
 FLAGS=hide_effects
 
+[CONSUMABLE]
+NAME=apple
+DESCRIPTION=A nice crunchy apple
+SPRITE=apple
+HEAL=5
+ACTION=eat
+
 [POTION]
 NAME=red potion
 DESCRIPTION=I wonder what this does?
@@ -49,6 +56,20 @@ SPRITE=potion_yellow
 
 # --------- Equipment
 
+# --------- Ammo
+
+[AMMO]
+NAME=arrow
+DESCRIPTION=A pointy stick that can fly
+SPRITE=arrow
+AMOUNT=3-12
+
+[AMMO]
+NAME=bolt
+DESCRIPTION=A short, pointy stick that can fly
+SPRITE=bolt
+AMOUNT=5-20
+
 # --------- Weapons
 
 [EQUIPPABLE]
@@ -61,6 +82,7 @@ DAMAGE_RANGED=1d4
 SPAWN_CHANCE=8
 SPAWN_LEVELS=2-20
 BLOCKED_SLOT=shield
+AMMO=arrow
 
 [EQUIPPABLE]
 NAME=crossbow
@@ -71,6 +93,7 @@ DAMAGE=1d1
 DAMAGE_RANGED=2d3
 SPAWN_CHANCE=6
 SPAWN_LEVELS=5-20
+AMMO=bolt
 
 [EQUIPPABLE]
 NAME=dagger
@@ -115,6 +138,15 @@ SPRITE=scimitar
 DAMAGE=1d7
 SPAWN_CHANCE=8
 SPAWN_LEVELS=6-20
+
+[EQUIPPABLE]
+NAME=axe
+SLOT=weapon
+DESCRIPTION=An axe for cutting wood
+SPRITE=axe
+DAMAGE=1d2
+SPAWN_CHANCE=10
+SPAWN_LEVELS=1-20
 
 # --------- Armor
 

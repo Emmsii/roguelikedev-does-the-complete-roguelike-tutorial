@@ -3,9 +3,9 @@ package com.mac.rltut.game.screen.game.subscreen.inventory;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.entity.item.Spellbook;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
+import com.mac.rltut.game.world.objects.Shrine;
 
 /**
  * Project: complete-rltut
@@ -14,12 +14,11 @@ import com.mac.rltut.game.screen.Screen;
  */
 public class BlessScreen extends InventoryBasedScreen{
     
-    private Spellbook spellbook;
+    private Shrine shrine;
     
-    public BlessScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Player player, Spellbook spellbook, Screen lastScreen) {
-        super(x, y, w, h, title, inventory, player, lastScreen);
-        this.spellbook = spellbook;
-        this.lastScreen = lastScreen;
+    public BlessScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Player player, Shrine shrine) {
+        super(x, y, w, h, title, inventory, player, null);
+        this.shrine = shrine;
     }
 
     @Override
@@ -29,12 +28,12 @@ public class BlessScreen extends InventoryBasedScreen{
 
     @Override
     protected boolean isAcceptable(Item item) {
-        return item instanceof Equippable && !item.unique() && spellbook.validSlot(((Equippable) item).slot());
+        return item instanceof Equippable && !item.unique();
     }
 
     @Override
     protected Screen use(Item item) {
-        spellbook.bless(player, (Equippable) item);
-        return lastScreen;
+        shrine.bless(item, player, player.z);
+        return null;
     }
 }

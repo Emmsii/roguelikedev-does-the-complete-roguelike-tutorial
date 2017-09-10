@@ -14,7 +14,7 @@ import java.util.Random;
  * PC
  * Created by Matt on 30/07/2017 at 06:34 PM.
  */
-public class PotionBuilder {
+public class PotionGenerator {
     
     public static Potion randomPotion(int z, Random random){
         Effect potionEffect = EffectBuilder.randomPotionEffect(z, random);

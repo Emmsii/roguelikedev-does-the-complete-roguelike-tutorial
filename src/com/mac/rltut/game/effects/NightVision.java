@@ -1,7 +1,7 @@
 package com.mac.rltut.game.effects;
 
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
-import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -16,7 +16,7 @@ public class NightVision extends Effect{
     protected NightVision(){}
     
     public NightVision(int amount, int duration, float chance){
-        super("night vision", "night vision", new ColoredString("vision", Colors.PURPLE), "increase vision by " + amount + " for " + duration + " turns", duration, chance);
+        super("night vision", "night vision", "increase vision by " + amount + " for " + duration + " turns", duration, chance, Sprite.get("ui_night_vision"));
         this.amount = amount;
     }
 
@@ -29,6 +29,6 @@ public class NightVision extends Effect{
     @Override
     public void stop(Creature creature) {
         creature.setVisionBonus(0);
-        creature.notify(new ColoredString("your vision returns to normal"));
+        creature.notify(new ColoredString("Your vision returns to normal"));
     }
 }

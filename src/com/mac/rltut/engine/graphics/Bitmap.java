@@ -27,7 +27,7 @@ public class Bitmap {
     }
 
     public int pixel(int x, int y){
-        if(x < 0 || y < 0 || x >= width || y >= height) return 0;
+        if(x < 0 || y < 0 || x >= width || y >= height) return 0xff000000;
         return pixels[x + y * width];
     }
 

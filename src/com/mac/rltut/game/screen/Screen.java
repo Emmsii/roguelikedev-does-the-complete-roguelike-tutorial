@@ -77,6 +77,14 @@ public abstract class Screen {
         this.title = title;
     }
     
+    public int x(){
+        return x;
+    }
+    
+    public int y(){
+        return y;
+    }
+    
     public int width(){
         return width;
     }

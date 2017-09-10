@@ -14,9 +14,10 @@ public class Terminal extends JFrame {
 
     private Panel panel;
     
-    public Terminal(boolean fullscreen, int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title){
+    public Terminal(boolean fullscreen, int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title, ImageIcon icon){
         this.panel = new Panel(widthInTiles, heightInTiles, windowScale, tileSize);
         this.setTitle(title);
+        if(icon != null) this.setIconImage(icon.getImage());
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowCloseHandler());
         if(fullscreen){
@@ -33,10 +34,6 @@ public class Terminal extends JFrame {
 
     public Panel panel(){
         return panel;
-    }
-    
-    public void setIcon(ImageIcon icon){
-        this.setIconImage(icon.getImage());
     }
 
     private boolean isWindows(){

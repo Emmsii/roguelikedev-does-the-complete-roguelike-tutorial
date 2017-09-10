@@ -9,25 +9,26 @@ import com.mac.rltut.game.entity.creature.Creature;
  * PC
  * Created by Matt on 01/08/2017 at 10:07 AM.
  */
-public class ManaRegen extends Effect{
+public class Bleed extends Effect{
     
     private int amount;
 
-    protected ManaRegen(){}
-    
-    public ManaRegen(int amount, int duration, float chance){
-        super("regen mana", "mana regen", "regenerate " + amount + " mana per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, Sprite.get("ui_mana_regen"));
+    public Bleed(){}
+
+    public Bleed(int amount, int duration, float chance){
+        super("bleed", "bleeding", "take " + amount + " damage for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, Sprite.get("ui_bleeding"));
         this.amount = amount;
     }
 
     @Override
     public void start(Creature creature) {
-        creature.doAction(new ColoredString("feel magic slowly coming back to you..."));
+        creature.doAction(new ColoredString("bleed"));
     }
 
     @Override
     public void update(Creature creature) {
         super.update(creature);
-        creature.modifyMana(amount);
+        creature.modifyHp(-amount, "bleeding");
+        if(Math.random() < 0.5) creature.world().level(creature.z).setBlood(creature.x, creature.y, true);
     }
 }

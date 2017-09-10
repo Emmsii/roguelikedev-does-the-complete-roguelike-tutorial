@@ -38,7 +38,7 @@ public class AStar {
             System.exit(-1);
         }
         
-        if(world.solid(startPos.x, startPos.y, startPos.z) || world.tile(endPos.x, endPos.y, endPos.z).solid()){
+        if(world.solid(startPos.x, startPos.y, startPos.z) || world.solid(endPos.x, endPos.y, endPos.z)){
             return null;
         }
         

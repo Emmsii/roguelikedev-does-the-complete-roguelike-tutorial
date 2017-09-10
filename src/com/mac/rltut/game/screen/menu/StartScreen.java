@@ -36,16 +36,18 @@ public class StartScreen extends Screen{
                     return super.onYes();
                 }
             };
+            else if(e.getKeyCode() == KeyEvent.VK_C) return new HighscoresScreen();
+            else if(e.getKeyCode() == KeyEvent.VK_D) return new AboutScreen();
+            else if(e.getKeyCode() == KeyEvent.VK_E) return new OptionsScreen();
+            else if(e.getKeyCode() == KeyEvent.VK_F) System.exit(0);
+        }else{
+            if(e.getKeyCode() == KeyEvent.VK_A) return new PlayerNameScreen(12);
+            else if(e.getKeyCode() == KeyEvent.VK_B) return new HighscoresScreen();
             else if(e.getKeyCode() == KeyEvent.VK_C) return new AboutScreen();
             else if(e.getKeyCode() == KeyEvent.VK_D) return new OptionsScreen();
             else if(e.getKeyCode() == KeyEvent.VK_E) System.exit(0);
-        }else{
-            if(e.getKeyCode() == KeyEvent.VK_A) return new PlayerNameScreen(12);
-            else if(e.getKeyCode() == KeyEvent.VK_B) return new AboutScreen();
-            else if(e.getKeyCode() == KeyEvent.VK_C) return new OptionsScreen();
-            else if(e.getKeyCode() == KeyEvent.VK_D) System.exit(0);
         }
-
+        
         gameExists = FileHandler.gameSaveExists();
         saveVersion = FileHandler.saveGameVersion();
         return this;
@@ -61,14 +63,16 @@ public class StartScreen extends Screen{
         if(gameExists) {
             renderer.write("[a] Continue", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2);
             renderer.write("[b] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 1);
+            renderer.write("[c] Highscores", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 3);
+            renderer.write("[d] About", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 4);
+            renderer.write("[e] Options", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 5);
+            renderer.write("[f] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 6);
+        }else{
+            renderer.write("[a] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2);
+            renderer.write("[b] Highscores", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 2);
             renderer.write("[c] About", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 3);
             renderer.write("[d] Options", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 4);
             renderer.write("[e] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 5);
-        }else{
-            renderer.write("[a] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2);
-            renderer.write("[b] About", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 2);
-            renderer.write("[c] Options", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 3);
-            renderer.write("[d] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 4);
         }
         
         if(!Engine.instance().version().equals(saveVersion) && saveVersion != null){

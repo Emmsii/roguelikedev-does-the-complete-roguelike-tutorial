@@ -3,6 +3,7 @@ package com.mac.rltut.game.codex;
 import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.util.CreatureSpawnProperty;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
+import com.mac.rltut.game.world.builders.LevelBuilder;
 
 import java.util.HashMap;
 
@@ -13,6 +14,7 @@ import java.util.HashMap;
  */
 public class Codex {
     
+    public static HashMap<String, LevelBuilder> levelBuilders = new HashMap<String, LevelBuilder>();
     public static HashMap<String, CreatureSpawnProperty> creatures = new HashMap<String, CreatureSpawnProperty>();
     public static HashMap<String, ItemSpawnProperty> items = new HashMap<String, ItemSpawnProperty>();
     public static HashMap<String, Spell> spells = new HashMap<String, Spell>();

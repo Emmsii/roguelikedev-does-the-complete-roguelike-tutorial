@@ -2,11 +2,14 @@ package com.mac.rltut.game;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.file.FileHandler;
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.pathfinding.astar.AStar;
+import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.SessionTimer;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.codex.Codex;
+import com.mac.rltut.game.effects.*;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
@@ -32,9 +35,7 @@ public class Game{
     private SessionTimer sessionTimer;
     private long gameStartTime;
     
-    public Game(){
-        
-    }
+    public Game(){}
     
     public Game newGame(Player player, World world){
         this.player = player;
@@ -45,7 +46,7 @@ public class Game{
         new PlayerAI(player, log);
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
-        
+
         log.add("You've drawn the short straw I'm afraid. You need to travel through the forest to rescue the king!");
         
         init();
@@ -102,6 +103,10 @@ public class Game{
     
     public SessionTimer sessionTimer(){
         return sessionTimer;
+    }
+    
+    public long gameStartTime(){
+        return gameStartTime;
     }
     
     public World world(){

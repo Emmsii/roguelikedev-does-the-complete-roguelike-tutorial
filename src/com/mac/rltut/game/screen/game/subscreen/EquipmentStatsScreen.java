@@ -2,7 +2,6 @@ package com.mac.rltut.game.screen.game.subscreen;
 
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
-import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
@@ -70,14 +69,14 @@ public class EquipmentStatsScreen extends Screen {
         }
         yp++;
         
-        for(Effect effect : player.effects()){
-            String text = effect.statusName().text.toUpperCase();
-            renderer.write(text, xp, yp, effect.statusName().color);
-            xp += text.length() + 1;
-            if(xp > this.x + width - 4){
-                xp = this.x + 2;
-                yp++;
-            }
-        }
+//        for(Effect effect : player.effects()){
+//            String text = effect.statusName().text.toUpperCase();
+//            renderer.write(text, xp, yp, effect.statusName().color);
+//            xp += text.length() + 1;
+//            if(xp > this.x + width - 4){
+//                xp = this.x + 2;
+//                yp++;
+//            }
+//        }
     }
 }

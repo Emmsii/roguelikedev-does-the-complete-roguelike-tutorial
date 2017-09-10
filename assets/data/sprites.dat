@@ -217,6 +217,71 @@ NAME=mushroom
 X=0
 Y=3
 
+[SPRITE]
+NAME=campFire
+X=3
+Y=13
+
+[SPRITE]
+NAME=campFireRemains
+X=4
+Y=13
+
+[SPRITE]
+NAME=stump1
+X=5
+Y=13
+
+[SPRITE]
+NAME=stump2
+X=6
+Y=13
+
+[SPRITE]
+NAME=shrine_charged
+X=1
+Y=14
+
+[SPRITE]
+NAME=shrine_empty
+X=2
+Y=14
+
+[SPRITE]
+NAME=pillar_short
+X=3
+Y=14
+
+[SPRITE]
+NAME=pillar_medium
+X=4
+Y=14
+
+[SPRITE]
+NAME=pillar_tall
+X=5
+Y=14
+
+[SPRITE]
+NAME=cobblestone1
+X=6
+Y=14
+
+[SPRITE]
+NAME=cobblestone2
+X=7
+Y=14
+
+[SPRITE]
+NAME=cobblestone3
+X=8
+Y=14
+
+[SPRITE]
+NAME=cobblestone4
+X=9
+Y=14
+
 # ---------------- Creatures
 
 [SPRITE]
@@ -251,6 +316,11 @@ Y=5
 
 [SPRITE]
 NAME=wizard_undead
+X=11
+Y=5
+
+[SPRITE]
+NAME=shop_keeper
 X=11
 Y=5
 
@@ -633,6 +703,21 @@ NAME=platelegs
 X=13
 Y=12
 
+[SPRITE]
+NAME=leather_top
+X=0
+Y=13
+
+[SPRITE]
+NAME=leather_bottoms
+X=1
+Y=13
+
+[SPRITE]
+NAME=leather_hat
+X=3
+Y=13
+
 # ---------------- UI
 
 [SPRITE]
@@ -674,6 +759,51 @@ Y=12
 NAME=ui_selection
 X=15
 Y=12
+
+[SPRITE]
+NAME=ui_poison
+X=8
+Y=13
+
+[SPRITE]
+NAME=ui_bleeding
+X=9
+Y=13
+
+[SPRITE]
+NAME=ui_healing
+X=10
+Y=13
+
+[SPRITE]
+NAME=ui_mana_regen
+X=11
+Y=13
+
+[SPRITE]
+NAME=ui_burning
+X=12
+Y=13
+
+[SPRITE]
+NAME=ui_enraged
+X=13
+Y=13
+
+[SPRITE]
+NAME=ui_frozen
+X=14
+Y=13
+
+[SPRITE]
+NAME=ui_night_vision
+X=15
+Y=13
+
+[SPRITE]
+NAME=ui_blinded
+X=0
+Y=14
 
 # ---------------- Misc
 

@@ -1,0 +1,116 @@
+[DEFAULTS]
+NAME=default
+MIN_LEVEL=1
+MAX_LEVEL=depth
+CHANCE=70
+Z_MULTIPLIER=-0.5
+CREATURE_SPAWN_MULTIPLIER=1.5
+VISIBILITY=0
+TILE_TYPES=treeConifer:50, treeDeciduous:50, stump1:2, stump2:2, waterBlue, wallTopRed, grassMediumGreen, grassSmallGreen:60, chest_silver
+DECAL_TILES=waterLilypad:4:waterBlue, grassGreen:40:empty;floor, treeConifer:22:empty, treeDeciduous:22:empty
+TREE_RANDOM=0.438-0.46
+TREE_SMOOTH=5-6
+LIQUID_RANDOM=0.35-0.425
+LIQUID_SMOOTH=5-8
+BORDER_THICKNESS=3
+MIN_REGION_SIZE=80
+ROOM_COUNT=3-4
+ROOM_SIZE_MIN=5-6
+ROOM_SIZE_MAX=8-9
+CHEST_FREQUENCY=0.4
+
+[FOREST]
+NAME=dark
+MIN_LEVEL=10
+MAX_LEVEL=depth
+CHANCE=20
+Z_MULTIPLIER=1.85
+CREATURE_SPAWN_MULTIPLIER=1.7
+VISIBILITY=-2
+TILE_TYPES=treeConifer:80, treeDeciduous:10, stump1:2, stump2:2, waterBlue:90, waterDirty:5, wallTopBlue, grassMediumPurple:60, grassMediumBlue:80, grassSmallPurple:50, grassSmallBlue:60, chestGold
+DECAL_TILES=waterLilypad:4:waterBlue, waterBonesDirty1:2:waterDirty, waterBonesDirty2:3:waterDirty, mushroom:4:empty;floor, grassPurple:60:empty;floor, grassBlue:60:empty;floor, treeConifer:80:empty, treeDeciduous:10:empty
+TREE_RANDOM=0.4475-0.475
+TREE_SMOOTH=3-4
+LIQUID_RANDOM=0.31-0.35
+BORDER_THICKNESS=4
+ROOM_COUNT=7-8
+
+[FOREST]
+NAME=dense
+MIN_LEVEL=1
+MAX_LEVEL=depth
+CHANCE=55
+Z_MULTIPLIER=0.95
+CREATURE_SPAWN_MULTIPLIER=1.5
+VISIBILITY=-2
+TILE_TYPES=treeConifer:50, treeDeciduous:45, stump1:1, stump2:1, waterBlue, wallTopRed, grassMediumGreen, grassSmallGreen:30, chest_silver
+DECAL_TILES=waterLilypad:4:waterBlue, grassGreen:70:empty;floor, mushroom:4:empty;floor, treeConifer:70:empty, treeDeciduous:60:empty
+TREE_RANDOM=0.465-0.485
+LIQUID_RANDOM=0.32-0.4
+BORDER_THICKNESS=4
+ROOM_COUNT=2-3
+
+[FOREST]
+NAME=dense
+MIN_LEVEL=3
+MAX_LEVEL=12
+CHANCE=50
+Z_MULTIPLIER=1.325
+CREATURE_SPAWN_MULTIPLIER=1.5
+VISIBILITY=2
+TILE_TYPES=treeConifer:40, treeDeciduous:50, stump1:4, stump2:4, waterBlue, wallTopRed, grassMediumGreen, grassSmallGreen:50, chest_silver
+DECAL_TILES=waterLilypad:6:waterBlue, reeds1:7:waterBlue, reeds2:7:waterBlue, grassGreen:50:empty;floor, mushroom:6:empty;floor, treeConifer:20:empty, treeDeciduous:20:empty
+TREE_RANDOM=0.325-0.425
+LIQUID_RANDOM=0.445-0.465
+BORDER_THICKNESS=4
+ROOM_COUNT=0
+
+[FOREST]
+NAME=ruined
+MIN_LEVEL=3
+MAX_LEVEL=depth
+CHANCE=10
+Z_MULTIPLIER=1.25
+CREATURE_SPAWN_MULTIPLIER=1.7
+VISIBILITY=2
+TILE_TYPES=treeConifer:40, treeDeciduous:50, stump1:4, stump2:4, waterBlue, wallTopRed, grassMediumGreen:90, grassMediumYellow:10, grassSmallGreen:50, grassSmallYellow:10, chest_silver
+DECAL_TILES=waterLilypad:4:waterBlue, grassGreen:70:empty;floor, mushroom:2:empty;floor, treeConifer:20:empty, treeDeciduous:20:empty
+TREE_RANDOM=0.3-0.33
+TREE_SMOOTH=2-3
+LIQUID_RANDOM=0.28-0.32
+ROOM_COUNT=25-30
+ROOM_SIZE_MAX=8-11
+CHEST_CHANCE=0.45
+
+[FOREST]
+NAME=sparse
+MIN_LEVEL=3
+MAX_LEVEL=10
+CHANCE=70
+Z_MULTIPLIER=0.9
+CREATURE_SPAWN_MULTIPLIER=1.5
+VISIBILITY=3
+TILE_TYPES=treeConifer:40, treeDeciduous:50, stump1:5, stump2:5, waterBlue, wallTopRed, grassMediumGreen:70, grassSmallGreen:90, chest_silver
+DECAL_TILES=waterLilypad:4:waterBlue, grassGreen:60:empty;floor, mushroom:2:empty;floor, treeConifer:20:empty, treeDeciduous:20:empty
+TREE_RANDOM=0.325-0.35
+TREE_SMOOTH=2-3
+LIQUID_RANDOM=0.3-0.33
+ROOM_COUNT=5-10
+ROOM_SIZE_MIN=7-8
+ROOM_SIZE_MAX=10-13
+
+[FOREST]
+NAME=swamp
+MIN_LEVEL=6
+MAX_LEVEL=depth
+CHANCE=40
+Z_MULTIPLIER=1.5
+CREATURE_SPAWN_MULTIPLIER=1.5
+VISIBILITY=-1
+TILE_TYPES=treeConifer:50, treeDeciduous:45, stump1:4, stump2:4, waterDirty:80, waterFoul:10, grassMediumYellow:15, grassMediumGreen:70, grassSmallYellow:15, grassSmallGreen:50, waterBlue:5
+DECAL_TILES=waterBonesDirty1:2:waterDirty, waterBonesDirty2:2:waterDirty, waterBonesFoul1:2:waterFoul, waterBonesFoul2:2:waterFoul, reeds1:9:waterDirty, reeds2:9:waterDirty, grassPurple:20:empty;floor, grassGreen:70:empty;floor, mushroom:15:empty;floor, treeConifer:25:empty, treeDeciduous:25:empty
+TREE_RANDOM=0.32-0.4
+LIQUID_RANDOM=0.425-0.45
+LIQUID_SMOOTH=1-2
+BORDER_THICKNESS=4
+ROOM_COUNT=0

@@ -5,6 +5,7 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.FieldOfView;
 import com.mac.rltut.engine.util.StringUtil;
+import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.screen.Screen;
@@ -63,13 +64,15 @@ public class LevelScreen extends Screen{
                 }
                 
                 Sprite sprite = spriteAt(xp, yp, player.z);
-                renderer.renderSprite(sprite, xa, ya);
+                renderer.renderSprite(sprite, xa + this.x, ya + this.y);
             }
         }
 
         renderCreatures(renderer);
         if(showFov) renderFog(renderer);
 
+        renderStatusEffects(renderer);
+        
         renderBorder(renderer);
     }
         
@@ -92,7 +95,7 @@ public class LevelScreen extends Screen{
                 }
             }
             
-            if(inFov || !showFov) if(!c.hasFlag("invisible")) renderer.renderSprite(c.sprite(), xa, ya);
+            if(inFov || !showFov) if(!c.hasFlag("invisible")) renderer.renderSprite(c.sprite(), xa + this.x, ya + this.y);
         }
     }
     
@@ -106,18 +109,27 @@ public class LevelScreen extends Screen{
                 
                 if(!world.isExplored(xp, yp, player.z)){
                     Sprite fog = Sprite.getFogSprite(fogBit[xa][ya]);
-                    renderer.renderSprite(fog, xa, ya);
+                    renderer.renderSprite(fog, xa + this.x, ya + this.y);
                 }else if(!world.inFov(xp, yp, player.z) && world.creature(xp, yp, player.z) != null && world.creature(xp, yp, player.z).size() == 1){
-                    if(world.creature(xp, yp, player.z) != null) renderer.renderSprite(spriteAt(xp, yp, player.z), xa, ya);
-                    renderer.darkenSprite(xa, ya);
-                }else if(!world.inFov(xp, yp, player.z)) renderer.darkenSprite(xa, ya);
+                    if(world.creature(xp, yp, player.z) != null) renderer.renderSprite(spriteAt(xp, yp, player.z), xa + this.x, ya + this.y);
+                    renderer.darkenSprite(xa + this.x, ya + this.y);
+                }else if(!world.inFov(xp, yp, player.z)) renderer.darkenSprite(xa + this.x, ya + this.y);
                 
                 if(world.isExplored(xp, yp, player.z)){
-                    renderer.colorizeSprite(xa, ya, darkenAmount);
-                    renderer.darkenSprite(xa, ya, 1f - (darkenAmount * 0.75f));
+                    renderer.colorizeSprite(xa + this.x, ya + this.y, darkenAmount);
+                    renderer.darkenSprite(xa + this.x, ya + this.y, 1f - (darkenAmount * 0.75f));
                 }
             }
         }
+    }
+    
+    private void renderStatusEffects(Renderer renderer){
+        int count = player.effects().size() * 2;
+        if(count == 0) return;
+        int xp = 1;
+        int yp = 1;
+        renderBox(xp, yp, count + 2, 4, true, renderer);
+        for(Effect e : player.effects()) renderer.renderSprite(e.spriteUi(), (this.x + xp++) * 2, this.y + yp + 1, 0, 2);
     }
     
     private Sprite spriteAt(int xp, int yp, int zp){

@@ -27,7 +27,7 @@ public class WinScreen extends EndScreen{
         renderer.writeCenter("You won!", xp, yp++);
         yp++;
 
-        renderer.writeCenter("You saved the King!" + (player.z + 1) + ".", xp, yp++);
+        renderer.writeCenter("You saved the King!", xp, yp++);
         yp+=3;
         
         super.render(renderer);

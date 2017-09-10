@@ -28,6 +28,7 @@ public class Player extends Creature{
             Creature other = world.creature(p.x, p.y, p.z);
             if(other instanceof NPC){
                 NPC npc = (NPC) other;
+                if(npc.name().equalsIgnoreCase("duck")) continue;
                 npc.onTalk(this);
                 return;
             }

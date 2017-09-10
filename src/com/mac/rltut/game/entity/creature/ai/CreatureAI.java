@@ -61,8 +61,8 @@ public class CreatureAI {
     
     protected boolean canUseRanged(Creature other){
         Equippable weapon = creature.getEquippedAt(EquipmentSlot.WEAPON);
-        if(weapon == null) return false;
-        return weapon.rangedDamage() != null && creature.canSee(other);
+        if(weapon == null || creature.ammo() == null) return false;
+        return weapon.rangedDamage() != null && weapon.ammoType().equalsIgnoreCase(creature.ammo().name()) && creature.canSee(other);
     }
     
     protected boolean canUseSpell(Creature other){
@@ -112,6 +112,35 @@ public class CreatureAI {
     }
     
     public boolean onMove(int xp, int yp, int zp){
+//        
+//        if(creature.world().tile(xp, yp, zp).type().equalsIgnoreCase("tree") && !creature.world().tile(xp, yp, zp).name().startsWith("stump")){
+//            if(creature.getEquippedAt(EquipmentSlot.WEAPON) != null && creature.getEquippedAt(EquipmentSlot.WEAPON).name().equalsIgnoreCase("axe")) {
+//                creature.doAction(new ColoredString("swing an axe at the tree"));
+//                if (Math.random() < 0.4) {
+//                    
+//                    Item log = (Item) Codex.items.get("log").entity().newInstance();
+//                    if (!creature.inventory().isFull()) {
+//                        creature.doAction(new ColoredString("chop a log off the tree"));
+//                        creature.inventory().add(log);
+//                    } else {
+//                        creature.notify(new ColoredString("There is no room for the log in your inventory.", Colors.ORANGE));
+//                        Point drop = creature.world().getEmptyItemDropPoint(creature.x, creature.y, creature.z);
+//                        creature.world().add(drop.x, drop.y, drop.z, log);
+//                    }
+//
+//                    if(Math.random() < 0.7){
+//                        Point drop = creature.world().getEmptyItemDropPoint(creature.x, creature.y, creature.z);
+//                        creature.world().add(drop.x, drop.y, drop.z, (Item) Codex.items.get("apple").entity().newInstance());
+//                    }
+//                    
+//                    if(Math.random() < 0.4){
+//                        creature.world().level(zp).setTile(xp, yp, Tile.getTile(Math.random() < 0.5 ? "stump1" : "stump2").id);
+//                        creature.notify(new ColoredString("The tree falls."));
+//                    }
+//                }
+//            }
+//        }
+//        
         if(!canEnter(xp, yp, zp)) return false;
         creature.world().move(xp, yp, zp, creature);
         return true;
@@ -123,7 +152,7 @@ public class CreatureAI {
                 Tile t = creature.world().tile(x + xp, y + yp, zp);
                 if(t.canFly() && creature.hasFlag("can_fly")) continue;
                 MapObject obj = creature.world().mapObject(x + xp, y + yp, zp);
-                if(t.solid() || obj != null) return false;
+                if(t.solid() || (obj != null && obj.tile().solid())) return false;
                 Creature c = creature.world().creature(x + xp, y + yp, zp);
                 if(c == null) continue;
                 else if(c.id != creature.id) return false;

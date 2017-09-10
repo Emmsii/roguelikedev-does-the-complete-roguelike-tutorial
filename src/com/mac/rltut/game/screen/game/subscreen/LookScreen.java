@@ -2,12 +2,11 @@ package com.mac.rltut.game.screen.game.subscreen;
 
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
-import com.mac.rltut.game.entity.Entity;
 import com.mac.rltut.game.entity.creature.Creature;
 import com.mac.rltut.game.entity.creature.NPC;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.entity.item.ItemStack;
+import com.mac.rltut.game.world.objects.MapObject;
 
 import java.util.List;
 
@@ -32,10 +31,10 @@ public class LookScreen extends TargetBasedScreen{
         if(caption.length() > width - 6){
             List<String> lines = StringUtil.lineWrap(caption.toString(), width - 6, false);
             renderBox(2, height - 4 - lines.size(), width - 4, 2 + lines.size(), true, renderer);
-            for(int i = 0; i < lines.size(); i++) renderer.writeCenter(lines.get(i), width / 2, height - 3 - lines.size() + i);
+            for(int i = 0; i < lines.size(); i++) renderer.writeCenter(lines.get(i), this.x + (width / 2), this.y + (height - 3 - lines.size() + i));
         }else {
             renderBox(2, height - 5, width - 4, 3, true, renderer);
-            renderer.writeCenter(caption.toString(), width / 2, height - 4);
+            renderer.writeCenter(caption.toString(), this.x + (width / 2), this.y + (height - 4));
         }
     }
 
@@ -44,16 +43,18 @@ public class LookScreen extends TargetBasedScreen{
         caption = new StringBuilder();
         
         Creature creature = player.world().creature(xa, ya, player.z);
+        MapObject mapObject = player.world().mapObject(xa, ya, player.z);
         Item item = player.world().item(xa, ya, player.z);
         boolean blood = player.world().level(player.z).blood(xa, ya);
         
         if(creature != null){
             if(creature.isPlayer()) caption.append("You are standing on ");
             else if(creature instanceof NPC) caption.append("The " + creature.name() + " standing on ");
-            else caption.append(articleName(creature) + " standing on ");
+            else caption.append(StringUtil.articleName(creature) + " standing on ");
         }
-        
-        if(item != null) caption.append(articleName(item) + " lying on ");
+
+        if(mapObject != null) caption.append(StringUtil.articleName(mapObject) + " on ");
+        if(item != null) caption.append(StringUtil.articleName(item) + " lying on ");
         if(blood) caption.append("a pool of blood, splattered on ");
                 
         caption.append(player.world().tile(xa, ya, player.z).description().toLowerCase());
@@ -68,9 +69,4 @@ public class LookScreen extends TargetBasedScreen{
         return player.world().inFov(xa, ya, player.z);
     }
     
-    private String articleName(Entity entity){
-        if(entity instanceof ItemStack) return "some ";
-        String article = "aeiou".contains(entity.name().subSequence(0, 1)) ? "an " : "a ";
-        return article + StringUtil.clean(entity.name());
-    }
 }

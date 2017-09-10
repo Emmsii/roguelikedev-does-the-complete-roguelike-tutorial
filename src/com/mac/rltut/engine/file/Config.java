@@ -21,6 +21,7 @@ public class Config {
     public static int monitor;
     public static boolean autoEquip;
     public static boolean blood;
+    public static boolean autoPostScore;
     
     private static void loadDefaults(){
         fullscreen = false;
@@ -28,6 +29,7 @@ public class Config {
         monitor = 0;
         autoEquip = true;
         blood = true;
+        autoPostScore = false;
     }
     
     public static void load(){
@@ -48,7 +50,7 @@ public class Config {
             monitor = properties.containsKey("monitor") ? Integer.parseInt((String) properties.get("monitor")) : 0;
             autoEquip = properties.containsKey("auto_equip") ? Boolean.parseBoolean((String) properties.get("auto_equip")) : true;
             blood = properties.containsKey("blood") ? Boolean.parseBoolean((String) properties.get("blood")) : true;
-            
+            blood = properties.containsKey("auto_post_score") ? Boolean.parseBoolean((String) properties.get("auto_post_score")) : false;
             inputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -70,6 +72,7 @@ public class Config {
             properties.setProperty("monitor", String.valueOf(monitor));
             properties.setProperty("auto_equip", String.valueOf(autoEquip));
             properties.setProperty("blood", String.valueOf(blood));
+            properties.setProperty("auto_post_score", String.valueOf(autoPostScore));
             properties.store(outputStream, null);
             outputStream.flush();
             outputStream.close();

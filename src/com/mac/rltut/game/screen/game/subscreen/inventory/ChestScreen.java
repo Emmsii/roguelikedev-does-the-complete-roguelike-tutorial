@@ -44,11 +44,14 @@ public class ChestScreen extends InventoryBasedScreen{
                 player.doAction(new ColoredString("take %d %s"), stack.amount(), item.name());
                 if(stack.name().equalsIgnoreCase("gold")){
                     player.modifyGold(stack.amount());
-                    if(inventory.isEmpty()){
-                        player.notify(new ColoredString("The chest is empty.", Colors.ORANGE));
-                        return null;
-                    }
-                    return this;
+//                    if(inventory.isEmpty()){
+//                        player.notify(new ColoredString("The chest is empty.", Colors.ORANGE));
+//                        return null;
+//                    }
+//                    return this;
+                }else if(stack.name().equalsIgnoreCase("diamonds")){
+                    player.modifyDefense(stack.amount());
+//                    return thi
                 }
             }else {
                 player.doAction(new ColoredString("take the %s"), item.name());

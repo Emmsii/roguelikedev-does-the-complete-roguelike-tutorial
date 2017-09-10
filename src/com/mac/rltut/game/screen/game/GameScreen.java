@@ -15,6 +15,8 @@ import com.mac.rltut.game.screen.game.subscreen.inventory.*;
 import com.mac.rltut.game.screen.menu.LooseScreen;
 import com.mac.rltut.game.screen.menu.WinScreen;
 import com.mac.rltut.game.world.objects.Chest;
+import com.mac.rltut.game.world.objects.MapObject;
+import com.mac.rltut.game.world.objects.Shrine;
 
 import java.awt.event.KeyEvent;
 
@@ -42,9 +44,11 @@ public class GameScreen extends Screen{
     
     private void initScreens(){
         logScreen = new LogScreen(Engine.instance().widthInTiles(), game.log(), 9, "Log");
-        infoScreen = new InfoScreen(Engine.instance().widthInTiles() - 29, 0, 29, logScreen.height(), game.player().name(), game.player());
-        equipmentScreen = new EquipmentSlotsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player());
-        levelScreen = new LevelScreen(0, 0, Engine.instance().widthInTiles() - infoScreen.width(), Engine.instance().heightInTiles() - logScreen.height(), "", game.world(), game.player());
+//        infoScreen = new InfoScreen(Engine.instance().widthInTiles() - 29, 0, 29, logScreen.height(), game.player().name(), game.player());
+        infoScreen = new InfoScreen(0, 0, Engine.instance().widthInTiles(), 4, game.player().name(), game.player());
+//        equipmentScreen = new EquipmentSlotsScreen(Engine.instance().widthInTiles() - 25, infoScreen.height(), 25, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player());
+        equipmentScreen = new EquipmentSlotsScreen(Engine.instance().widthInTiles() - 25, infoScreen.height(), 25, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "", player());
+        levelScreen = new LevelScreen(0, infoScreen.height(), Engine.instance().widthInTiles() - equipmentScreen.width(), Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "", game.world(), game.player());
     }
 
     @Override
@@ -82,24 +86,36 @@ public class GameScreen extends Screen{
                     else player().notify(new ColoredString("There is nothing there.", Colors.ORANGE));
                     break;
                                     
-//                case KeyEvent.VK_PAGE_DOWN: game.world().moveDown(player()); break;
-//                case KeyEvent.VK_PAGE_UP: game.world().moveUp(player()); break;
+                case KeyEvent.VK_PAGE_DOWN: game.world().moveDown(player()); break;
+                case KeyEvent.VK_PAGE_UP: game.world().moveUp(player()); break;
 
                 case KeyEvent.VK_P: player().pickup(); break;
                 case KeyEvent.VK_K: game.player().tryTalk(); break; 
 
-                case KeyEvent.VK_Q: equipmentScreen = new EquipmentSlotsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
-                case KeyEvent.VK_T: equipmentScreen = new EquipmentStatsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
+//                case KeyEvent.VK_Q: equipmentScreen = new EquipmentSlotsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
+//                case KeyEvent.VK_T: equipmentScreen = new EquipmentStatsScreen(Engine.instance().widthInTiles() - 29, infoScreen.height(), 29, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player()); break;
 
-                case KeyEvent.VK_ESCAPE: subscreen = new GameEscapeMenu(Engine.instance().widthInTiles() / 2 - 10, Engine.instance().heightInTiles() / 2 - 5, 21, 9, game); break;
+                case KeyEvent.VK_ESCAPE: subscreen = new GameEscapeMenu(Engine.instance().widthInTiles() / 2 - 10, Engine.instance().heightInTiles() / 2 - 5, 21, 8, game); break;
 
-                case KeyEvent.VK_W: subscreen = new ThrowItemScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, player().x - levelScreen.getScrollX() + 1, player().y - levelScreen.getScrollY() + 1, levelScreen.width(), levelScreen.height(), player().inventory(), player()); break;
+                case KeyEvent.VK_W: subscreen = new ThrowItemScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, player().x - levelScreen.getScrollX() + 1, player().y - levelScreen.getScrollY() + 1, player().inventory(), player(), levelScreen); break;
                 case KeyEvent.VK_D: subscreen = new DropScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
-                case KeyEvent.VK_R: subscreen = new ReadScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
+                case KeyEvent.VK_B:
+                    MapObject mapObject = game.world().mapObject(player().x, player().y, player().z);
+                    if(mapObject == null || !(mapObject instanceof Shrine)){
+                        player().notify(new ColoredString("You aren't standing on a shrine.", Colors.ORANGE));
+                        break;
+                    }
+                    Shrine shrine = (Shrine) mapObject;
+                    if(!shrine.hasCharge()) {
+                        player().notify(new ColoredString("The shrine is out of charges.", Colors.ORANGE));
+                        break;
+                    }
+                    subscreen = new BlessScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player(), (Shrine) mapObject);
+                    break;
                 case KeyEvent.VK_C: subscreen = new ConsumeScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_X: subscreen = new ExamineScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
                 case KeyEvent.VK_E: subscreen = new EquipScreen(levelScreen.width() / 2 - (44 / 2), Engine.instance().heightInTiles() / 2  - 20, 44, 30, null, player().inventory(), player()); break;
-                case KeyEvent.VK_L: subscreen = new LookScreen(0, 0, levelScreen.width(), levelScreen.height(), player(), player().x - levelScreen.getScrollX() + 1, player().y - levelScreen.getScrollY() + 1); break;
+                case KeyEvent.VK_L: subscreen = new LookScreen(levelScreen.x(), levelScreen.y(), levelScreen.width(), levelScreen.height(), player(), player().x - levelScreen.getScrollX() + 1, player().y - levelScreen.getScrollY() + 1); break;
                 case KeyEvent.VK_F:
                     Equippable weapon = player().getEquippedAt(EquipmentSlot.WEAPON);
                     if(weapon != null && (weapon.rangedDamage() != null && !weapon.rangedDamage().equals("0"))){
@@ -107,7 +123,7 @@ public class GameScreen extends Screen{
                     }else player().notify(new ColoredString("You don't have a ranged weapon equipped.", Colors.ORANGE));
                     break;
 
-//                case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
+                case KeyEvent.VK_F1: LevelScreen.showFov = !LevelScreen.showFov; break;
             }
 
             if(key.getKeyChar() == '?') subscreen = new HelpScreen();

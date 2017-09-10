@@ -30,7 +30,6 @@ public class LevelUpScreen extends Screen{
     @Override
     public Screen input(KeyEvent key) {
         List<String> options = controller.levelUpOptions();
-
         char index = key.getKeyChar();
 
         if(letters.indexOf(index) > -1 && options.size() > letters.indexOf(index)){
@@ -39,15 +38,6 @@ public class LevelUpScreen extends Screen{
         }
         
         return this;
-//        String chars = "";
-//        
-//        for(int i = 0; i < options.size(); i++) chars = chars + Integer.toString(i + 1);
-//        int i = chars.indexOf(e.getKeyChar());
-//        if(i < 0) return this;
-//        
-//        controller.levelUpOption(options.get(i)).invoke(player);
-//        if(--picks < 1) return null;
-//        else return this;
     }
 
     @Override

@@ -65,7 +65,7 @@ public class ExamineItemScreen extends Screen {
                 Effect effect = e.effect();
                 renderer.write("Effect", xp, yp++);
                 renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(effect.name())) + " (" + effect.chancePercent() + " chance)", xp + 1, yp++);
-                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4, false);
+                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description() + "."), width - 4, false);
                 for(String s : desc) renderer.write(s, xp + 1, yp++);
                 yp++;
             }

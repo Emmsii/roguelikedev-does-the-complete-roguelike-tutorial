@@ -20,6 +20,7 @@ public class Equippable extends Item{
     
     private String damage;
     private String rangedDamage;
+    private String ammoType;
     
     private Effect effect;
 
@@ -38,7 +39,7 @@ public class Equippable extends Item{
         if(blockedSlot != null){
             Equippable blocked = creature.getEquippedAt(blockedSlot);
             if(blocked != null){
-                creature.notify(new ColoredString("You cannot equip a %s with a %s equipped.", Colors.ORANGE), StringUtil.capitalizeEachWord(name), StringUtil.capitalizeEachWord(blocked.name()));
+                creature.notify(new ColoredString("You cannot equip %s with %s equipped.", Colors.ORANGE), StringUtil.articleName(this), StringUtil.articleName(blocked));
                 return;
             }
         }
@@ -51,20 +52,20 @@ public class Equippable extends Item{
         for (Equippable equipped : creature.equippedItems().values()) {
             if (equipped == null || equipped.blockedSlot == null) continue;
             if (equipped.blockedSlot == slot) {
-                creature.notify(new ColoredString("You cannot equip a %s with a %s equipped.", Colors.ORANGE), StringUtil.capitalizeEachWord(name), StringUtil.capitalizeEachWord(equipped.name()));
+                creature.notify(new ColoredString("You cannot equip %s with %s equipped.", Colors.ORANGE), StringUtil.articleName(this), StringUtil.articleName(equipped));
                 return;
             }
         }
                 
         creature.setEquippable(slot, this);
-        creature.doAction(new ColoredString("equip a %s"), name);
+        creature.doAction(new ColoredString("equip %s"), StringUtil.articleName(this));
         equipped = true;
     }
     
     public void unequip(Creature creature){
         if(!equipped) return;
         Equippable alreadyEquipped = creature.getEquippedAt(slot);
-        if(alreadyEquipped != null) creature.doAction(new ColoredString("unequip a %s"), name);
+        if(alreadyEquipped != null) creature.doAction(new ColoredString("unequip %s"), StringUtil.articleName(this));
         creature.setEquippable(slot, null);
         equipped = false;
     }
@@ -114,6 +115,14 @@ public class Equippable extends Item{
     
     public void setEffect(Effect effect){
         this.effect = effect;
+    }
+    
+    public void setAmmoType(String ammoType){
+        this.ammoType = ammoType;
+    }
+    
+    public String ammoType(){
+        return ammoType;
     }
     
     public String damage(){

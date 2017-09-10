@@ -15,7 +15,7 @@ public class Heal extends Effect{
     protected Heal(){}
     
     public Heal(int amount, float chance){
-        super("heal", "healing", new ColoredString(""), "gain health", 1, chance);
+        super("heal", "healing", "gain health", 1, chance, null);
         this.amount = amount;
     }
 

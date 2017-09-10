@@ -1,6 +1,7 @@
 package com.mac.rltut.game.screen.game.subscreen.inventory;
 
 import com.mac.rltut.game.entity.creature.Player;
+import com.mac.rltut.game.entity.item.Ammo;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.util.Inventory;
@@ -24,12 +25,15 @@ public class EquipScreen extends InventoryBasedScreen {
 
     @Override
     protected boolean isAcceptable(Item item) {
-        return item instanceof Equippable;
+        return item instanceof Equippable || item instanceof Ammo;
     }
 
     @Override
     protected Screen use(Item item) {
-        player.equip(item);
+        if(item instanceof Ammo){
+            Ammo ammo = (Ammo) item;
+            player.setAmmo(ammo);
+        }else player.equip(item);
         return this;
     }
 }

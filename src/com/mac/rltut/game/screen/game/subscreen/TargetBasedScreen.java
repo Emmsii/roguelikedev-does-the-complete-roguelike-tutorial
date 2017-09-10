@@ -37,10 +37,10 @@ public abstract class TargetBasedScreen extends Screen {
                 if (p.x != sx + xp || p.y != sy + yp){
                     int wx = p.x + player.x - sx;
                     int wy = p.y + player.y - sy;
-                    if(player.world().creature(wx, wy, player.z) == null) renderer.renderSprite(Sprite.get("ui_dot"), p.x, p.y);                 
+                    if(player.world().creature(wx, wy, player.z) == null) renderer.renderSprite(Sprite.get("ui_dot"), this.x + p.x, this.y + p.y);                 
                 }                
             }
-            if(p.x == sx + xp && p.y == sy + yp) renderer.renderSprite(Sprite.get("ui_selection"), p.x, p.y, Renderer.TRANSPARENT);
+            if(p.x == sx + xp && p.y == sy + yp) renderer.renderSprite(Sprite.get("ui_selection"), this.x + p.x, this.y + p.y, Renderer.TRANSPARENT);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.mac.rltut.engine.graphics;
 
 import com.esotericsoftware.minlog.Log;
+import com.mac.rltut.engine.util.Colors;
 
 import java.util.ArrayList;
 import java.util.HashMap;

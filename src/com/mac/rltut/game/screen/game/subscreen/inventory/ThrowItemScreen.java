@@ -4,6 +4,7 @@ import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
+import com.mac.rltut.game.screen.game.LevelScreen;
 import com.mac.rltut.game.screen.game.subscreen.ThrowTargetScreen;
 
 /**
@@ -14,14 +15,13 @@ import com.mac.rltut.game.screen.game.subscreen.ThrowTargetScreen;
 public class ThrowItemScreen extends InventoryBasedScreen{
     
     private int sx, sy;
-    private int levelScreenWidth, levelScreenHeight;
+    private LevelScreen levelScreen;    
     
-    public ThrowItemScreen(int x, int y, int w, int h, int sx, int sy, int levelScreenWidth, int levelScreenHeight, Inventory<Item> inventory, Player player) {
+    public ThrowItemScreen(int x, int y, int w, int h, int sx, int sy, Inventory<Item> inventory, Player player, LevelScreen levelScreen) {
         super(x, y, w, h, "", inventory, player, null);
         this.sx = sx;
         this.sy = sy;
-        this.levelScreenWidth = levelScreenWidth;
-        this.levelScreenHeight = levelScreenHeight;
+        this.levelScreen = levelScreen;
     }
 
     @Override
@@ -36,6 +36,6 @@ public class ThrowItemScreen extends InventoryBasedScreen{
 
     @Override
     protected Screen use(Item item) {
-        return new ThrowTargetScreen(0, 0, levelScreenWidth, levelScreenHeight, player, sx, sy, item);
+        return new ThrowTargetScreen(levelScreen.x(), levelScreen.y(), levelScreen.width(), levelScreen.height(), player, sx, sy, item);
     }
 }

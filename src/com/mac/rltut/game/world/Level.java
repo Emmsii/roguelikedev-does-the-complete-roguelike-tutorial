@@ -3,6 +3,7 @@ package com.mac.rltut.game.world;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
+import com.mac.rltut.game.world.objects.Shrine;
 import com.mac.rltut.game.world.tile.Tile;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Level {
     private Point startPoint;
     private byte[][] tiles;
     private MapObject[][] mapObjects;
+    private Shrine shrine;
     private List<Chest> chests;
     private boolean[][] blood;
     
@@ -91,6 +93,10 @@ public class Level {
         return clearanceMap[x][y];
     }
     
+    public Shrine shrine(){
+        return shrine;
+    }
+    
     public int exploredTiles(){
         return exploredTiles;
     }
@@ -106,6 +112,10 @@ public class Level {
     
     public void setMapObjects(MapObject[][] mapObjects){
         this.mapObjects = mapObjects;
+    }
+    
+    public void setShrine(Shrine shrine){
+        this.shrine = shrine;
     }
     
     public void setChests(List<Chest> chests){

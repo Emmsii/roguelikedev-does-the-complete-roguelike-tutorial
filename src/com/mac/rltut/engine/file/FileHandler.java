@@ -27,12 +27,12 @@ import com.mac.rltut.game.world.Level;
 import com.mac.rltut.game.world.World;
 import com.mac.rltut.game.world.objects.Chest;
 import com.mac.rltut.game.world.objects.MapObject;
-import com.mac.rltut.game.world.tile.ChestTile;
+import com.mac.rltut.game.world.objects.Shrine;
+import com.mac.rltut.game.world.tile.Tile;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
@@ -44,106 +44,13 @@ import java.util.zip.InflaterInputStream;
 public class FileHandler {
 
     private static final String USER_FOLDER = System.getProperty("user.home");
-    private static final String GAME_FOLDER = USER_FOLDER + "/Forest RL/save/";
+    private static final String GAME_FOLDER = USER_FOLDER + "/Forest RL/";
     private static final String SAVE_NAME = "game.dat";
-    private static final String SAVE_LOCATION = GAME_FOLDER + SAVE_NAME;
+    private static final String SAVE_LOCATION = GAME_FOLDER + "save/" + SAVE_NAME;
     
     private static Kryo kryo;
     private static boolean initialized = false;
-    
-    public static void init(){
-        kryo = new Kryo();
-        kryo.setRegistrationRequired(true);
-        kryo.setDefaultSerializer(CompatibleFieldSerializer.class);
         
-        kryo.register(ArrayList.class);
-        kryo.register(HashMap.class);
-        kryo.register(HashSet.class);
-        kryo.register(int[].class);
-        kryo.register(boolean[][].class);
-        kryo.register(boolean[].class);
-        kryo.register(byte[][].class);
-        kryo.register(byte[].class);
-        kryo.register(String[].class);
-        
-        kryo.register(Creature[][][].class);
-        kryo.register(Creature[][].class);
-        kryo.register(Creature[].class);
-
-        kryo.register(Item[][][].class);
-        kryo.register(Item[][].class);
-        kryo.register(Item[].class);
-
-        kryo.register(MapObject[][].class);
-        kryo.register(MapObject[].class);
-        
-        kryo.register(EquipmentSlot[].class);
-        kryo.register(Level[].class);
-        
-        kryo.register(Sprite.class);
-        
-        kryo.register(Game.class);
-        kryo.register(Player.class);
-        kryo.register(MessageLog.class);
-        kryo.register(ColoredString.class);
-        kryo.register(SessionTimer.class);
-        
-        kryo.register(Entity.class);
-        kryo.register(Creature.class);
-        kryo.register(NPC.class);
-        kryo.register(Wizard.class);
-        kryo.register(Boss.class);
-        kryo.register(EvilWizard.class);
-        kryo.register(EvilNpcAi.class);
-        kryo.register(CreatureAI.class);
-        kryo.register(PlayerAI.class);
-        kryo.register(BossAI.class);
-        kryo.register(PackMemberAI.class);
-        kryo.register(PackAI.class);
-        kryo.register(PassiveAI.class);
-        kryo.register(NpcAI.class);
-        kryo.register(NeutralAI.class);
-        kryo.register(AggressiveAI.class);
-        kryo.register(Stats.class);
-
-        kryo.register(Item.class);
-        kryo.register(ItemStack.class);
-        kryo.register(Equippable.class);
-        kryo.register(Consumable.class);
-        kryo.register(Potion.class);
-        kryo.register(Spellbook.class);
-        kryo.register(EquipmentSlot.class);
-        kryo.register(DropTable.class);
-        kryo.register(DropTable.Drop.class);
-        kryo.register(Inventory.class);
-        
-        kryo.register(MapObject.class);
-        kryo.register(Chest.class);
-        
-        kryo.register(ChestTile.class);
-
-        kryo.register(Spell.class);
-        kryo.register(Effect.class);
-        kryo.register(Blind.class);
-        kryo.register(Burn.class);
-        kryo.register(Freeze.class);
-        kryo.register(Heal.class);
-        kryo.register(HealthRegen.class);
-        kryo.register(ManaRegen.class);
-        kryo.register(NightVision.class);
-        kryo.register(Poison.class);
-        kryo.register(Rage.class);
-        
-        kryo.register(World.class);
-        kryo.register(DayNightController.class);
-        kryo.register(FieldOfView.class);
-        kryo.register(Level.class);
-
-        kryo.register(Point.class);
-        
-        initialized = true;
-    }
-    
     public static boolean gameSaveExists(){
         return new File(SAVE_LOCATION).exists();
     }
@@ -157,7 +64,7 @@ public class FileHandler {
     
     public static void createSaveFolder(){
         if(gameSaveExists()) return;
-        File file = new File(GAME_FOLDER);
+        File file = new File(GAME_FOLDER + "/save/");
         if(!file.exists()) file.mkdirs();
     }
         
@@ -230,6 +137,47 @@ public class FileHandler {
         Log.debug("Size: " + getFileSize(file));
     }
     
+    public static void saveScore(UUID id){
+        String newLine = System.getProperty("line.separator");
+        File file = new File(GAME_FOLDER + "scores.dat");
+        FileWriter fileWriter = null;
+        PrintWriter printWriter = null;
+        try{
+            if(!file.exists()) file.createNewFile();
+            fileWriter = new FileWriter(file.getAbsoluteFile(), true);
+            printWriter = new PrintWriter(fileWriter);
+
+            printWriter.write(id.toString() + newLine);
+            
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally {
+            try {
+                printWriter.close();
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static List<String> loadScores(){
+        List<String> result = new ArrayList<String>();
+        File file = new File(GAME_FOLDER + "scores.dat");
+        if(!file.exists()) return result;
+        
+        try(BufferedReader br = new BufferedReader(new FileReader(file))){
+            String line;
+            while((line = br.readLine()) != null) result.add(line);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    
     public static Game loadGame(){
         if(!initialized){
             Log.error("File Handler not initialized. Cannot load game.");
@@ -283,5 +231,102 @@ public class FileHandler {
         double megabytes = kilobytes / 1024;
         if(megabytes < 1) return String.format("%.2f kb", kilobytes);
         return String.format("%.2f mb", megabytes);
+    }
+
+    public static void init(){
+        kryo = new Kryo();
+        kryo.setRegistrationRequired(true);
+        kryo.setDefaultSerializer(CompatibleFieldSerializer.class);
+
+        kryo.register(ArrayList.class);
+        kryo.register(HashMap.class);
+        kryo.register(HashSet.class);
+        kryo.register(int[].class);
+        kryo.register(boolean[][].class);
+        kryo.register(boolean[].class);
+        kryo.register(byte[][].class);
+        kryo.register(byte[].class);
+        kryo.register(String[].class);
+        kryo.register(Random.class);
+        kryo.register(AtomicLong.class);
+        
+        kryo.register(Creature[][][].class);
+        kryo.register(Creature[][].class);
+        kryo.register(Creature[].class);
+
+        kryo.register(Item[][][].class);
+        kryo.register(Item[][].class);
+        kryo.register(Item[].class);
+
+        kryo.register(MapObject[][].class);
+        kryo.register(MapObject[].class);
+
+        kryo.register(EquipmentSlot[].class);
+        kryo.register(Level[].class);
+
+        kryo.register(Sprite.class);
+
+        kryo.register(Game.class);
+        kryo.register(Player.class);
+        kryo.register(MessageLog.class);
+        kryo.register(ColoredString.class);
+        kryo.register(SessionTimer.class);
+
+        kryo.register(Entity.class);
+        kryo.register(Creature.class);
+        kryo.register(NPC.class);
+        kryo.register(Wizard.class);
+        kryo.register(Boss.class);
+        kryo.register(EvilWizard.class);
+        kryo.register(EvilNpcAi.class);
+        kryo.register(CreatureAI.class);
+        kryo.register(PlayerAI.class);
+        kryo.register(BossAI.class);
+        kryo.register(PackMemberAI.class);
+        kryo.register(PackAI.class);
+        kryo.register(PassiveAI.class);
+        kryo.register(NpcAI.class);
+        kryo.register(NeutralAI.class);
+        kryo.register(AggressiveAI.class);
+        kryo.register(Stats.class);
+
+        kryo.register(Item.class);
+        kryo.register(ItemStack.class);
+        kryo.register(Equippable.class);
+        kryo.register(Ammo.class);
+        kryo.register(Consumable.class);
+        kryo.register(Potion.class);
+        kryo.register(Spellbook.class);
+        kryo.register(EquipmentSlot.class);
+        kryo.register(DropTable.class);
+        kryo.register(DropTable.Drop.class);
+        kryo.register(Inventory.class);
+
+        kryo.register(Tile.class);
+        kryo.register(MapObject.class);
+        kryo.register(Chest.class);
+        kryo.register(Shrine.class);
+
+        kryo.register(Spell.class);
+        kryo.register(Effect.class);
+        kryo.register(Bleed.class);
+        kryo.register(Blind.class);
+        kryo.register(Burn.class);
+        kryo.register(Freeze.class);
+        kryo.register(Heal.class);
+        kryo.register(HealthRegen.class);
+        kryo.register(ManaRegen.class);
+        kryo.register(NightVision.class);
+        kryo.register(Poison.class);
+        kryo.register(Rage.class);
+
+        kryo.register(World.class);
+        kryo.register(DayNightController.class);
+        kryo.register(FieldOfView.class);
+        kryo.register(Level.class);
+
+        kryo.register(Point.class);
+
+        initialized = true;
     }
 }

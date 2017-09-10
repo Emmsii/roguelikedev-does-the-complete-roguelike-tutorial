@@ -56,6 +56,7 @@ public class Engine {
             new SpritesheetLoader("data/sheets.dat").load();
             new SpriteLoader("data/sprites.dat").load();
             new TileLoader("data/tiles.dat").load();
+            new LevelLoader("data/levels.dat").load();
             new SpellLoader("data/spells.dat").load();
             new ItemLoader("data/items.dat").load();
             new CreatureLoader("data/creatures.dat").load();
@@ -66,7 +67,7 @@ public class Engine {
     }
 
     public void init(boolean fullscreen, int widthInTiles, int heightInTiles, int windowScale, int tileSize, String title, String version){
-        Log.set(Log.LEVEL_INFO);
+        Log.set(Log.LEVEL_DEBUG);
         FileHandler.init();
         loadData();
         setFont("cheepicus");
@@ -95,14 +96,12 @@ public class Engine {
         this.title = title;
         this.version = version;
 
-        this.terminal = new Terminal(fullscreen, this.widthInTiles, this.heightInTiles, windowScale, tileSize, title + " - " + version);
+        this.terminal = new Terminal(fullscreen, this.widthInTiles, this.heightInTiles, windowScale, tileSize, title + " - " + version, new ImageIcon(Engine.class.getClassLoader().getResource("textures/icon.png")));
         this.panel = terminal.panel();
         this.renderer = new Renderer(panel.widthInPixels(), panel.heightInPixels());
         this.input = new Input();
 
         if(fullscreen && device != null) device.setFullScreenWindow(terminal);
-
-        terminal.setIcon(new ImageIcon(Engine.class.getClassLoader().getResource("textures/icon.png")));
         
         panel.setRenderer(renderer);
         renderer.setDefaultFontColor(Colors.WHITE);

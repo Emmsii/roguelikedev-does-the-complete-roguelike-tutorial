@@ -169,21 +169,19 @@ SPRITE=waterBonesBrown2
 TYPE=impassable
 TYPE_NAME=water
 
-[CHEST]
+[TILE]
 ID=19
 NAME=chestGold
 DESCRIPTION=A gold chest
-SPRITE_CLOSED=chestGoldClosed
-SPRITE_OPEN=chestGoldOpen
+SPRITE=chestGoldClosed
 TYPE=solid
 TYPE_NAME=chest
 
-[CHEST]
+[TILE]
 ID=20
-NAME=chestSilver
+NAME=chest_silver
 DESCRIPTION=A silver chest
-SPRITE_CLOSED=chestSilverClosed
-SPRITE_OPEN=chestSilverOpen
+SPRITE=chestSilverClosed
 TYPE=solid
 TYPE_NAME=chest
 
@@ -274,3 +272,91 @@ DESCRIPTION=Reeds
 SPRITE=reeds2
 TYPE=solid
 TYPE_NAME=water
+
+[TILE]
+ID=32
+NAME=stump1
+DESCRIPTION=A tree stood here
+SPRITE=stump1
+TYPE=impassable
+TYPE_NAME=tree
+
+[TILE]
+ID=33
+NAME=stump2
+DESCRIPTION=A tree stood here
+SPRITE=stump2
+TYPE=impassable
+TYPE_NAME=tree
+
+[TILE]
+ID=34
+NAME=shrine_charged
+DESCRIPTION=A holy rock
+SPRITE=shrine_charged
+TYPE=empty
+TYPE_NAME=shrine
+
+[TILE]
+ID=35
+NAME=shrine_empty
+DESCRIPTION=A holy rock
+SPRITE=shrine_empty
+TYPE=empty
+TYPE_NAME=shrine
+
+[TILE]
+ID=36
+NAME=pillar_short
+DESCRIPTION=A broken pillar
+SPRITE=pillar_short
+TYPE=solid
+TYPE_NAME=pillar
+
+[TILE]
+ID=37
+NAME=pillar_medium
+DESCRIPTION=A broken pillar
+SPRITE=pillar_medium
+TYPE=solid
+TYPE_NAME=pillar
+
+[TILE]
+ID=38
+NAME=pillar_tall
+DESCRIPTION=A broken pillar
+SPRITE=pillar_tall
+TYPE=solid
+TYPE_NAME=pillar
+
+[TILE]
+ID=39
+NAME=cobblestone1
+DESCRIPTION=A stony path
+SPRITE=cobblestone1
+TYPE=empty
+TYPE_NAME=cobblestone
+
+[TILE]
+ID=40
+NAME=cobblestone2
+DESCRIPTION=A stony path
+SPRITE=cobblestone2
+TYPE=empty
+TYPE_NAME=cobblestone
+
+[TILE]
+ID=41
+NAME=cobblestone3
+DESCRIPTION=A stony path
+SPRITE=cobblestone3
+TYPE=empty
+TYPE_NAME=cobblestone
+
+[TILE]
+ID=42
+NAME=cobblestone4
+DESCRIPTION=A stony path
+SPRITE=cobblestone4
+TYPE=empty
+TYPE_NAME=cobblestone

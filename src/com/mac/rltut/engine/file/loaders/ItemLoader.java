@@ -37,18 +37,21 @@ public class ItemLoader extends DataLoader {
             float depthMultiplier = obj.hasToken("depth_multiplier") ? obj.getFloat("depth_multiplier") : 0f;
 
             String[] flags = obj.hasToken("flags") ? parseStringArray(obj.getString("flags")) : null;
-            
+
             if (obj.isType("item")) item = new Item(name, description, sprite);
             else if (obj.isType("item_stack")) {
                 String amount = obj.getString("amount");
                 item = new ItemStack(name, description, sprite, amount, 1);
             } else if (obj.isType("consumable")) {
                 Effect effect = null;
-                if(obj.hasToken("heal")) effect = new Heal(obj.getInt("heal"), 1f);
+                if (obj.hasToken("heal")) effect = new Heal(obj.getInt("heal"), 1f);
                 String action = obj.hasToken("action") ? obj.getString("action") : "fumble";
                 item = new Consumable(name, description, sprite, action, effect);
-            }else if(obj.isType("potion")){
+            } else if (obj.isType("potion")) {
                 item = new Potion(name, description, sprite, null);
+            }else if(obj.isType("ammo")){
+                String amount = obj.getString("amount");
+                item = new Ammo(name, description, sprite, amount, 1);
             }else if(obj.isType("equippable")){
                 String slot = obj.getString("slot");
                 Equippable e = new Equippable(name, description, sprite, getSlot(slot));
@@ -61,6 +64,7 @@ public class ItemLoader extends DataLoader {
                 e.setDamage(obj.hasToken("damage") ? obj.getString("damage") : "0");
                 e.setRangedDamage(obj.hasToken("damage_ranged") ? obj.getString("damage_ranged") : null);
                 e.setBlockedSlot(obj.hasToken("blocked_slot") ? obj.getString("blocked_slot") : null);
+                if(e.slot() == EquipmentSlot.WEAPON && obj.hasToken("ammo")) e.setAmmoType(obj.getString("ammo"));
                 item = e;
             }else{
                 Log.error("Unknown object type [" + obj.type() + "]");

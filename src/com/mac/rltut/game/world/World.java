@@ -10,6 +10,7 @@ import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.effects.*;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.creature.EvilWizard;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Consumable;
 import com.mac.rltut.game.entity.item.Item;
@@ -89,9 +90,14 @@ public class World {
         List<Creature> toUpdate = new ArrayList<Creature>(creatureList.get(z));
         for(Creature c : toUpdate) c.update();
         
+        boolean hasEvilWizard = false;
         for(Creature c : creatures(z)){
             if(creature(c.x, c.y, c.y) == null) creatureArray[c.x][c.y][c.z] = c;
+            if(c instanceof EvilWizard) hasEvilWizard = true;
         }
+        
+        if(!hasEvilWizard && z == depth - 1) player.setHasWon(true);
+        
     }
     
     /* FOV Methods */
@@ -211,7 +217,7 @@ public class World {
             int ya = y + dead.y;
             for(int x = -1; x <= 1; x++){
                 int xa = x + dead.x;
-                if(solid(xa, ya, dead.z) || mapObject(xa, ya, dead.z) != null) continue;
+                if(solid(xa, ya, dead.z)) continue;
                 if(Math.random() < 0.275) level(dead.z).setBlood(xa, ya, true);
             }
         }
@@ -229,7 +235,7 @@ public class World {
             Point p = points.remove(0);
             checked.add(p);
 
-            if(solid(p.x, p.y, p.z) || mapObject(p.x, p.y, p.z) != null) continue;
+            if(solid(p.x, p.y, p.z)) continue;
             if(item(p.x, p.y, p.z) == null) return p;
             else{
                 List<Point> neighbours = p.neighboursCardinal();
@@ -379,6 +385,7 @@ public class World {
 
     public boolean solid(int x, int y, int z){
         if(!inBounds(x, y, z)) return true;
+        if(mapObject(x, y, z) != null) return mapObject(x, y, z).tile().solid();
         return tile(x, y, z).solid();
     }
     
@@ -391,14 +398,14 @@ public class World {
         if(!inBounds(0, 0, z)) return null;
         return levels[z].startPoint();
     }
-    
+
     public Consumable pickMushroom(int x, int y, int z){
         if(!tile(x, y, z).name().equalsIgnoreCase("mushroom")) return null;
         level(z).setTile(x, y, Tile.getTile("grassSmallGreen").id);
         Consumable mushroom = (Consumable) Codex.items.get("mushroom").entity().newInstance();
         Pool<Effect> pool = new Pool<Effect>();
-        pool.add(new Heal(10, 1f), 100);
-        pool.add(new Poison(2, 5, 1f), 20);
+        pool.add(new Heal(10, 1f), 60);
+        pool.add(new Poison(2, 5, 1f), 35);
         pool.add(new Blind(10, 1f), 5);
         pool.add(new Rage(4, 20, 1f), 1);
         mushroom.setEffect(pool.get());
@@ -420,7 +427,8 @@ public class World {
     public float totalExploredPercent(){
         int total = 0;
         for(int z = 0; z < depth; z++) total += exploredPercent(z);
-        return ((float) total / (float) (depth * 100)) * 100f;
+        float a = (float) total / (float) (depth * 100);
+        return a * 100;
     }
 
     public DayNightController dayNightController(){

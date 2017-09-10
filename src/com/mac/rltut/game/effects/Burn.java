@@ -1,8 +1,11 @@
 package com.mac.rltut.game.effects;
 
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
+import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.Spellbook;
 
 /**
  * Project: complete-rltut
@@ -16,7 +19,7 @@ public class Burn extends Effect{
     public Burn(){}
 
     public Burn(int amount, int duration, float chance){
-        super("burn", "burn",  new ColoredString("burning", Colors.RED), "take " + amount + " damage for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance);
+        super("burn", "burning", "take " + amount + " damage for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, Sprite.get("ui_burning"));
         this.amount = amount;
     }
 
@@ -29,5 +32,13 @@ public class Burn extends Effect{
     public void update(Creature creature) {
         super.update(creature);
         creature.modifyHp(-amount, "burning");
+        
+        for(Item item : creature.inventory().items()){
+            if(item instanceof Spellbook && Math.random() < 0.1){
+                creature.notify(new ColoredString("A spellbook catches fire and burns!", Colors.ORANGE));
+                creature.inventory().remove(item);
+                break;
+            }
+        }
     }
 }

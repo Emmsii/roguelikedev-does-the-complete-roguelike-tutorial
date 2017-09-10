@@ -1,7 +1,7 @@
 package com.mac.rltut.game.effects;
 
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
-import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -14,7 +14,7 @@ public class Freeze extends Effect{
     protected Freeze(){}
     
     public Freeze(int duration, float chance){
-        super("freeze", "freezing", new ColoredString("frozen", Colors.CYAN), "freeze another creature for " + duration + " turns", duration, chance);
+        super("freeze", "freezing", "freeze another creature for " + duration + " turns", duration, chance, Sprite.get("ui_frozen"));
     }
 
     @Override

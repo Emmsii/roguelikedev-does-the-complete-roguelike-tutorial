@@ -4,6 +4,7 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.entity.creature.Player;
+import com.mac.rltut.game.entity.item.Ammo;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.ItemStack;
@@ -66,13 +67,24 @@ public abstract class InventoryBasedScreen extends Screen{
         renderer.write("[" + index + "]", xp, yp);
         renderer.renderSprite(item.sprite(), xp + 4, yp);
         String name = StringUtil.capitalizeEachWord(StringUtil.clean(item.name()));
+        
+        boolean isEquipped = false;
+        
         if(item instanceof Equippable){
             Equippable e = (Equippable) item;
-            if(e.isEquipped()){
-                String str = name.length() > 25 ? "EQPT" : "EQUIPPED";
-                renderer.write("[" + str + "]", this.x + this.width - (str.length() + 4), yp, Colors.GRAY);
-            }
+            if(e.isEquipped()) isEquipped = true;
         }
+        
+        if(item instanceof Ammo){
+            Ammo a = (Ammo) item;
+            if(a.equipped()) isEquipped = true;
+        }
+        
+        if(isEquipped){
+            String str = name.length() > 25 ? "EQPT" : "EQUIPPED";
+            renderer.write("[" + str + "]", this.x + this.width - (str.length() + 4), yp, Colors.GRAY);
+        }
+        
         if(item instanceof ItemStack){
             ItemStack stack = (ItemStack) item;
             name = name + " x" + stack.amount();

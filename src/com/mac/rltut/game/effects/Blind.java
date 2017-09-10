@@ -1,5 +1,6 @@
 package com.mac.rltut.game.effects;
 
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.game.entity.creature.Creature;
 
@@ -13,7 +14,7 @@ public class Blind extends Effect{
     protected Blind(){}
 
     public Blind(int duration, float chance){
-        super("blind", "blinding", new ColoredString("blinded"), "loose vision for " + duration + " turns", duration, chance);
+        super("blind", "blinding", "loose vision for " + duration + " turns", duration, chance, Sprite.get("ui_blinded"));
     }
 
     @Override

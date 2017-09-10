@@ -49,24 +49,34 @@ public class Renderer {
     public void renderSprite(Sprite sprite, int xp, int yp){
         renderSprite(sprite, xp, yp, 0);    
     }
-
+    
     public void renderSprite(Sprite sprite, int xp, int yp, int flags){
-        renderSpritePrecise(sprite, xp * Engine.instance().tileSize(), yp * Engine.instance().tileSize(), flags);
+        renderSprite(sprite, xp, yp, flags, 1);
+    }
+
+    public void renderSprite(Sprite sprite, int xp, int yp, int flags, int scale){
+        renderSpritePrecise(sprite, xp * Engine.instance().tileSize(), yp * Engine.instance().tileSize(), flags, scale);
     }
     
-    public void renderSpritePrecise(Sprite sprite, int xp, int yp, int flags){
+    public void renderSpritePrecise(Sprite sprite, int xp, int yp, int flags, int scale){
         if(sprite == null){
             Log.error("Cannot render null sprite");
             return;
         }
-        for(int y = 0; y < sprite.height; y++){
+        
+        for(int y = 0; y < sprite.height * scale; y++){
             int ya = y + yp;
-            for(int x = 0; x < sprite.width; x++){
+            for(int x = 0; x < sprite.width * scale; x++){
                 int xa = x + xp;
-                int pixelColor = sprite.pixel((flags & FLIP_SPRITE) == FLIP_SPRITE ? sprite.width - x : x, y);
+                int pixelColor = sprite.pixel((flags & FLIP_SPRITE) == FLIP_SPRITE ? (sprite.width - x) / scale: x / scale, y / scale);
                 if((flags & DARKEN_SPRITE) == DARKEN_SPRITE) pixelColor = Colors.darken(pixelColor);
                 if((flags & TRANSPARENT) == TRANSPARENT) if(pixelColor == 0xff000000) continue;
                 renderPixel(pixelColor, xa, ya);
+//                for(int yb = 0; yb < scale; yb++){
+//                    for(int xb = 0; xb < scale; xb++){
+//                               
+//                    }
+//                }
             }
         }
     }

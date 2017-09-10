@@ -4,7 +4,7 @@ import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.util.maths.MathUtil;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.world.objects.Chest;
-import com.mac.rltut.game.world.tile.ChestTile;
+import com.mac.rltut.game.world.objects.Shrine;
 import com.mac.rltut.game.world.tile.Tile;
 
 import java.awt.*;
@@ -23,59 +23,31 @@ public class ForestLevelBuilder extends LevelBuilder{
     private boolean[][] liquid;
     private List<List<Point>> liquidRegions;
     private List<Rectangle> ruins;
+    private Rectangle shrine;
     private int nextRegion;
     
-    public ForestLevelBuilder(String type, int width, int height, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, int visibilityModifier, Random random) {
-        super(type, width, height, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, visibilityModifier, random);
+    public ForestLevelBuilder(String type, int minLevel, int maxLevel, int chance, float zMultiplier, float creatureSpawnMultiplier, int visibilityModifier) {
+        super(type, minLevel, maxLevel, chance, zMultiplier, creatureSpawnMultiplier, visibilityModifier);
     }
 
     @Override
-    public void init(int z) {
-        super.init(z);
+    public void init(int width, int height, int z) {
+        super.init(width, height, z);
         this.regions = new int[width][height];
         this.liquid = new boolean[width][height];
         this.liquidRegions = new ArrayList<List<Point>>();
         this.ruins = new ArrayList<Rectangle>();
         this.nextRegion = 1;
     }
-
-    @Override
-    protected void setTileTypes() {
-        addTileType(Tile.getTile("treeConifer"), 50);
-        addTileType(Tile.getTile("treeDeciduous"), 50);
-        addTileType(Tile.getTile("waterBlue"), 100);
-        addTileType(Tile.getTile("wallTopRed"), 100);
-        addTileType(Tile.getTile("grassMediumGreen"), 100);
-        addTileType(Tile.getTile("grassSmallGreen"), 60);
-        addTileType(Tile.getTile("chestSilver"), 100);
-                    
-        addDecalTile(Tile.getTile("waterLilypad"), 4, Tile.getTile("waterBlue"));
-        addDecalTile(Tile.getTile("grassGreen"), 40, Tile.getTile("empty"), Tile.getTile("floor"));
-        addDecalTile(Tile.getTile("treeConifer"), 22, Tile.getTile("empty"));
-        addDecalTile(Tile.getTile("treeDeciduous"), 22, Tile.getTile("empty"));
-    }
-
-    @Override
-    protected void setProperties() {
-        setProperty("tree_random_frequency", "0.438-0.46");
-        setProperty("tree_smooth", "5-6");
-        setProperty("liquid_random_frequency", "0.35-0.425");
-        setProperty("liquid_smooth", "5-8");
-        setProperty("border_thickness", "3");
-        setProperty("min_region_size", "80");
-        setProperty("room_count", "3-4");
-        setProperty("room_size_min", "5-6");
-        setProperty("room_size_max", "8-9");
-        setProperty("chest_frequency", "0.4");
-    }
     
     @Override
-    public LevelBuilder generate(int z) {
+    public LevelBuilder generate(int width, int height, int z, Random random) {
+        this.random = random;
         Log.trace("Generating " + type() + " level at " + z + "...");
         int borderThickness = getPropertyInt("border_thickness");
-        float treeRandomFrequency = getPropertyFloat("tree_random_frequency");
+        float treeRandomFrequency = getPropertyFloat("tree_random");
         int treeSmooth = getPropertyInt("tree_smooth");
-        float liquidRandomFrequency = getPropertyFloat("liquid_random_frequency");
+        float liquidRandomFrequency = getPropertyFloat("liquid_random");
         int liquidSmooth = getPropertyInt("liquid_smooth");
         int minRegionSize = getPropertyInt("min_region_size");
         int roomCount = getPropertyInt("room_count");
@@ -84,17 +56,21 @@ public class ForestLevelBuilder extends LevelBuilder{
         float chestFrequency = getPropertyFloat("chest_frequency");
                 
         do{
-            init(z);
+            init(width, height, z);
             addBorder("tree", borderThickness);
-
+            
+            placeShrine(z);
+            
             randomizeTrees(treeRandomFrequency);
             smoothTrees(treeSmooth);
-            
+
             randomizeLiquid(borderThickness, liquidRandomFrequency);
             smoothLiquid(liquidSmooth, getRandomTile("water"));
 
             findLakes();
             setLiquids();
+
+            buildShrine();
 
             addDecalTiles();
 
@@ -103,7 +79,7 @@ public class ForestLevelBuilder extends LevelBuilder{
             cleanupRegions(minRegionSize);
 
             addChests(chestFrequency);
-
+            
             addGrass();
             
         }while(!isValid((int) ((width * height) * 0.3)));
@@ -111,6 +87,87 @@ public class ForestLevelBuilder extends LevelBuilder{
         addStart(z);
         Log.trace("Level generated!");
         return this;
+    }
+    
+    private void placeShrine(int z){
+        int size = 15;
+        int x = 0, y = 0;
+        boolean valid = false;
+        int tries = 0;
+
+        while(!valid){
+            if(tries++ >= 1000) break;
+            x = random.nextInt(width - 10) + 10;
+            y = random.nextInt(height - 10) + 10;
+
+            boolean solid = false;
+            for(int ya = y; ya < y + size; ya++){
+                for(int xa = x; xa < x + size; xa++){
+                    if(!inBounds(xa, ya)){
+                        solid = true;
+                        break;
+                    }
+                    if(tile(xa, ya).solid()){
+                        solid = true;
+                        break;
+                    }
+                }
+            }
+
+            if(!solid) valid = true;
+        }
+
+        if(!valid){
+            Log.debug("No Shrine on level " + z  + " " + type());
+            return;
+        }
+
+        this.shrine = new Rectangle(x, y, size, size);
+    }
+    
+    //TODO: 
+    private void buildShrine(){
+        if(shrine == null) return;
+        int b = (int) (shrine.width * 0.3636f);
+        
+        for(int ya = shrine.y; ya < shrine.y + shrine.height; ya++) {
+            for (int xa = shrine.x; xa < shrine.x + shrine.width; xa++) {
+                
+                int d = MathUtil.distance(shrine.x + (shrine.width / 2), shrine.y + (shrine.height / 2), xa, ya);
+                
+                float a = (float) d / (float) b;
+                if(random.nextFloat() >= a && d <= b){
+                    int r = random.nextInt(4);
+                    switch (r){
+                        case 0: setTile(xa, ya, Tile.getTile("cobblestone1")); break;
+                        case 1: setTile(xa, ya, Tile.getTile("cobblestone2")); break;
+                        case 2: setTile(xa, ya, Tile.getTile("cobblestone3")); break;
+                        case 3: setTile(xa, ya, Tile.getTile("cobblestone4")); break;
+                    }
+                }
+                
+                if(xa == shrine.x + (shrine.width / 2) && ya == shrine.y + (shrine.height / 2)){
+                    Shrine shrine = new Shrine("Shrine", "A magical slab of rock", Tile.getTile("shrine_charged"), Tile.getTile("shrine_empty"), random);
+                    addMapObject(xa, ya, shrine);
+                }
+                
+                if(d == b - random.nextInt(2)){
+//                if(xa == x || ya == y || xa == x + size - 1 || ya == y + size - 1){
+                    if(random.nextFloat() < 0.4){
+//                        Tile t = random.nextBoolean() ? random.nextBoolean() ? Tile.getTile("pillar_short") : Tile.getTile("pillar_medium") : Tile.getTile("pillar_tall");
+//                        setTile(xa, ya, t);
+                        int r = random.nextInt(3);
+                        switch (r){
+                            case 0: setTile(xa, ya, Tile.getTile("pillar_short")); break;
+                            case 1: setTile(xa, ya, Tile.getTile("pillar_medium")); break;
+                            case 2: setTile(xa, ya, Tile.getTile("pillar_tall")); break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        
     }
     
     private void addBorder(String type, int thickness){
@@ -129,6 +186,7 @@ public class ForestLevelBuilder extends LevelBuilder{
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
                 if(solid(x, y)) continue;
+                if(shrine != null && shrine.contains(x, y)) setTile(x, y, Tile.getTile("empty"));
                 if(random.nextFloat() <= frequency) setTile(x, y, getRandomTile("tree"));
                 else setTile(x, y, Tile.getTile("empty"));
             }
@@ -152,7 +210,6 @@ public class ForestLevelBuilder extends LevelBuilder{
                     }
 
                     tiles2[x][y] = empty >= solid ? 0 : getRandomTile("tree").id;
-
                 }
             }
             setTiles(tiles2);
@@ -165,6 +222,7 @@ public class ForestLevelBuilder extends LevelBuilder{
         for(int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if(x < borderThickness || y < borderThickness || x >= width - borderThickness || y >= height - borderThickness) liquid[x][y] = false;
+                else if(shrine != null && shrine.contains(x, y)) liquid[x][y] = false;
                 else liquid[x][y] = random.nextFloat() <= frequency;
             }
         }
@@ -282,6 +340,7 @@ public class ForestLevelBuilder extends LevelBuilder{
     private boolean ruinOverlaps(Rectangle newRuin){
         if(ruins.contains(newRuin)) return true;
         for(Rectangle r : ruins) if(r.intersects(newRuin)) return true;
+        if(shrine != null && shrine.intersects(newRuin)) return true;
         return false;
     }
         
@@ -289,7 +348,7 @@ public class ForestLevelBuilder extends LevelBuilder{
         Log.trace("Adding chests...");
         for(Rectangle r : ruins){
             if(random.nextFloat() <= chestFrequency){
-                ChestTile chestTile = (ChestTile) getRandomTile("chest");
+                Tile chestTile = (Tile) getRandomTile("chest");
                 int x, y;
                 int tries = 0;
                 do {
@@ -318,7 +377,7 @@ public class ForestLevelBuilder extends LevelBuilder{
         chests.removeAll(toRemove);
     }
     
-    private void addChest(int x, int y, ChestTile tile){
+    private void addChest(int x, int y, Tile tile){
         addMapObject(x, y, new Chest(tile));
     }
     

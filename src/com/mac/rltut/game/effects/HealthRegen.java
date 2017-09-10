@@ -1,7 +1,7 @@
 package com.mac.rltut.game.effects;
 
+import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
-import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.entity.creature.Creature;
 
 /**
@@ -16,7 +16,7 @@ public class HealthRegen extends Effect{
     public HealthRegen(){}
     
     public HealthRegen(int amount, int duration, float chance){
-        super("regen health", "health regen", new ColoredString("regen", Colors.GREEN),  "regenerate " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance);
+        super("regen health", "health regen", "regenerate " + amount + " health per turn for " + duration + " turn" + (duration > 1 ? "s" : ""), duration, chance, Sprite.get("ui_healing"));
         this.amount = amount;
     }
 

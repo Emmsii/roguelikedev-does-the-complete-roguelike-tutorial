@@ -36,6 +36,7 @@ public class Creature extends Entity {
     private DropTable dropTable;
     private Inventory<Item> inventory;
     private HashMap<EquipmentSlot, Equippable> equippedItems;
+    private Ammo ammo;
          
     private List<Spell> knownSpells;
     private List<Effect> effects;
@@ -58,6 +59,7 @@ public class Creature extends Entity {
     private int xp;
     private int level;
     private int gold;
+    private int diamonds;
     
     private String causeOfDeath;
     private boolean hasWon;
@@ -247,7 +249,7 @@ public class Creature extends Entity {
         Point end = new Point(x, y, 0);
         
         for(Point p : new Line(x, y, xp, yp)){
-            if(world.tile(p.x, p.y, z).solid()) break;
+            if(world.solid(p.x, p.y, z)) break;
             end = p;
         }
         
@@ -280,12 +282,15 @@ public class Creature extends Entity {
         else{
             String str = "pickup a %s";
 
-            if (item instanceof ItemStack) str = "pickup " + ((ItemStack) item).amount() + " %s";
+            if(item instanceof ItemStack) str = "pickup " + ((ItemStack) item).amount() + " %s";
             doAction(new ColoredString(str), item.name());
             world.remove(item);
 
-            if (item instanceof ItemStack && item.name().equalsIgnoreCase("gold")) gold += ((ItemStack) item).amount();
-            else inventory.add(item);
+            if(item instanceof ItemStack){
+                String name = item.name();
+                if(name.equalsIgnoreCase("gold")) gold += ((ItemStack) item).amount();
+                else if(name.equalsIgnoreCase("diamond")) diamonds += ((ItemStack) item).amount();
+            } else inventory.add(item);
 
             if (item instanceof Equippable) {
                 Equippable e = (Equippable) item;
@@ -475,7 +480,12 @@ public class Creature extends Entity {
     
     public void modifyGold(int amount){
         gold += amount;
-        if(amount < 0) gold = 0;
+        if(gold < 0) gold = 0;
+    }
+    
+    public void modifyDiamonds(int amount){
+        diamonds += amount;
+        if(diamonds < 0) diamonds = 0;
     }
     
     public void addEffect(Effect effect){
@@ -620,12 +630,20 @@ public class Creature extends Entity {
         return gold;
     }
     
+    public int diamonds(){
+        return diamonds;
+    }
+    
     public Inventory<Item> inventory(){
         return inventory;
     }
     
     public List<Effect> effects(){
         return effects;
+    }
+    
+    public Ammo ammo(){
+        return ammo;
     }
     
     public HashMap<EquipmentSlot, Equippable> equippedItems(){
@@ -711,6 +729,18 @@ public class Creature extends Entity {
     
     public void setEquippable(EquipmentSlot slot, Equippable equippable){
         equippedItems.put(slot, equippable);
+    }
+    
+    public void setAmmo(Ammo ammo) {
+        if(this.ammo != null) {
+            this.ammo.setEquipped(false);
+            if (this.ammo == ammo) {
+                this.ammo = null;
+                return;
+            }
+        }
+        this.ammo = ammo;
+        if(this.ammo != null) this.ammo.setEquipped(true);
     }
     
     public void setAttackedBy(Creature attackedBy){
