@@ -1,7 +1,12 @@
 package com.mac.rltut.game.entity.item;
 
 import com.mac.rltut.engine.graphics.Sprite;
+import com.mac.rltut.game.effects.Effect;
+import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.Entity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: complete-rltut
@@ -34,7 +39,7 @@ public class Item extends Entity {
     public void setUnique(boolean unique){
         this.unique = unique;
     }
-    
+        
     public void setStrengthBonus(int strengthBonus){
         this.strengthBonus = strengthBonus;
     }

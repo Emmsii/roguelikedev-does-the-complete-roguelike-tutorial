@@ -1,3 +1,18 @@
+[SPELLBOOK]
+NAME=spellbook
+DESCRIPTION=a magical book of spells
+SPRITE=spell_book_1
+SPAWN_CHANCE=100
+SPELLS=heal
+
+[SPELLBOOK]
+NAME=spellbook
+DESCRIPTION=a magical book of spells
+SPRITE=spell_book_1
+SPAWN_CHANCE=100
+SPELLS=heal
+
+
 # 'name':'amount':'duration':'chance
 
 [SPELL]

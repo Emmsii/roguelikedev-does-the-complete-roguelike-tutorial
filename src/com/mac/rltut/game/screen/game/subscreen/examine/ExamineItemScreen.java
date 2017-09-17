@@ -85,16 +85,16 @@ public class ExamineItemScreen extends Screen {
         
         if(item instanceof Spellbook){
             Spellbook book = (Spellbook) item;
-            renderer.write("Mana Cost: " + book.manaCost(), xp, yp++);
-            if(book.effect() != null){
-                yp++;
-                Effect effect = book.effect();
-                renderer.write("Effect", xp, yp++);
-                renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(effect.name())) + " (" + effect.chancePercent() + " chance)", xp + 1, yp++);
-                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4, false);
-                for(String s : desc) renderer.write(s, xp + 1, yp++);
-            }
-            yp++;
+//            renderer.write("Mana Cost: " + book.manaCost(), xp, yp++);
+//            if(book.effect() != null){
+//                yp++;
+//                Effect effect = book.effect();
+//                renderer.write("Effect", xp, yp++);
+//                renderer.write(StringUtil.capitalizeEachWord(StringUtil.clean(effect.name())) + " (" + effect.chancePercent() + " chance)", xp + 1, yp++);
+//                List<String> desc = StringUtil.lineWrap(StringUtil.capitalizeFirst(effect.description()), width - 4, false);
+//                for(String s : desc) renderer.write(s, xp + 1, yp++);
+//            }
+//            yp++;
         }
         
         if(hasBonus(item)) {
@@ -109,24 +109,24 @@ public class ExamineItemScreen extends Screen {
                 if (item.manaRegenAmountBonus() != 0) renderer.write("REGEN " + (item.manaRegenAmountBonus() > 0 ? "+" + item.manaRegenAmountBonus() : item.manaRegenAmountBonus()), xp + 1, yp++);
                 if (item.manaRegenSpeedBonus() != 0) renderer.write("SPEED " + item.manaRegenSpeedBonus(), xp + 1, yp++);
             }
-            
-            if(item instanceof Spellbook){
-                Spellbook book = (Spellbook) item;
-                
-                int xp = this.x + (width / 2) - 3;
-                int yp = by;
-                renderer.write("Can bless", xp, yp++);
-                int count = 0;
-                for(EquipmentSlot slot : book.slots()){
-                    renderer.write(slot + "", xp + 1, yp++);
-                    if(++count >= 4){
-                        count = 0;
-                        xp += 8;
-                        yp = by + 1;
-                    }
-                }
-            }
-            
+//            
+//            if(item instanceof Spellbook){
+//                Spellbook book = (Spellbook) item;
+//                
+//                int xp = this.x + (width / 2) - 3;
+//                int yp = by;
+//                renderer.write("Can bless", xp, yp++);
+//                int count = 0;
+//                for(EquipmentSlot slot : book.slots()){
+//                    renderer.write(slot + "", xp + 1, yp++);
+//                    if(++count >= 4){
+//                        count = 0;
+//                        xp += 8;
+//                        yp = by + 1;
+//                    }
+//                }
+//            }
+//            
             yp++;
         }
         

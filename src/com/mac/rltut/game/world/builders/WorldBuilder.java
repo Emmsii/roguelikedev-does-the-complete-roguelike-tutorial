@@ -205,15 +205,15 @@ public class WorldBuilder {
     
     private WorldBuilder placeNPCs(){
         for(int z = 0; z < depth; z++){
-//            Point spawn = new Point();
-//            spawn.z = z;
-//            do{
-//                spawn.x = random.nextInt(width);
-//                spawn.y = random.nextInt(height);
-//            }while(world.solid(spawn.x, spawn.y, spawn.z) || world.creature(spawn.x, spawn.y, spawn.z) != null || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
+            Point spawn = new Point();
+            spawn.z = z;
+            do{
+                spawn.x = random.nextInt(width);
+                spawn.y = random.nextInt(height);
+            }while(world.solid(spawn.x, spawn.y, spawn.z) || world.creature(spawn.x, spawn.y, spawn.z) != null || MathUtil.distance(spawn.x, spawn.y, world.startPointAt(z).x, world.startPointAt(z).y) < 30);
           
 //            Place wizard next to player for convenience
-            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
+//            Point spawn = world.randomEmptyPointInRadius(world.startPointAt(z), 5);
 
             if(z == depth - 1){
                 NPC npc = new EvilWizard("Evil Wizard McGuffin", "An evil old man", Sprite.get("wizard"), "npc");

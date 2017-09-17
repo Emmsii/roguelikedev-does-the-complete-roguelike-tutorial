@@ -50,14 +50,14 @@ public class Shrine extends MapObject{
         
         creature.doAction(new ColoredString("bless the %s", Colors.BLUE), equippable.name());
 
-        Effect effect = EffectBuilder.randomWeaponEffect(z, random);
+        Effect effect = null;
+        if(EquipmentSlot.isWeapon(equippable.slot())) effect = EffectBuilder.randomWeaponEffect(z, random);
         
         if(effect != null){
             equippable.setName(equippable.name() + " of " + effect.adjective());
             equippable.setEffect(effect);
         } else equippable.setName("Blessed " + equippable.name());
         
-
         List<String> availableBonuses = getAvailableBonuses(equippable);
         int bonusCount = (int) (1 + (z / 3) + Math.floor(((random.nextFloat() + random.nextFloat()) - 1.8) * 2));
         if(bonusCount < 1) bonusCount = 1;
@@ -72,7 +72,9 @@ public class Shrine extends MapObject{
                 case "INT": equippable.setIntelligenceBonus(equippable.intelligenceBonus() + getBonusValue(z)); break;
             }
         }
-
+        
+        creature.notify(new ColoredString("The shrine looses its magic."));
+        
         hasCharge = false;
     }
 

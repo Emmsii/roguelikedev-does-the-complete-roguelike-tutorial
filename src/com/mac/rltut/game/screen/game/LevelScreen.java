@@ -124,7 +124,9 @@ public class LevelScreen extends Screen{
     }
     
     private void renderStatusEffects(Renderer renderer){
-        int count = player.effects().size() * 2;
+        int count = 0;
+        for(Effect e : player.effects()) if(e.spriteUi() != null) count++;
+        count *= 2;
         if(count == 0) return;
         int xp = 1;
         int yp = 1;

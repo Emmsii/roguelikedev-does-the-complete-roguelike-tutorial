@@ -4,7 +4,11 @@ import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.util.ColoredString;
 import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.effects.Effect;
+import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.creature.Creature;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: complete-rltut
@@ -12,64 +16,22 @@ import com.mac.rltut.game.entity.creature.Creature;
  * Created by Matt on 25/07/2017 at 11:14 AM.
  */
 public class Spellbook extends Item{
-    
-    private Effect effect;
-    private int manaCost;
-    private EquipmentSlot[] slots;
 
+    private List<Spell> writtenSpells;
+    
     protected Spellbook(){}
     
-    public Spellbook(String name, String description, Sprite sprite, EquipmentSlot[] slots) {
+    public Spellbook(String name, String description, Sprite sprite) {
         super(name, description, sprite);
-        this.slots = slots;
+        this.writtenSpells = new ArrayList<Spell>();
     }
 
-    public void bless(Creature creature, Equippable equippable){
-        if(creature.mana() < manaCost) return;
-        creature.modifyMana(-manaCost);
-        
-        creature.doAction(new ColoredString("bless the %s", Colors.BLUE), equippable.name());
-        equippable.setUnique(true);
-
-        if(effect != null) equippable.setName(equippable.name() + " of " + effect().adjective());
-        else equippable.setName("Blessed " + equippable.name());
-        
-        if(strengthBonus != 0) equippable.setStrengthBonus(equippable.strengthBonus() + strengthBonus);
-        if(defenseBonus != 0) equippable.setDefenseBonus(equippable.defenseBonus() + defenseBonus);
-        if(accuracyBonus != 0) equippable.setAccuracyBonus(equippable.accuracyBonus() + accuracyBonus);
-        if(intelligenceBonus != 0) equippable.setIntelligenceBonus(equippable.intelligenceBonus() + intelligenceBonus);
-        if(manaRegenAmountBonus != 0) equippable.setManaRegenAmountBonus(equippable.manaRegenAmountBonus() + manaRegenAmountBonus);
-        if(manaRegenSpeedBonus != 0) equippable.setManaRegenSpeedBonus(equippable.manaRegenSpeedBonus() + manaRegenSpeedBonus);
-        
-        if(effect != null) equippable.setEffect(effect);
-        
-        creature.inventory().remove(this);
-        creature.notify(new ColoredString("The book looses its magic and vanishes!"));
+    public void addWrittenSpell(String name, Effect effectSelf, Effect effectOther, int manaCost){
+        writtenSpells.add(new Spell(name, effectSelf, effectOther, manaCost));
     }
     
-    public void setEffect(Effect effect){
-        this.effect = effect;
+    public List<Spell> writtenSpells(){
+        return writtenSpells;
     }
     
-    public void setManaCost(int manaCost){
-        this.manaCost = manaCost;
-    }
-    
-    public Effect effect(){
-        if(effect == null) return null;
-        return new Effect(effect);
-    }
-    
-    public int manaCost(){
-        return manaCost;
-    }
-    
-    public EquipmentSlot[] slots(){
-        return slots;   
-    }
-        
-    public boolean validSlot(EquipmentSlot slot){
-        for(EquipmentSlot s : slots) if(s == slot) return true;
-        return false;
-    }
 }

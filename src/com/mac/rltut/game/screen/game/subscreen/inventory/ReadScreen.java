@@ -7,6 +7,7 @@ import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.Spellbook;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
+import com.mac.rltut.game.screen.game.subscreen.ReadSpellScreen;
 
 /**
  * Project: complete-rltut
@@ -15,8 +16,12 @@ import com.mac.rltut.game.screen.Screen;
  */
 public class ReadScreen extends InventoryBasedScreen{
     
-    public ReadScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Player player) {
+    private int sx, sy;
+    
+    public ReadScreen(int x, int y, int w, int h, String title, Inventory<Item> inventory, Player player, int sx, int sy) {
         super(x, y, w, h, title, inventory, player, null);
+        this.sx = sx;
+        this.sy = sy;
     }
 
     @Override
@@ -32,12 +37,6 @@ public class ReadScreen extends InventoryBasedScreen{
     @Override
     protected Screen use(Item item) {
         Spellbook book = (Spellbook) item;
-        if(player.mana() < book.manaCost()){
-            player.notify(new ColoredString("Not enough mana, need [" + book.manaCost() + "] mana to use this book.", Colors.RED));
-            return null;
-        }
-        
-//        return new BlessScreen(x, y, width, height, null, inventory, player,  this);
-        return null;
+        return new ReadSpellScreen(x, y, width, height, player, book, sx, sy);
     }
 }
