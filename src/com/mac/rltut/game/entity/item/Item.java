@@ -1,12 +1,7 @@
 package com.mac.rltut.game.entity.item;
 
 import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.game.effects.Effect;
-import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.Entity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Project: complete-rltut

@@ -9,9 +9,13 @@ import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.screen.Screen;
-import com.mac.rltut.game.screen.game.subscreen.*;
+import com.mac.rltut.game.screen.game.subscreen.GameEscapeMenu;
+import com.mac.rltut.game.screen.game.subscreen.HelpScreen;
+import com.mac.rltut.game.screen.game.subscreen.LevelUpScreen;
 import com.mac.rltut.game.screen.game.subscreen.examine.ExamineScreen;
 import com.mac.rltut.game.screen.game.subscreen.inventory.*;
+import com.mac.rltut.game.screen.game.subscreen.target.FireWeaponScreen;
+import com.mac.rltut.game.screen.game.subscreen.target.LookScreen;
 import com.mac.rltut.game.screen.menu.LooseScreen;
 import com.mac.rltut.game.screen.menu.WinScreen;
 import com.mac.rltut.game.world.objects.Chest;
@@ -44,9 +48,7 @@ public class GameScreen extends Screen{
     
     private void initScreens(){
         logScreen = new LogScreen(Engine.instance().widthInTiles(), game.log(), 9, "Log");
-//        infoScreen = new InfoScreen(Engine.instance().widthInTiles() - 29, 0, 29, logScreen.height(), game.player().name(), game.player());
         infoScreen = new InfoScreen(0, 0, Engine.instance().widthInTiles(), 4, game.player().name(), game.player());
-//        equipmentScreen = new EquipmentSlotsScreen(Engine.instance().widthInTiles() - 25, infoScreen.height(), 25, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "[q] Equipment [t] Stats", player());
         equipmentScreen = new EquipmentSlotsScreen(Engine.instance().widthInTiles() - 25, infoScreen.height(), 25, Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "", player());
         levelScreen = new LevelScreen(0, infoScreen.height(), Engine.instance().widthInTiles() - equipmentScreen.width(), Engine.instance().heightInTiles() - logScreen.height() - infoScreen.height(), "", game.world(), game.player());
     }
@@ -85,7 +87,8 @@ public class GameScreen extends Screen{
                     }
                     else player().notify(new ColoredString("There is nothing there.", Colors.ORANGE));
                     break;
-                                    
+                
+                //DEBUG
                 case KeyEvent.VK_PAGE_DOWN: game.world().moveDown(player()); break;
                 case KeyEvent.VK_PAGE_UP: game.world().moveUp(player()); break;
 

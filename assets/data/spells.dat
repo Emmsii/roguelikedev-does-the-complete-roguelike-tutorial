@@ -12,7 +12,6 @@ SPRITE=spell_book_1
 SPAWN_CHANCE=100
 SPELLS=heal
 
-
 # 'name':'amount':'duration':'chance
 
 [SPELL]

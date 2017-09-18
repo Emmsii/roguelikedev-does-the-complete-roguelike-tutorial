@@ -1,11 +1,8 @@
 package com.mac.rltut.game.entity.item;
 
 import com.mac.rltut.engine.graphics.Sprite;
-import com.mac.rltut.engine.util.ColoredString;
-import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.effects.spells.Spell;
-import com.mac.rltut.game.entity.creature.Creature;
 
 import java.util.ArrayList;
 import java.util.List;

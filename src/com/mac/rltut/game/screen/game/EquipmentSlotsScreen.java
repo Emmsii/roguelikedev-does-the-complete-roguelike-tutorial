@@ -1,4 +1,4 @@
-package com.mac.rltut.game.screen.game.subscreen;
+package com.mac.rltut.game.screen.game;
 
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.graphics.Sprite;

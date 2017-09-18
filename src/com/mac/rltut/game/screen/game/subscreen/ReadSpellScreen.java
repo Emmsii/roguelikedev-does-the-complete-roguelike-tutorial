@@ -4,9 +4,9 @@ import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.creature.Player;
-import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.Spellbook;
 import com.mac.rltut.game.screen.Screen;
+import com.mac.rltut.game.screen.game.subscreen.target.CastSpellScreen;
 
 import java.awt.event.KeyEvent;
 import java.util.List;

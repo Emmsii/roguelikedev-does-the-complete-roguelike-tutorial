@@ -3,7 +3,10 @@ package com.mac.rltut.game.screen.game.subscreen.examine;
 import com.mac.rltut.engine.graphics.Renderer;
 import com.mac.rltut.engine.util.StringUtil;
 import com.mac.rltut.game.effects.Effect;
-import com.mac.rltut.game.entity.item.*;
+import com.mac.rltut.game.entity.item.Consumable;
+import com.mac.rltut.game.entity.item.Equippable;
+import com.mac.rltut.game.entity.item.Item;
+import com.mac.rltut.game.entity.item.Spellbook;
 import com.mac.rltut.game.screen.Screen;
 
 import java.awt.event.KeyEvent;

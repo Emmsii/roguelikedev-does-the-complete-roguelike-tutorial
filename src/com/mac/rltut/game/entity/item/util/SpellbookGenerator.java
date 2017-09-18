@@ -2,7 +2,6 @@ package com.mac.rltut.game.entity.item.util;
 
 import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.effects.Heal;
-import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.item.Spellbook;
 
 import java.util.Random;

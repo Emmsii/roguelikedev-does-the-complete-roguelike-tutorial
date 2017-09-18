@@ -2,14 +2,11 @@ package com.mac.rltut.game;
 
 import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.file.FileHandler;
-import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.engine.pathfinding.astar.AStar;
-import com.mac.rltut.engine.util.Colors;
 import com.mac.rltut.engine.util.Pool;
 import com.mac.rltut.engine.util.SessionTimer;
 import com.mac.rltut.engine.util.maths.Point;
 import com.mac.rltut.game.codex.Codex;
-import com.mac.rltut.game.effects.*;
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.entity.item.EquipmentSlot;

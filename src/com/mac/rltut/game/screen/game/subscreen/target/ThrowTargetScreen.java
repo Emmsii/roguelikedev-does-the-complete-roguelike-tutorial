@@ -1,4 +1,4 @@
-package com.mac.rltut.game.screen.game.subscreen;
+package com.mac.rltut.game.screen.game.subscreen.target;
 
 import com.mac.rltut.game.entity.creature.Player;
 import com.mac.rltut.game.entity.item.Item;
@@ -8,7 +8,7 @@ import com.mac.rltut.game.entity.item.Item;
  * PC
  * Created by Matt on 13/08/2017 at 08:33 AM.
  */
-public class ThrowTargetScreen extends TargetBasedScreen{
+public class ThrowTargetScreen extends TargetBasedScreen {
     
     private Item item;
     

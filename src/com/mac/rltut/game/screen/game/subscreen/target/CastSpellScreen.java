@@ -1,4 +1,4 @@
-package com.mac.rltut.game.screen.game.subscreen;
+package com.mac.rltut.game.screen.game.subscreen.target;
 
 import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.creature.Player;

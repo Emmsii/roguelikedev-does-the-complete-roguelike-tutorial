@@ -5,7 +5,7 @@ import com.mac.rltut.game.entity.item.Item;
 import com.mac.rltut.game.entity.item.util.Inventory;
 import com.mac.rltut.game.screen.Screen;
 import com.mac.rltut.game.screen.game.LevelScreen;
-import com.mac.rltut.game.screen.game.subscreen.ThrowTargetScreen;
+import com.mac.rltut.game.screen.game.subscreen.target.ThrowTargetScreen;
 
 /**
  * Project: complete-rltut
