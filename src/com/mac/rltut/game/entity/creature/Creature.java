@@ -219,22 +219,19 @@ public class Creature extends Entity {
     }
     
     public void castSpell(Spell spell, int xp, int yp){
-        if(spell == null) return;
-        
+        if(spell == null || spell.effect() == null) return;
+
         if(mana < spell.manaCost()){
             notify(new ColoredString("You don't have enough mana to cast %s [%d]", Colors.RED), StringUtil.capitalizeEachWord(spell.name()), spell.manaCost());
             return;
         }
         
         Creature other = world.creature(xp, yp, z);
-        if(spell.effectOther() != null){
-            if(other != null){
-                doAction(new ColoredString("cast %s"), StringUtil.capitalizeEachWord(spell.name()));
-                other.addEffect(spell.effectOther());
-            }else doAction(new ColoredString("miss"));
-        }
-        if(spell.effectSelf() != null) addEffect(spell.effectSelf());
-        
+        if(other != null){
+            doAction(new ColoredString("cast %s"), StringUtil.capitalizeEachWord(spell.name()));
+            other.addEffect(spell.effect());
+        }else doAction(new ColoredString("miss"));
+
         modifyMana(-spell.manaCost());
     }
     

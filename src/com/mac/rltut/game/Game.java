@@ -12,13 +12,11 @@ import com.mac.rltut.game.entity.creature.ai.PlayerAI;
 import com.mac.rltut.game.entity.item.EquipmentSlot;
 import com.mac.rltut.game.entity.item.Equippable;
 import com.mac.rltut.game.entity.item.Item;
-import com.mac.rltut.game.entity.item.util.SpellbookGenerator;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 import com.mac.rltut.game.world.World;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 /**
  * Project: complete-rltut
@@ -46,7 +44,7 @@ public class Game{
         Point spawn = world.startPointAt(0);
         world.add(spawn.x, spawn.y, spawn.z, player);
 
-        player.inventory().add(SpellbookGenerator.newSpellbook(0, new Random()));
+        player.inventory().add((Item) Codex.items.get("spellbook").entity().newInstance());
         
         log.add("You've drawn the short straw I'm afraid. You need to travel through the forest to rescue the king!");
         

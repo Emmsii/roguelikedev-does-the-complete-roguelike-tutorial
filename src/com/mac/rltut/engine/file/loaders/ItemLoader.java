@@ -6,10 +6,13 @@ import com.mac.rltut.engine.parser.DataObject;
 import com.mac.rltut.game.codex.Codex;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.effects.Heal;
+import com.mac.rltut.game.effects.spells.Spell;
 import com.mac.rltut.game.entity.item.*;
 import com.mac.rltut.game.entity.util.ItemSpawnProperty;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: complete-rltut
@@ -49,9 +52,12 @@ public class ItemLoader extends DataLoader {
                 item = new Consumable(name, description, sprite, action, effect);
             } else if (obj.isType("potion")) {
                 item = new Potion(name, description, sprite, null);
-            }else if(obj.isType("ammo")){
+            }else if(obj.isType("ammo")) {
                 String amount = obj.getString("amount");
                 item = new Ammo(name, description, sprite, amount, 1);
+            }else if(obj.isType("spellbook")){
+                List<Spell> spells = parseSpells(obj.getString("spells"));
+                item = new Spellbook(name, description, sprite, spells);
             }else if(obj.isType("equippable")){
                 String slot = obj.getString("slot");
                 Equippable e = new Equippable(name, description, sprite, getSlot(slot));
@@ -78,7 +84,23 @@ public class ItemLoader extends DataLoader {
         }
         Log.debug("Loaded " + Codex.items.size() + " items.");
     }
-    
+
+    private List<Spell> parseSpells(String input){
+        if(input == null) return null;
+        List<Spell> spells = new ArrayList<Spell>();
+
+        String[] split = input.split(",");
+
+        for(String s : split){
+            if(!Codex.spells.containsKey(s.trim())){
+                Log.warn("Unknown spell [" + s.trim() + "]");
+                continue;
+            }
+            spells.add(Codex.spells.get(s.trim()));
+        }
+        return spells;
+    }
+
     private EquipmentSlot getSlot(String slot){
         return EquipmentSlot.valueOf(slot.trim().toUpperCase());
     }

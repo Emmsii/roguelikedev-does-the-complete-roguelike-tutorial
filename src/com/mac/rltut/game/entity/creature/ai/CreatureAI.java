@@ -74,7 +74,7 @@ public class CreatureAI {
         
         boolean canUseSpell = false;
         for(Spell spell : creature.availableSpells()){
-            if(!other.isEffectedBy(spell.effectOther())){
+            if(!other.isEffectedBy(spell.effect())){
                 canUseSpell = true;
                 break;
             }

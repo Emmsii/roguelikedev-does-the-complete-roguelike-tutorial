@@ -4,7 +4,6 @@ import com.mac.rltut.engine.graphics.Sprite;
 import com.mac.rltut.game.effects.Effect;
 import com.mac.rltut.game.effects.spells.Spell;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,13 +17,13 @@ public class Spellbook extends Item{
     
     protected Spellbook(){}
     
-    public Spellbook(String name, String description, Sprite sprite) {
+    public Spellbook(String name, String description, Sprite sprite, List<Spell> spells) {
         super(name, description, sprite);
-        this.writtenSpells = new ArrayList<Spell>();
+        this.writtenSpells = spells;
     }
 
-    public void addWrittenSpell(String name, Effect effectSelf, Effect effectOther, int manaCost){
-        writtenSpells.add(new Spell(name, effectSelf, effectOther, manaCost));
+    public void addWrittenSpell(String name, Effect effect, int manaCost){
+        writtenSpells.add(new Spell(name, effect, manaCost));
     }
     
     public List<Spell> writtenSpells(){

@@ -24,14 +24,12 @@ public class SpellLoader extends DataLoader{
         Log.debug("Loading spells...");
 
         for (DataObject obj : data) {
-
             if(obj.isType("spell")) {
                 String name = obj.getString("name");
                 int cost = obj.getInt("cost");
-                String effectOther = obj.hasToken("effect_other") ? obj.getString("effect_other") : null;
-                String effectSelf = obj.hasToken("effect_self") ? obj.getString("effect_self") : null;
+                Effect effect = parseEffect(obj.getString("effect"));
 
-                Spell spell = new Spell(name, parseEffect(effectOther), parseEffect(effectSelf), cost);
+                Spell spell = new Spell(name, effect, cost);
                 Codex.spells.put(name.toLowerCase().trim(), spell);
             }else{
                 Log.warn("Unknown spell data type [" + obj.type() + "]");
@@ -40,7 +38,7 @@ public class SpellLoader extends DataLoader{
         
         Log.debug("Loaded " + Codex.spells.size() + " spells.");
     }
-    
+
     private Effect parseEffect(String input){
         if(input == null) return null;
         String[] split = input.trim().toLowerCase().split(":");

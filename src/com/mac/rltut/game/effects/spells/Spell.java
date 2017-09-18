@@ -10,16 +10,14 @@ import com.mac.rltut.game.effects.Effect;
 public class Spell {
     
     private String name;
-    private Effect effectOther;
-    private Effect effectSelf;
+    private Effect effect;
     private int manaCost;
     
     protected Spell(){}
     
-    public Spell(String name, Effect effectOther, Effect effectSelf, int manaCost){
+    public Spell(String name, Effect effect, int manaCost){
         this.name = name;
-        this.effectOther = effectOther;
-        this.effectSelf = effectSelf;
+        this.effect = effect;
         this.manaCost = manaCost;
     }
     
@@ -27,13 +25,8 @@ public class Spell {
         return name;
     }
     
-    public Effect effectOther(){
-        return effectOther.newInstance();
-    }
-
-    public Effect effectSelf(){
-        if(effectSelf == null) return null;
-        return new Effect(effectSelf);
+    public Effect effect(){
+        return effect;
     }
     
     public int manaCost(){

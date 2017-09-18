@@ -259,3 +259,19 @@ SLOT=ring
 DESCRIPTION=A silver ring 
 SPRITE=ring_silver
 SPAWN_CHANCE=100
+
+# --------- Spellbooks
+
+[SPELLBOOK]
+NAME=spellbook
+DESCRIPTION=a magical book of spells
+SPRITE=spell_book_1
+SPAWN_CHANCE=100
+SPELLS=heal
+
+[SPELLBOOK]
+NAME=spellbook
+DESCRIPTION=a magical book of spells
+SPRITE=spell_book_1
+SPAWN_CHANCE=100
+SPELLS=heal

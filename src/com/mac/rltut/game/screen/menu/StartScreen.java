@@ -28,18 +28,33 @@ public class StartScreen extends Screen{
     public Screen input(KeyEvent e) {
         
         if(gameExists){
-            if(e.getKeyCode() == KeyEvent.VK_A) return new GameScreen(FileHandler.loadGame());
-            else if(e.getKeyCode() == KeyEvent.VK_B) return new ConfirmScreen("This will overwrite your previous game!", new PlayerNameScreen(12), this){
-                @Override
-                public Screen onYes() {
-                    FileHandler.deleteGameSave();
-                    return super.onYes();
-                }
-            };
-            else if(e.getKeyCode() == KeyEvent.VK_C) return new HighscoresScreen();
-            else if(e.getKeyCode() == KeyEvent.VK_D) return new AboutScreen();
-            else if(e.getKeyCode() == KeyEvent.VK_E) return new OptionsScreen();
-            else if(e.getKeyCode() == KeyEvent.VK_F) System.exit(0);
+
+            if(saveVersionMatch()){
+                if(e.getKeyCode() == KeyEvent.VK_A) return new GameScreen(FileHandler.loadGame());
+                else if(e.getKeyCode() == KeyEvent.VK_B) return new ConfirmScreen("This will overwrite your previous game!", new PlayerNameScreen(12), this){
+                    @Override
+                    public Screen onYes() {
+                        FileHandler.deleteGameSave();
+                        return super.onYes();
+                    }
+                };
+                else if(e.getKeyCode() == KeyEvent.VK_C) return new HighscoresScreen();
+                else if(e.getKeyCode() == KeyEvent.VK_D) return new AboutScreen();
+                else if(e.getKeyCode() == KeyEvent.VK_E) return new OptionsScreen();
+                else if(e.getKeyCode() == KeyEvent.VK_F) System.exit(0);
+            }else{
+                if(e.getKeyCode() == KeyEvent.VK_A) return new ConfirmScreen("This will overwrite your previous game!", new PlayerNameScreen(12), this){
+                    @Override
+                    public Screen onYes() {
+                        FileHandler.deleteGameSave();
+                        return super.onYes();
+                    }
+                };
+                else if(e.getKeyCode() == KeyEvent.VK_B) return new HighscoresScreen();
+                else if(e.getKeyCode() == KeyEvent.VK_C) return new AboutScreen();
+                else if(e.getKeyCode() == KeyEvent.VK_D) return new OptionsScreen();
+                else if(e.getKeyCode() == KeyEvent.VK_E) System.exit(0);
+            }
         }else{
             if(e.getKeyCode() == KeyEvent.VK_A) return new PlayerNameScreen(12);
             else if(e.getKeyCode() == KeyEvent.VK_B) return new HighscoresScreen();
@@ -60,7 +75,7 @@ public class StartScreen extends Screen{
         renderer.writeCenter(Engine.instance().title(), Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() / 3, Colors.WHITE);
         renderer.write(Engine.instance().version(), 1, Engine.instance().heightInTiles() - 2, Colors.darken(Colors.GRAY, 0.8f));
         
-        if(gameExists) {
+        if(gameExists && saveVersionMatch()) {
             renderer.write("[a] Continue", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2);
             renderer.write("[b] New Game", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 1);
             renderer.write("[c] Highscores", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 3);
@@ -75,9 +90,12 @@ public class StartScreen extends Screen{
             renderer.write("[e] Quit", Engine.instance().widthInTiles() / 2 - 6, Engine.instance().heightInTiles() / 2 + 5);
         }
         
-        if(!Engine.instance().version().equals(saveVersion) && saveVersion != null){
+        if(!saveVersionMatch()){
             renderer.writeCenter("Game version doesn't match save file version (" + saveVersion + ")", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 3, Colors.GRAY);
-            renderer.writeCenter("Loaded game might not be stable. Check changelog.txt for details.", Engine.instance().widthInTiles() / 2, Engine.instance().heightInTiles() - 2, Colors.GRAY);
         }
+    }
+
+    private boolean saveVersionMatch(){
+        return saveVersion != null && Engine.instance().version().equals(saveVersion);
     }
 }

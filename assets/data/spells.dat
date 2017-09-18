@@ -1,40 +1,26 @@
-[SPELLBOOK]
-NAME=spellbook
-DESCRIPTION=a magical book of spells
-SPRITE=spell_book_1
-SPAWN_CHANCE=100
-SPELLS=heal
-
-[SPELLBOOK]
-NAME=spellbook
-DESCRIPTION=a magical book of spells
-SPRITE=spell_book_1
-SPAWN_CHANCE=100
-SPELLS=heal
-
 # 'name':'amount':'duration':'chance
 
 [SPELL]
 NAME=fireball
 COST=15
-EFFECT_OTHER=burn:1:10:0.5
+EFFECT=burn:1:10:0.5
 
 [SPELL]
 NAME=life_drain
 COST=30
-EFFECT_OTHER=poison:1:10:0.75
+EFFECT=poison:1:10:0.75
 
 [SPELL]
 NAME=freeze
 COST=15
-EFFECT_OTHER=freeze:0:5:0.8
+EFFECT=freeze:0:5:0.8
 
 [SPELL]
 NAME=heal
-COST=25
-EFFECT_SELF=heal:10
+COST=5
+EFFECT=heal:10
 
 [SPELL]
 NAME=blind
 COST=30
-EFFECT_OTHER=blind:0:10:1
+EFFECT=blind:0:10:1
