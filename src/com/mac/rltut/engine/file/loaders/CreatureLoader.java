@@ -38,8 +38,7 @@ public class CreatureLoader extends DataLoader{
             Sprite sprite = Sprite.get(obj.getString("sprite"));
             int hp = obj.getInt("hp");
             int mana = obj.hasToken("mana") ? obj.getInt("mana") : 0;
-            int manaRegenAmount= obj.hasToken("mana_regen_amount") ? obj.getInt("mana_regen_amount") : 0;
-            int manaRegenSpeed= obj.hasToken("mana_regen_speed") ? obj.getInt("mana_regen_speed") : -1;
+            int regenManaPer1000 = obj.hasToken("mana_regen_speed") ? obj.getInt("mana_regen_speed") : 20;
             int strength = obj.getInt("strength");
             int defense = obj.getInt("defense");
             int accuracy = obj.getInt("accuracy");
@@ -81,7 +80,7 @@ public class CreatureLoader extends DataLoader{
             }
 
             if(spawnProperty != null) {
-                spawnProperty.creature().setStats(hp, mana, manaRegenAmount, manaRegenSpeed, strength, defense, accuracy, intelligence, vision, drops);
+                spawnProperty.creature().setStats(hp, mana, regenManaPer1000, strength, defense, accuracy, intelligence, vision, drops);
                 if(flags != null) for(String s : flags) spawnProperty.creature().addFlag(s);
                 if(immuneTo != null) for(String s : immuneTo) spawnProperty.creature().addImmunity(s);
                 Codex.creatures.put(name.toLowerCase(), spawnProperty);

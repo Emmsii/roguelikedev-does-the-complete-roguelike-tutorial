@@ -223,7 +223,7 @@ public class WorldBuilder {
                 spells.add(Codex.spells.get("freeze"));
                 spells.add(Codex.spells.get("blind"));
 
-                npc.setStats(75, 300, 2, 10, 10, 10, 10, 10, 15, new DropTable());
+                npc.setStats(75, 300, 35, 10, 10, 10, 10, 15, new DropTable());
                 new EvilNpcAi(npc);
                 world.add(spawn.x, spawn.y, spawn.z, npc);
 
@@ -233,7 +233,7 @@ public class WorldBuilder {
                 world.add(second.x, second.y, second.z, king);
             }else {
                 NPC npc = new Wizard("Wizard McGuffin", "An old man", Sprite.get("wizard"), "npc");
-                npc.setStats(100, 100, 0, 0, 1, 1, 1, 1, 16, null);
+                npc.setStats(100, 100, 0, 1, 1, 1, 1, 16, null);
                 new NpcAI(npc);
                 world.add(spawn.x, spawn.y, spawn.z, npc);
             }

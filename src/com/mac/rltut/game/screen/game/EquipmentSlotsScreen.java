@@ -180,14 +180,14 @@ public class EquipmentSlotsScreen extends Screen {
 //        renderer.writeCenter(intel, this.x + ((width / 4) * 3) - 1, yp++);
 //        yp++;
 
-        int manaRegenAmount = player.manaRegenAmount() + player.manaRegenAmountBonus();
-        int manaRegenSpeed = player.getManaRegenSpeed() + player.manaRegenSpeedBonus();
-        if(manaRegenSpeed < 1) manaRegenSpeed = 1;
-
-        yp = this.y + 25;
-        
-        String manaRegAmountStr = String.format("+%d mana every ", manaRegenAmount) + (manaRegenSpeed > 1 ? manaRegenSpeed + " turns" : "turn");
-        if(manaRegenAmount != 0) renderer.writeCenter(manaRegAmountStr, this.x + (width / 2), yp++);
-        yp++;
+//        int manaRegenAmount = player.manaRegenAmount() + player.manaRegenAmountBonus();
+//        int manaRegenSpeed = player.getManaRegenSpeed() + player.manaRegenSpeedBonus();
+//        if(manaRegenSpeed < 1) manaRegenSpeed = 1;
+//
+//        yp = this.y + 25;
+//
+//        String manaRegAmountStr = String.format("+%d mana every ", manaRegenAmount) + (manaRegenSpeed > 1 ? manaRegenSpeed + " turns" : "turn");
+//        if(manaRegenAmount != 0) renderer.writeCenter(manaRegAmountStr, this.x + (width / 2), yp++);
+//        yp++;
     }
 }

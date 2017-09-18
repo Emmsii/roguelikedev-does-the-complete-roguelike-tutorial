@@ -46,8 +46,8 @@ public class Creature extends Entity {
     private int hp;
     private int maxMana;
     private int mana;
-    private int manaRegenAmount;
-    private int manaRegenSpeed;
+    private int regenManaCooldown;
+    private int regenManaPer1000;
     
     private int strength;
     private int defense;
@@ -91,13 +91,12 @@ public class Creature extends Entity {
         this.hasWon = false;
     }
 
-    public void setStats(int maxHp, int maxMana, int manaRegenAmount, int manaRegenSpeed, int strength, int defense, int accuracy, int intelligence, int vision, DropTable dropTable){
+    public void setStats(int maxHp, int maxMana, int regenManaPer1000, int strength, int defense, int accuracy, int intelligence, int vision, DropTable dropTable){
         this.maxHp = maxHp;
         this.hp = maxHp;
         this.maxMana = maxMana;
         this.mana = maxMana;
-        this.manaRegenAmount = manaRegenAmount;
-        this.manaRegenSpeed = manaRegenSpeed;
+        this.regenManaPer1000 = regenManaPer1000;
         this.strength = strength;
         this.defense = defense;
         this.accuracy = accuracy;
@@ -132,11 +131,13 @@ public class Creature extends Entity {
         if(!hasMoved) timeStationary++;
         else timeStationary = 0;
     }
-    
+
     private void regenMana(){
-        int speed = manaRegenSpeed - manaRegenSpeedBonus();
-        if(speed == 0) return;
-        if(tick % speed == 0) modifyMana(manaRegenAmount() + manaRegenAmountBonus());
+        regenManaCooldown -= regenManaPer1000;
+        if(regenManaCooldown < 0){
+            if(mana < maxMana) modifyMana(1);
+            regenManaCooldown += 1000;
+        }
     }
     
     private void updateFlags(){
@@ -525,12 +526,8 @@ public class Creature extends Entity {
         return mana;
     }
     
-    public int manaRegenAmount(){
-        return manaRegenAmount + (intelligence / 2) + intelligenceBonus();
-    }
-    
-    public int getManaRegenSpeed(){
-        return manaRegenSpeed;
+    public int regenManaPer1000(){
+        return regenManaPer1000;
     }
     
     public int strength(){

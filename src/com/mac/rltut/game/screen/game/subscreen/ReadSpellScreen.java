@@ -20,7 +20,6 @@ public class ReadSpellScreen extends Screen{
     
     private Player player;
     private Spellbook spellbook;
-    
     private int sx, sy;
     
     public ReadSpellScreen(int x, int y, int w, int h, Player player, Spellbook spellbook, int sx, int sy){
@@ -34,7 +33,6 @@ public class ReadSpellScreen extends Screen{
     @Override
     public Screen input(KeyEvent key) {
         char c = key.getKeyChar();
-        
         List<Spell> spells = spellbook.writtenSpells();
         if(letters.indexOf(c) > -1 && spells.size() > letters.indexOf(c) && spells.get(letters.indexOf(c)) != null) return use(spells.get(letters.indexOf(c)));
         else if(key.getKeyCode() == KeyEvent.VK_ESCAPE) return null;
