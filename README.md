@@ -21,6 +21,8 @@ At [r/roguelikedev](https://www.reddit.com/r/roguelikedev/) we're doing a dev-al
 
 ## Requirements to build
 
+- EDIT: 20/07/2018 - I understand the project is rather hard to get setup and working, I'll try and get this fixed but in the mean time, [here is a video](https://www.youtube.com/watch?v=KiLS955YxT8&feature=youtu.be) on setting up the project in IntelliJ.
+
 - The above libraries and their dependencies.
 - The required Java version is [Java 1.8](https://www.java.com/en/download/).  
 
