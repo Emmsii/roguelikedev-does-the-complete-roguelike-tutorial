@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="roguelikedev-does-the-complete-roguelike-tutorial" target="1.5" />
+      <module name="roguelikedev-does-the-complete-roguelike-tutorial" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
