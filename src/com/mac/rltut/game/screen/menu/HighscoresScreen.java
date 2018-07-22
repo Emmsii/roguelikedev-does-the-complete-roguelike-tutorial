@@ -60,10 +60,9 @@ public class HighscoresScreen extends Screen{
             }
 
         } catch (IOException e) {
-            Log.error("Could not get scores.");
-            e.printStackTrace();
+            Log.warn("Could not get scores.");
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.error("Error parsing highscores.");
         }
         
         entries.sort(new Comparator<Entry>() {

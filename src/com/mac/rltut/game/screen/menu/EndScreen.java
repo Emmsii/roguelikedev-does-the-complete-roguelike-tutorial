@@ -1,5 +1,6 @@
 package com.mac.rltut.game.screen.menu;
 
+import com.esotericsoftware.minlog.Log;
 import com.mac.rltut.engine.Engine;
 import com.mac.rltut.engine.file.Config;
 import com.mac.rltut.engine.file.FileHandler;
@@ -118,7 +119,7 @@ public abstract class EndScreen extends Screen{
             int deathLevel = this instanceof WinScreen ? -1 : player.z;
             scoreResult = request.sendScore(id.toString(), player.name(), finalScore, deathLevel, game.sessionTimer().durationMilliseconds(), dateFormat.format(game.sessionTimer().end()), Engine.instance().version());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.warn("Unable to submit highscores.");
         }
         FileHandler.saveScore(id);
         scoreSubmitted = true;
